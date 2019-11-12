@@ -1,8 +1,11 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  ClinicCenterAdministrator.java
- * Author:  Bax
- * Purpose: Defines the Class ClinicCenterAdministrator
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ClinicCenterAdministrator extends User {
+    public ClinicCenterAdministrator() {
+    }
 }

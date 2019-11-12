@@ -1,10 +1,13 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  Patient.java
- * Author:  Bax
- * Purpose: Defines the Class Patient
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Patient extends User {
    public MedicalRecord medicalRecord;
 
+   public Patient() {
+   }
 }

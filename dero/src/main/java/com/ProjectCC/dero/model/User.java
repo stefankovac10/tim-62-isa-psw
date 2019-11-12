@@ -1,9 +1,10 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  User.java
- * Author:  Bax
- * Purpose: Defines the Class User
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class User {
    private String name;
    private String surname;
@@ -11,10 +12,11 @@ public class User {
    private String username;
    private String password;
    private String email;
-   private String adress;
+   private String address;
    private String city;
    private String country;
    private String telephone;
-   private boolean authorised;
 
+   public User() {
+   }
 }

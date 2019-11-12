@@ -68,11 +68,11 @@ Vue.component("registration-form", {
         <input type="password" class="p-2" id="password" name="password" v-model="password" placeholder="Password">
         
         <br>
-        <button class="btn btn-primary p-2" >Submit</button>
+        <button class="btn btn-primary p-2" v-on:click="register" >Submit</button>
     </form>
 </div>
       
-`
+`,
 });
 
 const Register = { template: '<registration-form></registration-form>' }

@@ -1,9 +1,11 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  Examination.java
- * Author:  Bax
- * Purpose: Defines the Class Examination
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import java.util.Set;
+
+@Getter
+@Setter
 public class Examination {
    private String date;
    private String type;
@@ -12,9 +14,12 @@ public class Examination {
    private String discount;
    private String report;
    public ExaminationRoom examinationRoom;
-   public java.util.List<Diagnosis> diagnosis;
+   public Set<Diagnosis> diagnosis;
    public Prescription prescription;
    public Nurse nurse;
    public Doctor doctor;
    public Patient patient;
+
+   public Examination() {
+   }
 }

@@ -1,9 +1,11 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  MedicalRecord.java
- * Author:  Bax
- * Purpose: Defines the Class MedicalRecord
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import java.util.Set;
+
+@Getter
+@Setter
 public class MedicalRecord {
    private int height;
    private int weight;
@@ -11,9 +13,11 @@ public class MedicalRecord {
    private String allergies;
    private String diopter;
    
-   public java.util.List<Nurse> nurses;
-   public java.util.List<Doctor> doctors;
-   public java.util.List<Examination> examinations;
-   public java.util.List<Operation> operations;
+   public Set<Nurse> nurses;
+   public Set<Doctor> doctors;
+   public Set<Examination> examinations;
+   public Set<Operation> operations;
 
+   public MedicalRecord() {
+   }
 }

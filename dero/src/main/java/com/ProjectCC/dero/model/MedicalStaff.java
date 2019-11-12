@@ -1,12 +1,14 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  MedicalStaff.java
- * Author:  Bax
- * Purpose: Defines the Class MedicalStaff
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
+@Getter
+@Setter
 public class MedicalStaff extends SecurityProperties.User {
    public Clinic clinic;
 
+   public MedicalStaff() {
+   }
 }

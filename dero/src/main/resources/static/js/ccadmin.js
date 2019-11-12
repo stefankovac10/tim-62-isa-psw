@@ -1,4 +1,4 @@
-Vue.component("medicaments", {
+Vue.component("medicament", {
     data: function() {
         return {
             email: undefined,
@@ -7,7 +7,7 @@ Vue.component("medicaments", {
     },
     template: ` 
 <div class="d-flex p-2 justify-content-center">
-    Medicaments
+    Medicament
 </div>
 `
 });
@@ -68,7 +68,7 @@ Vue.component("diagnosis", {
 `
 });
 
-const Medicaments = { template: '<medicaments></medicaments>' }
+const Medicament = { template: '<medicament></medicament>' }
 const Requests = { template: '<requests></requests>' }
 const Clinics = { template: '<clinics></clinics>' }
 const Admins = { template: '<admins></admins>' }
@@ -79,7 +79,8 @@ const Diagnosis = { template: '<diagnosis></diagnosis>' }
 const router = new VueRouter({
     mode: 'hash',
     routes: [
-        {path: '/medicaments', component: Medicaments },
+        { path: '/', component: Requests },
+        { path: '/medicament', component: Medicament },
         { path: '/admins', component: Admins },
         { path: '/requests', component: Requests },
         { path: '/clinics', component: Clinics },

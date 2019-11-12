@@ -1,15 +1,19 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  ClinicCenter.java
- * Author:  Bax
- * Purpose: Defines the Class ClinicCenter
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import java.util.Set;
+
+@Getter
+@Setter
 public class ClinicCenter {
-   public java.util.List<ClinicCenterAdministrator> admins;
-   public java.util.List<Clinic> clinics;
-   public java.util.List<MedicalStaff> medicalStaff;
-   public java.util.List<MedicalRecord> medicalRecords;
-   public java.util.Collection<Medication> medicationCodebook;
-   public java.util.Collection<Diagnosis> diagnosisCodebook;
+   public Set<ClinicCenterAdministrator> admins;
+   public Set<Clinic> clinics;
+   public Set<MedicalStaff> medicalStaff;
+   public Set<MedicalRecord> medicalRecords;
+   public Set<Medication> medicationCodebook;
+   public Set<Diagnosis> diagnosisCodebook;
 
+   public ClinicCenter() {
+   }
 }

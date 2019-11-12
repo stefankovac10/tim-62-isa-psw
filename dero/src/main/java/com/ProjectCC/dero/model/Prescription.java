@@ -1,11 +1,16 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  Prescription.java
- * Author:  Bax
- * Purpose: Defines the Class Prescription
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import java.util.Set;
+
+@Getter
+@Setter
 public class Prescription {
-   public java.util.List<Medication> medication;
+   public Prescription() {
+   }
+
+   public Set<Medication> medication;
    public Doctor doctor;
    public Nurse nurse;
 

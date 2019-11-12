@@ -1,15 +1,21 @@
-package com.ProjectCC.dero.model; /***********************************************************************
- * Module:  Operation.java
- * Author:  Bax
- * Purpose: Defines the Class Operation
- ***********************************************************************/
+package com.ProjectCC.dero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import java.util.Set;
+
+@Getter
+@Setter
 public class Operation {
    private String date;
    private String duration;
    
    public OperationRoom operationRoom;
-   public java.util.List<Doctor> doctors;
+
+   public Operation() {
+   }
+
+   public Set<Doctor> doctors;
    public Patient patient;
 
 }
