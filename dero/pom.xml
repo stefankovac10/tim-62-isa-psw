@@ -11,8 +11,10 @@
 	<groupId>com.ProjectCC</groupId>
 	<artifactId>dero</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dero</name>
+	<name>ProjectCC</name>
 	<description>Project for courses ISA and PSW.</description>
+
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
