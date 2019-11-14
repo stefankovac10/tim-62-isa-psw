@@ -2,12 +2,18 @@ package com.ProjectCC.dero.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
-public class MedicalStaff extends SecurityProperties.User {
+@Entity
+public class MedicalStaff extends User {
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Clinic clinic;
+
+   @OneToOne(mappedBy = "medicalStaff")
+   private VacationRequest vacationRequest;
 
    public MedicalStaff() {
    }
