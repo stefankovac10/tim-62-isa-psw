@@ -28,6 +28,12 @@ public class Clinic {
    @Column(name = "price_list")
    private String priceList;
 
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<ClinicAdministrator> administrators;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<MedicalStaff> medicalStaffs;
+
 
 //   private Set<Examination> examinationSet;
 //   private ArrayList<Integer> marks;
