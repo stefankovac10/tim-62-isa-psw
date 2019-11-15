@@ -8,46 +8,22 @@
       <input type="text" class="p-2" id="name" name="name" v-model="name" />
 
       <label class="p-2">Surname</label>
-      <input
-        type="text"
-        class="p-2"
-        id="surname"
-        name="surname"
-        v-model="surname"
-      />
+      <input type="text" class="p-2" id="surname" name="surname" v-model="surname" />
 
       <label class="p-2">JMBG</label>
       <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
 
       <label class="p-2">Telephone</label>
-      <input
-        type="text"
-        class="p-2"
-        id="telephone"
-        name="telephone"
-        v-model="telephone"
-      />
+      <input type="text" class="p-2" id="telephone" name="telephone" v-model="telephone" />
 
       <label class="p-2">Country</label>
-      <input
-        type="text"
-        class="p-2"
-        id="country"
-        name="country"
-        v-model="country"
-      />
+      <input type="text" class="p-2" id="country" name="country" v-model="country" />
 
       <label class="p-2">City</label>
       <input type="text" class="p-2" id="city" name="city" v-model="city" />
 
       <label class="p-2">Address</label>
-      <input
-        type="text"
-        class="p-2"
-        id="address"
-        name="address"
-        v-model="address"
-      />
+      <input type="text" class="p-2" id="address" name="address" v-model="address" />
 
       <label for="staticEmail" class="p-2">E-mail</label>
       <input
@@ -58,7 +34,8 @@
         v-model="email"
         aria-describedby="emailHelp"
         placeholder="Enter email"
-      /><br />
+      />
+      <br />
 
       <label class="p-2" for="password">Password</label>
       <input

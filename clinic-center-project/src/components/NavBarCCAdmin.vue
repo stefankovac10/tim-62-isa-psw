@@ -4,9 +4,9 @@
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/ccadmin/requests">Requests</router-link></a
-            >
+            <a class="nav-link">
+              <router-link to="/ccadmin/requests">Requests</router-link>
+            </a>
           </li>
           <li class="nav-item">
             <a
@@ -16,34 +16,31 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Clinic</a
-            >
+            >Clinic</a>
             <div class="dropdown-menu">
-              <a class="navbar link"
-                ><router-link to="/ccadmin/addClinic"
-                  >Add clinic</router-link
-                ></a
-              >
+              <a class="nav-link">
+                <router-link to="/ccadmin/addClinic">Add clinic</router-link>
+              </a>
 
-              <a class="navbar link"
-                ><router-link to="/ccadmin/clinics">Clinis</router-link></a
-              >
+              <a class="nav-link">
+                <router-link to="/ccadmin/clinics">Clinis</router-link>
+              </a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/ccadmin/admins">Admins</router-link></a
-            >
+            <a class="nav-link">
+              <router-link to="/ccadmin/admins">Admins</router-link>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/ccadmin/medicament">Medicament</router-link></a
-            >
+            <a class="nav-link">
+              <router-link to="/ccadmin/medicament">Medicament</router-link>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/ccadmin/diagnosis">Diagnosis</router-link></a
-            >
+            <a class="nav-link">
+              <router-link to="/ccadmin/diagnosis">Diagnosis</router-link>
+            </a>
           </li>
         </ul>
       </div>

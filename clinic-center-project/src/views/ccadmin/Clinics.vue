@@ -12,12 +12,8 @@
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
-          <button type="button" class="btn btn-primary" v-on:click="edit">
-            Edit
-          </button>
-          <button type="button" class="btn btn-danger" v-on:click="remove">
-            Delete
-          </button>
+          <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
         </div>
       </div>
     </div>
@@ -47,16 +43,9 @@
           </div>
           <div class="form-group">
             <label for="exampleTextarea">Description</label>
-            <textarea
-              class="form-control"
-              id="descriptionClinic"
-              v-model="description"
-              rows="3"
-            ></textarea>
+            <textarea class="form-control" id="descriptionClinic" v-model="description" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click="save">
-            Save
-          </button>
+          <button type="submit" class="btn btn-primary" v-on:click="save">Save</button>
         </fieldset>
       </form>
     </div>

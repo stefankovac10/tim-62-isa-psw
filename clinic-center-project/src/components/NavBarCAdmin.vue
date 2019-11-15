@@ -4,23 +4,19 @@
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/cadmin/clinic">Clinic</router-link></a
-            >
+            <a class="nav-link">
+              <router-link to="/cadmin/clinic">Clinic</router-link>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/cadmin/businessReport"
-                >Business report</router-link
-              ></a
-            >
+            <a class="nav-link">
+              <router-link to="/cadmin/businessReport">Business report</router-link>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="navbar link"
-              ><router-link to="/cadmin/addAppointment"
-                >Add appointment</router-link
-              ></a
-            >
+            <a class="nav-link">
+              <router-link to="/cadmin/addAppointment">Add appointment</router-link>
+            </a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -30,14 +26,14 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Manage rooms</a
-            >
+            >Manage rooms</a>
             <div class="dropdown-menu">
-              <a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/addRoom">Add room</router-link></a
-              ><a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/rooms">Manage rooms</router-link></a
-              >
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/addRoom">Add room</router-link>
+              </a>
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/rooms">Manage rooms</router-link>
+              </a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -48,18 +44,14 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Types of examinations</a
-            >
+            >Types of examinations</a>
             <div class="dropdown-menu">
-              <a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/addType"
-                  >Add types of examination</router-link
-                ></a
-              ><a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/types"
-                  >Manage types of examination</router-link
-                ></a
-              >
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/addType">Add types of examination</router-link>
+              </a>
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/types">Manage types of examination</router-link>
+              </a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -70,19 +62,19 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Manage doctors</a
-            >
+            >Manage doctors</a>
             <div class="dropdown-menu">
-              <a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/addDoctor">Add doctor</router-link></a
-              ><a class="navbar link dropdown-item"
-                ><router-link to="/cadmin/doctors">Doctors</router-link></a
-              >
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/addDoctor">Add doctor</router-link>
+              </a>
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/doctors">Doctors</router-link>
+              </a>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <router-link to="/cadmin/profile">Profile </router-link>
+              <router-link to="/cadmin/profile">Profile</router-link>
             </a>
           </li>
         </ul>
