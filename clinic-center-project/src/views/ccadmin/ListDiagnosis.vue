@@ -5,7 +5,7 @@
         class="card border-primary mb-3"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
       >
-        <div class="card-header">Address</div>
+        <div class="card-header">Code</div>
         <div class="card-body">
           <h4 class="card-title">Name</h4>
           <p class="card-text">
@@ -20,7 +20,7 @@
     <div v-else>
       <form>
         <fieldset>
-          <legend>Change clinic</legend>
+          <legend>Change diagnosis</legend>
           <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
             <input
@@ -32,13 +32,13 @@
             />
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Address</label>
+            <label for="exampleInputEmail1">Code</label>
             <input
               type="text"
               class="form-control"
-              id="addressClinic"
-              v-model="address"
-              placeholder="Enter address"
+              id="code"
+              v-model="code"
+              placeholder="Enter code"
             />
           </div>
           <div class="form-group">
@@ -54,11 +54,11 @@
 
 <script>
 export default {
-  name: "clinics",
+  name: "listDiagnosis",
   data: function() {
     return {
       name: undefined,
-      address: undefined,
+      code: undefined,
       description: undefined,
       mode: "VIEW"
     };
