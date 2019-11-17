@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resources;
-
-
 @RestController
 @RequestMapping(value = "api/users")
 public class UserController {

@@ -2,6 +2,7 @@ package com.ProjectCC.dero.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class Clinic {
    @Column(name = "income")
    private double income;
 
+   @Autowired
    public Clinic() {}
 
 }
