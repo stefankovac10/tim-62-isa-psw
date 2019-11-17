@@ -6,9 +6,6 @@ import Home from "@/views/homepage/Home.vue";
 import CCAHome from "@/views/ccadmin/CCAdminHome.vue";
 import Clinics from "@/views/ccadmin/Clinics.vue";
 import AddClinic from "@/views/ccadmin/AddClinic.vue";
-import Admins from "@/views/ccadmin/Admins.vue";
-import Diagnosis from "@/views/ccadmin/Diagnosis.vue";
-import Medicament from "@/views/ccadmin/Medicament.vue";
 import Requests from "@/views/ccadmin/Requests.vue";
 import CAdminHome from "@/views/cadmin/CAdminHome.vue";
 import AddAppointment from "@/views/cadmin/AddAppointment.vue";
@@ -21,6 +18,12 @@ import ManageDoctors from "@/views/cadmin/ManageDoctors.vue";
 import ManageRooms from "@/views/cadmin/ManageRooms.vue";
 import ManageTypes from "@/views/cadmin/ManageTypes.vue";
 import Profile from "@/views/cadmin/Profile.vue";
+import AddCCAdmin from "@/views/ccadmin/AddCCAdmin";
+import AddDiagnosis from "@/views/ccadmin/AddDiagnosis"
+import AddMedicament from "@/views/ccadmin/AddMedicament"
+import ListMedicaments from "@/views/ccadmin/ListMedicaments"
+import ListDiagnosis from "@/views/ccadmin/ListDiagnosis"
+
 
 Vue.use(VueRouter);
 
@@ -53,24 +56,34 @@ const routes = [
         component: Clinics
       },
       {
+        path: "addCCAdmin",
+        name: "addCCAdmin",
+        component: AddCCAdmin
+      },
+      {
         path: "addClinic",
         name: "addClinic",
         component: AddClinic
       },
       {
-        path: "admins",
-        name: "admins",
-        component: Admins
+        path: "addMedicament",
+        name: "addMedicament",
+        component: AddMedicament
       },
       {
-        path: "diagnosis",
-        name: "diagnosis",
-        component: Diagnosis
+        path: "addDiagnosis",
+        name: "AddDiagnosis",
+        component: AddDiagnosis
       },
       {
-        path: "medicament",
-        name: "medicament",
-        component: Medicament
+        path: "ListDiagnosis",
+        name: "ListDiagnosis",
+        component: ListDiagnosis
+      },
+      {
+        path: "ListMedicaments",
+        name: "ListMedicaments",
+        component: ListMedicaments
       },
       {
         path: "requests",

@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class MedicalStaff extends User {
+
+
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Clinic clinic;
 

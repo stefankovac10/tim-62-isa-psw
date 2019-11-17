@@ -23,24 +23,63 @@
               </a>
 
               <a class="nav-link">
-                <router-link to="/ccadmin/clinics">Clinis</router-link>
+                <router-link to="/ccadmin/clinics">Clinics</router-link>
               </a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/ccadmin/admins">Admins</router-link>
-            </a>
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Admins</a>
+            <div class="dropdown-menu">
+              <a class="nav-link">
+                <router-link to="/ccadmin/addCCAdmin">Add clinical centre administrator</router-link>
+              </a>
+              <a class="nav-link">
+                <router-link to="/ccadmin/">Add clinic administrator</router-link>
+              </a>
+            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/ccadmin/medicament">Medicament</router-link>
-            </a>
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Medicaments</a>
+            <div class="dropdown-menu">
+              <a class="nav-link">
+                <router-link to="/ccadmin/addMedicament">Add medicament</router-link>
+              </a>
+              <a class="nav-link">
+                <router-link to="/ccadmin/listMedicaments">List of medicaments</router-link>
+              </a>
+            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/ccadmin/diagnosis">Diagnosis</router-link>
-            </a>
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Diagnosis</a>
+            <div class="dropdown-menu">
+              <a class="nav-link">
+                <router-link to="/ccadmin/addDiagnosis">Add diagnosis</router-link>
+              </a>
+              <a class="nav-link">
+                <router-link to="/ccadmin/listDiagnosis">List of diagnosis</router-link>
+              </a>
+            </div>
           </li>
         </ul>
       </div>
