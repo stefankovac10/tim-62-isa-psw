@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Entity
 //@Inheritance(strategy = InheritanceType.JOINED)
 public class MedicalStaff extends User {
+
+
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Clinic clinic;
 

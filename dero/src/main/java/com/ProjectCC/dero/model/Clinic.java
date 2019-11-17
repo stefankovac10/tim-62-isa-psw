@@ -35,9 +35,8 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<MedicalStaff> medicalStaffs;
 
-
-//   private Set<Examination> examinationSet;
-//   private ArrayList<Integer> marks;
+   //private Set<Examination> examinationSet;
+   //private ArrayList<Integer> marks;
 
    @Column(name = "income")
    private double income;
