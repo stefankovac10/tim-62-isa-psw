@@ -2,6 +2,7 @@ package com.ProjectCC.dero.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "user_table")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
    @Id
@@ -42,9 +44,11 @@ public class User {
    @Column(name = "telephone", unique = true, nullable = false)
    private String telephone;
 
+   @Autowired
    public User() {
    }
 
+   @Autowired
    public User(String firstName, String lastName, String jmbg,
                String password, String email, String address, String city,
                String country, String telephone) {

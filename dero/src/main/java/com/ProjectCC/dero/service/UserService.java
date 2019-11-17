@@ -10,10 +10,18 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    public List<User> saveOrUpdate() {
-        return userRepository.findAll();
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
