@@ -35,6 +35,10 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<MedicalStaff> medicalStaffs;
 
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinicCenter_id", nullable = false)
+   public ClinicCenter clinicCenter;
+
    //private Set<Examination> examinationSet;
    //private ArrayList<Integer> marks;
 

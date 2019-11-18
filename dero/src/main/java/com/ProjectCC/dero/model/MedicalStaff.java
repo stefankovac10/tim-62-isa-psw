@@ -5,19 +5,31 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 //@Inheritance(strategy = InheritanceType.JOINED)
 public class MedicalStaff extends User {
-
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @OneToOne(mappedBy = "medicalStaff")
+   @OneToOne()
+   @JoinColumn(name = "vacReq_id", referencedColumnName = "id")
    private VacationRequest vacationRequest;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinicCenter_id", nullable = false)
+   public ClinicCenter clinicCenter;
+
+   @ManyToMany(mappedBy = "medicalStaffs")
+   public Set<MedicalRecord> medicalRecords;
 
    @Autowired
    public MedicalStaff() {

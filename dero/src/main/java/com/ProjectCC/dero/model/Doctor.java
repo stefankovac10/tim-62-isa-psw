@@ -5,18 +5,27 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 public class Doctor extends MedicalStaff {
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column
-   private int marks;
+   //private Array<int> marks;
+
+   @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   public Set<Examination> examinations;
+
+   /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "medRec_id", nullable = false)
+   private MedicalRecord medicalRecord;*/
+
+   @ManyToMany(mappedBy = "doctors")
+   public Set<Operation> operations;
 
    @Autowired
    public Doctor() {

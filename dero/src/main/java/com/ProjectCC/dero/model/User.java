@@ -44,6 +44,9 @@ public class User {
    @Column(name = "telephone", unique = true, nullable = false)
    private String telephone;
 
+   @OneToOne(mappedBy = "user")
+   public RegistrationRequest registrationRequest;
+
    @Autowired
    public User() {
    }
