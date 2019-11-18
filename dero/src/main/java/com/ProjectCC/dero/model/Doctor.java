@@ -18,6 +18,10 @@ public class Doctor extends MedicalStaff {
    @Column
    private int marks;
 
+   @ManyToOne
+   @JoinColumn(name = "specialisedType_id", nullable = true)
+   private TypeOfExamination specialisedType;
+
    @Autowired
    public Doctor() {
    }
