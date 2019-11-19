@@ -21,9 +21,6 @@ public class ClinicCenter {
    public Set<Clinic> clinics;
 
    @OneToMany(mappedBy = "clinicCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<MedicalStaff> medicalStaff;
-
-   @OneToMany(mappedBy = "clinicCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<MedicalRecord> medicalRecords;
 
    @OneToMany(mappedBy = "clinicCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

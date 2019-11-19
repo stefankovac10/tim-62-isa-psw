@@ -2,9 +2,11 @@ package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.User;
 import lombok.Getter;
+import lombok.Setter;
 import net.bytebuddy.asm.Advice;
 
 @Getter
+@Setter
 public class UserDTO {
     private Long id;
     private String firstName;
