@@ -10,13 +10,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class ClinicAdministrator extends SecurityProperties.User {
+public class ClinicAdministrator extends User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   // @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
    @OneToMany(mappedBy = "administrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

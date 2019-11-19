@@ -19,10 +19,11 @@ public class VacationRequest {
    @Column(name = "duration", nullable = false)
    private String duration;
 
-   @OneToOne()
+   @OneToOne(mappedBy = "vacationRequest")
    public MedicalStaff medicalStaff;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "cadmin_id", nullable = false)
    private ClinicAdministrator administrator;
 
    public VacationRequest() {

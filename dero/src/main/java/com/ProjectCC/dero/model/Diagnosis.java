@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "diagnosis")
 public class Diagnosis {
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
@@ -23,6 +23,15 @@ public class Diagnosis {
 
    @Column(name = "code", nullable = false, unique = true)
    private String code;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinicCenter_id", nullable = false)
+   public ClinicCenter clinicCenter;
+
+   /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "examination_id", nullable = false)*/
+   @ManyToMany(mappedBy = "diagnosis")
+   public Set<Examination> examinations;
 
    public Diagnosis() {
    }
