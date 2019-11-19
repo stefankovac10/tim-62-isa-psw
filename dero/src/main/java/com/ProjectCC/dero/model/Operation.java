@@ -36,8 +36,8 @@ public class Operation {
    )
    public Set<Doctor> doctors;
 
-   @OneToOne()
-   @JoinColumn(name = "patient_id", referencedColumnName = "id")
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "patient_id", nullable = false)
    public Patient patient;
 
    public Operation() {
