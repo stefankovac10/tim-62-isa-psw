@@ -22,7 +22,8 @@ public class Patient extends User {
    public Set<Examination> examinations;
 
    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<Operation> operation;
+   public Set<Operation> operations;
+
 
    public Patient() {
    }
