@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TypeOfExaminationDTO {
-
+    @Getter
     private Long id;
     @Getter
     private String name;

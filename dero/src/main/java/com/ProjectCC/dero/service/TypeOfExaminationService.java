@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.TypeOfExaminationDTO;
 import com.ProjectCC.dero.model.TypeOfExamination;
 import com.ProjectCC.dero.repository.TypeOfExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class TypeOfExaminationService {
 
     public List<TypeOfExamination> findAll() {
         return typeOfExaminationRepository.findAll();
+    }
+
+    public void update(TypeOfExaminationDTO typeDTO) {
+        typeOfExaminationRepository.update(typeDTO.getName(), typeDTO.getDescription(), typeDTO.getId());
     }
 }

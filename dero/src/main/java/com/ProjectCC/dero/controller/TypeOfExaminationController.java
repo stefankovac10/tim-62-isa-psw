@@ -47,4 +47,11 @@ public class TypeOfExaminationController {
         return new ResponseEntity<>(listDTO, HttpStatus.FOUND);
     }
 
+    @PutMapping(consumes = "application/json")
+    public ResponseEntity<TypeOfExaminationDTO> update(@RequestBody TypeOfExaminationDTO typeDTO) {
+        typeOfExaminationService.update(typeDTO);
+
+        return new ResponseEntity<>(typeDTO, HttpStatus.OK);
+    }
+
 }
