@@ -51,7 +51,6 @@ public class MedicalRecord {
    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Operation> operations;
 
-
    public MedicalRecord() {
    }
 }

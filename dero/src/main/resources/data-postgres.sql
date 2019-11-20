@@ -1,0 +1,1 @@
+insert into clinic (address, description, income, name, price_list) values ('Adresa', 'opis', 2000.0, 'Klinika', 'varchar')

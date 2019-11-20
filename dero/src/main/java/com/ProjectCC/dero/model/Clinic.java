@@ -32,12 +32,9 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<ClinicAdministrator> administrators;
 
-   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
    private Set<MedicalStaff> medicalStaffs;
-
-   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<MedicalStaff> medicalStaff;
-
+   
    //private Set<Examination> examinationSet;
    //private ArrayList<Integer> marks;
 

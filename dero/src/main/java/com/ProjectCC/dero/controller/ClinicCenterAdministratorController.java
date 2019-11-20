@@ -2,6 +2,7 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.ClinicCenterAdministrator;
+import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.ClinicCenterAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,14 @@ public class ClinicCenterAdministratorController {
         ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(),
                 userDTO.getPassword(), userDTO.getEmail(), userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
 
+        UserDTO userDTO1 = makeUser(clinicCenterAdministrator);
+
+        clinicCenterAdministrator = clinicCenterAdministratorService.save(clinicCenterAdministrator);
+        return new ResponseEntity<>(userDTO1, HttpStatus.CREATED);
+
+    }
+
+    private UserDTO makeUser(ClinicCenterAdministrator clinicCenterAdministrator) {
         UserDTO userDTO1 = new UserDTO();
         userDTO1.setFirstName(clinicCenterAdministrator.getFirstName());
         userDTO1.setLastName(clinicCenterAdministrator.getLastName());
@@ -36,11 +45,7 @@ public class ClinicCenterAdministratorController {
         userDTO1.setJmbg(clinicCenterAdministrator.getJmbg());
         userDTO1.setPassword(clinicCenterAdministrator.getPassword());
         userDTO1.setTelephone(clinicCenterAdministrator.getTelephone());
-
-
-        clinicCenterAdministrator = clinicCenterAdministratorService.save(clinicCenterAdministrator);
-        return new ResponseEntity<>(userDTO1, HttpStatus.CREATED);
-
+        return userDTO1;
     }
 
     @GetMapping(value = "/{id}")
@@ -52,17 +57,7 @@ public class ClinicCenterAdministratorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(clinicCenterAdministrator.getFirstName());
-        userDTO.setLastName(clinicCenterAdministrator.getLastName());
-        userDTO.setAddress(clinicCenterAdministrator.getAddress());
-        userDTO.setCity(clinicCenterAdministrator.getCity());
-        userDTO.setCountry(clinicCenterAdministrator.getCountry());
-        userDTO.setEmail(clinicCenterAdministrator.getEmail());
-        userDTO.setId(clinicCenterAdministrator.getId());
-        userDTO.setJmbg(clinicCenterAdministrator.getJmbg());
-        userDTO.setPassword(clinicCenterAdministrator.getPassword());
-        userDTO.setTelephone(clinicCenterAdministrator.getTelephone());
+        UserDTO userDTO = makeUser(clinicCenterAdministrator);
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
