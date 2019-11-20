@@ -5,6 +5,8 @@ import com.ProjectCC.dero.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
+
 @Service
 public class DoctorService {
 
@@ -17,5 +19,10 @@ public class DoctorService {
 
     public Doctor save(Doctor doc) {
         return doctorRepository.save(doc);
+    }
+
+    public void delete(Long id) {
+//        Long idLong = (Long)id;
+        doctorRepository.deleteById(id);
     }
 }
