@@ -1,6 +1,5 @@
 package com.ProjectCC.dero.controller;
 
-import com.ProjectCC.dero.model.ClinicCenter;
 import com.ProjectCC.dero.model.Diagnosis;
 import com.ProjectCC.dero.service.DiagnosisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/diagnosis")
 public class DiagnosisController {
 
@@ -36,9 +35,7 @@ public class DiagnosisController {
         diagnosis.setCode(diagnosisFE.getCode());
         diagnosis.setName(diagnosisFE.getName());
         diagnosis.setDescription(diagnosisFE.getDescription());
-        
-        ClinicCenter clinicCenter = new ClinicCenter();
-        diagnosis.setClinicCenter(clinicCenter);
+
         diagnosis = diagnosisService.save(diagnosis);
         return new ResponseEntity<>(diagnosis, HttpStatus.CREATED);
     }

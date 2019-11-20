@@ -22,7 +22,7 @@ public class TypeOfExaminationController {
         this.typeOfExaminationService = typeOfExaminationService;
     }
 
-//    @CrossOrigin
+    @CrossOrigin
     @PostMapping(consumes = "application/json")
     public ResponseEntity<TypeOfExaminationDTO> addType(@RequestBody TypeOfExaminationDTO typeDTO) {
 

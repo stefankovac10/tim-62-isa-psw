@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "api/regrequest")
 public class RegistrationRequestController {
     private RegistrationRequestService registrationRequestService;

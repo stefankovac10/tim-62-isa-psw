@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "addCCAdmin",
   data: function() {
@@ -95,7 +96,27 @@ export default {
   },
   methods:{
       add: function(){
-        
+        httpClient
+        .post("/ccadmin", {
+          firstName: this.name,
+          lastName: this.surname,
+          jmbg: this.jmbg,
+          password: this.password,
+          email: this.email,
+          address: this.address,
+          city: this.city,
+          country: this.country,
+          telephone: this.telephone
+        })
+        .then(response => {
+          this.response = response;
+          
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
+        this.$router.push('/ccadmin');
       }
   }
 };

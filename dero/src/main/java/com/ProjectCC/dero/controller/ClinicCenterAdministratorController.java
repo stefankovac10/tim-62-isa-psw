@@ -1,16 +1,15 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.UserDTO;
-import com.ProjectCC.dero.model.ClinicCenter;
 import com.ProjectCC.dero.model.ClinicCenterAdministrator;
 import com.ProjectCC.dero.service.ClinicCenterAdministratorService;
-import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value="/api/ccadmin")
 public class ClinicCenterAdministratorController {
 
@@ -23,9 +22,8 @@ public class ClinicCenterAdministratorController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
-        ClinicCenter clinicCenter= new ClinicCenter();
         ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(),
-                userDTO.getPassword(), userDTO.getEmail(), userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone(), clinicCenter);
+                userDTO.getPassword(), userDTO.getEmail(), userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
 
         UserDTO userDTO1 = new UserDTO();
         userDTO1.setFirstName(clinicCenterAdministrator.getFirstName());

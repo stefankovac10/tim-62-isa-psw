@@ -51,9 +51,6 @@ public class MedicalRecord {
    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Operation> operations;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinicCenter_id", nullable = false)
-   public ClinicCenter clinicCenter;
 
    public MedicalRecord() {
    }

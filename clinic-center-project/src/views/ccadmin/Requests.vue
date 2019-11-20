@@ -1,17 +1,17 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
     <div class="card mb-3" style="min-width: 250px;">
-      <h3 class="card-header">Username</h3>
+      <h3 class="card-header">stefan10</h3>
       <div class="card-body">
-        <h5 class="card-title">Name</h5>
-        <h6 class="card-subtitle text-muted">JMBG</h6>
+        <h5 class="card-title">Stefan Kovac</h5>
+        <h6 class="card-subtitle text-muted">1001997153952</h6>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">email</li>
-        <li class="list-group-item">address</li>
-        <li class="list-group-item">city</li>
-        <li class="list-group-item">country</li>
-        <li class="list-group-item">phone</li>
+        <li class="list-group-item">stefankovac42@gmail.com</li>
+        <li class="list-group-item">Nevesinje</li>
+        <li class="list-group-item">Nevesinje</li>
+        <li class="list-group-item">Republika Srpska</li>
+        <li class="list-group-item">066880036</li>
       </ul>
       <div class="card-body">
         <button type="button" class="btn btn-success" v-on:click="accept">
