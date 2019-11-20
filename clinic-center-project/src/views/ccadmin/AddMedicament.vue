@@ -32,7 +32,7 @@
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary" v-on:click="add">Add</button>
       </fieldset>
     </form>
   </div>
@@ -47,6 +47,14 @@ export default {
       code: undefined,
       description: undefined
     };
+  },
+  methods : {
+    add : function(){
+        if(this.name === undefined || this.name === '' || this.code ===  undefined || this.code === '' || this.description === undefined || this.description === ''){
+        alert("All field must be filled");
+        return;
+      }
+    }
   }
 };
 </script>

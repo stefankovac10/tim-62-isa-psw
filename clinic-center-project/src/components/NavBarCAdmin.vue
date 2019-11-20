@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
+  <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">

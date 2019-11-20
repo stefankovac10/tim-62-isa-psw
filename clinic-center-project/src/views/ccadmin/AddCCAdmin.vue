@@ -95,7 +95,7 @@ export default {
   },
   methods:{
       add: function(){
-
+        
       }
   }
 };

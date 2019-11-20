@@ -32,13 +32,17 @@
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary" v-on:click="add">Add</button>
       </fieldset>
     </form>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios,axios)
 export default {
   name: "addClinic",
   data: function() {
@@ -47,6 +51,22 @@ export default {
       address: undefined,
       description: undefined
     };
+  },
+  methods : {
+    add : function(){
+      if(this.name === undefined || this.name === '' || this.address ===  undefined || this.address === '' || this.description === undefined || this.description === ''){
+        alert("All field must be filled");
+        return;
+      }
+      
+      Vue.axios.get('localhost:8080/api/clinics/1').then((response =>{
+        alert("hello");
+        alert(response.data)
+        
+      }))
+
+
+    }
   }
 };
 </script>
