@@ -8,46 +8,22 @@
       <input type="text" class="p-2" id="name" name="name" v-model="name" />
 
       <label class="p-2">Surname</label>
-      <input
-        type="text"
-        class="p-2"
-        id="surname"
-        name="surname"
-        v-model="surname"
-      />
+      <input type="text" class="p-2" id="surname" name="surname" v-model="surname" />
 
       <label class="p-2">JMBG</label>
       <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
 
       <label class="p-2">Telephone</label>
-      <input
-        type="text"
-        class="p-2"
-        id="telephone"
-        name="telephone"
-        v-model="telephone"
-      />
+      <input type="text" class="p-2" id="telephone" name="telephone" v-model="telephone" />
 
       <label class="p-2">Country</label>
-      <input
-        type="text"
-        class="p-2"
-        id="country"
-        name="country"
-        v-model="country"
-      />
+      <input type="text" class="p-2" id="country" name="country" v-model="country" />
 
       <label class="p-2">City</label>
       <input type="text" class="p-2" id="city" name="city" v-model="city" />
 
       <label class="p-2">Address</label>
-      <input
-        type="text"
-        class="p-2"
-        id="address"
-        name="address"
-        v-model="address"
-      />
+      <input type="text" class="p-2" id="address" name="address" v-model="address" />
 
       <label for="staticEmail" class="p-2">E-mail</label>
       <input
@@ -77,8 +53,10 @@
         class="p-2"
         id="confirmPassword"
         name="confirmPassword"
+        v-model="confirmPassword"
         placeholder="Confirm password"
       />
+      <label class="p-2" for="matching" id="matching">{{matching}}</label>
 
       <br />
       <button class="btn btn-primary p-2" v-on:click="register">Submit</button>
@@ -102,11 +80,26 @@ export default {
       city: undefined,
       address: undefined,
       email: undefined,
-      password: undefined
+      password: undefined,
+      confirmPassword: undefined,
+      matching: ""
     };
+  },
+  watch: {
+    confirmPassword() {
+      if (this.confirmPassword != this.password)
+        this.matching = "Passwords are not matching!";
+      else this.matching = "";
+    }
   },
   methods: {
     register: function() {}
   }
 };
 </script>
+
+<style scoped>
+#matching {
+  color: red;
+}
+</style>
