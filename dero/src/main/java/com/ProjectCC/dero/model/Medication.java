@@ -24,10 +24,6 @@ public class Medication {
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinicCenter_id", nullable = false)
-   public ClinicCenter clinicCenter;
-
    @ManyToMany(mappedBy = "medication")
    public Set<Prescription> prescriptions;
 

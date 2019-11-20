@@ -32,15 +32,11 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<ClinicAdministrator> administrators;
 
-   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
    private Set<MedicalStaff> medicalStaffs;
 
-   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<MedicalStaff> medicalStaff;
-
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinicCenter_id", nullable = false)
-   public ClinicCenter clinicCenter;
+//   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+//   public Set<MedicalStaff> medicalStaff;
 
    //private Set<Examination> examinationSet;
    //private ArrayList<Integer> marks;

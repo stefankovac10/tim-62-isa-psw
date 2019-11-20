@@ -264,6 +264,7 @@ sequence|table|29907|29909|1
     </sequence>
     <table id="38" parent="14" name="clinic">
       <ObjectId>29731</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2896</StateNumber>
     </table>
@@ -289,6 +290,7 @@ sequence|table|29907|29909|1
     </table>
     <table id="43" parent="14" name="doctor">
       <ObjectId>29769</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2902</StateNumber>
     </table>
@@ -319,6 +321,7 @@ sequence|table|29907|29909|1
     </table>
     <table id="49" parent="14" name="medical_staff">
       <ObjectId>29814</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2903</StateNumber>
     </table>
@@ -374,6 +377,7 @@ sequence|table|29907|29909|1
     </table>
     <table id="60" parent="14" name="user_table">
       <ObjectId>29898</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2898</StateNumber>
     </table>

@@ -24,10 +24,6 @@ public class Diagnosis {
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinicCenter_id", nullable = false)
-   public ClinicCenter clinicCenter;
-
    /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "examination_id", nullable = false)*/
    @ManyToMany(mappedBy = "diagnosis")

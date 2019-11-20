@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   data: function() {
     return {
@@ -73,7 +74,29 @@ export default {
     };
   },
   methods: {
-    register: function() {}
+    register: function() {
+      var doc = {
+        firstName: this.name,
+        lastName: this.surname,
+        jmbg: this.jmbg,
+        password: this.password,
+        telephone: this.telephone,
+        country: this.country,
+        city: this.city,
+        address: this.address,
+        email: this.email
+      };
+
+      httpClient
+        .post("/users/doc", doc)
+        .then(function(response) {
+          alert(response.data.email);
+        })
+        .catch(function(error) {
+          alert(error.response);
+        });
+      this.$route.push("/login");
+    }
   }
 };
 </script>

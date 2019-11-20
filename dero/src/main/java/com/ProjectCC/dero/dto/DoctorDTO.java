@@ -24,7 +24,7 @@ public class DoctorDTO extends MedicalStaffDTO {
     @Autowired
     public DoctorDTO(Long id, String firstName, String lastName, String jmbg, String password,
                      String email, String address, String city, String country,
-                     String telephone, Clinic clinic) {
+                     String telephone, ClinicDTO clinic) {
         super(id, firstName, lastName, jmbg, password, email, address, city, country,
                 telephone, clinic);
     }
@@ -33,6 +33,6 @@ public class DoctorDTO extends MedicalStaffDTO {
     public DoctorDTO(Doctor doctor) {
         super(doctor.getId(), doctor.getFirstName(), doctor.getLastName(), doctor.getJmbg(),
                 doctor.getPassword(), doctor.getEmail(), doctor.getAddress(),
-                doctor.getCity(), doctor.getCountry(), doctor.getTelephone(), doctor.getClinic());
+                doctor.getCity(), doctor.getCountry(), doctor.getTelephone(), new ClinicDTO(doctor.getClinic()));
     }
 }
