@@ -21,7 +21,7 @@ public class ClinicCenterAdministratorController {
         this.clinicCenterAdministratorService = clinicCenterAdministratorService;
     }
 
-    @PostMapping( consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
         ClinicCenter clinicCenter= new ClinicCenter();
         ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(),
