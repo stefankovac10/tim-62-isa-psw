@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import java.util.*;
 
 @RestController
-@RequestMapping(value = "api/types")
+@RequestMapping(value = "/api/types")
 @CrossOrigin(origins = "http://localhost:8081")
 public class TypeOfExaminationController {
     private TypeOfExaminationService typeOfExaminationService;

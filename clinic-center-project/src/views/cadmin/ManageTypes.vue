@@ -5,15 +5,14 @@
 
       <div v-if="mode == 'VIEW'" class="d-flex flex-row flex-wrap p-2 justify-content-center">
         <div
+          v-for="type in types"
+          v-bind:key="type.id"
           class="card border-primary mb-3"
           style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
         >
           <div class="card-body">
-            <h4 class="card-title">Name</h4>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
+            <h4 class="card-title">{{type.name}}</h4>
+            <p class="card-text">{{type.description}}</p>
             <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
             <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
           </div>
@@ -46,14 +45,33 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
+
 export default {
   name: "listDiagnosis",
   data: function() {
     return {
       name: undefined,
       description: undefined,
+      types: undefined,
       mode: "VIEW"
     };
+  },
+  created: function() {
+    httpClient
+      .get("/types/all")
+      .then(response => {
+        alert("success");
+        alert(response.data.error);
+        this.types = response.data;
+      })
+      .error(error => {
+        if (error.response && error.response.status === 401) {
+          window.location.href = "logon";
+        } else {
+          alert(error.response);
+        }
+      });
   },
   methods: {
     edit: function() {

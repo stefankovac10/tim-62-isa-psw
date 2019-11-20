@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "api/users/doc")
+@RequestMapping(value = "/api/users/doc")
 public class DoctorController {
 
     private DoctorService doctorService;

@@ -24,24 +24,21 @@ export default {
       name: undefined,
       description: undefined,
       response: undefined,
-      error: undefined,
-      type: {
-        name: this.name,
-        description: this.description
-      }
+      error: undefined
     };
   },
   methods: {
     addType: function() {
       httpClient
-        .post("/types", this.type)
+        .post("/types", {
+          name: this.name,
+          description: this.description
+        })
         .then(response => {
           this.response = response;
-          alert("success");
         })
-        .error(error => {
+        .catch(error => {
           this.error = error;
-          alert("Error");
         });
     }
   }
