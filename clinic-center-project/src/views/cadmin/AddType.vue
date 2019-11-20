@@ -15,15 +15,35 @@
 </template>
 
 <script>
+// import instance from "@/services/Api.js";
+import { httpClient } from "@/services/Api.js";
+
 export default {
   data: function() {
     return {
       name: undefined,
-      description: undefined
+      description: undefined,
+      response: undefined,
+      error: undefined,
+      type: {
+        name: this.name,
+        description: this.description
+      }
     };
   },
   methods: {
-    addType: function() {}
+    addType: function() {
+      httpClient
+        .post("/types", this.type)
+        .then(response => {
+          this.response = response;
+          alert("success");
+        })
+        .error(error => {
+          this.error = error;
+          alert("Error");
+        });
+    }
   }
 };
 </script>
