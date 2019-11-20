@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/diagnosis")
+@RequestMapping(value = "/api/diagnosis")
 public class DiagnosisController {
 
     private DiagnosisService diagnosisService;

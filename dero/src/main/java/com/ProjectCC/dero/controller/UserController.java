@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "api/users")
+@RequestMapping(value = "/api/users")
 public class UserController {
 
     private UserService userService;

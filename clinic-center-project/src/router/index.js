@@ -26,6 +26,7 @@ import ManageDoctors from "@/views/cadmin/ManageDoctors.vue";
 import ManageRooms from "@/views/cadmin/ManageRooms.vue";
 import ManageTypes from "@/views/cadmin/ManageTypes.vue";
 import Profile from "@/views/cadmin/Profile.vue";
+import EditProfile from "@/views/cadmin/EditProfile.vue";
 
 import PHomepage from "@/views/patient/PatientHome"
 import PClinics from "@/views/patient/PClinics.vue"
@@ -157,6 +158,11 @@ const routes = [
         path: "profile",
         name: "profile",
         component: Profile
+      },
+      {
+        path: "editProfile",
+        name: "editProfile",
+        component: EditProfile
       }
     ]
   },
