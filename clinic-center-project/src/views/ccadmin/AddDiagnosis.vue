@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "addClinic",
   data: function() {
@@ -54,6 +55,21 @@ export default {
         alert("All field must be filled");
         return;
       }
+
+      httpClient
+        .post("/diagnosis", {
+          name: this.name,
+          code: this.code,
+          description: this.description
+        })
+        .then(response => {
+          this.response = response;
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
+      this.$router.push('/ccadmin/ListDiagnosis');
     }
   }
 };

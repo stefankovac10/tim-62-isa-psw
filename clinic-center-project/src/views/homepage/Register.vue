@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "register",
   props: {
@@ -93,7 +94,32 @@ export default {
     }
   },
   methods: {
-    register: function() {}
+    register: function() {
+
+      httpClient
+        .post("/regrequest", {
+          firstName: this.name,
+          lastName: this.surname,
+          jmbg: this.jmbg,
+          password: this.password,
+          email: this.email,
+          address: this.address,
+          city: this.city,
+          country: this.country,
+          telephone: this.telephone
+        })
+        .then(response => {
+          this.response = response;
+          alert("Your registration request has been sent");
+          
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
+        this.$router.push('/login');
+
+    }
   }
 };
 </script>

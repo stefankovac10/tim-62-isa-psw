@@ -39,10 +39,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios,axios)
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "addClinic",
   data: function() {
@@ -53,18 +50,28 @@ export default {
     };
   },
   methods : {
-    add : function(){
+    add: function(){
       if(this.name === undefined || this.name === '' || this.address ===  undefined || this.address === '' || this.description === undefined || this.description === ''){
         alert("All field must be filled");
         return;
       }
       
-      Vue.axios.get('localhost:8080/api/clinics/1').then((response =>{
-        alert("hello");
-        alert(response.data)
-        
-      }))
 
+      httpClient
+        .post("/clinics", {
+          name: this.name,
+          address: this.address,
+          description: this.description
+        })
+        .then(response => {
+          this.response = response;
+          
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
+      this.$router.push('/ccadmin/clinics');
 
     }
   }

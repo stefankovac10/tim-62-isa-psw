@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value="/api/ccadmin")
 public class ClinicCenterAdministratorController {
 

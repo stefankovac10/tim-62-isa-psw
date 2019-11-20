@@ -13,6 +13,7 @@ public class ClinicCenterAdministrator extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     public ClinicCenterAdministrator(String firstName, String lastName, String jmbg, String password,
                                      String email, String address, String city, String country,
                                      String telephone) {

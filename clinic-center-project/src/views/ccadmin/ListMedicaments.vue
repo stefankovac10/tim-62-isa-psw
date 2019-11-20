@@ -5,12 +5,11 @@
         class="card border-primary mb-3"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
       >
-        <div class="card-header">Code</div>
+        <div class="card-header">Sifra2</div>
         <div class="card-body">
-          <h4 class="card-title">Name</h4>
+          <h4 class="card-title">Dijagnoza2</h4>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Opis dijagnoze
           </p>
           <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
           <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
