@@ -63,6 +63,10 @@ export default {
       mode: "VIEW"
     };
   },
+  mounted(){
+      this.mode="VIEW";
+
+  },
   methods: {
     edit: function() {
       this.mode = "EDIT";

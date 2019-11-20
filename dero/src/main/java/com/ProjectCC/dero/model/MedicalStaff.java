@@ -24,9 +24,6 @@ public class MedicalStaff extends User {
    @JoinColumn(name = "vacReq_id", referencedColumnName = "id")
    private VacationRequest vacationRequest;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinicCenter_id", nullable = false)
-   public ClinicCenter clinicCenter;
 
    @ManyToMany(mappedBy = "medicalStaffs")
    public Set<MedicalRecord> medicalRecords;
