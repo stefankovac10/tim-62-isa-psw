@@ -95,7 +95,7 @@ export default {
         .catch(function(error) {
           alert(error.response);
         });
-      this.$route.push("/login");
+      this.$router.push("/cadmin");
     }
   }
 };
