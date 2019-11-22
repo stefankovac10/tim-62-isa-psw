@@ -60,7 +60,7 @@
         <label class="p-2" for="matching" id="matching">{{matching}}</label>
 
         <br />
-        <button class="btn btn-primary p-2" v-on:click="update">Update</button>
+        <button class="btn btn-primary p-2" v-on:click.prevent="update">Update</button>
       </form>
     </div>
   </div>
