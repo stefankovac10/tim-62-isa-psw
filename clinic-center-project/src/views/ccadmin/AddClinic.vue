@@ -55,8 +55,7 @@ export default {
         alert("All field must be filled");
         return;
       }
-      
-
+    
       httpClient
         .post("/clinics", {
           name: this.name,

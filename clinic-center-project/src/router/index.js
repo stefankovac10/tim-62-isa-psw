@@ -35,6 +35,13 @@ import POperations from "@/views/patient/POperations"
 import MedicalRecord from "@/views/patient/MedicalRecord"
 import PatientsProfile from "@/views/patient/PatientsProfile"
 
+import NHomepage from "@/views/nurse/NurseHome"
+import NPatients from "@/views/nurse/NPatients"
+import NVacationRequest from "@/views/nurse/NVacationRequest"
+import NWorkCalendar from "@/views/nurse/NWorkCalendar"
+import NProfile from "@/views/nurse/NProfile"
+import Perscription from "@/views/nurse/Perscription"
+
 
 
 Vue.use(VueRouter);
@@ -195,6 +202,38 @@ const routes = [
         path: "profile",
         name: "profile",
         component: PatientsProfile
+      }
+    ]
+  },
+  {
+    path: "/nurse",
+    name: "Nurse",
+    component: NHomepage,
+    children: [
+      {
+        path: "patients",
+        name: "patients",
+        component: NPatients
+      },
+      {
+        path: "workCalendar",
+        name: "workCalendar",
+        component: NWorkCalendar
+      },
+      {
+        path: "vacationRequest",
+        name: "vacationRequest",
+        component: NVacationRequest
+      },
+      {
+        path: "perscription",
+        name: "perscription",
+        component: Perscription
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: NProfile
       }
     ]
   }
