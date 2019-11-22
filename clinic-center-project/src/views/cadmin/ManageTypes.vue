@@ -36,7 +36,7 @@
               <label for="exampleTextarea">Description</label>
               <textarea class="form-control" id="descriptionClinic" v-model="description" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" v-on:click="save">Save</button>
+            <button type="submit" class="btn btn-primary" v-on:click.prevent="save">Save</button>
           </fieldset>
         </form>
       </div>

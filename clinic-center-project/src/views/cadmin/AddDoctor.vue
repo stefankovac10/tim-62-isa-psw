@@ -51,7 +51,7 @@
       <label class="p-2">Clinic : [current clinic]</label>
       <br />
 
-      <button class="btn btn-primary p-2" v-on:click="register">Submit</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="register">Submit</button>
     </form>
   </div>
 </template>
