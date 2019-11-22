@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.DiagnosisDTO;
 import com.ProjectCC.dero.model.Diagnosis;
 import com.ProjectCC.dero.service.DiagnosisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,22 +24,28 @@ public class DiagnosisController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<Diagnosis>> getAllClinics() {
+    public ResponseEntity<List<DiagnosisDTO>> getAllDiagnosis() {
 
         List<Diagnosis> diagnosis = diagnosisService.findAll();
 
-        return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        List<DiagnosisDTO> diagnosisDTOS = new ArrayList<>();
+        for (Diagnosis d : diagnosis) {
+            diagnosisDTOS.add(new DiagnosisDTO(d));
+        }
+
+        return new ResponseEntity<>(diagnosisDTOS, HttpStatus.OK);
+
     }
 
     @PostMapping( consumes = "application/json")
-    public ResponseEntity<Diagnosis> save(@RequestBody Diagnosis diagnosisFE){
-        Diagnosis diagnosis = new Diagnosis();
-        diagnosis.setCode(diagnosisFE.getCode());
-        diagnosis.setName(diagnosisFE.getName());
-        diagnosis.setDescription(diagnosisFE.getDescription());
+    public ResponseEntity<DiagnosisDTO> save(@RequestBody DiagnosisDTO diagnosisDTO){
+        Diagnosis diagnosis = new Diagnosis(diagnosisDTO);
 
         diagnosis = diagnosisService.save(diagnosis);
-        return new ResponseEntity<>(diagnosis, HttpStatus.CREATED);
+        if(diagnosis == null){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+        return new ResponseEntity<>(new DiagnosisDTO(diagnosis), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -54,7 +62,7 @@ public class DiagnosisController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Diagnosis> getCourse(@PathVariable Long id) {
+    public ResponseEntity<DiagnosisDTO> getCourse(@PathVariable Long id) {
 
         Diagnosis diagnosis = diagnosisService.findOne(id);
 
@@ -62,13 +70,14 @@ public class DiagnosisController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        return new ResponseEntity<>(new DiagnosisDTO(diagnosis), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")
-    public ResponseEntity<Diagnosis> update(@RequestBody Diagnosis diagnosis){
+    public ResponseEntity<DiagnosisDTO> update(@RequestBody DiagnosisDTO diagnosisDTO){
+        Diagnosis diagnosis = new Diagnosis(diagnosisDTO);
         diagnosisService.update(diagnosis);
-        return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        return new ResponseEntity<>(diagnosisDTO, HttpStatus.OK);
     }
 
 }

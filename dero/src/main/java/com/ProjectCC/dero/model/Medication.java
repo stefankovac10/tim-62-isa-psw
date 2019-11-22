@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.MedicationDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,9 +31,10 @@ public class Medication {
    public Medication() {
    }
 
-   public Medication(String name, String description, String code) {
-      this.name = name;
-      this.description = description;
-      this.code = code;
+   public Medication(MedicationDTO medicationDTO) {
+      this.name = medicationDTO.getName();
+      this.description = medicationDTO.getDescription();
+      this.id = medicationDTO.getId();
+      this.code = medicationDTO.getCode();
    }
 }

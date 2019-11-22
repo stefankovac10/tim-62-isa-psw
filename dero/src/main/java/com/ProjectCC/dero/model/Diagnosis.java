@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.DiagnosisDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,17 +25,16 @@ public class Diagnosis {
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "examination_id", nullable = false)*/
    @ManyToMany(mappedBy = "diagnosis")
    public Set<Examination> examinations;
 
    public Diagnosis() {
    }
 
-   public Diagnosis(String name, String description, String code) {
-      this.name = name;
-      this.description = description;
-      this.code = code;
+   public Diagnosis(DiagnosisDTO diagnosisDTO) {
+      this.id = diagnosisDTO.getId();
+      this.name = diagnosisDTO.getName();
+      this.description = diagnosisDTO.getDescription();
+      this.code = diagnosisDTO.getCode();
    }
 }
