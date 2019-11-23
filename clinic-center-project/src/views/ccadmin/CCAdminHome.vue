@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <NBCCAdmin></NBCCAdmin>
     <router-view></router-view>
   </div>

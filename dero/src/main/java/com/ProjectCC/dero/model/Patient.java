@@ -27,4 +27,10 @@ public class Patient extends User {
 
    public Patient() {
    }
+
+   public Patient(String firstName, String lastName, String jmbg, String password, String email, String address, String city, String country, String telephone) {
+      super(firstName, lastName, jmbg, password, email, address, city, country, telephone);
+   }
+
+
 }

@@ -28,4 +28,16 @@ public class RegistrationRequestService {
     public RegistrationRequest findById(Long id) {
         return registrationRequestRepository.findById(id).orElseGet(null);
     }
+
+    public void remove(Long id) {
+        registrationRequestRepository.deleteById(id);
+    }
+
+    public RegistrationRequest findOne(Long id) {
+        return registrationRequestRepository.findById(id).orElseGet(null);
+    }
+
+    public void update(RegistrationRequest registrationRequest) {
+        registrationRequestRepository.update(registrationRequest.getId(), registrationRequest.isVerified());
+    }
 }

@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.model.Medication;
 import com.ProjectCC.dero.service.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,22 +24,28 @@ public class MedicationController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<Medication>> getAllClinics() {
+    public ResponseEntity<List<MedicationDTO>> getAllMedication() {
 
-        List<Medication> clinics = medicationService.findAll();
+        List<Medication> medications = medicationService.findAll();
 
-        return new ResponseEntity<>(clinics, HttpStatus.OK);
+        List<MedicationDTO> medicationDTOS = new ArrayList<>();
+        for (Medication m : medications) {
+            medicationDTOS.add(new MedicationDTO(m));
+        }
+
+        return new ResponseEntity<>(medicationDTOS, HttpStatus.OK);
+
     }
 
     @PostMapping( consumes = "application/json")
-    public ResponseEntity<Medication> save(@RequestBody Medication medicationFE){
-        Medication medication = new Medication();
-        medication.setCode(medicationFE.getCode());
-        medication.setName(medicationFE.getName());
-        medication.setDescription(medicationFE.getDescription());
+    public ResponseEntity<MedicationDTO> save(@RequestBody MedicationDTO medicationDTO){
+        Medication medication = new Medication(medicationDTO);
 
         medication = medicationService.save(medication);
-        return new ResponseEntity<>(medication, HttpStatus.CREATED);
+        if(medication == null){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+        return new ResponseEntity<>(new MedicationDTO(medication), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -54,7 +62,7 @@ public class MedicationController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Medication> getCourse(@PathVariable Long id) {
+    public ResponseEntity<MedicationDTO> getCourse(@PathVariable Long id) {
 
         Medication medication = medicationService.findOne(id);
 
@@ -62,13 +70,14 @@ public class MedicationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(medication, HttpStatus.OK);
+        return new ResponseEntity<>(new MedicationDTO(medication), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")
-    public ResponseEntity<Medication> update(@RequestBody Medication medication){
+    public ResponseEntity<MedicationDTO> update(@RequestBody MedicationDTO medicationDTO){
+        Medication medication = new Medication(medicationDTO);
         medicationService.update(medication);
-        return new ResponseEntity<>(medication, HttpStatus.OK);
+        return new ResponseEntity<>(medicationDTO, HttpStatus.OK);
     }
 }
 

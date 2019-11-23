@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.ClinicDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,11 @@ public class Clinic {
    @Autowired
    public Clinic() {}
 
+   public Clinic(ClinicDTO clinicDTO){
+      this.name = clinicDTO.getName();
+      this.id = clinicDTO.getId();
+      this.description = clinicDTO.getDescription();
+      this.address = clinicDTO.getAddress();
+      this.income  = clinicDTO.getIncome();
+   }
 }

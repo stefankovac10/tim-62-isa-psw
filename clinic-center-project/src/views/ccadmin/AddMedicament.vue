@@ -59,22 +59,17 @@ export default {
       httpClient
         .post("/medication", {
           name: this.name,
-          code: this.code,
-          description: this.description
+          description: this.description,
+          code: this.code
         })
         .then(response => {
           this.response = response;
-          
+          this.$router.push('/ccadmin/ListMedicaments');
         })
         .catch(error => {
           this.error = error;
-        });
-
-        this.$router.push('/ccadmin/ListMedicaments');
+        });      
     }
-
-    
-
   }
 };
 </script>

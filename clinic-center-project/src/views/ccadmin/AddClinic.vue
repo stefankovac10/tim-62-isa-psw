@@ -64,14 +64,11 @@ export default {
         })
         .then(response => {
           this.response = response;
-          
+          this.$router.push('/ccadmin/clinics');
         })
         .catch(error => {
           this.error = error;
         });
-
-      this.$router.push('/ccadmin/clinics');
-
     }
   }
 };

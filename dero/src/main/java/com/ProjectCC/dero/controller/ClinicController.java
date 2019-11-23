@@ -38,12 +38,12 @@ public class ClinicController {
 
     @PostMapping( consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-            Clinic clinic = new Clinic();
-            clinic.setAddress(clinicDTO.getAddress());
-            clinic.setName(clinicDTO.getName());
-            clinic.setDescription(clinicDTO.getDescription());
+            Clinic clinic = new Clinic(clinicDTO);
 
             clinic = clinicService.save(clinic);
+            if(clinic == null){
+                return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+            }
             return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.CREATED);
 
     }
@@ -75,7 +75,8 @@ public class ClinicController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        clinicService.update(clinicDTO);
+        Clinic clinic = new Clinic(clinicDTO);
+        clinicService.update(clinic);
         return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
 
     }
