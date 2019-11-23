@@ -1,8 +1,10 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.RegistrationRequest;
+import com.ProjectCC.dero.service.MedicalRecordService;
 import com.ProjectCC.dero.service.PatientService;
 import com.ProjectCC.dero.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +22,21 @@ public class PatientController {
 
     private PatientService patientService;
     private RegistrationRequestService registrationRequestService;
+    private MedicalRecordService medicalRecordService;
 
     @Autowired
-    public PatientController(PatientService patientService,RegistrationRequestService registrationRequestService) {
+    public PatientController(PatientService patientService, RegistrationRequestService registrationRequestService, MedicalRecordService medicalRecordService) {
         this.patientService = patientService;
         this.registrationRequestService = registrationRequestService;
+        this.medicalRecordService = medicalRecordService;
     }
-
 
     @GetMapping(value = "add/{id}")
     public ResponseEntity<Void> save(@PathVariable Long id){
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
         registrationRequestService.remove(id);
+        MedicalRecord medicalRecord = new MedicalRecord(0,0,"","");
+        medicalRecord = medicalRecordService.save(medicalRecord);
 
         Patient patient = new Patient();
         patient.setFirstName(registrationRequest.getFirstName());
@@ -43,10 +48,7 @@ public class PatientController {
         patient.setJmbg(registrationRequest.getJmbg());
         patient.setPassword(registrationRequest.getPassword());
         patient.setTelephone(registrationRequest.getTelephone());
-
-        System.out.println(patient.getId());
-        System.out.println(patient);
-
+        patient.setMedicalRecord(medicalRecord);
 
         patient = patientService.save(patient);
 

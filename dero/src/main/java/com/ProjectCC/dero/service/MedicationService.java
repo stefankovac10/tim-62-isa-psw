@@ -41,7 +41,9 @@ public class MedicationService {
 
     public void update(Medication medication) {
         Medication medication_find = medicationRepository.findByName(medication.getName());
-        if (medication_find== null || medication_find.getId() == medication.getId()) {
+        Medication medication_find2 = medicationRepository.findByCode(medication.getCode());
+
+        if (medication_find== null || medication_find2 == null || medication_find.getId() == medication.getId()) {
             medicationRepository.update(medication.getName(), medication.getCode(), medication.getDescription(), medication.getId());
         }
     }

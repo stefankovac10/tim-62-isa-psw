@@ -53,4 +53,11 @@ public class MedicalRecord {
 
    public MedicalRecord() {
    }
+
+   public MedicalRecord(int height, int weight, String bloodType, String diopter) {
+      this.height = height;
+      this.weight = weight;
+      this.bloodType = bloodType;
+      this.diopter = diopter;
+   }
 }

@@ -10,6 +10,7 @@ import Clinics from "@/views/ccadmin/Clinics.vue";
 import AddClinic from "@/views/ccadmin/AddClinic.vue";
 import Requests from "@/views/ccadmin/Requests.vue";
 import AddCCAdmin from "@/views/ccadmin/AddCCAdmin";
+import AddCAdmin from "@/views/ccadmin/AddCAdmin";
 import AddDiagnosis from "@/views/ccadmin/AddDiagnosis"
 import AddMedicament from "@/views/ccadmin/AddMedicament"
 import ListMedicaments from "@/views/ccadmin/ListMedicaments"
@@ -78,6 +79,11 @@ const routes = [
         path: "addCCAdmin",
         name: "addCCAdmin",
         component: AddCCAdmin
+      },
+      {
+        path: "addCAdmin",
+        name: "addCAdmin",
+        component: AddCAdmin
       },
       {
         path: "addClinic",

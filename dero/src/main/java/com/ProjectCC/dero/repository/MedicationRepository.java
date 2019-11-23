@@ -15,4 +15,6 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
     void update(String name, String code, String description, Long id);
 
     Medication findByName(String name);
+
+    Medication findByCode(String code);
 }

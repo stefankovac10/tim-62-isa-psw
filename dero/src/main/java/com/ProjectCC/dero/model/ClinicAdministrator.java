@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -23,5 +24,9 @@ public class ClinicAdministrator extends User {
    public Set<VacationRequest> vacationRequests;
 
    public ClinicAdministrator() {
+   }
+
+   public ClinicAdministrator(ClinicAdministratorDTO cadminDTO){
+      super(cadminDTO.getFirstName(), cadminDTO.getLastName(),cadminDTO.getJmbg(),cadminDTO.getPassword(),cadminDTO.getEmail(),cadminDTO.getAddress(),cadminDTO.getCity(),cadminDTO.getCountry(),cadminDTO.getTelephone());
    }
 }
