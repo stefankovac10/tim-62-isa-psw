@@ -49,7 +49,7 @@ public class DiagnosisController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDiagnosis(@PathVariable Long id) {
 
         Diagnosis diagnosis  = diagnosisService.findOne(id);
 
@@ -62,7 +62,7 @@ public class DiagnosisController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<DiagnosisDTO> getCourse(@PathVariable Long id) {
+    public ResponseEntity<DiagnosisDTO> getDiagnosis(@PathVariable Long id) {
 
         Diagnosis diagnosis = diagnosisService.findOne(id);
 
