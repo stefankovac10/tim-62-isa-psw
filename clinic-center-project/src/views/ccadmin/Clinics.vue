@@ -1,18 +1,19 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
     <div v-if="mode == 'VIEW'">
-      <div
+      <div 
         class="card border-primary mb-3"
-        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
+        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px" 
+        v-for="clinic in clinics" :key="clinic"
       >
-        <div class="card-header">Adresa1</div>
+        <div class="card-header">{{clinic.address}}</div>
         <div class="card-body">
-          <h4 class="card-title">Klinika1</h4>
+          <h4 class="card-title">{{clinic.name}}</h4>
           <p class="card-text">
-            Opis klinike
+            {{clinic.description}}
           </p>
-          <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+          <button type="button" class="btn btn-primary" v-on:click="edit(clinic)" style="margin-right:10px">Edit</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove(clinic.id)">Delete</button>
         </div>
       </div>
     </div>
@@ -44,7 +45,8 @@
             <label for="exampleTextarea">Description</label>
             <textarea class="form-control" id="descriptionClinic" v-model="description" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click="save">Save</button>
+          <button type="submit" class="btn btn-primary" v-on:click="save" style="margin-right:10px">Save</button>
+          <button type="submit" class="btn btn-danger" v-on:click="cancel">Cancel</button>
         </fieldset>
       </form>
     </div>
@@ -52,29 +54,79 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "clinics",
   data: function() {
     return {
+      id: undefined,
       name: undefined,
       address: undefined,
       description: undefined,
       mode: "VIEW",
+      clinics: {}
     };
   },
   mounted(){
       this.mode="VIEW";
 
+       httpClient
+        .get("/clinics/all")
+        .then(response => {
+          this.clinics = response.data;      
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
   },
   methods: {
-    edit: function() {
+    refresh: function(){
+        httpClient
+        .get("/clinics/all")
+        .then(response => {
+          this.clinics = response.data;      
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+    edit: function(clinic) {
       this.mode = "EDIT";
+      this.id = clinic.id;
+      this.name = clinic.name;
+      this.description  = clinic.description;
+      this.address = clinic.address;
+    },
+    cancel: function(){
+      this.id = undefined;
+      this.name = undefined;
+      this.description = undefined;
+      this.address = undefined;
+      this.mode = "VIEW";
     },
     save: function() {
       this.mode = "VIEW";
+      httpClient
+        .put("/clinics", {"id":this.id, "name":this.name, "address":this.address, "description":this.description})
+        .then(response => {
+            this.response = response; 
+            this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
-    remove: function() {
-        
+    remove: function(id) {
+        httpClient
+        .delete("/clinics/"+id)
+        .then(response => {
+            this.response = response; 
+            this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
     }
   }
 };

@@ -24,7 +24,13 @@ public class ClinicService {
     }
 
     public Clinic save(Clinic clinic){
-        return clinicRepository.save(clinic);
+        
+        Clinic clinic_find = clinicRepository.findByName(clinic.getName());
+        if(clinic_find == null){
+            return clinicRepository.save(clinic);
+        }
+
+        return null;
     }
 
     public void remove(Long id){
@@ -35,7 +41,11 @@ public class ClinicService {
         return clinicRepository.findById(id).orElseGet(null);
     }
 
-    public void update(ClinicDTO clinic){
-       clinicRepository.update(clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getId());
+    public void update(Clinic clinic) {
+        Clinic clinic_find = clinicRepository.findByName(clinic.getName());
+
+        if (clinic_find == null || clinic_find.getId() == clinic.getId()) {
+            clinicRepository.update(clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getId());
+        }
     }
 }

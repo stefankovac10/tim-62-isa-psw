@@ -1,20 +1,22 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div class="card mb-3" style="min-width: 250px;">
-      <h3 class="card-header">stefan10</h3>
+    <div class="card mb-3" style="min-width: 250px; margin: 5px" v-for="request in requests" :key="request">
+      <h3 class="card-header">{{request.firstName}} {{request.lastName}}</h3>
       <div class="card-body">
-        <h5 class="card-title">Stefan Kovac</h5>
-        <h6 class="card-subtitle text-muted">1001997153952</h6>
+        <h6 class="card-subtitle text-muted">{{request.jmbg}}</h6>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">stefankovac42@gmail.com</li>
-        <li class="list-group-item">Nevesinje</li>
-        <li class="list-group-item">Nevesinje</li>
-        <li class="list-group-item">Republika Srpska</li>
-        <li class="list-group-item">066880036</li>
+        <li class="list-group-item">{{request.email}}</li>
+        <li class="list-group-item">{{request.address}}</li>
+        <li class="list-group-item">{{request.city}}</li>
+        <li class="list-group-item">{{request.country}}</li>
+        <li class="list-group-item">{{request.telephone}}</li>
       </ul>
       <div class="card-body">
-        <button type="button" class="btn btn-success" v-on:click="accept">
+        <div v-if="request.verified === true">
+          <h5>Waiting for confirmation</h5>
+        </div>
+        <button type="button" class="btn btn-success"  v-if="request.verified === false" v-on:click="accept(request)">
           Accept
         </button>
         <button
@@ -23,6 +25,8 @@
           data-toggle="modal"
           data-target="#exampleModal"
           data-whatever="@mdo"
+          v-on:click="declineModal(request)"
+           v-if="request.verified === false"
         >
           Decline
         </button>
@@ -53,7 +57,7 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <textarea class="form-control" id="message-text"></textarea>
+                <textarea class="form-control" id="message-text" v-model="message"></textarea>
               </div>
             </form>
           </div>
@@ -65,7 +69,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary" v-on:click="decline">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="decline()">
               Send
             </button>
           </div>
@@ -76,16 +80,87 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "requests",
   data: function() {
     return {
-      mode: "VIEW"
+        requests : {},
+        request: {},
+        message: undefined
     };
   },
+  mounted(){
+    httpClient
+    .get("/regrequest/all")
+    .then(response => {
+      this.requests = response.data;      
+    })
+    .catch(error => {
+      this.error = error;
+    });
+  },
   methods: {
-    accept: function() {},
-    decline: function() {}
+    refresh: function(){
+      httpClient
+        .get("/regrequest/all")
+        .then(response => {
+          this.requests = response.data;      
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+    accept: function(request) {
+        httpClient
+          .get("/mail/accept/"+request.email + "/"+ request.id)
+          .then(response => {
+            this.response = response.data;      
+          })
+          .catch(error => {
+            this.error = error;
+          });
+
+        httpClient
+          .put("/regrequest/accept/"+request.id)
+          .then(response => {
+            this.response = response.data;   
+            this.refresh();   
+          })
+          .catch(error => {
+            this.error = error;
+          });
+
+    },
+    decline: function() {
+        if(this.message == undefined || this.message == ""){
+          alert("Please enter the message");
+          return;
+        }
+        httpClient
+          .delete("/regrequest/"+this.request.id)
+          .then(response => {
+            this.response = response.data;   
+            this.refresh();   
+          })
+          .catch(error => {
+            this.error = error;
+          });
+
+       /* httpClient
+          .get("/mail/refuse/"+this.request.email + "/" + this.message )
+          .then(response => {
+            this.response = response.data;      
+          })
+          .catch(error => {
+            this.error = error;
+          });*/
+          this.message = undefined;
+    },
+    declineModal : function(request){
+      this.request = request;
+      this.message = undefined;
+    }
   }
 };
 </script>

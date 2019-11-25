@@ -4,15 +4,16 @@
       <div
         class="card border-primary mb-3"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
+        v-for="diagnosis in diagnosisis" :key="diagnosis"
       >
-        <div class="card-header">Sifra1</div>
+        <div class="card-header">{{diagnosis.code}}</div>
         <div class="card-body">
-          <h4 class="card-title">Dijagnoza1</h4>
+          <h4 class="card-title">{{diagnosis.name}}</h4>
           <p class="card-text">
-            Opis dijagnoze
+            {{diagnosis.description}}
           </p>
-          <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+          <button type="button" class="btn btn-primary" v-on:click="edit(diagnosis)" style="margin-right:10px">Edit</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove(diagnosis.id)">Delete</button>
         </div>
       </div>
     </div>
@@ -44,7 +45,8 @@
             <label for="exampleTextarea">Description</label>
             <textarea class="form-control" id="descriptionClinic" v-model="description" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click="save">Save</button>
+          <button type="submit" class="btn btn-primary" v-on:click="save" style="margin-right:10px">Save</button>
+          <button type="submit" class="btn btn-danger" v-on:click="cancel">Cancel</button>
         </fieldset>
       </form>
     </div>
@@ -52,6 +54,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   name: "listDiagnosis",
   data: function() {
@@ -59,17 +62,71 @@ export default {
       name: undefined,
       code: undefined,
       description: undefined,
-      mode: "VIEW"
+      mode: "VIEW",
+      diagnosisis: {}
     };
   },
+  mounted(){
+    this.mode="VIEW";
+
+    httpClient
+    .get("/diagnosis/all")
+    .then(response => {
+      this.diagnosisis = response.data;      
+    })
+    .catch(error => {
+      this.error = error;
+    });
+
+  },
   methods: {
-    edit: function() {
+    refresh: function(){
+        httpClient
+        .get("/diagnosis/all")
+        .then(response => {
+          this.diagnosisis = response.data;      
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+    edit: function(diagnosis) {
       this.mode = "EDIT";
+      this.id = diagnosis.id;
+      this.name = diagnosis.name;
+      this.description = diagnosis.description;
+      this.code = diagnosis.code;
+    },
+    cancel: function(){
+      this.id = undefined;
+      this.name = undefined;
+      this.description = undefined;
+      this.code = undefined;
+      this.mode = "VIEW";
     },
     save: function() {
       this.mode = "VIEW";
+      httpClient
+        .put("/diagnosis", {"id":this.id, "name":this.name, "description":this.description, "code":this.code})
+        .then(response => {
+            this.response = response; 
+            this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
-    remove: function() {}
+    remove: function(id) {
+      httpClient
+        .delete("/diagnosis/"+id)
+        .then(response => {
+            this.response = response; 
+            this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    }
   }
 };
 </script>

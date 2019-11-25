@@ -16,13 +16,15 @@ public class MailController {
     @Autowired
     private SmtpMailSender smtpMailSender;
 
-    @GetMapping(value = "/accept/{email}")
-    public void sendMail(@PathVariable String email) throws MessagingException {
-        smtpMailSender.send(email, "Registration", "You have been successfully registered");
+    @GetMapping(value = "/accept/{email}/{id}")
+    public void accept(@PathVariable String email, @PathVariable String id) throws MessagingException {
+        smtpMailSender.send(email, "Registration", "You have been successfully registered." +
+                                                            "Please activate your account, clicking on the link below. " +
+                                                             "<a href='http://localhost:8080/api/patient/add/"+id+"'>Activate</a>");
     }
 
     @GetMapping(value = "/refuse/{email}/{description}")
-    public void sendMail(@PathVariable String email, @PathVariable String description) throws MessagingException {
+    public void decline(@PathVariable String email, @PathVariable String description) throws MessagingException {
         smtpMailSender.send(email, "Registration", description);
     }
 }

@@ -23,7 +23,12 @@ public class MedicationService {
     }
 
     public Medication save(Medication medication){
-        return medicationRepository.save(medication);
+        Medication medication_find = medicationRepository.findByName(medication.getName());
+        if (medication_find == null) {
+            return medicationRepository.save(medication);
+        }
+        return null;
+
     }
 
     public void remove(Long id){
@@ -34,7 +39,10 @@ public class MedicationService {
         return medicationRepository.findById(id).orElseGet(null);
     }
 
-    public void update(Medication medication){
-        medicationRepository.update(medication.getName(), medication.getCode(), medication.getDescription(), medication.getId());
+    public void update(Medication medication) {
+        Medication medication_find = medicationRepository.findByName(medication.getName());
+        if (medication_find== null || medication_find.getId() == medication.getId()) {
+            medicationRepository.update(medication.getName(), medication.getCode(), medication.getDescription(), medication.getId());
+        }
     }
 }

@@ -16,14 +16,14 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >Clinic</a>
+            >Manage clinics</a>
             <div class="dropdown-menu">
               <a class="nav-link">
                 <router-link to="/ccadmin/addClinic">Add clinic</router-link>
               </a>
 
               <a class="nav-link">
-                <router-link to="/ccadmin/clinics">Clinics</router-link>
+                <router-link to="/ccadmin/clinics">List of clinics</router-link>
               </a>
             </div>
           </li>
@@ -35,7 +35,7 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >Admins</a>
+            >Manage admins</a>
             <div class="dropdown-menu">
               <a class="nav-link">
                 <router-link to="/ccadmin/addCCAdmin">Add clinical centre administrator</router-link>
@@ -53,13 +53,13 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >Medicaments</a>
+            >Manage medication</a>
             <div class="dropdown-menu">
               <a class="nav-link">
-                <router-link to="/ccadmin/addMedicament">Add medicament</router-link>
+                <router-link to="/ccadmin/addMedicament">Add medication</router-link>
               </a>
               <a class="nav-link">
-                <router-link to="/ccadmin/listMedicaments">List of medicaments</router-link>
+                <router-link to="/ccadmin/listMedicaments">List of medications</router-link>
               </a>
             </div>
           </li>
@@ -71,7 +71,7 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >Diagnosis</a>
+            >Manage diagnosis</a>
             <div class="dropdown-menu">
               <a class="nav-link">
                 <router-link to="/ccadmin/addDiagnosis">Add diagnosis</router-link>

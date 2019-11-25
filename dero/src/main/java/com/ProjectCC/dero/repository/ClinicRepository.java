@@ -16,4 +16,5 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long>{
     @Query("update Clinic c set c.name=?1 , c.address =?2 , c.description =?3  where c.id=?4")
     void update(String name, String address, String description, Long id);
 
+    Clinic findByName(String name);
 }

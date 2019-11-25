@@ -21,11 +21,16 @@ public class DiagnosisService {
         return diagnosisRepository.findAll();
     }
 
-    public Diagnosis save(Diagnosis diagnosis){
-        return diagnosisRepository.save(diagnosis);
+    public Diagnosis save(Diagnosis diagnosis) {
+
+        Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
+        if (diagnosis_find == null) {
+            return diagnosisRepository.save(diagnosis);
+        }
+        return null;
     }
 
-    public void remove(Long id){
+    public void remove(Long id) {
         diagnosisRepository.deleteById(id);
     }
 
@@ -33,7 +38,10 @@ public class DiagnosisService {
         return diagnosisRepository.findById(id).orElseGet(null);
     }
 
-    public void update(Diagnosis diagnosis){
-        diagnosisRepository.update(diagnosis.getName(), diagnosis.getCode(), diagnosis.getDescription(), diagnosis.getId());
+    public void update(Diagnosis diagnosis) {
+        Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
+        if (diagnosis_find == null || diagnosis_find.getId() == diagnosis.getId()) {
+            diagnosisRepository.update(diagnosis.getName(), diagnosis.getCode(), diagnosis.getDescription(), diagnosis.getId());
+        }
     }
 }

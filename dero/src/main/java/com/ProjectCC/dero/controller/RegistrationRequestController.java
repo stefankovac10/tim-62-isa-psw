@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.RegistrationRequestDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.RegistrationRequest;
 import com.ProjectCC.dero.service.RegistrationRequestService;
@@ -48,19 +49,19 @@ public class RegistrationRequestController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<UserDTO>> findAll(){
+    public ResponseEntity<List<RegistrationRequestDTO>> findAll(){
         List<RegistrationRequest> registrationRequests = registrationRequestService.findAll();
 
-        List<UserDTO> registrationRequestsDTOS = new ArrayList<>();
+        List<RegistrationRequestDTO> registrationRequestsDTOS = new ArrayList<>();
         for(RegistrationRequest r : registrationRequests){
-            registrationRequestsDTOS.add(new UserDTO(r));
+            registrationRequestsDTOS.add(new RegistrationRequestDTO(r));
         }
 
         return new ResponseEntity<>(registrationRequestsDTOS, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getCourse(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getRegistrationRequest(@PathVariable Long id) {
 
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
 
@@ -70,4 +71,27 @@ public class RegistrationRequestController {
 
         return new ResponseEntity<>(new UserDTO(registrationRequest), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
+
+        RegistrationRequest registrationRequest  = registrationRequestService.findOne(id);
+
+        if (registrationRequest != null) {
+            registrationRequestService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "/accept/{id}")
+    public ResponseEntity<RegistrationRequestDTO> update(@PathVariable Long id){
+        RegistrationRequest registrationRequest = registrationRequestService.findById(id);
+        registrationRequest.setVerified(true);
+        registrationRequestService.update(registrationRequest);
+        return new ResponseEntity<>(new RegistrationRequestDTO(registrationRequest), HttpStatus.OK);
+
+    }
+
 }

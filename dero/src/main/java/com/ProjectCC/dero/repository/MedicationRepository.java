@@ -13,4 +13,6 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Query("update Medication m set m.name=?1 , m.code =?2 , m.description =?3  where m.id=?4")
     void update(String name, String code, String description, Long id);
+
+    Medication findByName(String name);
 }

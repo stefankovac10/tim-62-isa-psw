@@ -55,8 +55,7 @@ export default {
         alert("All field must be filled");
         return;
       }
-      
-
+    
       httpClient
         .post("/clinics", {
           name: this.name,
@@ -65,14 +64,11 @@ export default {
         })
         .then(response => {
           this.response = response;
-          
+          this.$router.push('/ccadmin/clinics');
         })
         .catch(error => {
           this.error = error;
         });
-
-      this.$router.push('/ccadmin/clinics');
-
     }
   }
 };

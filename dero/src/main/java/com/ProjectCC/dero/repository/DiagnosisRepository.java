@@ -16,4 +16,5 @@ public interface DiagnosisRepository extends JpaRepository<Diagnosis, Long> {
     @Query("update Diagnosis d set d.name=?1 , d.code =?2 , d.description =?3  where d.id=?4")
     void update(String name, String code, String description, Long id);
 
+    Diagnosis findByName(String name);
 }
