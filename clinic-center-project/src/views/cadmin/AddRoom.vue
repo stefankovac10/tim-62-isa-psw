@@ -35,11 +35,11 @@ export default {
   methods: {
     addRoom: function() {
       var room = {
-        name: name,
-        number: number
+        name: this.name,
+        number: this.number
       };
 
-      let path = "/rooms/" + type;
+      let path = "/rooms/" + this.type.toLowerCase();
       httpClient
         .post(path, room)
         .then(function(response) {
