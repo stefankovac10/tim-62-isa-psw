@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.OperationRoomDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,5 +24,11 @@ public class OperationRoom {
    private Set<Operation> operations;
 
    public OperationRoom() {
+   }
+
+   public OperationRoom(OperationRoomDTO operationRoom) {
+      this.id = operationRoom.getId();
+      this.name = operationRoom.getName();
+      this.number = operationRoom.getNumber();
    }
 }

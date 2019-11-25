@@ -34,7 +34,7 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/rooms/get/" + this.$route.params)
+      .get("/rooms/" + this.room.type + "/" + this.$route.params)
       .then(function(response) {
         this.room = response.data;
         this.name = this.room.name;
