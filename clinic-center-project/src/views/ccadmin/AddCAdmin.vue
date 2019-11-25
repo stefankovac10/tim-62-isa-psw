@@ -5,7 +5,7 @@
       <br />
 
       <label class="p-2">Name</label>
-      <input type="text" class="p-2" id="name" name="name" v-model="name" />
+      <input type="text" class="p-2" id="name" name="name" v-model="name" placeholder="Enter first name"/>
 
       <label class="p-2">Surname</label>
       <input
@@ -14,10 +14,11 @@
         id="surname"
         name="surname"
         v-model="surname"
+        placeholder="Enter last name"
       />
 
       <label class="p-2">JMBG</label>
-      <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
+      <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" placeholder="Enter jmbg" />
 
       <label class="p-2">Telephone</label>
       <input
@@ -26,6 +27,7 @@
         id="telephone"
         name="telephone"
         v-model="telephone"
+        placeholder="Enter telephone"
       />
 
       <label class="p-2">Country</label>
@@ -35,10 +37,11 @@
         id="country"
         name="country"
         v-model="country"
+        placeholder="Enter country"
       />
 
       <label class="p-2">City</label>
-      <input type="text" class="p-2" id="city" name="city" v-model="city" />
+      <input type="text" class="p-2" id="city" name="city" v-model="city" placeholder="Enter city" />
 
       <label class="p-2">Address</label>
       <input
@@ -47,6 +50,7 @@
         id="address"
         name="address"
         v-model="address"
+        placeholder="Enter address"
       />
 
       <label for="staticEmail" class="p-2">E-mail</label>
@@ -74,7 +78,7 @@
       <br />
       <div class="form-group">
         <label for="exampleSelect1">Clinic</label>
-        <select class="form-control" id="exampleSelect1" v-model="clinic">
+        <select class="form-control" id="exampleSelect1" v-model="clinic" >
             <option v-for="clinic in clinics" :key="clinic">{{clinic.name}}</option>
         </select>
       </div>

@@ -23,8 +23,10 @@ public class ClinicCenterAdministratorService {
 
     public ClinicCenterAdministrator save(ClinicCenterAdministrator clinicCenterAdministrator) {
         User user = userRepository.findByEmail(clinicCenterAdministrator.getEmail());
+        User user2 = userRepository.findByJmbg(clinicCenterAdministrator.getJmbg());
+        User user3 = userRepository.findByTelephone(clinicCenterAdministrator.getTelephone());
 
-        if (user == null) {
+        if (user == null && user2 == null && user3 == null) {
             return clinicCenterAdministratorRepository.save(clinicCenterAdministrator);
         }
         return null;
