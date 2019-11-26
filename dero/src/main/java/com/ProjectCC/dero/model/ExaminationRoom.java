@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,4 +29,9 @@ public class ExaminationRoom {
 
    public ExaminationRoom() {
    }
+
+    public ExaminationRoom(ExaminationRoomDTO examinationRoom) {
+      this.name = examinationRoom.getName();
+      this.number = examinationRoom.getNumber();
+    }
 }

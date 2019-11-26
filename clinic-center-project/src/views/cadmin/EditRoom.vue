@@ -16,7 +16,7 @@
         <option>Operation</option>
       </select>
       <br />
-      <button class="btn btn-primary p-2" v-on:click.prevent="addRoom">Submit</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="update">Submit</button>
     </form>
   </div>
 </template>
@@ -29,21 +29,33 @@ export default {
     return {
       name: undefined,
       number: undefined,
-      type: undefined
+      room: undefined
     };
   },
+  mounted() {
+    httpClient
+      .get("/rooms/" + this.room.type + "/" + this.$route.params)
+      .then(function(response) {
+        this.room = response.data;
+        this.name = this.room.name;
+        this.number = this.room.number;
+      })
+      .catch(function(error) {
+        alert(error.response.data);
+      });
+  },
   methods: {
-    addRoom: function() {
-      var room = {
+    update: function() {
+      let room = {
+        id: this.room.id,
         name: this.name,
         number: this.number
       };
 
-      let path = "/rooms/" + this.type.toLowerCase();
       httpClient
-        .post(path, room)
+        .put("/rooms/" + this.room.type, room)
         .then(function(response) {
-          alert(response.data.name);
+          this.$router.push("/cadmin/rooms");
         })
         .catch(function(error) {
           alert(error.response.data);
