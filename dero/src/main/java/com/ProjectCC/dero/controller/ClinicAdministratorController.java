@@ -1,25 +1,26 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/cadmin")
 public class ClinicAdministratorController {
     private ClinicAdministratorService clinicAdministratorService;
+    private ClinicService clinicService;
 
     @Autowired
-    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService) {
+    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, ClinicService clinicService) {
         this.clinicAdministratorService = clinicAdministratorService;
+        this.clinicService = clinicService;
     }
 
     @PutMapping(consumes = "application/json")
@@ -38,5 +39,18 @@ public class ClinicAdministratorController {
         cadmin = clinicAdministratorService.save(cadmin);
 
         return new ResponseEntity<>(cadmin.getId(), HttpStatus.OK);
+    }
+
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
+        ClinicAdministrator cadmin = new ClinicAdministrator(clinicAdministratorDTO);
+
+        Clinic clinic = clinicService.findByName(clinicAdministratorDTO.getClinic());
+        cadmin.setClinic(clinic);
+
+        cadmin = clinicAdministratorService.save(cadmin);
+
+        clinicAdministratorDTO.setId(cadmin.getId());
+        return new ResponseEntity<>(clinicAdministratorDTO, HttpStatus.OK);
     }
 }

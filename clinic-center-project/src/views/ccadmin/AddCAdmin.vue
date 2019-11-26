@@ -1,11 +1,11 @@
 <template>
   <div id="form" class="d-flex p-2 justify-content-center">
     <form id="login" accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
-      <h1 class="p-2">Add Clinical Center Administrator</h1>
+      <h1 class="p-2">Add Clinical Administrator</h1>
       <br />
 
       <label class="p-2">Name</label>
-      <input type="text" class="p-2" id="name" name="name" v-model="name" placeholder="Enter firstName" />
+      <input type="text" class="p-2" id="name" name="name" v-model="name" placeholder="Enter first name"/>
 
       <label class="p-2">Surname</label>
       <input
@@ -14,7 +14,7 @@
         id="surname"
         name="surname"
         v-model="surname"
-        placeholder="Enter lastName"
+        placeholder="Enter last name"
       />
 
       <label class="p-2">JMBG</label>
@@ -63,6 +63,7 @@
         aria-describedby="emailHelp"
         placeholder="Enter email"
       />
+      <br />
 
       <label class="p-2" for="password">Password</label>
       <input
@@ -73,6 +74,14 @@
         v-model="password"
         placeholder="Password"
       />
+      
+      <br />
+      <div class="form-group">
+        <label for="exampleSelect1">Clinic</label>
+        <select class="form-control" id="exampleSelect1" v-model="clinic" >
+            <option v-for="clinic in clinics" :key="clinic">{{clinic.name}}</option>
+        </select>
+      </div>
 
       <br />
       <button class="btn btn-primary p-2" v-on:click="add">Add</button>
@@ -83,7 +92,7 @@
 <script>
 import { httpClient } from "@/services/Api.js";
 export default {
-  name: "addCCAdmin",
+  name: "addCAdmin",
   data: function() {
     return {
       name: undefined,
@@ -94,13 +103,26 @@ export default {
       city: undefined,
       address: undefined,
       email: undefined,
-      password: undefined
+      password: undefined,
+      clinic: undefined,
+      clinics: {}
     };
+  },
+  mounted(){
+    httpClient
+        .get("/clinics/all")
+        .then(response => {
+          this.clinics = response.data;      
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
   },
   methods:{
       add: function(){
         httpClient
-        .post("/ccadmin", {
+        .post("/cadmin", {
           firstName: this.name,
           lastName: this.surname,
           jmbg: this.jmbg,
@@ -109,17 +131,16 @@ export default {
           address: this.address,
           city: this.city,
           country: this.country,
-          telephone: this.telephone
+          telephone: this.telephone,
+          clinic: this.clinic
         })
         .then(response => {
           this.response = response;
-          
+          alert("Administrator successufully added"); 
         })
         .catch(error => {
           this.error = error;
         });
-
-        this.$router.push('/ccadmin/addCCAdmin');
       }
   }
 };
