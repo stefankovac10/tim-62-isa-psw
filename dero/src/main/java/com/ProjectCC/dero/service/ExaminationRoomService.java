@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.text.EditorKit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExaminationRoomService {
@@ -45,5 +46,15 @@ public class ExaminationRoomService {
         this.examinationRoomRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Long> update(ExaminationRoomDTO examinationRoomDTO) {
+        Optional<ExaminationRoom> optional = this.examinationRoomRepository.findById(examinationRoomDTO.getId());
+        ExaminationRoom er = optional.get();
+        er.setName(examinationRoomDTO.getName());
+        er.setNumber(examinationRoomDTO.getNumber());
+        // ako treba preglede?
+        this.examinationRoomRepository.save(er);
+        return new ResponseEntity<>(er.getId(), HttpStatus.OK);
     }
 }

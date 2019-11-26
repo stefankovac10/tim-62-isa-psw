@@ -54,6 +54,13 @@ public class RoomsController {
         return this.examinationRoomService.delete(id);
     }
 
-    @PutMapping(value = "/examination/{id}")
-    
+    @PutMapping(value = "/operation")
+    public ResponseEntity<Long> updateOR(@RequestBody OperationRoomDTO operationRoomDTO) {
+        return this.operationRoomService.update(operationRoomDTO);
+    }
+
+    @PutMapping(value = "/examination")
+    public ResponseEntity<Long> updateER(@RequestBody ExaminationRoomDTO examinationRoomDTO) {
+        return this.examinationRoomService.update(examinationRoomDTO);
+    }
 }
