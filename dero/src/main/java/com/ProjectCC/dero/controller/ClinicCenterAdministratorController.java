@@ -1,8 +1,8 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.ClinicCenterAdministratorDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.ClinicCenterAdministrator;
-import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.ClinicCenterAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,34 +22,21 @@ public class ClinicCenterAdministratorController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
-        ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(),
-                userDTO.getPassword(), userDTO.getEmail(), userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
+    public ResponseEntity<ClinicCenterAdministratorDTO> save(@RequestBody ClinicCenterAdministratorDTO ccadminDTO){
+        ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(ccadminDTO);
 
-        UserDTO userDTO1 = makeUser(clinicCenterAdministrator);
+        clinicCenterAdministrator.setLogFirstTime(false);
 
         clinicCenterAdministrator = clinicCenterAdministratorService.save(clinicCenterAdministrator);
-        return new ResponseEntity<>(userDTO1, HttpStatus.CREATED);
+
+        ccadminDTO.setId(clinicCenterAdministrator.getId());
+        return new ResponseEntity<>(ccadminDTO, HttpStatus.CREATED);
 
     }
 
-    private UserDTO makeUser(ClinicCenterAdministrator clinicCenterAdministrator) {
-        UserDTO userDTO1 = new UserDTO();
-        userDTO1.setFirstName(clinicCenterAdministrator.getFirstName());
-        userDTO1.setLastName(clinicCenterAdministrator.getLastName());
-        userDTO1.setAddress(clinicCenterAdministrator.getAddress());
-        userDTO1.setCity(clinicCenterAdministrator.getCity());
-        userDTO1.setCountry(clinicCenterAdministrator.getCountry());
-        userDTO1.setEmail(clinicCenterAdministrator.getEmail());
-        userDTO1.setId(clinicCenterAdministrator.getId());
-        userDTO1.setJmbg(clinicCenterAdministrator.getJmbg());
-        userDTO1.setPassword(clinicCenterAdministrator.getPassword());
-        userDTO1.setTelephone(clinicCenterAdministrator.getTelephone());
-        return userDTO1;
-    }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getCourse(@PathVariable Long id) {
+    public ResponseEntity<ClinicCenterAdministratorDTO> getCCAdmin(@PathVariable Long id) {
 
         ClinicCenterAdministrator clinicCenterAdministrator=clinicCenterAdministratorService.findOne(id);
 
@@ -57,9 +44,9 @@ public class ClinicCenterAdministratorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        UserDTO userDTO = makeUser(clinicCenterAdministrator);
+        ClinicCenterAdministratorDTO clinicCenterAdministratorDTO = new ClinicCenterAdministratorDTO(clinicCenterAdministrator);
 
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return new ResponseEntity<>(clinicCenterAdministratorDTO, HttpStatus.OK);
     }
 
 }

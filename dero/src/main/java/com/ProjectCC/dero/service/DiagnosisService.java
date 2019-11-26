@@ -40,7 +40,9 @@ public class DiagnosisService {
 
     public void update(Diagnosis diagnosis) {
         Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
-        if (diagnosis_find == null || diagnosis_find.getId() == diagnosis.getId()) {
+        Diagnosis diagnosis_find2 = diagnosisRepository.findByCode(diagnosis.getCode());
+
+        if (diagnosis_find == null || diagnosis_find2 == null || diagnosis_find.getId() == diagnosis.getId()) {
             diagnosisRepository.update(diagnosis.getName(), diagnosis.getCode(), diagnosis.getDescription(), diagnosis.getId());
         }
     }

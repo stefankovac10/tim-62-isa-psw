@@ -41,7 +41,7 @@
                 <router-link to="/ccadmin/addCCAdmin">Add clinical centre administrator</router-link>
               </a>
               <a class="nav-link">
-                <router-link to="/ccadmin/">Add clinic administrator</router-link>
+                <router-link to="/ccadmin/addCAdmin">Add clinic administrator</router-link>
               </a>
             </div>
           </li>

@@ -48,4 +48,8 @@ public class ClinicService {
             clinicRepository.update(clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getId());
         }
     }
+
+    public Clinic findByName(String name) {
+        return clinicRepository.findByName(name);
+    }
 }
