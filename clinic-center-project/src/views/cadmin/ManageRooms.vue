@@ -35,7 +35,7 @@ export default {
   },
   watch: {
     type: function() {
-      let path = "/rooms/" + this.type.toLowerCase() + "/get";
+      let path = "/rooms/" + this.type.toLowerCase() + "/all";
       httpClient
         .get(path)
         .then(function(response) {

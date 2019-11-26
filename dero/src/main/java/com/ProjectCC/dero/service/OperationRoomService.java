@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OperationRoomService {
@@ -44,5 +45,15 @@ public class OperationRoomService {
         this.operationRoomRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Long> update(OperationRoomDTO operationRoomDTO) {
+        Optional<OperationRoom> optional = this.operationRoomRepository.findById(operationRoomDTO.getId());
+        OperationRoom or = optional.get();
+        or.setName(operationRoomDTO.getName());
+        or.setNumber(operationRoomDTO.getNumber());
+        // ako treba operacije?
+        this.operationRoomRepository.save(or);
+        return new ResponseEntity<>(or.getId(), HttpStatus.OK);
     }
 }

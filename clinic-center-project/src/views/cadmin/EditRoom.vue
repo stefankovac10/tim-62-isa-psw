@@ -43,6 +43,24 @@ export default {
       .catch(function(error) {
         alert(error.response.data);
       });
+  },
+  methods: {
+    update: function() {
+      let room = {
+        id: this.room.id,
+        name: this.name,
+        number: this.number
+      };
+
+      httpClient
+        .put("/rooms/" + this.room.type, room)
+        .then(function(response) {
+          this.$router.push("/cadmin/rooms");
+        })
+        .catch(function(error) {
+          alert(error.response.data);
+        });
+    }
   }
 };
 </script>
