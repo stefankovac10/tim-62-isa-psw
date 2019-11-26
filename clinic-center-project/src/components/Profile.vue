@@ -18,15 +18,15 @@
 export default {
   data: function() {
     return {
-      name: "marc",
-      surname: "marc",
-      jmbg: "marc",
-      telephone: "marc",
-      country: "marc",
-      city: "marc",
-      address: "marc",
-      email: "marc",
-      clinic: "marc"
+      name: undefined,
+      surname: undefined,
+      jmbg: undefined,
+      telephone: undefined,
+      country: undefined,
+      city: undefined,
+      address: undefined,
+      email: undefined,
+      clinic: undefined
     };
   },
   methods: {
