@@ -57,8 +57,15 @@
       />
       <label class="p-2" for="matching" id="matching">{{matching}}</label>
 
-      <br />
+      <div v-if="doc" class="d-flex flex-column">
+        <label class="p-2">Type</label>
+        <select class="p-2" id="type" name="type" v-model="type">
+          <option>Doctor</option>
+          <option>Nurse</option>
+        </select>
+      </div>
 
+      <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="register">Submit</button>
     </form>
   </div>
@@ -82,12 +89,9 @@ export default {
       matching: ""
     };
   },
-  //   props: {
-  //     user: {
-  //       type: Object,
-  //       required: true
-  //     }
-  //   },
+  props: {
+    doc: Boolean
+  },
   watch: {
     confirmPassword() {
       if (this.confirmPassword != this.password)

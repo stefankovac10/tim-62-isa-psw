@@ -1,16 +1,16 @@
 <template>
   <div>
-    <NHomepage></NHomepage>
+    <NBDoc></NBDoc>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import NHomepage from "@/components/navs/NavBarNurse.vue";
+import NBDoc from "@/components/navs/NavBarDoc.vue";
 
 export default {
   components: {
-    NHomepage
+    NBDoc
   }
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <div >
+  <div>
     <NBCCAdmin></NBCCAdmin>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import NBCCAdmin from "@/components/NavBarCCAdmin.vue";
+import NBCCAdmin from "@/components/navs/NavBarCCAdmin.vue";
 
 export default {
   components: {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import NBCAdmin from "@/components/NavBarCAdmin.vue";
+import NBCAdmin from "@/components/navs/NavBarCAdmin.vue";
 
 export default {
   components: {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PHomepage from "@/components/NavBarPatient.vue";
+import PHomepage from "@/components/navs/NavBarPatient.vue";
 
 export default {
   components: {

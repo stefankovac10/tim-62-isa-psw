@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RegisterForm v-on:register="registerDoc($emit)"></RegisterForm>
+    <RegisterForm v-bind:doc="true" v-on:register="registerDoc($emit)"></RegisterForm>
   </div>
 </template>
 
