@@ -43,7 +43,8 @@ export default {
       httpClient
         .post(path, room)
         .then(function(response) {
-          alert(response.data.name);
+          this.$router.push("/cadmin/rooms");
+          this.room = response.data;
         })
         .catch(function(error) {
           alert(error.response.data);

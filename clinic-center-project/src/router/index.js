@@ -177,7 +177,7 @@ const routes = [
         component: Profile
       },
       {
-        path: "editProfile",
+        path: "editProfile/:id",
         name: "editProfile",
         component: EditProfile
       },

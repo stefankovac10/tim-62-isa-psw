@@ -15,8 +15,8 @@ export default {
   data: function() {
     return {
       password: undefined,
-      name: undefined,
-      surname: undefined,
+      firstName: undefined,
+      lastName: undefined,
       jmbg: undefined,
       telephone: undefined,
       country: undefined,

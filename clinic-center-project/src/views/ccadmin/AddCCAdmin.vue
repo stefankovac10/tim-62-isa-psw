@@ -5,15 +5,22 @@
       <br />
 
       <label class="p-2">Name</label>
-      <input type="text" class="p-2" id="name" name="name" v-model="name" placeholder="Enter firstName" />
-
-      <label class="p-2">Surname</label>
       <input
         type="text"
         class="p-2"
-        id="surname"
-        name="surname"
-        v-model="surname"
+        id="firstName"
+        name="firstName"
+        v-model="firstName"
+        placeholder="Enter firstName"
+      />
+
+      <label class="p-2">Last name</label>
+      <input
+        type="text"
+        class="p-2"
+        id="lastName"
+        name="lastName"
+        v-model="lastName"
         placeholder="Enter lastName"
       />
 
@@ -86,8 +93,8 @@ export default {
   name: "addCCAdmin",
   data: function() {
     return {
-      name: undefined,
-      surname: undefined,
+      firstName: undefined,
+      lastName: undefined,
       jmbg: undefined,
       telephone: undefined,
       country: undefined,
@@ -97,12 +104,12 @@ export default {
       password: undefined
     };
   },
-  methods:{
-      add: function(){
-        httpClient
+  methods: {
+    add: function() {
+      httpClient
         .post("/ccadmin", {
-          firstName: this.name,
-          lastName: this.surname,
+          firstName: this.firstName,
+          lastName: this.lastName,
           jmbg: this.jmbg,
           password: this.password,
           email: this.email,
@@ -113,14 +120,13 @@ export default {
         })
         .then(response => {
           this.response = response;
-          
         })
         .catch(error => {
           this.error = error;
         });
 
-        this.$router.push('/ccadmin/addCCAdmin');
-      }
+      this.$router.push("/ccadmin/addCCAdmin");
+    }
   }
 };
 </script>

@@ -102,8 +102,8 @@ export default {
   methods: {
     register: function() {
       var user = {
-        firstName: this.name,
-        lastName: this.surname,
+        firstName: this.firstName,
+        lastName: this.lastName,
         jmbg: this.jmbg,
         password: this.password,
         email: this.email,
