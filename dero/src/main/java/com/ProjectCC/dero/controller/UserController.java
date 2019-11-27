@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.controller;
 
 
+import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserService userService;
-
-
-
 
     @Autowired
     public UserController(UserService userService) {
@@ -42,7 +40,15 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.FOUND);
     }
 
+    @GetMapping(value = "/profile/{id}")
+    public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
+        return this.userService.findById(id);
+    }
 
+    @PutMapping(value = "/edit", consumes = "application/json")
+    public ResponseEntity<UserDTO> editUser(@RequestBody UserDTO user) {
+        return this.userService.edit(user);
+    }
 
 
 }

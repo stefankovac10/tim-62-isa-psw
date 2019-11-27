@@ -5,11 +5,11 @@
         <h1 class="p-2">Edit profile</h1>
         <br />
 
-        <label class="p-2">Name</label>
-        <input type="text" class="p-2" id="name" name="name" v-model="name" />
+        <label class="p-2">First name</label>
+        <input type="text" class="p-2" id="name" name="firstName" v-model="firstName" />
 
-        <label class="p-2">Surname</label>
-        <input type="text" class="p-2" id="surname" name="surname" v-model="surname" />
+        <label class="p-2">Last name</label>
+        <input type="text" class="p-2" id="lastName" name="lastName" v-model="lastName" />
 
         <label class="p-2">JMBG</label>
         <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
@@ -25,17 +25,6 @@
 
         <label class="p-2">Address</label>
         <input type="text" class="p-2" id="address" name="address" v-model="address" />
-
-        <label for="staticEmail" class="p-2">E-mail</label>
-        <input
-          type="email"
-          class="p-2"
-          id="email"
-          name="email"
-          v-model="email"
-          aria-describedby="emailHelp"
-          placeholder="Enter email"
-        />
         <br />
 
         <label class="p-2" for="password">Password</label>
@@ -73,17 +62,17 @@ import { httpClient } from "@/services/Api.js";
 export default {
   data: function() {
     return {
-      name: undefined,
-      surname: undefined,
+      firstName: undefined,
+      lastName: undefined,
       jmbg: undefined,
       telephone: undefined,
       country: undefined,
       city: undefined,
       address: undefined,
-      email: undefined,
       password: undefined,
       confirmPassword: undefined,
-      matching: ""
+      matching: "",
+      user: undefined
     };
   },
   watch: {
@@ -93,11 +82,37 @@ export default {
       else this.matching = "";
     }
   },
+  mounted() {
+    httpClient
+      .get("/users/profile/1")
+      .then(response => {
+        this.user = response.data;
+        this.firstName = response.data.firstName;
+        this.lastName = response.data.lastName;
+        this.jmbg = response.data.jmbg;
+        this.telephone = response.data.telephone;
+        this.country = response.data.country;
+        this.city = response.data.city;
+        this.address = response.data.address;
+      })
+      .catch(error => {
+        if (error.response.status == 302) {
+          this.user = error.response.data;
+          this.firstName = error.response.data.firstName;
+          this.lastName = error.response.data.lastName;
+          this.jmbg = error.response.data.jmbg;
+          this.telephone = error.response.data.telephone;
+          this.country = error.response.data.country;
+          this.city = error.response.data.city;
+          this.address = error.response.data.address;
+        }
+      });
+  },
   methods: {
     update: function() {
       var newProfile = {
-        firstName: this.name,
-        lastName: this.surname,
+        firstName: this.firstName,
+        lastName: this.lastName,
         jmbg: this.jmbg,
         telephone: this.telephone,
         country: this.country,
@@ -106,7 +121,14 @@ export default {
         email: this.email
       };
 
-      httpClient.put("/users/edit", newProfile);
+      httpClient
+        .put("/users/edit", newProfile)
+        .then(response => {
+          alert(response.data);
+        })
+        .catch(error => {
+          alert(error.response.data);
+        });
 
       this.$router.push("/cadmin/profile");
     }

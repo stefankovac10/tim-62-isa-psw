@@ -8,13 +8,15 @@
         <option>Operation</option>
       </select>
       <div
+        v-for="room in rooms"
+        v-bind:key="room.id"
         class="card border-primary mb-3 d-flex flex-row flex-wrap"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
       >
-        <div class="card-body" v-for="room in rooms" v-bind:key="room.id">
+        <div class="card-body">
           <h4 class="card-title">Room name: {{room.name}}</h4>
           <p class="card-text">Number: {{room.number}}</p>
-          <p class="card-text">Clinic: {{room.clinic}}</p>
+          <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
           <button type="button" class="btn btn-primary" v-on:click="edit(id)">Edit</button>
           <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
         </div>
@@ -39,10 +41,14 @@ export default {
       httpClient
         .get(path)
         .then(function(response) {
+          alert("wooohooo");
           this.rooms = response.data;
         })
         .catch(function(error) {
-          alert(error.response.data);
+          if (error.response.status == 302) {
+            this.rooms = error.response.data;
+            alert("yo");
+          }
         });
     }
   },

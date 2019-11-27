@@ -5,15 +5,22 @@
       <br />
 
       <label class="p-2">Name</label>
-      <input type="text" class="p-2" id="name" name="name" v-model="name" placeholder="Enter first name"/>
-
-      <label class="p-2">Surname</label>
       <input
         type="text"
         class="p-2"
-        id="surname"
-        name="surname"
-        v-model="surname"
+        id="firstName"
+        name="firstName"
+        v-model="firstName"
+        placeholder="Enter first name"
+      />
+
+      <label class="p-2">Last name</label>
+      <input
+        type="text"
+        class="p-2"
+        id="lastName"
+        name="lastName"
+        v-model="lastName"
         placeholder="Enter last name"
       />
 
@@ -74,12 +81,12 @@
         v-model="password"
         placeholder="Password"
       />
-      
+
       <br />
       <div class="form-group">
         <label for="exampleSelect1">Clinic</label>
-        <select class="form-control" id="exampleSelect1" v-model="clinic" >
-            <option v-for="clinic in clinics" :key="clinic">{{clinic.name}}</option>
+        <select class="form-control" id="exampleSelect1" v-model="clinic">
+          <option v-for="clinic in clinics" :key="clinic">{{clinic.name}}</option>
         </select>
       </div>
 
@@ -95,8 +102,8 @@ export default {
   name: "addCAdmin",
   data: function() {
     return {
-      name: undefined,
-      surname: undefined,
+      firstName: undefined,
+      lastName: undefined,
       jmbg: undefined,
       telephone: undefined,
       country: undefined,
@@ -108,23 +115,22 @@ export default {
       clinics: {}
     };
   },
-  mounted(){
+  mounted() {
     httpClient
-        .get("/clinics/all")
-        .then(response => {
-          this.clinics = response.data;      
-        })
-        .catch(error => {
-          this.error = error;
-        });
-
+      .get("/clinics/all")
+      .then(response => {
+        this.clinics = response.data;
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
-  methods:{
-      add: function(){
-        httpClient
+  methods: {
+    add: function() {
+      httpClient
         .post("/cadmin", {
-          firstName: this.name,
-          lastName: this.surname,
+          firstName: this.firstName,
+          lastName: this.lastName,
           jmbg: this.jmbg,
           password: this.password,
           email: this.email,
@@ -136,12 +142,12 @@ export default {
         })
         .then(response => {
           this.response = response;
-          alert("Administrator successufully added"); 
+          alert("Administrator successufully added");
         })
         .catch(error => {
           this.error = error;
         });
-      }
+    }
   }
 };
 </script>

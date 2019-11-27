@@ -9,7 +9,7 @@
           style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
         >
           <div class="card-body">
-            <h4 class="card-title">Name</h4>
+            <h4 class="card-title">First name: {{firstName}} {{lastName}}</h4>
             <p class="card-text">Address: {{address}}</p>
             <p class="card-text">Jmbg: {{jmbg}}</p>
             <p class="card-text">Telephone: {{telephone}}</p>
@@ -25,10 +25,10 @@
         <form class="d-flex flex-column justify-content-center">
           <legend>Change doctor</legend>
           <label class="p-2">Name</label>
-          <input type="text" class="p-2" id="name" name="name" v-model="name" />
+          <input type="text" class="p-2" id="firstName" name="firstName" v-model="firstName" />
 
-          <label class="p-2">Surname</label>
-          <input type="text" class="p-2" id="surname" name="surname" v-model="surname" />
+          <label class="p-2">Last name</label>
+          <input type="text" class="p-2" id="lastName" name="lastName" v-model="lastName" />
 
           <label class="p-2">JMBG</label>
           <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
@@ -68,8 +68,8 @@ export default {
   name: "listDiagnosis",
   data: function() {
     return {
-      name: undefined,
-      surname: undefined,
+      firstName: undefined,
+      lastName: undefined,
       jmbg: undefined,
       telephone: undefined,
       country: undefined,

@@ -61,11 +61,9 @@ export default {
     httpClient
       .get("/types/all")
       .then(response => {
-        alert("success");
-        alert(response.data);
+        this.types = response.data;
       })
       .catch(error => {
-        alert(error);
         if (error.response.status == 302) this.types = error.response.data;
       });
   },

@@ -22,7 +22,6 @@ public class TypeOfExaminationController {
         this.typeOfExaminationService = typeOfExaminationService;
     }
 
-    @CrossOrigin
     @PostMapping(consumes = "application/json")
     public ResponseEntity<TypeOfExaminationDTO> addType(@RequestBody TypeOfExaminationDTO typeDTO) {
 
@@ -37,16 +36,7 @@ public class TypeOfExaminationController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<TypeOfExaminationDTO>> getAll() {
-
-        List<TypeOfExamination> list = typeOfExaminationService.findAll();
-
-        List<TypeOfExaminationDTO> listDTO = new ArrayList<>();
-        for (TypeOfExamination t : list) {
-            TypeOfExaminationDTO tdo = new TypeOfExaminationDTO(t);
-            listDTO.add(tdo);
-        }
-
-        return new ResponseEntity<>(listDTO, HttpStatus.FOUND);
+        return this.typeOfExaminationService.getAll();
     }
 
     @PutMapping(consumes = "application/json")

@@ -4,34 +4,38 @@
       <h1>Clinic administrator</h1>
       <button type="button" class="btn btn-primary" v-on:click="editProfile">Edit profile</button>
 
-      <p>Name: {{ name }} {{ surname }}</p>
-      <p>JMBG: {{ jmbg }}</p>
-      <p>Telephone: {{ telephone }}</p>
-      <p>Address: {{ address }}, {{ city }}, {{ country }}</p>
-      <p>Email: {{ email }}</p>
-      <p>Assigned clinic: {{ clinic }}</p>
+      <p>First name: {{ user.firstName }} {{ user.lastName }}</p>
+      <p>JMBG: {{ user.jmbg }}</p>
+      <p>Telephone: {{ user.telephone }}</p>
+      <p>Address: {{ user.address }}, {{ user.city }}, {{ user.country }}</p>
+      <p>Email: {{ user.email }}</p>
+      <!-- <p>Assigned clinic: {{ user.clinic }}</p> -->
     </div>
   </div>
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
+
 export default {
   data: function() {
     return {
-      name: undefined,
-      surname: undefined,
-      jmbg: undefined,
-      telephone: undefined,
-      country: undefined,
-      city: undefined,
-      address: undefined,
-      email: undefined,
-      clinic: undefined
+      user: {}
     };
+  },
+  mounted() {
+    httpClient
+      .get("/users/profile/1")
+      .then(response => {
+        this.user = response.data;
+      })
+      .catch(error => {
+        if (error.response.status == 302) this.user = error.response.data;
+      });
   },
   methods: {
     editProfile: function() {
-      this.$router.push("/cadmin/editProfile");
+      this.$router.push("/cadmin/editProfile/" + this.user.id);
     }
   }
 };

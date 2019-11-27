@@ -4,7 +4,7 @@
       <h1>Patient's info:</h1>
       <button type="button" class="btn btn-primary" v-on:click="editProfile">Edit profile</button>
 
-      <p>Name: {{ name }} {{ surname }}</p>
+      <p>Name: {{ firstName }} {{ lastName }}</p>
       <p>JMBG: {{ jmbg }}</p>
       <p>Telephone: {{ telephone }}</p>
       <p>Address: {{ address }}, {{ city }}, {{ country }}</p>
@@ -18,8 +18,8 @@
 export default {
   data: function() {
     return {
-      name: "Petar",
-      surname: "Perić",
+      firstName: "Petar",
+      lastName: "Perić",
       jmbg: "0505997500025",
       telephone: "011789465",
       country: "Srbija",
