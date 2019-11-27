@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import NBHomepage from "@/components/NavBarHomepage.vue";
+import NBHomepage from "@/components/navs/NavBarHomepage.vue";
 
 export default {
   components: {

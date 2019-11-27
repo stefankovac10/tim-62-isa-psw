@@ -55,6 +55,7 @@ export default {
       httpClient
         .put("/rooms/" + this.room.type, room)
         .then(function(response) {
+          alert(response.data);
           this.$router.push("/cadmin/rooms");
         })
         .catch(function(error) {

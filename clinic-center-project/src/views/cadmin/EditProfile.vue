@@ -73,14 +73,14 @@ import { httpClient } from "@/services/Api.js";
 export default {
   data: function() {
     return {
-      name: "marc",
-      surname: "marc",
-      jmbg: "marc",
-      telephone: "marc",
-      country: "marc",
-      city: "marc",
-      address: "marc",
-      email: "marc",
+      name: undefined,
+      surname: undefined,
+      jmbg: undefined,
+      telephone: undefined,
+      country: undefined,
+      city: undefined,
+      address: undefined,
+      email: undefined,
       password: undefined,
       confirmPassword: undefined,
       matching: ""

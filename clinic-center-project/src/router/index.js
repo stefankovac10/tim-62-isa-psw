@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import Profile from "@/components/Profile.vue";
+
 import Register from "@/views/homepage/Register.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
@@ -26,25 +28,26 @@ import Clinic from "@/views/cadmin/Clinic.vue";
 import ManageDoctors from "@/views/cadmin/ManageDoctors.vue";
 import ManageRooms from "@/views/cadmin/ManageRooms.vue";
 import ManageTypes from "@/views/cadmin/ManageTypes.vue";
-import Profile from "@/views/cadmin/Profile.vue";
+
 import EditProfile from "@/views/cadmin/EditProfile.vue";
 import EditRoom from "@/views/cadmin/EditRoom.vue";
 
-import PHomepage from "@/views/patient/PatientHome"
-import PClinics from "@/views/patient/PClinics.vue"
-import PExaminations from "@/views/patient/PExaminations"
-import POperations from "@/views/patient/POperations"
-import MedicalRecord from "@/views/patient/MedicalRecord"
-import PatientsProfile from "@/views/patient/PatientsProfile"
+import PHomepage from "@/views/patient/PatientHome";
+import PClinics from "@/views/patient/PClinics.vue";
+import PExaminations from "@/views/patient/PExaminations";
+import POperations from "@/views/patient/POperations";
+import MedicalRecord from "@/views/patient/MedicalRecord";
+import PatientsProfile from "@/views/patient/PatientsProfile";
 
-import NHomepage from "@/views/nurse/NurseHome"
-import NPatients from "@/views/nurse/NPatients"
-import NVacationRequest from "@/views/nurse/NVacationRequest"
-import NWorkCalendar from "@/views/nurse/NWorkCalendar"
-import NProfile from "@/views/nurse/NProfile"
-import Perscription from "@/views/nurse/Perscription"
+import NHomepage from "@/views/nurse/NurseHome";
+import Patients from "@/views/medicalstaff/Patients";
+import Vacation from "@/views/medicalstaff/Vacation";
+import Calendar from "@/views/medicalstaff/Calendar";
+import Perscription from "@/views/nurse/Perscription";
 
-
+import DocHomepage from "@/views/doctor/DocHomepage.vue";
+import Examination from "@/views/doctor/Examination.vue";
+import Scheduling from "@/views/doctor/Scheduling.vue";
 
 Vue.use(VueRouter);
 
@@ -225,17 +228,17 @@ const routes = [
       {
         path: "patients",
         name: "patients",
-        component: NPatients
+        component: Patients
       },
       {
         path: "workCalendar",
         name: "workCalendar",
-        component: NWorkCalendar
+        component: Calendar
       },
       {
         path: "vacationRequest",
         name: "vacationRequest",
-        component: NVacationRequest
+        component: Vacation
       },
       {
         path: "perscription",
@@ -245,7 +248,44 @@ const routes = [
       {
         path: "profile",
         name: "profile",
-        component: NProfile
+        component: Profile
+      }
+    ]
+  },
+  {
+    path: "/doc",
+    name: "doctor",
+    component: DocHomepage,
+    children: [
+      {
+        path: "patients",
+        name: "patients",
+        component: Patients
+      },
+      {
+        path: "examination",
+        name: "examination",
+        component: Examination
+      },
+      {
+        path: "calendar",
+        name: "calendar",
+        component: Calendar
+      },
+      {
+        path: "vacation",
+        name: "vacation",
+        component: Vacation
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: Profile
+      },
+      {
+        path: "scheduling",
+        name: "scheduling",
+        component: Scheduling
       }
     ]
   }
