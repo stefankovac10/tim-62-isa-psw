@@ -19,3 +19,10 @@ insert into medication (code, description, name) values ('A02BC03', 'Opis', 'LAN
 insert into medication (code, description, name) values ('A02BC05', 'Opis', 'EMANERA')
 insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa5', 'Beograd', 'Srbija', 'isa2019klinicki.centar@gmail.com', 'Milos', '1508555558987', 'Milosevic', 'sifra5', '062111563')
 insert into registration_request (verified, id) values (false, 5)
+
+insert into authorities (name) values ('ROLE_REQUEST')
+insert into authorities (name) values ('ROLE_PATIENT')
+insert into authorities (name) values ('ROLE_NURSE')
+insert into authorities (name) values ('ROLE_DOCTOR')
+insert into authorities (name) values ('ROLE_CCADMIN')
+insert into authorities (name) values ('ROLE_CADMIN')

@@ -1,23 +1,35 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.RegistrationRequest;
 import com.ProjectCC.dero.repository.RegistrationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class RegistrationRequestService {
+
     private RegistrationRequestRepository registrationRequestRepository;
+    private PasswordEncoder passwordEncoder;
+    private AuthorityService authorityService;
 
     @Autowired
-    public RegistrationRequestService(RegistrationRequestRepository registrationRequestRepository) {
+    public RegistrationRequestService(RegistrationRequestRepository registrationRequestRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService) {
         this.registrationRequestRepository = registrationRequestRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityService = authorityService;
     }
 
     public RegistrationRequest save(RegistrationRequest registrationRequest){
+        registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+
+        List<Authority> authorities = authorityService.findByName("ROLE_REQUEST");
+        registrationRequest.setAuthorities(authorities);
+
         return registrationRequestRepository.save(registrationRequest);
     }
 
