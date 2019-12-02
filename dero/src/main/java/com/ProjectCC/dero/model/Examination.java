@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.ExaminationDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,4 +68,9 @@ public class Examination {
 
    public Examination() {
    }
+
+   public Examination(ExaminationDTO examinationDTO){
+      
+   }
+
 }

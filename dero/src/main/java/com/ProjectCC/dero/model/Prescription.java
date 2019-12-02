@@ -1,5 +1,8 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.ExaminationDTO;
+import com.ProjectCC.dero.dto.MedicationDTO;
+import com.ProjectCC.dero.dto.PrescriptionDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,5 +40,23 @@ public class Prescription {
    public Nurse nurse;
 
    public Prescription() {
+   }
+
+   public Prescription(Boolean certified, Examination examination, Set<Medication> medication, Doctor doctor, Nurse nurse) {
+      this.certified = certified;
+      this.examination = examination;
+      this.medication = medication;
+      this.doctor = doctor;
+      this.nurse = nurse;
+   }
+
+   public Prescription(PrescriptionDTO prescriptionDTO){
+      this.certified = prescriptionDTO.isCertified();
+      this.doctor = new Doctor(prescriptionDTO.getDoctor());
+      this.nurse = new Nurse(prescriptionDTO.getNurse());
+      this.examination = new Examination(prescriptionDTO.getExamination());
+      for(MedicationDTO med: prescriptionDTO.getMedications()){
+         this.medication.add(new Medication(med));
+      }
    }
 }

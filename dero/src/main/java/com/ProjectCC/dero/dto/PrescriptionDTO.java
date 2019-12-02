@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.dto;
 
+import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.Medication;
 import com.ProjectCC.dero.model.Prescription;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class PrescriptionDTO {
     private Set<MedicationDTO> medications;
     private DoctorDTO doctor;
     private NurseDTO nurse;
+    private ExaminationDTO examination;
 
     public PrescriptionDTO(Prescription prescription) {
         this.id = prescription.getId();
@@ -24,9 +26,11 @@ public class PrescriptionDTO {
         for(Medication med : prescription.getMedication()){
             this.medications.add(new MedicationDTO(med));
         }
+        this.examination = new ExaminationDTO(prescription.getExamination());
     }
 
     public PrescriptionDTO() {
+
     }
 
 

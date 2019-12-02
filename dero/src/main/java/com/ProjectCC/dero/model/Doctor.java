@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.DoctorDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +41,10 @@ public class Doctor extends MedicalStaff {
                  String address, String city, String country, String telephone) {
       super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
    }
+
+   public Doctor(DoctorDTO doctorDTO){
+      this(doctorDTO.getFirstName(),doctorDTO.getLastName(),doctorDTO.getJmbg(), doctorDTO.getPassword(),doctorDTO.getEmail(),
+              doctorDTO.getAddress(), doctorDTO.getCity(), doctorDTO.getCountry(), doctorDTO.getTelephone());
+   }
+
 }
