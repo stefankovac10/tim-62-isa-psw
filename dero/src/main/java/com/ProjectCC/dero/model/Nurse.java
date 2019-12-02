@@ -1,7 +1,9 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.NurseDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,6 +23,12 @@ public class Nurse extends MedicalStaff {
     @JoinColumn(name = "medRec_id", nullable = false)
     private MedicalRecord medicalRecord;*/
 
+    @Autowired
     public Nurse() {
+    }
+
+    public Nurse(NurseDTO nurseDTO) {
+        super(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
+                nurseDTO.getAddress(), nurseDTO.getCity(), nurseDTO.getCountry(), nurseDTO.getTelephone());
     }
 }
