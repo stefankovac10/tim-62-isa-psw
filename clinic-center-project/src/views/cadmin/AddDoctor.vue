@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RegisterForm v-bind:doc="true" v-on:register="registerDoc($emit)"></RegisterForm>
+    <RegisterForm v-bind:doc="true" v-on:register="registerDoc"></RegisterForm>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
       httpClient
         .post("/users/doc", doc)
         .then(function(response) {
-          alert(response.data.email);
+          this.response = response;
         })
         .catch(function(error) {
           alert(error.response);

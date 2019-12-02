@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
     <form id="login" accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
-      <h1 class="p-2">Add doctor</h1>
+      <h1 class="p-2">Sign up</h1>
       <br />
 
       <label class="p-2">First name</label>
@@ -90,7 +90,8 @@ export default {
     };
   },
   props: {
-    doc: Boolean
+    doc: Boolean,
+    user: Object
   },
   watch: {
     confirmPassword() {
@@ -113,7 +114,7 @@ export default {
         telephone: this.telephone
       };
 
-      this.$emit("register", user);
+      this.$emit('register', user);
     }
   }
 };

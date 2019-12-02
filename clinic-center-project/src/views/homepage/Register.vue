@@ -1,5 +1,5 @@
 <template>
-  <RegisterForm v-on:register="registerUser($emit)"></RegisterForm>
+  <RegisterForm v-on:register="registerUser"></RegisterForm>
 </template>
 
 <script>
@@ -37,9 +37,12 @@ export default {
     }
   },
   methods: {
-    registerUser: function(user) {
+    registerUser: function(event) {
+      alert(event.firstName);
+
+
       httpClient
-        .post("/regrequest", user)
+        .post("/regrequest", event)
         .then(response => {
           this.response = response;
           alert("Your registration request has been sent");
