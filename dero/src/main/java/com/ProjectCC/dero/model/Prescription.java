@@ -14,6 +14,9 @@ public class Prescription {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Column(name = "certified")
+   private Boolean certified;
+
    @OneToOne(mappedBy = "prescription")
    public Examination examination;
 
