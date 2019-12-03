@@ -44,6 +44,7 @@ import Patients from "@/views/medicalstaff/Patients";
 import Vacation from "@/views/medicalstaff/Vacation";
 import Calendar from "@/views/medicalstaff/Calendar";
 import Perscription from "@/views/nurse/Perscription";
+import EditMedicalRecord from "@/views/medicalstaff/EditMedicalRecord";
 
 import DocHomepage from "@/views/doctor/DocHomepage.vue";
 import Examination from "@/views/doctor/Examination.vue";
@@ -212,6 +213,11 @@ const routes = [
         path: "medicalrecord",
         name: "medicalrecord",
         component: MedicalRecord
+      },
+      {
+        path: "editmedicalrecord",
+        name: "editmedicalrecord",
+        component: EditMedicalRecord
       },
       {
         path: "profile",

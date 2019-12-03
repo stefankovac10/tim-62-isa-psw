@@ -30,6 +30,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link">
+              <router-link to="/patient/editmedicalrecord">Edit medical record</router-link>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
               <router-link to="/patient/profile">Profile</router-link>
             </a>
           </li>
