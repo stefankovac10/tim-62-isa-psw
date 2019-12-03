@@ -23,6 +23,7 @@ public class Nurse extends MedicalStaff {
     @JoinColumn(name = "medRec_id", nullable = false)
     private MedicalRecord medicalRecord;*/
 
+    @Autowired
     public Nurse() {
     }
 
@@ -32,8 +33,8 @@ public class Nurse extends MedicalStaff {
         super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
     }
 
-    public Nurse(NurseDTO nurseDTO){
-        this(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
+    public Nurse(NurseDTO nurseDTO) {
+        super(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
                 nurseDTO.getAddress(), nurseDTO.getCity(), nurseDTO.getCountry(), nurseDTO.getTelephone());
     }
 }

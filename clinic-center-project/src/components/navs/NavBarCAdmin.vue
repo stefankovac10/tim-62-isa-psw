@@ -62,13 +62,13 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >Manage doctors</a>
+            >Manage medical staff</a>
             <div class="dropdown-menu">
               <a class="nav-link dropdown-item">
-                <router-link to="/cadmin/addDoctor">Add doctor</router-link>
+                <router-link to="/cadmin/addDoctor">Add medical staff</router-link>
               </a>
               <a class="nav-link dropdown-item">
-                <router-link to="/cadmin/doctors">Doctors</router-link>
+                <router-link to="/cadmin/doctors">Medical staff</router-link>
               </a>
             </div>
           </li>

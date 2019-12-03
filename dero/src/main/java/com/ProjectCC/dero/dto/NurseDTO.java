@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.dto;
 
+
 import com.ProjectCC.dero.model.Nurse;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,16 +13,16 @@ public class NurseDTO extends MedicalStaffDTO {
 
 
     public NurseDTO(String firstName, String lastName, String jmbg, String password,
-                     String email, String address, String city, String country,
-                     String telephone) {
+                    String email, String address, String city, String country,
+                    String telephone) {
         super(firstName, lastName, jmbg, password, email, address, city, country,
                 telephone);
     }
 
     @Autowired
     public NurseDTO(Long id, String firstName, String lastName, String jmbg, String password,
-                     String email, String address, String city, String country,
-                     String telephone, ClinicDTO clinic) {
+                    String email, String address, String city, String country,
+                    String telephone, ClinicDTO clinic) {
         super(id, firstName, lastName, jmbg, password, email, address, city, country,
                 telephone, clinic);
     }
@@ -34,6 +35,5 @@ public class NurseDTO extends MedicalStaffDTO {
     }
 
     public NurseDTO() {
-
     }
 }
