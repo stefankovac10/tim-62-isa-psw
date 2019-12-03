@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RegisterForm v-bind:doc="true" v-on:register="registerDoc($emit)"></RegisterForm>
+    <RegisterForm v-bind:doc="true" v-on:register="registerDoc(arguments)"></RegisterForm>
   </div>
 </template>
 
@@ -27,11 +27,23 @@ export default {
     };
   },
   methods: {
-    registerDoc: function(doc) {
-      // var doc = ;
+    registerDoc: function(args) {
+      if (args[1] === "Nurse") {
+        httpClient
+          .post("/users/nurse", args[0])
+          .then(function(response) {
+            alert(response.data.email);
+          })
+          .catch(function(error) {
+            alert(error.response);
+          });
+        this.$router.push("/cadmin");
+
+        return;
+      }
 
       httpClient
-        .post("/users/doc", doc)
+        .post("/users/doc", args[0])
         .then(function(response) {
           alert(response.data.email);
         })

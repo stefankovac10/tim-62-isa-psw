@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
     <form id="login" accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
-      <h1 class="p-2">Add doctor</h1>
+      <h1 class="p-2">Add new</h1>
       <br />
 
       <label class="p-2">First name</label>
@@ -86,7 +86,8 @@ export default {
       email: undefined,
       password: undefined,
       confirmPassword: undefined,
-      matching: ""
+      matching: "",
+      type: undefined
     };
   },
   props: {
@@ -113,7 +114,7 @@ export default {
         telephone: this.telephone
       };
 
-      this.$emit("register", user);
+      this.$emit("register", user, this.type);
     }
   }
 };
