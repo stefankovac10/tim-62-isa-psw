@@ -45,7 +45,7 @@ export default {
       httpClient
         .post("/users/doc", args[0])
         .then(function(response) {
-          alert(response.data.email);
+          this.response = response;
         })
         .catch(function(error) {
           alert(error.response);

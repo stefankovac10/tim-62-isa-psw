@@ -91,7 +91,8 @@ export default {
     };
   },
   props: {
-    doc: Boolean
+    doc: Boolean,
+    user: Object
   },
   watch: {
     confirmPassword() {

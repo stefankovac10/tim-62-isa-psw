@@ -31,4 +31,6 @@ public class MedicationDTO {
     public MedicationDTO(Medication medication) {
         this(medication.getId(),medication.getName(), medication.getDescription(), medication.getCode());
     }
+
+
 }

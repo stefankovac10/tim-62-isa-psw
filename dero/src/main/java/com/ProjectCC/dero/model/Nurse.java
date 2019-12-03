@@ -27,6 +27,12 @@ public class Nurse extends MedicalStaff {
     public Nurse() {
     }
 
+    @Autowired
+    public Nurse(String firstName, String lastName, String jmbg, String password, String email,
+                  String address, String city, String country, String telephone) {
+        super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
+    }
+
     public Nurse(NurseDTO nurseDTO) {
         super(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
                 nurseDTO.getAddress(), nurseDTO.getCity(), nurseDTO.getCountry(), nurseDTO.getTelephone());
