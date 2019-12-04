@@ -8,13 +8,20 @@
         class="card border-primary mb-3 d-flex flex-row flex-wrap"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
       >
-        <div class="card-body">
-          <h4 class="card-title">{{req.medicalStaff.firstName}} {{req.medicalStaff.lastName}}</h4>
+        <div class="card-body" v-if="!req.accepted">
+          <!-- <h4 class="card-title">{{req.medicalStaff.firstName}} {{req.medicalStaff.lastName}}</h4> -->
+          <h4 class="card-title">Balsa Sarenac</h4>
           <p class="card-text">From: {{req.startDate}}</p>
           <p class="card-text">To: {{req.endDate}}</p>
+          <p class="card=text">Accepted: {{req.accepted}}</p>
 
-          <button type="button" class="btn btn-primary" v-on:click="accept(id)">Accept</button>
-          <button type="button" class="btn btn-danger" v-on:click="refuse">Refuse</button>
+          <button type="button" class="btn btn-primary" v-on:click="accept">Accept</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-dismiss="modal"
+            v-on:click="refuse"
+          >Refuse</button>
         </div>
       </div>
     </div>
@@ -23,6 +30,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+
 export default {
   data: function() {
     return {
@@ -31,15 +39,25 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/vacs")
-      .then(function(response) {
+      .get("/vacs/all")
+      .then(response => {
         this.requests = response.data;
       })
-      .catch(function(error) {
-        if (error.response.status == 302) {
-          this.requests = error.response.data;
-        }
+      .catch(error => {
+        alert(error.data);
       });
+  },
+  methods: {
+    accept: function() {
+      httpClient.get("/mail/accept-vacation/balsa.smi15@gmail.com/1");
+      location.reload();
+    },
+    refuse: function() {
+      httpClient.get(
+        "mail/refuse-vacation/balsa.smi15@gmail.com/1/Sorry, I ain't sorry"
+      );
+      location.reload();
+    }
   }
 };
 </script>
