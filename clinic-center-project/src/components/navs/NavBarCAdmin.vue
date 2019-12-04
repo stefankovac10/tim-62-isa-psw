@@ -74,6 +74,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link">
+              <router-link to="/cadmin/requests">Vacation requests</router-link>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
               <router-link to="/cadmin/profile">Profile</router-link>
             </a>
           </li>

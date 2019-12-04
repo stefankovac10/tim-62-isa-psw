@@ -27,6 +27,7 @@ insert into medical_staff (clinic_id, vac_req_id, id) values (1, null, 7);
 insert into nurse (id) values (7);
 insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.2', 0.0, 0.0);
 insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa8', 'Nevesinje', 'Republika Srpska', 'jeca@gmail.com', 'Marija', '1592890010025', 'Jovanovic', 'sifra8', '068951110');
+
 insert into patient (med_rec_id, id) values (1, 8);
 
 insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa9', 'Honolulu', 'Hawaii', 'gogi@gmail.com', 'Goran', '1508550058987', 'Dragic', 'sifra9', '061151563');
