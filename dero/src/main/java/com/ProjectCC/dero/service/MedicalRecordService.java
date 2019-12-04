@@ -36,4 +36,5 @@ public class MedicalRecordService {
     public void update(MedicalRecord medicalRecord) {
             medicalRecordRepository.update(medicalRecord.getHeight(), medicalRecord.getWeight(),medicalRecord.getBloodType(), medicalRecord.getDiopter(), medicalRecord.getId());
     }
+
 }
