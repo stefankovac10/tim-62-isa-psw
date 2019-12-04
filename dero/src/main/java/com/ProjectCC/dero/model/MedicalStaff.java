@@ -21,9 +21,8 @@ public class MedicalStaff extends User {
    public Clinic clinic;
 
    @OneToOne()
-   @JoinColumn(name = "vacReq_id", referencedColumnName = "id")
+   @JoinColumn(name = "vacReq_id", referencedColumnName = "id", nullable = true)
    private VacationRequest vacationRequest;
-
 
    @ManyToMany(mappedBy = "medicalStaffs")
    public Set<MedicalRecord> medicalRecords;

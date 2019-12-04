@@ -19,3 +19,12 @@ insert into medication (code, description, name) values ('A02BC03', 'Opis', 'LAN
 insert into medication (code, description, name) values ('A02BC05', 'Opis', 'EMANERA');
 insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa5', 'Beograd', 'Srbija', 'isa2019klinicki.centar@gmail.com', 'Milos', '1508555558987', 'Milosevic', 'sifra5', '062111563');
 insert into registration_request (verified, id) values (false, 5);
+insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa6', 'Honolulu', 'Hawaii', 'gogi@gmail.com', 'Goran', '1508550058987', 'Dragic', 'sifra6', '061151563');
+insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa7', 'Kopaonik', 'Srbija', 'lbj@gmail.com', 'LeBron', '1508555558123', 'James', 'sifra7', '066661563');
+insert into user_table (address, city, country, email, first_name, jmbg, last_name, password, telephone) values ('Adresa8', 'Kamchatka', 'Rusija', 'cr7@gmail.com', 'Cristiano', '1508444458987', 'Ronaldo', 'sifra8', '062144563');
+insert into medical_staff(id, clinic_id, vac_req_id) values (6, 1, null);
+insert into medical_staff(id, clinic_id, vac_req_id) values (7, 1, null);
+insert into medical_staff(id, clinic_id, vac_req_id) values (8, 1, null);
+insert into doctor (id, specialised_type_id) values (6, null);
+insert into doctor (id, specialised_type_id) values (7, null);
+insert into doctor (id, specialised_type_id) values (8, null);

@@ -11,21 +11,21 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>6117</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|30904|30906|1
+      <Relations>sequence|table|31421|31423|1
+sequence|table|31432|31434|1
+sequence|table|31443|31445|1
 sequence|table|16755|16757|1
+sequence|table|30904|30906|1
+sequence|table|26815|26817|1
+sequence|table|31403|31405|1
+sequence|table|31358|31360|1
+sequence|table|31374|31376|1
+sequence|table|31385|31387|1
+sequence|table|31337|31339|1
 sequence|table|31276|31278|1
 sequence|table|31297|31299|1
 sequence|table|31313|31315|1
 sequence|table|31324|31326|1
-sequence|table|31337|31339|1
-sequence|table|31358|31360|1
-sequence|table|31374|31376|1
-sequence|table|31385|31387|1
-sequence|table|31403|31405|1
-sequence|table|31421|31423|1
-sequence|table|31432|31434|1
-sequence|table|31443|31445|1
-sequence|table|26815|26817|1
 </Relations>
     </database>
     <role id="3" parent="1" name="pg_execute_server_program">
@@ -333,6 +333,7 @@ sequence|table|26815|26817|1
     </table>
     <table id="51" parent="14" name="medical_staff">
       <ObjectId>31353</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>6061</StateNumber>
     </table>
