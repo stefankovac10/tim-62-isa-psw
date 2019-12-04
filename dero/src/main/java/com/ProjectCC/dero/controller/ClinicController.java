@@ -30,7 +30,13 @@ public class ClinicController {
 
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
         for (Clinic c : clinics) {
-            clinicDTOS.add(new ClinicDTO(c));
+            clinicDTOS.add(ClinicDTO.builder()
+                    .name(c.getName())
+                    .description(c.getDescription())
+                    .address(c.getAddress())
+                    .income(c.getIncome())
+                    .id(c.getId())
+                    .build());
         }
 
         return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
@@ -38,19 +44,25 @@ public class ClinicController {
 
     @PostMapping( consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-            Clinic clinic = new Clinic(clinicDTO);
+            Clinic clinic = Clinic.builder()
+                    .name(clinicDTO.getName())
+                    .description(clinicDTO.getDescription())
+                    .address(clinicDTO.getAddress())
+                    .income(clinicDTO.getIncome())
+                    .id(clinicDTO.getId())
+                    .build();
 
             clinic = clinicService.save(clinic);
             if(clinic == null){
                 return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
             }
-            return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.CREATED);
+            clinicDTO.setId(clinic.getId());
+            return new ResponseEntity<>(clinicDTO, HttpStatus.CREATED);
 
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-
         Clinic clinic = clinicService.findOne(id);
 
         if (clinic != null) {
@@ -64,18 +76,18 @@ public class ClinicController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClinicDTO> getCourse(@PathVariable Long id) {
 
-        Clinic clinic = clinicService.findOne(id);
-
-        if (clinic == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
+        return this.clinicService.findById(id);
     }
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        Clinic clinic = new Clinic(clinicDTO);
+        Clinic clinic = Clinic.builder()
+                .name(clinicDTO.getName())
+                .description(clinicDTO.getDescription())
+                .address(clinicDTO.getAddress())
+                .income(clinicDTO.getIncome())
+                .id(clinicDTO.getId())
+                .build();
         clinicService.update(clinic);
         return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
 

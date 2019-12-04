@@ -1,7 +1,10 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ExaminationRoom;
+import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.ExaminationRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,17 +19,33 @@ import java.util.Optional;
 @Service
 public class ExaminationRoomService {
     private ExaminationRoomRepository examinationRoomRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
-    public ExaminationRoomService(ExaminationRoomRepository examinationRoomRepository) {
+    public ExaminationRoomService(ExaminationRoomRepository examinationRoomRepository, ClinicRepository clinicRepository) {
         this.examinationRoomRepository = examinationRoomRepository;
+        this.clinicRepository = clinicRepository;
     }
 
     public ResponseEntity<ExaminationRoomDTO> save(ExaminationRoomDTO examinationRoom) {
-        ExaminationRoom er = new ExaminationRoom(examinationRoom);
+        Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
+        Clinic c = opt.get();
+        ClinicDTO clinic = ClinicDTO.builder()
+                .id(c.getId())
+                .name(c.getName())
+                .description(c.getDescription())
+                .address(c.getAddress())
+                .build();
+        ExaminationRoom er = ExaminationRoom.builder()
+                .id(examinationRoom.getId())
+                .number(examinationRoom.getNumber())
+                .name(examinationRoom.getName())
+                .clinic(c)
+                .build();
 
         er = this.examinationRoomRepository.save(er);
         examinationRoom.setId(er.getId());
+        examinationRoom.setClinic(clinic);
 
         return new ResponseEntity<>(examinationRoom, HttpStatus.CREATED);
     }
@@ -35,8 +54,12 @@ public class ExaminationRoomService {
         List<ExaminationRoom> list = this.examinationRoomRepository.findAll();
         List<ExaminationRoomDTO> ret = new ArrayList<>();
 
-        for (ExaminationRoom or : list) {
-            ret.add(new ExaminationRoomDTO(or.getId(), or.getNumber(), or.getName()));
+        for (ExaminationRoom er : list) {
+            ret.add(ExaminationRoomDTO.builder()
+                    .id(er.getId())
+                    .number(er.getNumber())
+                    .name(er.getName())
+                    .build());
         }
 
         return new ResponseEntity<>(ret, HttpStatus.FOUND);
