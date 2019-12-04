@@ -33,7 +33,17 @@ public class UserService {
     public ResponseEntity<UserDTO> findById(Long id) {
         Optional<User> opt = this.userRepository.findById(id);
         User user = opt.get();
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.FOUND);
+        return new ResponseEntity<>(UserDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .address(user.getAddress())
+                .city(user.getCity())
+                .country(user.getCountry())
+                .email(user.getEmail())
+                .jmbg(user.getJmbg())
+                .telephone(user.getTelephone())
+                .id(user.getId())
+                .build(), HttpStatus.FOUND);
     }
 
     public ResponseEntity<UserDTO> edit(UserDTO userDTO) {

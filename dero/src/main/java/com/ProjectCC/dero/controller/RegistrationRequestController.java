@@ -3,6 +3,7 @@ package com.ProjectCC.dero.controller;
 import com.ProjectCC.dero.dto.RegistrationRequestDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.RegistrationRequest;
+import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,7 +70,17 @@ public class RegistrationRequestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new UserDTO(registrationRequest), HttpStatus.OK);
+        return new ResponseEntity<>(UserDTO.builder()
+                .firstName(registrationRequest.getFirstName())
+                .lastName(registrationRequest.getLastName())
+                .address(registrationRequest.getAddress())
+                .city(registrationRequest.getCity())
+                .country(registrationRequest.getCountry())
+                .email(registrationRequest.getEmail())
+                .jmbg(registrationRequest.getJmbg())
+                .telephone(registrationRequest.getTelephone())
+                .id(registrationRequest.getId())
+                .build(), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

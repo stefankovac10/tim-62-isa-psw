@@ -43,7 +43,17 @@ public class DoctorController {
 
         doc = doctorService.save(doc);
 
-        return new ResponseEntity<>(new DoctorDTO(doc), HttpStatus.CREATED);
+        return new ResponseEntity<>(DoctorDTO.builder()
+                .firstName(doc.getFirstName())
+                .lastName(doc.getLastName())
+                .address(doc.getAddress())
+                .city(doc.getCity())
+                .country(doc.getCountry())
+                .email(doc.getEmail())
+                .jmbg(doc.getJmbg())
+                .telephone(doc.getTelephone())
+                .id(doc.getId())
+                .build(), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")

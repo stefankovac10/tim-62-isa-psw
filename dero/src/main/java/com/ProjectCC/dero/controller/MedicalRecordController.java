@@ -2,6 +2,7 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.MedicalRecordDTO;
 import com.ProjectCC.dero.model.MedicalRecord;
+import com.ProjectCC.dero.model.Operation;
 import com.ProjectCC.dero.service.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,14 @@ public class MedicalRecordController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MedicalRecordDTO> getMedicalRecord(@PathVariable Long id) {
-        return new ResponseEntity<>(new MedicalRecordDTO(medicalRecordService.getOne(id)), HttpStatus.OK);
+        MedicalRecord mr = this.medicalRecordService.getOne(id);
+        return new ResponseEntity<>(MedicalRecordDTO.builder()
+                .bloodType(mr.getBloodType())
+                .diopter(mr.getDiopter())
+                .height(mr.getHeight())
+                .weight(mr.getWeight())
+                .id(mr.getId())
+                .build(), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")

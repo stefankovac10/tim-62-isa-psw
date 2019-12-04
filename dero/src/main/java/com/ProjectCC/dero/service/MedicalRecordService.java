@@ -48,7 +48,7 @@ public class MedicalRecordService {
         medicalRecord.setBloodType(medicalRecordDTO.getBloodType());
         medicalRecord.setDiopter(medicalRecordDTO.getDiopter());
         medicalRecord.setHeight(medicalRecordDTO.getHeight());
-        medicalRecord.setWeight(medicalRecordDTO.getWidth());
+        medicalRecord.setWeight(medicalRecordDTO.getWeight());
 
         medicalRecordRepository.save(medicalRecord);
 

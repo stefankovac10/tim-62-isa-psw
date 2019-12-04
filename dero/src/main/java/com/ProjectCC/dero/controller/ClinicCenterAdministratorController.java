@@ -44,7 +44,17 @@ public class ClinicCenterAdministratorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        ClinicCenterAdministratorDTO clinicCenterAdministratorDTO = new ClinicCenterAdministratorDTO(clinicCenterAdministrator);
+        ClinicCenterAdministratorDTO clinicCenterAdministratorDTO = ClinicCenterAdministratorDTO.builder()
+                .firstName(clinicCenterAdministrator.getFirstName())
+                .lastName(clinicCenterAdministrator.getLastName())
+                .address(clinicCenterAdministrator.getAddress())
+                .city(clinicCenterAdministrator.getCity())
+                .country(clinicCenterAdministrator.getCountry())
+                .email(clinicCenterAdministrator.getEmail())
+                .jmbg(clinicCenterAdministrator.getJmbg())
+                .telephone(clinicCenterAdministrator.getTelephone())
+                .id(clinicCenterAdministrator.getId())
+                .build();
 
         return new ResponseEntity<>(clinicCenterAdministratorDTO, HttpStatus.OK);
     }
