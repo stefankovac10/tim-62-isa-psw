@@ -34,15 +34,27 @@ export default {
         });
   },
   methods:{
+      refresh: function(){
+          httpClient
+          .get("/prescription/all")
+          .then(response => {
+            this.prescriptions = response.data;      
+          })
+          .catch(error => {
+            this.error = error;
+          });
+      },
       certify: function(id){
           httpClient
         .get("/prescription/certify/"+id)
         .then(response => {
           this.prescription = response.data;      
+          this.refresh();
         })
         .catch(error => {
           this.error = error;
         });
+        
       }
   }
 };
