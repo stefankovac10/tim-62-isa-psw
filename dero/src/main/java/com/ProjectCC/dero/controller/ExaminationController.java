@@ -1,10 +1,11 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -18,6 +19,10 @@ public class ExaminationController {
         this.examinationService = examinationService;
     }
 
-
+    @PostMapping( consumes = "application/json")
+    public ResponseEntity<Void> save(@RequestBody ExaminationDTO examinationDTO){
+        examinationService.save(examinationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 }
