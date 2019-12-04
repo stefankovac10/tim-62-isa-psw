@@ -1,17 +1,19 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "clinic")
 public class Clinic {
    @Id
@@ -34,10 +36,13 @@ public class Clinic {
    private Set<ClinicAdministrator> administrators;
 
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   private Set<MedicalStaff> medicalStaffs;
+   private Set<MedicalStaff> medicalStaff;
 
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<VacationRequest> vacationRequests;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Room> rooms;
    
    //private Set<Examination> examinationSet;
    //private ArrayList<Integer> marks;
@@ -45,14 +50,14 @@ public class Clinic {
    @Column(name = "income")
    private double income;
 
-   @Autowired
-   public Clinic() {}
-
-   public Clinic(ClinicDTO clinicDTO){
-      this.name = clinicDTO.getName();
-      this.id = clinicDTO.getId();
-      this.description = clinicDTO.getDescription();
-      this.address = clinicDTO.getAddress();
-      this.income  = clinicDTO.getIncome();
-   }
+//   @Autowired
+//   public Clinic() {}
+//
+//   public Clinic(ClinicDTO clinicDTO){
+//      this.name = clinicDTO.getName();
+//      this.id = clinicDTO.getId();
+//      this.description = clinicDTO.getDescription();
+//      this.address = clinicDTO.getAddress();
+//      this.income  = clinicDTO.getIncome();
+//   }
 }

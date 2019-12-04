@@ -1,8 +1,6 @@
 package com.ProjectCC.dero.dto;
 
-import com.ProjectCC.dero.model.Examination;
-import com.ProjectCC.dero.model.Medication;
-import com.ProjectCC.dero.model.Prescription;
+import com.ProjectCC.dero.model.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,8 +20,30 @@ public class PrescriptionDTO {
     public PrescriptionDTO(Prescription prescription) {
         this.id = prescription.getId();
         this.certified = prescription.getCertified();
-        this.doctor = new DoctorDTO(prescription.getDoctor());
-        this.nurse = new NurseDTO(prescription.getNurse());
+        Doctor doc = prescription.getDoctor();
+        this.doctor = DoctorDTO.builder()
+                .firstName(doc.getFirstName())
+                .lastName(doc.getLastName())
+                .address(doc.getAddress())
+                .city(doc.getCity())
+                .country(doc.getCountry())
+                .email(doc.getEmail())
+                .jmbg(doc.getJmbg())
+                .telephone(doc.getTelephone())
+                .id(doc.getId())
+                .build();
+        Nurse nurse = prescription.getNurse();
+        this.nurse = NurseDTO.builder()
+                .firstName(nurse.getFirstName())
+                .lastName(nurse.getLastName())
+                .address(nurse.getAddress())
+                .city(nurse.getCity())
+                .country(nurse.getCountry())
+                .email(nurse.getEmail())
+                .jmbg(nurse.getJmbg())
+                .telephone(nurse.getTelephone())
+                .id(nurse.getId())
+                .build();
     }
 
     public PrescriptionDTO() {
