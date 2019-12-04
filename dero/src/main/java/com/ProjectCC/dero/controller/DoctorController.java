@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +52,35 @@ public class DoctorController {
         doctorService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+
+        List<Doctor> doctors = doctorService.findAll();
+
+        List<DoctorDTO> doctorsDTOS = new ArrayList<>();
+        for (Doctor d : doctors) {
+            doctorsDTOS.add(new DoctorDTO(d));
+        }
+
+        return new ResponseEntity<>(doctorsDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName,
+                                                                                  String lastName,
+                                                                                  String email,
+                                                                                  String city,
+                                                                                  String country) {
+
+        List<Doctor> doctors = doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
+
+        // convert doctors to DTOs
+        List<DoctorDTO> doctorsDTO = new ArrayList<>();
+        for (Doctor d : doctors) {
+            doctorsDTO.add(new DoctorDTO(d));
+        }
+        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
     }
 }

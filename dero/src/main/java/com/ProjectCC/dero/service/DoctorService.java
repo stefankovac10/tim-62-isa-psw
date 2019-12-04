@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
+import java.util.List;
 
 @Service
 public class DoctorService {
@@ -24,5 +25,21 @@ public class DoctorService {
     public void delete(Long id) {
 //        Long idLong = (Long)id;
         doctorRepository.deleteById(id);
+    }
+
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
+    }
+
+    public List<Doctor> pronadjiPoImenuMejluGraduDrzavi(String firstName,
+                                                        String lastName,
+                                                        String email,
+                                                        String city,
+                                                        String country){
+        return doctorRepository.pronadjiDoktorePoImenuMejluGraduDrzavi(firstName,
+                                                                        lastName,
+                                                                        email,
+                                                                        city,
+                                                                        country);
     }
 }
