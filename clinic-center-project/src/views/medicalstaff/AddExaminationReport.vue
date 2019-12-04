@@ -58,7 +58,18 @@ export default {
   },
   methods: {
       add: function(){
-
+          httpClient
+            .post("/examination",{
+                report: this.report,
+                medicine: this.medicine,
+                diagnosis: this.diagnosis
+            })
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(error => {
+                this.error = error;
+            });
       }
   },
 };
