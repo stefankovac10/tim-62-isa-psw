@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 public interface MedicationRepository extends JpaRepository<Medication, Long> {
 
     @Modifying
@@ -17,4 +19,6 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
     Medication findByName(String name);
 
     Medication findByCode(String code);
+
+    Set<Medication> getByName(String medicine);
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Repository
 public interface DiagnosisRepository extends JpaRepository<Diagnosis, Long> {
 
@@ -19,4 +21,6 @@ public interface DiagnosisRepository extends JpaRepository<Diagnosis, Long> {
     Diagnosis findByName(String name);
 
     Diagnosis findByCode(String code);
+
+    Set<Diagnosis> getByName(String diagnosis);
 }
