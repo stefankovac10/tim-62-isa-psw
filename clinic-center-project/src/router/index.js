@@ -45,6 +45,8 @@ import Patients from "@/views/medicalstaff/Patients";
 import Vacation from "@/views/medicalstaff/Vacation";
 import Calendar from "@/views/medicalstaff/Calendar";
 import Perscription from "@/views/nurse/Perscription";
+import EditMedicalRecord from "@/views/medicalstaff/EditMedicalRecord";
+import AddExaminationReport from "@/views/medicalstaff/AddExaminationReport";
 
 import DocHomepage from "@/views/doctor/DocHomepage.vue";
 import Examination from "@/views/doctor/Examination.vue";
@@ -220,6 +222,11 @@ const routes = [
         component: MedicalRecord
       },
       {
+        path: "editmedicalrecord",
+        name: "editmedicalrecord",
+        component: EditMedicalRecord
+      },
+      {
         path: "profile",
         name: "profile",
         component: PatientsProfile
@@ -272,6 +279,11 @@ const routes = [
         path: "examination",
         name: "examination",
         component: Examination
+      },
+      {
+        path: "addexaminationreport",
+        name: "addexaminationreport",
+        component: AddExaminationReport
       },
       {
         path: "calendar",

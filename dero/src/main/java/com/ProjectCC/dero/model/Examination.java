@@ -15,26 +15,26 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "date", nullable = false)
+   @Column(name = "date", nullable = true)
    private String date;
 
-   @Column(name = "type", nullable = false)
+   @Column(name = "type", nullable = true)
    private String type;
 
-   @Column(name = "duration", nullable = false)
+   @Column(name = "duration", nullable = true)
    private String duration;
 
-   @Column(name = "price", nullable = false)
+   @Column(name = "price", nullable = true)
    private String price;
 
-   @Column(name = "discount", nullable = false)
+   @Column(name = "discount", nullable = true)
    private String discount;
 
-   @Column(name = "report", nullable = false)
+   @Column(name = "report", nullable = true)
    private String report;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "ER_id", nullable = false)
+   @JoinColumn(name = "ER_id", nullable = true)
    public ExaminationRoom examinationRoom;
 
    //@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -46,7 +46,7 @@ public class Examination {
    )
    public Set<Diagnosis> diagnosis;
 
-   @OneToOne()
+   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
    public Prescription prescription;
 
@@ -63,7 +63,7 @@ public class Examination {
    public Patient patient;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "medRec_id", nullable = false)
+   @JoinColumn(name = "medRec_id", nullable = true)
    public MedicalRecord medicalRecord;
 
    public Examination() {
