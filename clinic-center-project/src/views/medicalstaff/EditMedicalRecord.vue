@@ -28,18 +28,26 @@
                     <div class="card-body">
                         <h4 class="card-title">{{examination.type}}</h4>
                         <p class="card-text">{{examination.report}}.</p>
-                        <button type="button" class="btn btn-info" v-on:click="editReport(examination)">Edit</button>
+                        <button type="button" class="btn btn-info" v-on:click="editReport">Edit</button>
                     </div>
             </div>
             <div class="card border-success mb-3" style="max-width: 20rem;">
                     <div class="card-header">Dr. Kovac</div>
                     <div class="card-body">
                         <h4 class="card-title">Ocni</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <button type="button" class="btn btn-info">Edit</button>
+                        <p class="card-text">{{this.report}}</p>
+                        <button type="button" class="btn btn-info" v-on:click="editReport">Edit</button>
                     </div>
             </div>
         </div>
+    </div>
+    <div v-if="reportEdit === 'EDIT'">
+        <h1>Edit Report</h1>
+        <label for="exampleTextarea">Report</label>
+        <textarea class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
+        <br/>
+        <button class="btn btn-primary p-2" v-on:click="saveReport()">Add</button>
+        <button class="btn btn-primary p-2" v-on:click="cancel()">Cancel</button>
     </div>
         
   </div>
@@ -47,6 +55,7 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
 export default {
   data: function() {
     return {
@@ -55,13 +64,35 @@ export default {
         bloodType: undefined,
         diopter: undefined,
         mode: 'VIEW',
+        reportEdit: 'VIEW',
         medicalRecord: {},
         report: undefined,
         examination: {}
     };
   },
   mounted(){
+      httpClient
+        .get("/medicalrecord/1")
+        .then(response => {
+          this.medicalRecord = response.data;  
+          this.height = this.medicalRecord.height;
+          this.width = this.medicalRecord.width;
+          this.diopter = this.medicalRecord.diopter;
+          this.bloodType = this.medicalRecord.bloodType;    
+        })
+        .catch(error => {
+          this.error = error;
+        });
 
+        httpClient
+        .get("/examination/1")
+        .then(response => {
+          this.examination = response.data;  
+          this.report = this.examination.report;   
+        })
+        .catch(error => {
+          this.error = error;
+        });
   },
   methods: {
     edit: function(){
@@ -69,13 +100,39 @@ export default {
     },
     save: function(){
         this.mode = 'VIEW';
+        this.medicalRecord.diopter = this.diopter;
+        this.medicalRecord.height = this.height;
+        this.medicalRecord.width = this.width;
+        this.medicalRecord.bloodType = this.bloodType;
+        httpClient
+        .put("/medicalrecord/",this.medicalRecord)
+        .then(response => {
+          this.medicalRecord = response.data;  
+  
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
     cancel: function(){
         this.mode = 'VIEW';
+        this.reportEdit = 'VIEW';
     },
-    editReport: function(examination){
-        this.report = examination.report;
-        this.examination = examination;
+    editReport: function(){
+        this.reportEdit = 'EDIT';
+    },
+    saveReport: function(){
+      this.reportEdit = 'VIEW';
+      this.examination.report = this.report;
+      httpClient
+        .put("/examination/",this.examination)
+        .then(response => {
+          this.examination = response.data;  
+  
+        })
+        .catch(error => {
+          this.error = error;
+        });
     }
   }
 };
