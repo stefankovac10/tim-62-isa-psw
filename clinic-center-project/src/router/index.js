@@ -38,6 +38,7 @@ import PExaminations from "@/views/patient/PExaminations";
 import POperations from "@/views/patient/POperations";
 import MedicalRecord from "@/views/patient/MedicalRecord";
 import PatientsProfile from "@/views/patient/PatientsProfile";
+import SearchDoctors from "@/views/patient/SearchDoctors";
 
 import NHomepage from "@/views/nurse/NurseHome";
 import Patients from "@/views/medicalstaff/Patients";
@@ -217,6 +218,11 @@ const routes = [
         path: "profile",
         name: "profile",
         component: PatientsProfile
+      },
+      {
+        path: "search",
+        name: "search",
+        component: SearchDoctors
       }
     ]
   },
