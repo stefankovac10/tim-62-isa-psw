@@ -38,4 +38,17 @@ public class ExaminationService {
 
         examinationRepository.save(examination);
     }
+
+    public ExaminationDTO edit(ExaminationDTO examinationDTO) {
+        Examination examination = examinationRepository.getOne(examinationDTO.getId());
+        examination.setReport(examinationDTO.getReport());
+
+        examinationRepository.save(examination);
+
+        return examinationDTO;
+    }
+
+    public Examination getOne(Long id) {
+        return examinationRepository.getOne(id);
+    }
 }

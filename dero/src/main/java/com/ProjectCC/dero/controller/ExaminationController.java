@@ -25,4 +25,14 @@ public class ExaminationController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ExaminationDTO> getMedicalRecord(@PathVariable Long id) {
+        return new ResponseEntity<>(new ExaminationDTO(examinationService.getOne(id)), HttpStatus.OK);
+    }
+
+    @PutMapping(consumes = "application/json")
+    public ResponseEntity<ExaminationDTO> update(@RequestBody ExaminationDTO examinationDTO){
+        return new ResponseEntity<>(examinationService.edit(examinationDTO), HttpStatus.OK);
+    }
+
 }

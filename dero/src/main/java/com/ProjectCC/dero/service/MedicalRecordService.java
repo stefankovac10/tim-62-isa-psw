@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.MedicalRecordDTO;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.repository.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,23 @@ public class MedicalRecordService {
 
     public void update(MedicalRecord medicalRecord) {
             medicalRecordRepository.update(medicalRecord.getHeight(), medicalRecord.getWeight(),medicalRecord.getBloodType(), medicalRecord.getDiopter(), medicalRecord.getId());
+    }
+
+    public MedicalRecord getOne(Long id) {
+
+        return  medicalRecordRepository.getOne(id);
+    }
+
+    public MedicalRecordDTO edit(MedicalRecordDTO medicalRecordDTO) {
+        MedicalRecord medicalRecord = medicalRecordRepository.getOne(medicalRecordDTO.getId());
+        medicalRecord.setBloodType(medicalRecordDTO.getBloodType());
+        medicalRecord.setDiopter(medicalRecordDTO.getDiopter());
+        medicalRecord.setHeight(medicalRecordDTO.getHeight());
+        medicalRecord.setWeight(medicalRecordDTO.getWidth());
+
+        medicalRecordRepository.save(medicalRecord);
+
+        return medicalRecordDTO;
     }
 
 }
