@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="postgres">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.16">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
     <root id="1">
       <ServerVersion>12.0</ServerVersion>
       <StartupTime>1574284959</StartupTime>
@@ -11,19 +11,19 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>5505</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|37021|37023|1
-sequence|table|37032|37034|1
-sequence|table|36992|36994|1
-sequence|table|37010|37012|1
-sequence|table|36886|36888|1
-sequence|table|36902|36904|1
-sequence|table|36857|36859|1
-sequence|table|36873|36875|1
+      <Relations>sequence|table|36902|36904|1
 sequence|table|36947|36949|1
-sequence|table|36963|36965|1
-sequence|table|36974|36976|1
 sequence|table|36913|36915|1
 sequence|table|36926|36928|1
+sequence|table|37021|37023|1
+sequence|table|36992|36994|1
+sequence|table|37010|37012|1
+sequence|table|36963|36965|1
+sequence|table|36974|36976|1
+sequence|table|36886|36888|1
+sequence|table|36857|36859|1
+sequence|table|36873|36875|1
+sequence|table|37032|37034|1
 </Relations>
     </database>
     <role id="3" parent="1" name="pg_execute_server_program">
@@ -260,6 +260,7 @@ sequence|table|36926|36928|1
     </table>
     <table id="38" parent="14" name="clinic_administrator">
       <ObjectId>36868</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>5463</StateNumber>
     </table>
@@ -376,6 +377,7 @@ sequence|table|36926|36928|1
     </table>
     <table id="60" parent="14" name="vacation_request">
       <ObjectId>37034</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>5484</StateNumber>
     </table>
