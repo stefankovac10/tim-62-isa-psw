@@ -7,6 +7,7 @@ import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.MedicalStaff;
 import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.repository.ClinicRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,14 @@ import java.util.Optional;
 @Service
 public class ClinicService {
 
+    private ModelMapper modelMapper;
 
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public ClinicService(ClinicRepository clinicRepository) {
+    public ClinicService(ClinicRepository clinicRepository, ModelMapper modelMapper) {
         this.clinicRepository = clinicRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<Clinic> findAll() {
@@ -49,12 +52,17 @@ public class ClinicService {
         return clinicRepository.findById(id).orElseGet(null);
     }
 
-    public void update(Clinic clinic) {
-        Clinic clinic_find = clinicRepository.findByName(clinic.getName());
+    public ClinicDTO update(ClinicDTO clinicDTO) {
+        Optional<Clinic> clinic_find = clinicRepository.findById(clinicDTO.getId());
+        Clinic clinic = clinic_find.get();
+        clinic.setName(clinicDTO.getName());
+        clinic.setAddress(clinicDTO.getAddress());
+        clinic.setDescription(clinicDTO.getDescription());
 
-        if (clinic_find == null || clinic_find.getId() == clinic.getId()) {
-            clinicRepository.update(clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getId());
-        }
+        if (clinic != null) {
+            clinic = clinicRepository.save(clinic);
+            return modelMapper.map(clinic, ClinicDTO.class);
+        } else return null;
     }
 
     public Clinic findByName(String name) {
@@ -66,19 +74,22 @@ public class ClinicService {
         Optional<Clinic> opt = clinicRepository.findById(id);
         Clinic clinic = opt.get();
 
+//        return cinemaStore.findAllCinemas(pageable).map(cinema -> modelMapper.map(cinema, CinemaDto.class));
+
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
-            staff.add(MedicalStaffDTO.builder()
-                    .firstName(s.getFirstName())
-                    .lastName(s.getLastName())
-                    .address(s.getAddress())
-                    .city(s.getCity())
-                    .country(s.getCountry())
-                    .email(s.getEmail())
-                    .id(s.getId())
-                    .jmbg(s.getJmbg())
-                    .telephone(s.getTelephone())
-                    .build());
+            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
+//            staff.add(MedicalStaffDTO.builder()
+//                    .firstName(s.getFirstName())
+//                    .lastName(s.getLastName())
+//                    .address(s.getAddress())
+//                    .city(s.getCity())
+//                    .country(s.getCountry())
+//                    .email(s.getEmail())
+//                    .id(s.getId())
+//                    .jmbg(s.getJmbg())
+//                    .telephone(s.getTelephone())
+//                    .build());
         }
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : clinic.getRooms()) {

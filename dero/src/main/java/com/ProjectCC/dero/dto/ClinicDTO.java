@@ -4,15 +4,15 @@ import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.MedicalStaff;
 import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.dto.RoomDTO;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClinicDTO {
     private Long id;
     private String name;

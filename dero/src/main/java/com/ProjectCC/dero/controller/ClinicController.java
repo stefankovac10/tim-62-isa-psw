@@ -3,6 +3,7 @@ package com.ProjectCC.dero.controller;
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.service.ClinicService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import java.util.List;
 @RequestMapping(value="/api/clinics")
 public class ClinicController {
 
+    private ModelMapper modelMapper;
     private ClinicService clinicService;
 
     @Autowired
-    public ClinicController(ClinicService clinicService) {
+    public ClinicController(ModelMapper modelMapper, ClinicService clinicService) {
+        this.modelMapper = modelMapper;
         this.clinicService = clinicService;
     }
 
@@ -30,13 +33,7 @@ public class ClinicController {
 
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
         for (Clinic c : clinics) {
-            clinicDTOS.add(ClinicDTO.builder()
-                    .name(c.getName())
-                    .description(c.getDescription())
-                    .address(c.getAddress())
-                    .income(c.getIncome())
-                    .id(c.getId())
-                    .build());
+            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
         }
 
         return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
@@ -44,13 +41,7 @@ public class ClinicController {
 
     @PostMapping( consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-            Clinic clinic = Clinic.builder()
-                    .name(clinicDTO.getName())
-                    .description(clinicDTO.getDescription())
-                    .address(clinicDTO.getAddress())
-                    .income(clinicDTO.getIncome())
-                    .id(clinicDTO.getId())
-                    .build();
+            Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
 
             clinic = clinicService.save(clinic);
             if(clinic == null){
@@ -81,15 +72,7 @@ public class ClinicController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        Clinic clinic = Clinic.builder()
-                .name(clinicDTO.getName())
-                .description(clinicDTO.getDescription())
-                .address(clinicDTO.getAddress())
-                .income(clinicDTO.getIncome())
-                .id(clinicDTO.getId())
-                .build();
-        clinicService.update(clinic);
-        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
+        return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
 
     }
 }
