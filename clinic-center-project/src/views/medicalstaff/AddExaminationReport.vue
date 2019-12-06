@@ -18,7 +18,7 @@
           <multiselect v-model="medicinesSelected" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="medicines" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
         <pre class="language-json"><code>{{ value }}</code></pre>
       </div>
-      <button class="btn btn-primary p-2" v-on:click="add">Add</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="add">Add</button>
     </div>
     </form>
   </div>
@@ -62,7 +62,17 @@ export default {
   },
   methods: {
       add: function(){
-          
+          if(this.diagnosis === null  || this.report === undefined || this.report === ''){
+            this.$vToastify.info({
+              body: "Pleas fill the report and chose the diagnosis",
+              title: "Warning",
+              type: "warning",
+              canTimeout: false,
+              append: false
+            });
+            
+            return;
+          }
       }
   },
 };
