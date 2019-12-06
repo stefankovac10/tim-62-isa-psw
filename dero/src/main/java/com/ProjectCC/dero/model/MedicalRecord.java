@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.MedicalRecordDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,5 +60,9 @@ public class MedicalRecord {
       this.weight = weight;
       this.bloodType = bloodType;
       this.diopter = diopter;
+   }
+
+   public MedicalRecord(MedicalRecordDTO medicalRecordDTO){
+      this(medicalRecordDTO.getHeight(),medicalRecordDTO.getWidth(),medicalRecordDTO.getBloodType(), medicalRecordDTO.getDiopter());
    }
 }

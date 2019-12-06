@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.model;
 
+import com.ProjectCC.dero.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,10 @@ public class User {
       this.city = city;
       this.country = country;
       this.telephone = telephone;
+   }
+   
+   public User(UserDTO userDTO){
+      this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
+              userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
    }
 }

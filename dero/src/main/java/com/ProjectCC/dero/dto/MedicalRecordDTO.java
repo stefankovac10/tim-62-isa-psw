@@ -16,7 +16,6 @@ public class MedicalRecordDTO {
     private String bloodType;
     private String diopter;
     private UserDTO patient;
-    private Set<ExaminationDTO> examinations;
 
     public MedicalRecordDTO(Long id, int height, int width, String bloodType, String diopter) {
         this.id = id;
@@ -25,7 +24,6 @@ public class MedicalRecordDTO {
         this.bloodType = bloodType;
         this.diopter = diopter;
         this.patient = null;
-        this.examinations = null;
     }
 
     public MedicalRecordDTO() {
@@ -38,8 +36,5 @@ public class MedicalRecordDTO {
         this.bloodType = medicalRecord.getBloodType();
         this.diopter = medicalRecord.getDiopter();
         this.patient = new UserDTO(medicalRecord.getPatient());
-        for(Examination exam: medicalRecord.getExaminations()){
-            this.examinations.add(new ExaminationDTO(exam));
-        }
     }
 }
