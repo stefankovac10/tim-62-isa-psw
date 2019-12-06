@@ -18,7 +18,7 @@
           <multiselect v-model="medicinesSelected" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="medicines" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
         <pre class="language-json"><code>{{ value }}</code></pre>
       </div>
-      <button class="btn btn-primary p-2" v-on:click.prevent="add">Add</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="add()">Add</button>
     </div>
     </form>
   </div>
@@ -38,7 +38,12 @@ export default {
         diagnosis: {},
         medicines: [],
         medicinesSelected: [],
-        report: undefined
+        report: undefined,
+        examination: {
+          prescription: {
+              medications: []
+          }
+        }
     };
   },
   mounted(){
@@ -70,8 +75,21 @@ export default {
               canTimeout: false,
               append: false
             });
-            
             return;
+          }else{
+            
+            this.examination.report = this.report;
+            this.examination.prescription.medications = this.medicinesSelected;
+            this.examination.diagnosis = this.diagnosis;
+            
+            httpClient
+              .post("/examination/", this.examination)
+              .then(response => {
+                this.response = response.data;
+              })
+              .catch(error => {
+                this.error = error;
+              });
           }
       }
   },
