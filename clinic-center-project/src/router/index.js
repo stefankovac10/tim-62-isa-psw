@@ -29,6 +29,7 @@ import ManageDoctors from "@/views/cadmin/ManageDoctors.vue";
 import ManageRooms from "@/views/cadmin/ManageRooms.vue";
 import ManageTypes from "@/views/cadmin/ManageTypes.vue";
 import VacationRequests from "@/views/cadmin/Requests.vue";
+import EditClinic from "@/views/cadmin/EditClinic.vue";
 
 import EditProfile from "@/views/cadmin/EditProfile.vue";
 import EditRoom from "@/views/cadmin/EditRoom.vue";
@@ -193,6 +194,11 @@ const routes = [
         path: "requests",
         name: "vacationRequests",
         component: VacationRequests
+      },
+      {
+        path: "editClinic/:id",
+        name: "editClinic",
+        component: EditClinic
       }
     ]
   },

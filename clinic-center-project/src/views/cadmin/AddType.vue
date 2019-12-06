@@ -36,6 +36,7 @@ export default {
         })
         .then(response => {
           this.response = response;
+          this.$router.push("/cadmin/types");
         })
         .catch(error => {
           this.error = error;
