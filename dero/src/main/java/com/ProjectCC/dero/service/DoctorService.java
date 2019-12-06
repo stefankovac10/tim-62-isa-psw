@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.DoctorRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class DoctorService {
 
     private DoctorRepository doctorRepository;
     private ClinicService clinicService;
+    private ModelMapper modelMapper;
 
     @Autowired
     public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService) {
@@ -43,7 +45,7 @@ public class DoctorService {
 
         doctor = doctorRepository.save(doctor);
 
-        return new ResponseEntity<>(new DoctorDTO(doctor), HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(doctor, DoctorDTO.class), HttpStatus.CREATED);
     }
 
     public ResponseEntity<Void> delete(Long id) {
@@ -57,7 +59,7 @@ public class DoctorService {
         List<DoctorDTO> doctorsDTO = new ArrayList<>();
 
         for (Doctor d : doctors) {
-            doctorsDTO.add(new DoctorDTO(d));
+            doctorsDTO.add(modelMapper.map(d, DoctorDTO.class));
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
@@ -68,7 +70,7 @@ public class DoctorService {
         List<DoctorDTO> doctorsDTO = new ArrayList<>();
 
         for (Doctor d : doctors) {
-            doctorsDTO.add(new DoctorDTO(d));
+            doctorsDTO.add(modelMapper.map(d, DoctorDTO.class));
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
