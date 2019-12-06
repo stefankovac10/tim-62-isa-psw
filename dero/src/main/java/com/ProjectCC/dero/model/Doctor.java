@@ -16,7 +16,8 @@ public class Doctor extends MedicalStaff {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   //private Array<int> marks;
+   @Column
+   private Double marks;
 
    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Examination> examinations;

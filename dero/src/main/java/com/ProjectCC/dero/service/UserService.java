@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,13 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
+    private ModelMapper modelMapper;
 
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public User save(User user){
@@ -33,7 +36,7 @@ public class UserService {
     public ResponseEntity<UserDTO> findById(Long id) {
         Optional<User> opt = this.userRepository.findById(id);
         User user = opt.get();
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.FOUND);
+        return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.FOUND);
     }
 
     public ResponseEntity<UserDTO> edit(UserDTO userDTO) {

@@ -28,10 +28,6 @@ public class VacationRequest {
    public MedicalStaff medicalStaff;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "cadmin_id", nullable = false)
-   private ClinicAdministrator administrator;
-
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Clinic clinic;
 
 //   public VacationRequest() {}

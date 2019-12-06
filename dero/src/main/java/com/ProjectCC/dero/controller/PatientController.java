@@ -64,7 +64,17 @@ public class PatientController {
 
         List<UserDTO> patientsDTOS = new ArrayList<>();
         for(Patient p : patients){
-            patientsDTOS.add(new UserDTO(p));
+            patientsDTOS.add(UserDTO.builder()
+                    .firstName(p.getFirstName())
+                    .lastName(p.getLastName())
+                    .address(p.getAddress())
+                    .city(p.getCity())
+                    .country(p.getCountry())
+                    .email(p.getEmail())
+                    .jmbg(p.getJmbg())
+                    .telephone(p.getTelephone())
+                    .id(p.getId())
+                    .build());
         }
 
         return new ResponseEntity<>(patientsDTOS, HttpStatus.OK);
@@ -79,7 +89,17 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new UserDTO(patient), HttpStatus.OK);
+        return new ResponseEntity<>(UserDTO.builder()
+                .firstName(patient.getFirstName())
+                .lastName(patient.getLastName())
+                .address(patient.getAddress())
+                .city(patient.getCity())
+                .country(patient.getCountry())
+                .email(patient.getEmail())
+                .jmbg(patient.getJmbg())
+                .telephone(patient.getTelephone())
+                .id(patient.getId())
+                .build(), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -3,6 +3,7 @@ package com.ProjectCC.dero.controller;
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.service.ClinicService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import java.util.List;
 @RequestMapping(value="/api/clinics")
 public class ClinicController {
 
+    private ModelMapper modelMapper;
     private ClinicService clinicService;
 
     @Autowired
-    public ClinicController(ClinicService clinicService) {
+    public ClinicController(ModelMapper modelMapper, ClinicService clinicService) {
+        this.modelMapper = modelMapper;
         this.clinicService = clinicService;
     }
 
@@ -30,7 +33,7 @@ public class ClinicController {
 
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
         for (Clinic c : clinics) {
-            clinicDTOS.add(new ClinicDTO(c));
+            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
         }
 
         return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
@@ -38,19 +41,19 @@ public class ClinicController {
 
     @PostMapping( consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-            Clinic clinic = new Clinic(clinicDTO);
+            Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
 
             clinic = clinicService.save(clinic);
             if(clinic == null){
                 return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
             }
-            return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.CREATED);
+            clinicDTO.setId(clinic.getId());
+            return new ResponseEntity<>(clinicDTO, HttpStatus.CREATED);
 
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-
         Clinic clinic = clinicService.findOne(id);
 
         if (clinic != null) {
@@ -64,20 +67,12 @@ public class ClinicController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClinicDTO> getCourse(@PathVariable Long id) {
 
-        Clinic clinic = clinicService.findOne(id);
-
-        if (clinic == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
+        return this.clinicService.findById(id);
     }
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        Clinic clinic = new Clinic(clinicDTO);
-        clinicService.update(clinic);
-        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
+        return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
 
     }
 }

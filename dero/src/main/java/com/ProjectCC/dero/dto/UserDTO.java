@@ -1,12 +1,18 @@
 package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import net.bytebuddy.asm.Advice;
 
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private Long id;
     private String firstName;
@@ -19,41 +25,41 @@ public class UserDTO {
     private String country;
     private String telephone;
 
-    public UserDTO() {
-    }
-
-    public UserDTO(User user) {
-        this(user.getId(), user.getFirstName(), user.getLastName(), user.getJmbg(),
-                user.getPassword(), user.getEmail(), user.getAddress(), user.getCity(),
-                user.getCountry(), user.getTelephone());
-    }
-
-    public UserDTO(String firstName, String lastName, String jmbg,
-                   String password, String email, String address, String city,
-                   String country, String telephone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.jmbg = jmbg;
-        this.password = password;
-        this.email = email;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.telephone = telephone;
-    }
-
-    public UserDTO(Long id, String firstName, String lastName, String jmbg,
-                   String password, String email, String address, String city,
-                   String country, String telephone) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.jmbg = jmbg;
-        this.password = password;
-        this.email = email;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.telephone = telephone;
-    }
+//    public UserDTO() {
+//    }
+//
+//    public UserDTO(User user) {
+//        this(user.getId(), user.getFirstName(), user.getLastName(), user.getJmbg(),
+//                user.getPassword(), user.getEmail(), user.getAddress(), user.getCity(),
+//                user.getCountry(), user.getTelephone());
+//    }
+//
+//    public UserDTO(String firstName, String lastName, String jmbg,
+//                   String password, String email, String address, String city,
+//                   String country, String telephone) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.jmbg = jmbg;
+//        this.password = password;
+//        this.email = email;
+//        this.address = address;
+//        this.city = city;
+//        this.country = country;
+//        this.telephone = telephone;
+//    }
+//
+//    public UserDTO(Long id, String firstName, String lastName, String jmbg,
+//                   String password, String email, String address, String city,
+//                   String country, String telephone) {
+//        this.id = id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.jmbg = jmbg;
+//        this.password = password;
+//        this.email = email;
+//        this.address = address;
+//        this.city = city;
+//        this.country = country;
+//        this.telephone = telephone;
+//    }
 }

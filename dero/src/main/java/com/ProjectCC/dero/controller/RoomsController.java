@@ -26,7 +26,7 @@ public class RoomsController {
     }
 
     @PostMapping(value = "/operation", consumes = "application/json")
-    public ResponseEntity<OperationRoomDTO> addOperationRoom(@RequestBody  OperationRoomDTO operationRoom) {
+    public ResponseEntity<OperationRoomDTO> addOperationRoom(@RequestBody OperationRoomDTO operationRoom) {
         return this.operationRoomService.save(operationRoom);
     }
 

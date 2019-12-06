@@ -24,14 +24,7 @@ public class TypeOfExaminationController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<TypeOfExaminationDTO> addType(@RequestBody TypeOfExaminationDTO typeDTO) {
-
-        TypeOfExamination type = new TypeOfExamination();
-        type.setName(typeDTO.getName());
-        type.setDescription(typeDTO.getDescription());
-
-        type = typeOfExaminationService.save(type);
-
-        return new ResponseEntity<>(new TypeOfExaminationDTO(type), HttpStatus.CREATED);
+        return this.typeOfExaminationService.add(typeDTO);
     }
 
     @GetMapping(value = "/all")
@@ -41,9 +34,7 @@ public class TypeOfExaminationController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<TypeOfExaminationDTO> update(@RequestBody TypeOfExaminationDTO typeDTO) {
-        typeOfExaminationService.update(typeDTO);
-
-        return new ResponseEntity<>(typeDTO, HttpStatus.OK);
+        return this.typeOfExaminationService.update(typeDTO);
     }
 
 }

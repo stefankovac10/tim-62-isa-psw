@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
 import com.ProjectCC.dero.dto.VacationRequestDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,44 +16,32 @@ import java.util.Optional;
 public class VacationRequestService {
     private VacationRequestRepository vacationRequestRepository;
     private ClinicRepository clinicRepository;
-    private ClinicAdministratorRepository clinicAdministratorRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
     public VacationRequestService(VacationRequestRepository vacationRequestRepository, ClinicRepository clinicRepository,
-                                  ClinicAdministratorRepository clinicAdministratorRepository) {
+                                  ModelMapper modelMapper) {
         this.vacationRequestRepository = vacationRequestRepository;
         this.clinicRepository = clinicRepository;
-        this.clinicAdministratorRepository = clinicAdministratorRepository;
+        this.modelMapper = modelMapper;
     }
 
 
     public VacationRequestDTO add(VacationRequestDTO vac) {
         Optional<Clinic> opt = this.clinicRepository.findById((long)1);
         Clinic clinic = opt.get();
-        Optional<ClinicAdministrator> opti = this.clinicAdministratorRepository.findById((long)3);
-        ClinicAdministrator admin = opti.get();
-        VacationRequest vacationRequest = VacationRequest.builder()
-                .startDate(vac.getStartDate())
-                .endDate(vac.getEndDate())
-                .clinic(clinic)
-                .administrator(admin)
-                .build();
-
+        VacationRequest vacationRequest = modelMapper.map(vac, VacationRequest.class);
+        vacationRequest.setClinic(clinic);
         vacationRequest = this.vacationRequestRepository.save(vacationRequest);
-        vac.setId(vacationRequest.getId());
-        return vac;
+//        vac.setId(vacationRequest.getId());
+        return modelMapper.map(vacationRequest, VacationRequestDTO.class);
     }
 
     public List<VacationRequestDTO> getAll() {
         ArrayList<VacationRequest> vacs = (ArrayList<VacationRequest>) this.vacationRequestRepository.findAll();
         List<VacationRequestDTO> retVal = new ArrayList<>();
         for (VacationRequest vac : vacs) {
-            retVal.add(VacationRequestDTO.builder()
-            .startDate(vac.getStartDate())
-            .endDate(vac.getEndDate())
-            .accepted(vac.isAccepted())
-            .build());
-//            retVal.add(new VacationRequestDTO(vac.getStartDate(), vac.getEndDate()));
+            retVal.add(modelMapper.map(vac, VacationRequestDTO.class));
         }
         return retVal;
     }
