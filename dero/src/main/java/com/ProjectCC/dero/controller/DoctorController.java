@@ -25,26 +25,17 @@ import java.util.Optional;
 public class DoctorController {
 
     private DoctorService doctorService;
-    private ClinicService clinicService;
+    //private ClinicService clinicService;
 
     @Autowired
     public DoctorController(DoctorService doctorService, ClinicService clinicService) {
         this.doctorService = doctorService;
-        this.clinicService = clinicService;
+        //this.clinicService = clinicService;
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctor) {
-
-        Doctor doc = new Doctor(doctor.getFirstName(), doctor.getLastName(), doctor.getJmbg(),
-                doctor.getPassword(), doctor.getEmail(), doctor.getAddress(), doctor.getCity(),
-                doctor.getCountry(), doctor.getTelephone());
-        Clinic clinic = clinicService.findOne((long) 1);
-        doc.setClinic(clinic);
-
-        doc = doctorService.save(doc);
-
-        return new ResponseEntity<>(new DoctorDTO(doc), HttpStatus.CREATED);
+    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+        return doctorService.save(doctorDTO);
     }
 
     @DeleteMapping(path = "/{id}")

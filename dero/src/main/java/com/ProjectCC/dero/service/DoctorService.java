@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.DoctorDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,32 @@ import java.util.List;
 public class DoctorService {
 
     private DoctorRepository doctorRepository;
+    private ClinicService clinicService;
 
     @Autowired
-    public DoctorService(DoctorRepository doctorRepository) {
+    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService) {
         this.doctorRepository = doctorRepository;
+        this.clinicService = clinicService;
     }
 
-    public Doctor save(Doctor doc) {
-        return doctorRepository.save(doc);
+    public ResponseEntity<DoctorDTO> save(DoctorDTO doctorDTO) {
+        Doctor doctor = new Doctor(
+                doctorDTO.getFirstName(),
+                doctorDTO.getLastName(),
+                doctorDTO.getJmbg(),
+                doctorDTO.getPassword(),
+                doctorDTO.getEmail(),
+                doctorDTO.getAddress(),
+                doctorDTO.getCity(),
+                doctorDTO.getCountry(),
+                doctorDTO.getTelephone());
+
+        Clinic clinic = clinicService.findOne((long) 1);
+        doctor.setClinic(clinic);
+
+        doctor = doctorRepository.save(doctor);
+
+        return new ResponseEntity<>(new DoctorDTO(doctor), HttpStatus.CREATED);
     }
 
     public void delete(Long id) {
