@@ -46,9 +46,10 @@ public class DoctorService {
         return new ResponseEntity<>(new DoctorDTO(doctor), HttpStatus.CREATED);
     }
 
-    public void delete(Long id) {
-//        Long idLong = (Long)id;
+    public ResponseEntity<Void> delete(Long id) {
         doctorRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<List<DoctorDTO>> findAll() {

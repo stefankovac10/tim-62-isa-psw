@@ -25,12 +25,10 @@ import java.util.Optional;
 public class DoctorController {
 
     private DoctorService doctorService;
-    //private ClinicService clinicService;
 
     @Autowired
     public DoctorController(DoctorService doctorService, ClinicService clinicService) {
         this.doctorService = doctorService;
-        //this.clinicService = clinicService;
     }
 
     @PostMapping(consumes = "application/json")
@@ -39,10 +37,8 @@ public class DoctorController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable  Long id) {
-        doctorService.delete(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+        return this.doctorService.delete(id);
     }
 
     @GetMapping(value = "/all")
