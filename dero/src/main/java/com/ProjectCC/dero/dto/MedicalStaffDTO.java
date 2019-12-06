@@ -17,7 +17,7 @@ public class MedicalStaffDTO extends UserDTO{
     @Getter
     public ClinicDTO clinic;
 
-    private VacationRequest vacationRequest;
+    private VacationRequestDTO vacationRequest;
 
 //    @Autowired
 //    public MedicalStaffDTO() {

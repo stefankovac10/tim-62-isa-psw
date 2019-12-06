@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.dto;
 
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
 import com.ProjectCC.dero.model.MedicalStaff;
 import lombok.*;
@@ -15,8 +16,8 @@ public class VacationRequestDTO {
     private String startDate;
     private String endDate;
     private boolean accepted;
-    public MedicalStaff medicalStaff;
-    private ClinicAdministrator administrator;
+    public MedicalStaffDTO medicalStaff;
+    private ClinicDTO clinic;
 //
 //    public VacationRequestDTO() {}
 //
