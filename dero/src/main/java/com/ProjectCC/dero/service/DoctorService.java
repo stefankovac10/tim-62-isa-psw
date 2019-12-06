@@ -1,11 +1,16 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
+import javax.xml.ws.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,19 +32,25 @@ public class DoctorService {
         doctorRepository.deleteById(id);
     }
 
-    public List<Doctor> findAll() {
-        return doctorRepository.findAll();
+    public ResponseEntity<List<DoctorDTO>> findAll() {
+        List<Doctor> doctors = doctorRepository.findAll();
+        List<DoctorDTO> doctorsDTO = new ArrayList<>();
+
+        for (Doctor d : doctors) {
+            doctorsDTO.add(new DoctorDTO(d));
+        }
+
+        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
     }
 
-    public List<Doctor> pronadjiPoImenuMejluGraduDrzavi(String firstName,
-                                                        String lastName,
-                                                        String email,
-                                                        String city,
-                                                        String country){
-        return doctorRepository.pronadjiDoktorePoImenuMejluGraduDrzavi(firstName,
-                                                                        lastName,
-                                                                        email,
-                                                                        city,
-                                                                        country);
+    public ResponseEntity<List<DoctorDTO>> pronadjiPoImenuMejluGraduDrzavi(String firstName, String lastName, String email, String city, String country){
+        List<Doctor> doctors = doctorRepository.pronadjiDoktorePoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
+        List<DoctorDTO> doctorsDTO = new ArrayList<>();
+
+        for (Doctor d : doctors) {
+            doctorsDTO.add(new DoctorDTO(d));
+        }
+
+        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
     }
 }

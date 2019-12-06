@@ -56,31 +56,11 @@ public class DoctorController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
-
-        List<Doctor> doctors = doctorService.findAll();
-
-        List<DoctorDTO> doctorsDTOS = new ArrayList<>();
-        for (Doctor d : doctors) {
-            doctorsDTOS.add(new DoctorDTO(d));
-        }
-
-        return new ResponseEntity<>(doctorsDTOS, HttpStatus.OK);
+        return this.doctorService.findAll();
     }
 
     @GetMapping(value = "/filter")
-    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName,
-                                                                                  String lastName,
-                                                                                  String email,
-                                                                                  String city,
-                                                                                  String country) {
-
-        List<Doctor> doctors = doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
-
-        // convert doctors to DTOs
-        List<DoctorDTO> doctorsDTO = new ArrayList<>();
-        for (Doctor d : doctors) {
-            doctorsDTO.add(new DoctorDTO(d));
-        }
-        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName, String lastName, String email, String city, String country) {
+        return this.doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
     }
 }
