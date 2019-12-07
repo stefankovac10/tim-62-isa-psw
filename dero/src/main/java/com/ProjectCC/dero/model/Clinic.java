@@ -48,7 +48,10 @@ public class Clinic {
    //private ArrayList<Integer> marks;
 
    @Column(name = "income")
-   private double income;
+   private Double income;
+
+   @Column(name = "grade")
+   private Double grade;
 
 //   @Autowired
 //   public Clinic() {}

@@ -18,7 +18,8 @@ public class ClinicDTO {
     private String name;
     private String address;
     private String description;
-    private double income;
+    private Double income;
+    private Double grade;
 
     private List<MedicalStaffDTO> medicalStaff;
     private List<RoomDTO> rooms;
