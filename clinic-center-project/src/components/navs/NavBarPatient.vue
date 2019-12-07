@@ -38,6 +38,11 @@
               <router-link to="/patient/profile">Profile</router-link>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <router-link to="/patient/search">Search</router-link>
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
