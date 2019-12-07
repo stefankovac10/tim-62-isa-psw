@@ -1,18 +1,16 @@
 package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.Doctor;
-import com.ProjectCC.dero.model.TypeOfExamination;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Set;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TypeOfExaminationDTO {
