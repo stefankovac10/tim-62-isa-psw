@@ -48,8 +48,6 @@ public class TypeOfExaminationService {
     public ResponseEntity<TypeOfExaminationDTO> add(TypeOfExaminationDTO typeDTO) {
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
         type = this.typeOfExaminationRepository.save(type);
-        if (type != null)
-            return new ResponseEntity<>(modelMapper.map(type, TypeOfExaminationDTO.class), HttpStatus.CREATED);
-        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(modelMapper.map(type, TypeOfExaminationDTO.class), HttpStatus.CREATED);
     }
 }
