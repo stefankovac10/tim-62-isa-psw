@@ -17,7 +17,7 @@ public class ExaminationDTO {
     private String discount;
     private String report;
     private PrescriptionDTO prescription;
-    private String diagnosis;
+    private DiagnosisDTO diagnosis;
     private NurseDTO nurse;
     private DoctorDTO doctor;
     private UserDTO patient;
@@ -43,7 +43,7 @@ public class ExaminationDTO {
         this.medicalRecord = new MedicalRecordDTO(examination.getMedicalRecord());
     }
 
-    public ExaminationDTO(Long id, String date, String type, String duration, String price, String discount, String report, PrescriptionDTO prescription, String diagnosis, NurseDTO nurse, DoctorDTO doctor, UserDTO patient, MedicalRecordDTO medicalRecord) {
+    public ExaminationDTO(Long id, String date, String type, String duration, String price, String discount, String report, PrescriptionDTO prescription, DiagnosisDTO diagnosis, NurseDTO nurse, DoctorDTO doctor, UserDTO patient, MedicalRecordDTO medicalRecord) {
         this.id = id;
         this.date = date;
         this.type = type;

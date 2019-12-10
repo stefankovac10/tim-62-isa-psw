@@ -6,6 +6,7 @@ import com.ProjectCC.dero.model.Prescription;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,8 +14,7 @@ import java.util.Set;
 @Setter
 public class PrescriptionDTO {
     private Long id;
-    private boolean certified;
-    private ExaminationDTO examination;
+    private Boolean certified;
     private Set<MedicationDTO> medications;
     private DoctorDTO doctor;
     private NurseDTO nurse;
@@ -23,22 +23,23 @@ public class PrescriptionDTO {
     public PrescriptionDTO(Prescription prescription) {
         this.id = prescription.getId();
         this.certified = prescription.getCertified();
-        this.examination = new ExaminationDTO(prescription.getExamination());
-        this.doctor = new DoctorDTO(prescription.getDoctor());
-        this.nurse = new NurseDTO(prescription.getNurse());
+        //this.doctor = new DoctorDTO(prescription.getDoctor());
+        //this.nurse = new NurseDTO(prescription.getNurse());
+        Set<MedicationDTO> medications = new HashSet<>();
         for (Medication med: prescription.getMedication()){
             medications.add(new MedicationDTO(med));
         }
+        this.medications = medications;
+
     }
 
     public PrescriptionDTO() {
 
     }
 
-    public PrescriptionDTO(Long id, boolean certified, ExaminationDTO examination, Set<MedicationDTO> medications, DoctorDTO doctor, NurseDTO nurse) {
+    public PrescriptionDTO(Long id, boolean certified, Set<MedicationDTO> medications, DoctorDTO doctor, NurseDTO nurse) {
         this.id = id;
         this.certified = certified;
-        this.examination = examination;
         this.medications = medications;
         this.doctor = doctor;
         this.nurse = nurse;
