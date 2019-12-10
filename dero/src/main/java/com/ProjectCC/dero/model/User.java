@@ -66,7 +66,8 @@ public class User {
       this.country = country;
       this.telephone = telephone;
    }
-   
+
+   @Autowired
    public User(UserDTO userDTO){
       this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
               userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
