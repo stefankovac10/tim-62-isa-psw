@@ -30,8 +30,15 @@ public class ClinicService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Clinic> findAll() {
-        return clinicRepository.findAll();
+    public ResponseEntity<List<ClinicDTO>> findAll() {
+        List<Clinic> clinics = clinicRepository.findAll();
+        List<ClinicDTO> clinicDTOS = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
+        }
+
+        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
     }
 
     public Clinic save(Clinic clinic){

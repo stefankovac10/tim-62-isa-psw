@@ -28,18 +28,10 @@ public class ClinicController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<ClinicDTO>> getAllClinics() {
-
-        List<Clinic> clinics = clinicService.findAll();
-
-        List<ClinicDTO> clinicDTOS = new ArrayList<>();
-        for (Clinic c : clinics) {
-            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
-        }
-
-        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
+        return clinicService.findAll();
     }
 
-    @PostMapping( consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
             Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
 
