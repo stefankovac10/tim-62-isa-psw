@@ -35,7 +35,12 @@ public class PatientController {
     public ResponseEntity<Void> save(@PathVariable Long id){
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
         registrationRequestService.remove(id);
-        MedicalRecord medicalRecord = new MedicalRecord(0,0,"","");
+        MedicalRecord medicalRecord = MedicalRecord.builder()
+                                        .height(0)
+                                        .weight(0)
+                                        .bloodType("")
+                                        .diopter("")
+                                        .build();
         medicalRecord = medicalRecordService.save(medicalRecord);
 
         Patient patient = new Patient();

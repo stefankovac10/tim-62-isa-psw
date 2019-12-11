@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
 import com.ProjectCC.dero.model.Prescription;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,12 @@ import java.util.List;
 public class PrescriptionService {
 
     private PrescriptionRepository prescriptionRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public PrescriptionService(PrescriptionRepository prescriptionRepository) {
+    public PrescriptionService(PrescriptionRepository prescriptionRepository,ModelMapper modelMapper) {
         this.prescriptionRepository = prescriptionRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<PrescriptionDTO> findAll(){
@@ -24,7 +27,7 @@ public class PrescriptionService {
 
         List<PrescriptionDTO> prescriptionDTOS = new ArrayList<>();
         for (Prescription p : prescriptions) {
-            prescriptionDTOS.add(new PrescriptionDTO(p));
+            prescriptionDTOS.add(modelMapper.map(p, PrescriptionDTO.class));
         }
 
         return prescriptionDTOS;
@@ -43,7 +46,7 @@ public class PrescriptionService {
         if(prescription !=null){
             prescription.setCertified(true);
             prescriptionRepository.save(prescription);
-            return new PrescriptionDTO(prescription);
+            return modelMapper.map(prescription, PrescriptionDTO.class);
         }else{
             return null;
         }

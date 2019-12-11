@@ -1,40 +1,49 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
     <form id="login" accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
-      <h1 class="p-2">Add report</h1>
+      <h1 class="p-2">Examination</h1>
       <br />
-      <div class="form-group">
-        <label for="exampleSelect1">Diagnosis</label>
-        <select class="form-control" id="exampleSelect1" v-model="diagnosis">
-          <option v-for="diagnosis in diagnosisis" :key="diagnosis">{{diagnosis.name}}</option>
-        </select>
-      </div>
-      <br/>
-      <div class="form-group">
-        <label for="exampleSelect1">Medicines</label>
-        <select class="form-control" id="exampleSelect1" v-model="medicine">
-          <option v-for="medicine in medicines" :key="medicine">{{medicine.name}}</option>
-        </select>
+      <div>
+      <label class="typo__label">Select with search</label>
+      <multiselect v-model="diagnosis" :options="diagnosisis" :custom-label="nameWithLang" placeholder="Select one" label="name" track-by="name"></multiselect>
+      <pre class="language-json"><code>{{ value  }}</code></pre>
       </div>
       <div class="form-group">
       <br/>
-      <label for="exampleTextarea">Report</label>
-      <textarea class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
+        <label for="exampleTextarea">Report</label>
+        <textarea class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
       <br/>
-      <button class="btn btn-primary p-2" v-on:click="add">Add</button>
+      <div>
+        <label class="typo__label">Medicines</label>
+          <multiselect v-model="medicinesSelected" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="medicines" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+        <pre class="language-json"><code>{{ value }}</code></pre>
+      </div>
+      <button class="btn btn-primary p-2" v-on:click.prevent="add()">Add</button>
     </div>
     </form>
   </div>
 </template>
 
+
 <script>
 import { httpClient } from "@/services/Api.js";
+import Multiselect from 'vue-multiselect'
 export default {
+  components:{
+       Multiselect
+  },
   data: function() {
     return {
-        diagnosisis: {},
-        medicines: {},
-        report: undefined
+        diagnosisis: [],
+        diagnosis: {},
+        medicines: [],
+        medicinesSelected: [],
+        report: undefined,
+        examination: {
+          prescription: {
+              medications: []
+          }
+        }
     };
   },
   mounted(){
@@ -58,21 +67,34 @@ export default {
   },
   methods: {
       add: function(){
-          httpClient
-            .post("/examination",{
-                report: this.report,
-                medicine: this.medicine,
-                diagnosis: this.diagnosis
-            })
-            .then(response => {
-                this.response = response.data;
-            })
-            .catch(error => {
-                this.error = error;
+          if(this.diagnosis === null  || this.report === undefined || this.report === ''){
+            this.$vToastify.info({
+              body: "Pleas fill the report and chose the diagnosis",
+              title: "Warning",
+              type: "warning",
+              canTimeout: false,
+              append: false
             });
+            return;
+          }else{
+            
+            this.examination.report = this.report;
+            this.examination.prescription.medications = this.medicinesSelected;
+            this.examination.diagnosis = this.diagnosis;
+            
+            httpClient
+              .post("/examination/", this.examination)
+              .then(response => {
+                this.response = response.data;
+              })
+              .catch(error => {
+                this.error = error;
+              });
+          }
       }
   },
 };
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 

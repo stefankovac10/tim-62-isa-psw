@@ -5,6 +5,7 @@ import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -39,18 +40,24 @@ public class Prescription {
    @JoinColumn(name = "nurse_id", referencedColumnName = "id")
    public Nurse nurse;
 
+   @Autowired
    public Prescription() {
    }
 
-   public Prescription(Boolean certified, Examination examination, Set<Medication> medication, Doctor doctor, Nurse nurse) {
+   @Autowired
+   public Prescription(Long id,Boolean certified, Examination examination, Set<Medication> medication, Doctor doctor, Nurse nurse) {
+      this.id = id;
       this.certified = certified;
+      this.examination = examination;
       this.medication = medication;
       this.doctor = doctor;
       this.nurse = nurse;
    }
 
+   @Autowired
    public Prescription(PrescriptionDTO prescriptionDTO){
-      this.certified = prescriptionDTO.isCertified();
+      this.id = prescriptionDTO.getId();
+      this.certified = prescriptionDTO.getCertified();
       this.doctor = new Doctor(prescriptionDTO.getDoctor());
       this.nurse = new Nurse(prescriptionDTO.getNurse());
       for(MedicationDTO med: prescriptionDTO.getMedications()){

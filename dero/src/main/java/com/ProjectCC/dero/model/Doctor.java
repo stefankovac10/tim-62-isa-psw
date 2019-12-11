@@ -43,6 +43,7 @@ public class Doctor extends MedicalStaff {
       super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
    }
 
+   @Autowired
    public Doctor(DoctorDTO doctorDTO){
       this(doctorDTO.getFirstName(),doctorDTO.getLastName(),doctorDTO.getJmbg(), doctorDTO.getPassword(),doctorDTO.getEmail(),
               doctorDTO.getAddress(), doctorDTO.getCity(), doctorDTO.getCountry(), doctorDTO.getTelephone());
