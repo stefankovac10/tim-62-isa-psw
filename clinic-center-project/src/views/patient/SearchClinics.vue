@@ -16,6 +16,11 @@
       <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
     </form>
+
+    <div v-for="clinic in clincis" :key="clinic.id">
+        <div class="card-header">{{clinic.name}}</div>
+    </div>
+
   </div>
 </template>
 
@@ -27,19 +32,21 @@ export default {
     return {
       name: undefined,
       address: undefined,
-      description: undefined
+      description: undefined,
+      clinics: []
     };
   },
   methods: {
     search: function() {
       httpClient
-        .get("/search", {
+        .post("/clinics/search", {
             name: this.name,
             address: this.address,
             description: this.description
         })
         .then(response => {
           this.response = response;
+          this.clinics = response.data;
         })
         .catch(error => {
           this.error = error;
