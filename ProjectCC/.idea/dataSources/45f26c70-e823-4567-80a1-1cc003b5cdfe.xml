@@ -13,19 +13,19 @@
       <Current>1</Current>
       <Relations>sequence|table|30904|30906|1
 sequence|table|26815|26817|1
+sequence|table|16755|16757|1
+sequence|table|35843|35845|1
 sequence|table|35891|35893|1
 sequence|table|35904|35906|1
+sequence|table|35864|35866|1
+sequence|table|35880|35882|1
 sequence|table|35925|35927|1
 sequence|table|35941|35943|1
 sequence|table|35952|35954|1
 sequence|table|35988|35990|1
+sequence|table|35970|35972|1
 sequence|table|35999|36001|1
 sequence|table|36010|36012|1
-sequence|table|35970|35972|1
-sequence|table|16755|16757|1
-sequence|table|35864|35866|1
-sequence|table|35880|35882|1
-sequence|table|35843|35845|1
 </Relations>
     </database>
     <role id="3" parent="1" name="pg_execute_server_program">
