@@ -23,7 +23,7 @@ public class ClinicDTO {
 
     private List<MedicalStaffDTO> medicalStaff;
     private List<RoomDTO> rooms;
-
+    private List<ExaminationDTO> examinations;
 //    public ClinicDTO() {
 //    }
 //
