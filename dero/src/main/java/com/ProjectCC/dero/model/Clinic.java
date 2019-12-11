@@ -43,9 +43,9 @@ public class Clinic {
 
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Room> rooms;
-   
-   //private Set<Examination> examinationSet;
-   //private ArrayList<Integer> marks;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Examination> examinations;
 
    @Column(name = "income")
    private Double income;

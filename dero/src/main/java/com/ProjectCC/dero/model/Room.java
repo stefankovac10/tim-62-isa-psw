@@ -28,5 +28,6 @@ public class Room {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "clinic_id", nullable = false)
     private Clinic clinic;
 }
