@@ -67,4 +67,9 @@ public class ClinicController {
         return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
 
     }
+
+    @PostMapping(value = "/search")
+    public ResponseEntity<List<ClinicDTO>> pronadjiKlinikePoImenuAdresiOpisu(@RequestBody ClinicDTO clinicDTO) {
+        return this.clinicService.pronadjiPoImenuAdresiOpisu(clinicDTO);
+    }
 }

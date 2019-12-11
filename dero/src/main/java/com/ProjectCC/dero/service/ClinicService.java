@@ -122,4 +122,19 @@ public class ClinicService {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    public ResponseEntity<List<ClinicDTO>> pronadjiPoImenuAdresiOpisu(ClinicDTO clinicDTO){
+        String name = clinicDTO.getName();
+        String address = clinicDTO.getAddress();
+        String description = clinicDTO.getDescription();
+
+        List<Clinic> clinics = clinicRepository.pronadjiKlinikePoImenuAdresiOpisu(name, address, description);
+        List<ClinicDTO> clinicsDTO = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            clinicsDTO.add(modelMapper.map(c, ClinicDTO.class));
+        }
+
+        return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);
+    }
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long>{
 
@@ -17,4 +19,7 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long>{
     void update(String name, String address, String description, Long id);
 
     Clinic findByName(String name);
+
+    @Query("from Clinic c where c.name = ?1 and c.address = ?2 and c.description = ?3")
+    List<Clinic> pronadjiKlinikePoImenuAdresiOpisu(String name, String address, String description);
 }
