@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.PatientDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
@@ -118,5 +119,9 @@ public class PatientController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping(value = "/search/{firstName}/{lastName}/{jmbg}")
+    public ResponseEntity<List<PatientDTO>> searchPatients(@PathVariable String firstName, @PathVariable String lastName, @PathVariable String jmbg) {
+        return this.patientService.search(firstName, lastName, jmbg);
     }
 }

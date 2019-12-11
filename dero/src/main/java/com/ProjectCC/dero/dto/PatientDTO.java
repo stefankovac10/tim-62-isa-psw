@@ -1,14 +1,17 @@
 package com.ProjectCC.dero.dto;
 
-import com.ProjectCC.dero.model.Examination;
-import com.ProjectCC.dero.model.MedicalRecord;
-import com.ProjectCC.dero.model.Operation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
-public class PatientDTO {
+@SuperBuilder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PatientDTO extends UserDTO {
     private Long id;
     public MedicalRecordDTO medicalRecord;
     public List<ExaminationDTO> examinations;
