@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
       <div class="card border-success mb-3" style="max-width: 20rem; max-height: 15rem; height:15rem; width:20rem; margin-right: 10px; margin-top:20px"
-       v-for = "p in prescriptions" v-bind:key="p">
+       v-for = "p in filteredPrescriptions" v-bind:key="p.id">
        <div>Doctor: Stefan Kovac</div>
           <div class="card-body">
-            <p class="card-text" v-for = "m in p.medications" v-bind:key = "m">{{m.name}}</p>
-            <button type="button" style="position: absolute; right: 0; bottom:0; margin: 10px" class="btn btn-success" v-on:click="certify(prescription.id)">Certify</button>
+            <p class="card-text" v-for = "m in p.medication" v-bind:key = "m.id">{{m.name}}</p>
+            <button type="button" style="position: absolute; right: 0; bottom:0; margin: 10px" class="btn btn-success" v-on:click="certify(p.id)">Certify</button>
           </div>
       </div>
       
@@ -20,7 +20,7 @@ export default {
     return {
       prescriptions: [],
       prescription: {},
-      medications: []
+      medication: [],    
     };
   }, 
   mounted(){
@@ -28,12 +28,19 @@ export default {
         .get("/prescription/all")
         .then(response => {
           this.prescriptions = response.data;  
-          this.medications = this.prescription.medications;
+          this.medication = this.prescription.medication;
               
         })
         .catch(error => {
           this.error = error;
         });
+  },
+  computed: {
+    filteredPrescriptions: function () {
+      return this.prescriptions.filter(function (p) {
+      return p.certified === false || p.certified === null;
+    })
+     }
   },
   methods:{
       refresh: function(){
