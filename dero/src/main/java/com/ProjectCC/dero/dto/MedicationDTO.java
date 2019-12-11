@@ -1,17 +1,20 @@
 package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.Medication;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MedicationDTO {
     private Long id;
     private String name;
     private String description;
     private String code;
 
+    /*
     public MedicationDTO() {
     }
 
@@ -31,6 +34,6 @@ public class MedicationDTO {
     public MedicationDTO(Medication medication) {
         this(medication.getId(),medication.getName(), medication.getDescription(), medication.getCode());
     }
-
+    */
 
 }

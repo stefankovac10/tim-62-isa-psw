@@ -33,6 +33,7 @@ public class Nurse extends MedicalStaff {
         super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
     }
 
+    @Autowired
     public Nurse(NurseDTO nurseDTO) {
         super(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
                 nurseDTO.getAddress(), nurseDTO.getCity(), nurseDTO.getCountry(), nurseDTO.getTelephone());

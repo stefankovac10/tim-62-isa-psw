@@ -3,6 +3,7 @@ package com.ProjectCC.dero.controller;
 import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.model.Medication;
 import com.ProjectCC.dero.service.MedicationService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,12 @@ import java.util.List;
 public class MedicationController {
 
     private MedicationService medicationService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public MedicationController(MedicationService medicationService) {
+    public MedicationController(MedicationService medicationService, ModelMapper modelMapper) {
         this.medicationService = medicationService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/all")
@@ -30,7 +33,7 @@ public class MedicationController {
 
         List<MedicationDTO> medicationDTOS = new ArrayList<>();
         for (Medication m : medications) {
-            medicationDTOS.add(new MedicationDTO(m));
+            medicationDTOS.add(modelMapper.map(m, MedicationDTO.class));
         }
 
         return new ResponseEntity<>(medicationDTOS, HttpStatus.OK);
@@ -45,7 +48,7 @@ public class MedicationController {
         if(medication == null){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
         }
-        return new ResponseEntity<>(new MedicationDTO(medication), HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(medication, MedicationDTO.class), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -70,7 +73,7 @@ public class MedicationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new MedicationDTO(medication), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(medication,MedicationDTO.class), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")

@@ -1,25 +1,36 @@
 package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PrescriptionDTO {
     private Long id;
-    private boolean certified;
-    private List<MedicationDTO> medications;
+    private Boolean certified;
+    private Set<MedicationDTO> medications;
     private DoctorDTO doctor;
     private NurseDTO nurse;
 
-
+    /*
     public PrescriptionDTO(Prescription prescription) {
         this.id = prescription.getId();
         this.certified = prescription.getCertified();
+        //this.doctor = new DoctorDTO(prescription.getDoctor());
+        //this.nurse = new NurseDTO(prescription.getNurse());
+        Set<MedicationDTO> medications = new HashSet<>();
+        for (Medication med: prescription.getMedication()){
+            medications.add(new MedicationDTO(med));
+        }
+        this.medications = medications;
+
         Doctor doc = prescription.getDoctor();
         this.doctor = DoctorDTO.builder()
                 .firstName(doc.getFirstName())
@@ -50,5 +61,13 @@ public class PrescriptionDTO {
 
     }
 
+    public PrescriptionDTO(Long id, boolean certified, Set<MedicationDTO> medications, DoctorDTO doctor, NurseDTO nurse) {
+        this.id = id;
+        this.certified = certified;
+        this.medications = medications;
+        this.doctor = doctor;
+        this.nurse = nurse;
+    }
 
+     */
 }

@@ -1,15 +1,12 @@
 package com.ProjectCC.dero.dto;
 
-import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.util.JsonJodaDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
-import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @Getter
@@ -29,6 +26,7 @@ public class ExaminationDTO {
     private String discount;
     public ExaminationRoomDTO examinationRoom;
     public List<DiagnosisDTO> diagnosis;
+//    private DiagnosisDTO diagnosis;
     public PrescriptionDTO prescription;
     public NurseDTO nurse;
     public DoctorDTO doctor;
@@ -36,22 +34,4 @@ public class ExaminationDTO {
     public MedicalRecordDTO medicalRecord;
     public ClinicDTO clinic;
 
-
-//    public ExaminationDTO() {
-//
-//    }
-//
-//    public ExaminationDTO(Examination examination) {
-//        this.id = examination.getId();
-//        this.diagnosis = null;
-//        this.medicine = null;
-//        this.report = examination.getReport();
-//    }
-//
-//    public ExaminationDTO(String report, String medicine, String diagnosis, Long id) {
-//        this.id = id;
-//        this.report = report;
-//        this.medicine = medicine;
-//        this.diagnosis = diagnosis;
-//    }
 }
