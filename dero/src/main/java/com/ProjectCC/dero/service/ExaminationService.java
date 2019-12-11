@@ -28,7 +28,8 @@ public class ExaminationService {
     public void save(ExaminationDTO examinationDTO) {
         Examination examination = new Examination();
         examination.setReport(examinationDTO.getReport());
-        examination.setDiagnosis(diagnosisRepository.getByName(examinationDTO.getDiagnosis()));
+        examination.setDiagnosis(examination.getDiagnosis()); // bilo je ovo ispod
+//        examination.setDiagnosis(diagnosisRepository.getByName(examinationDTO.getDiagnosis().get(0).getName()));
         Prescription prescription = new Prescription();
         prescription.setCertified(false);
         prescription.setDoctor(doctorRepository.getOne((long) 6));

@@ -2,6 +2,8 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.service.ExaminationService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ExaminationController {
 
     private ExaminationService examinationService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public ExaminationController(ExaminationService examinationService) {
+    public ExaminationController(ExaminationService examinationService, ModelMapper modelMapper) {
         this.examinationService = examinationService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping( consumes = "application/json")
@@ -27,7 +31,7 @@ public class ExaminationController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ExaminationDTO> getMedicalRecord(@PathVariable Long id) {
-        return new ResponseEntity<>(new ExaminationDTO(examinationService.getOne(id)), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(examinationService.getOne(id), ExaminationDTO.class), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")
