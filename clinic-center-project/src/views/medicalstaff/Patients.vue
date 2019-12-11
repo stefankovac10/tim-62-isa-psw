@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
-    <h1>List of clinics</h1>
+    <h1>List of patients</h1>
   </div>
 </template>
 

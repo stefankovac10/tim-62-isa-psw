@@ -2,10 +2,10 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
-import com.ProjectCC.dero.model.Examination;
-import com.ProjectCC.dero.model.Medication;
-import com.ProjectCC.dero.model.Prescription;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,31 +18,44 @@ public class ExaminationService {
 
     private ExaminationRepository examinationRepository;
     private DiagnosisRepository diagnosisRepository;
+    private ModelMapper modelMapper;
     private MedicationRepository medicationRepository;
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
+    private MedicalRecordRepository medicalRecordRepository;
 
     @Autowired
-    public ExaminationService(ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository, MedicationRepository medicationRepository, DoctorRepository doctorRepository, NurseRepository nurseRepository) {
+    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository, MedicationRepository medicationRepository, DoctorRepository doctorRepository, NurseRepository nurseRepository) {
         this.examinationRepository = examinationRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.medicationRepository = medicationRepository;
         this.doctorRepository = doctorRepository;
         this.nurseRepository = nurseRepository;
+        this.modelMapper = modelMapper;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
 
     public void save(ExaminationDTO examinationDTO) {
-        Examination examination = new Examination();
-        examination.setReport(examinationDTO.getReport());
-//        examination.setDiagnosis(examination.getDiagnosis()); // bilo je ovo ispod
-//        examination.setDiagnosis(diagnosisRepository.getByName(examinationDTO.getDiagnosis().get(0).getName()));
-        Prescription prescription = new Prescription();
+
         Set<Medication> medications = new HashSet<>();
-        for(MedicationDTO med: examinationDTO.getPrescription().getMedications()){
-            medications.add(new Medication(med));
+        for(MedicationDTO med: examinationDTO.getPrescription().getMedication()){
+            medications.add(modelMapper.map(med, Medication.class));
         }
-        prescription.setMedication(medications);
-        examination.setPrescription(prescription);
+
+        Prescription prescription = Prescription.builder()
+                                    .medication(medications)
+                                    .certified(false)
+                                    .build();
+
+        MedicalRecord medicalRecord = medicalRecordRepository.getOne((long)1);
+
+        Examination examination = Examination.builder()
+                                    .report(examinationDTO.getReport())
+                                    .prescription(prescription)
+                                    .diagnosis(modelMapper.map(examinationDTO.getDiagnosis(), Diagnosis.class))
+                                    .medicalRecord(medicalRecord)
+                                    .build();
+
         examinationRepository.save(examination);
     }
 
@@ -55,7 +68,12 @@ public class ExaminationService {
         return examinationDTO;
     }
 
-    public Examination getOne(Long id) {
-        return examinationRepository.getOne(id);
+    public ExaminationDTO getOne(Long id) {
+        Examination examination = examinationRepository.getOne(id);
+        ExaminationDTO examinationDTO= ExaminationDTO.builder()
+                                       .id(examination.getId())
+                                       .report(examination.getReport())
+                                       .build();
+        return examinationDTO;
     }
 }

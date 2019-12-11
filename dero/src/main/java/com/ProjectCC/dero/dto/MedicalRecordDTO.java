@@ -5,6 +5,7 @@ import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -19,6 +20,9 @@ public class MedicalRecordDTO {
     private String bloodType;
     private String diopter;
     private UserDTO patient;
+    private List<ExaminationDTO> examinations;
+    private List<OperationDTO> operations;
+    private List<MedicalStaffDTO> medicalStaffs;
 
 /*
     public MedicalRecordDTO(Long id, int height, int width, String bloodType, String diopter) {

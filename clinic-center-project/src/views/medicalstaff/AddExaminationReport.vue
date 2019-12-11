@@ -5,8 +5,7 @@
       <br />
       <div>
       <label class="typo__label">Select with search</label>
-      <multiselect v-model="diagnosis" :options="diagnosisis" :custom-label="nameWithLang" placeholder="Select one" label="name" track-by="name"></multiselect>
-      <pre class="language-json"><code>{{ value  }}</code></pre>
+      <multiselect v-model="diagnosis" :options="diagnosisis"  placeholder="Select one" label="name" track-by="name"></multiselect>
       </div>
       <div class="form-group">
       <br/>
@@ -15,8 +14,7 @@
       <br/>
       <div>
         <label class="typo__label">Medicines</label>
-          <multiselect v-model="medicinesSelected" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="medicines" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-        <pre class="language-json"><code>{{ value }}</code></pre>
+          <multiselect v-model="medicinesSelected" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="medicines" :multiple="true" :taggable="true"></multiselect>
       </div>
       <button class="btn btn-primary p-2" v-on:click.prevent="add()">Add</button>
     </div>
@@ -41,7 +39,7 @@ export default {
         report: undefined,
         examination: {
           prescription: {
-              medications: []
+              medication: []
           }
         }
     };
@@ -79,7 +77,7 @@ export default {
           }else{
             
             this.examination.report = this.report;
-            this.examination.prescription.medications = this.medicinesSelected;
+            this.examination.prescription.medication = this.medicinesSelected;
             this.examination.diagnosis = this.diagnosis;
             
             httpClient
@@ -90,6 +88,7 @@ export default {
               .catch(error => {
                 this.error = error;
               });
+            this.$router.push("/doc/patients");
           }
       }
   },

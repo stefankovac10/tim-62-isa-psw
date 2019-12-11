@@ -30,8 +30,8 @@ public class ExaminationController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ExaminationDTO> getMedicalRecord(@PathVariable Long id) {
-        return new ResponseEntity<>(modelMapper.map(examinationService.getOne(id), ExaminationDTO.class), HttpStatus.OK);
+    public ResponseEntity<ExaminationDTO> getExamination(@PathVariable Long id) {
+        return new ResponseEntity<>(examinationService.getOne(id), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")

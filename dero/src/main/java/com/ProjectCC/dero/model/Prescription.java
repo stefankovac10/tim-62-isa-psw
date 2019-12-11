@@ -3,16 +3,18 @@ package com.ProjectCC.dero.model;
 import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Prescription {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +29,8 @@ public class Prescription {
    @ManyToMany
    @JoinTable(
            name = "prescriptions_medication",
-           joinColumns = @JoinColumn(name = "medication_id", referencedColumnName = "id"),
-           inverseJoinColumns = @JoinColumn(name = "prescription_id", referencedColumnName = "id")
+           joinColumns = @JoinColumn(name = "prescription_id", referencedColumnName = "id"),
+           inverseJoinColumns = @JoinColumn(name = "medication_id", referencedColumnName = "id")
    )
    public Set<Medication> medication;
 
@@ -40,6 +42,7 @@ public class Prescription {
    @JoinColumn(name = "nurse_id", referencedColumnName = "id")
    public Nurse nurse;
 
+   /*
    @Autowired
    public Prescription() {
    }
@@ -63,5 +66,5 @@ public class Prescription {
       for(MedicationDTO med: prescriptionDTO.getMedications()){
          this.medication.add(new Medication(med));
       }
-   }
+   }*/
 }
