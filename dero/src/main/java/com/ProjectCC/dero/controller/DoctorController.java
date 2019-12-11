@@ -25,62 +25,29 @@ import java.util.Optional;
 public class DoctorController {
 
     private DoctorService doctorService;
-    private ClinicService clinicService;
 
     @Autowired
     public DoctorController(DoctorService doctorService, ClinicService clinicService) {
         this.doctorService = doctorService;
-        this.clinicService = clinicService;
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctor) {
-
-        Doctor doc = new Doctor(doctor.getFirstName(), doctor.getLastName(), doctor.getJmbg(),
-                doctor.getPassword(), doctor.getEmail(), doctor.getAddress(), doctor.getCity(),
-                doctor.getCountry(), doctor.getTelephone());
-        Clinic clinic = clinicService.findOne((long) 1);
-        doc.setClinic(clinic);
-
-        doc = doctorService.save(doc);
-
-        return new ResponseEntity<>(new DoctorDTO(doc), HttpStatus.CREATED);
+    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+        return doctorService.save(doctorDTO);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable  Long id) {
-        doctorService.delete(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+        return this.doctorService.delete(id);
     }
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
-
-        List<Doctor> doctors = doctorService.findAll();
-
-        List<DoctorDTO> doctorsDTOS = new ArrayList<>();
-        for (Doctor d : doctors) {
-            doctorsDTOS.add(new DoctorDTO(d));
-        }
-
-        return new ResponseEntity<>(doctorsDTOS, HttpStatus.OK);
+        return this.doctorService.findAll();
     }
 
     @GetMapping(value = "/filter")
-    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName,
-                                                                                  String lastName,
-                                                                                  String email,
-                                                                                  String city,
-                                                                                  String country) {
-
-        List<Doctor> doctors = doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
-
-        // convert doctors to DTOs
-        List<DoctorDTO> doctorsDTO = new ArrayList<>();
-        for (Doctor d : doctors) {
-            doctorsDTO.add(new DoctorDTO(d));
-        }
-        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName, String lastName, String email, String city, String country) {
+        return this.doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
     }
 }

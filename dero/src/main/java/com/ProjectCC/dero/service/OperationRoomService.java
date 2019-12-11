@@ -1,7 +1,10 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.OperationRoom;
+import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.OperationRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,17 +18,33 @@ import java.util.Optional;
 @Service
 public class OperationRoomService {
     private OperationRoomRepository operationRoomRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
-    public OperationRoomService(OperationRoomRepository operationRoomRepository) {
+    public OperationRoomService(OperationRoomRepository operationRoomRepository, ClinicRepository clinicRepository) {
         this.operationRoomRepository = operationRoomRepository;
+        this.clinicRepository = clinicRepository;
     }
 
     public ResponseEntity<OperationRoomDTO> save(OperationRoomDTO operationRoom) {
-        OperationRoom or = new OperationRoom(operationRoom);
+        Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
+        Clinic c = opt.get();
+        ClinicDTO clinic = ClinicDTO.builder()
+                .id(c.getId())
+                .name(c.getName())
+                .description(c.getDescription())
+                .address(c.getAddress())
+                .build();
+        OperationRoom or = OperationRoom.builder()
+                .id(operationRoom.getId())
+                .name(operationRoom.getName())
+                .number(operationRoom.getNumber())
+                .clinic(c)
+                .build();
 
         or = operationRoomRepository.save(or);
         operationRoom.setId(or.getId());
+        operationRoom.setClinic(clinic);
 
         return new ResponseEntity<>(operationRoom, HttpStatus.CREATED);
     }
@@ -35,7 +54,11 @@ public class OperationRoomService {
         List<OperationRoomDTO> ret = new ArrayList<>();
 
         for (OperationRoom or : list) {
-            ret.add(new OperationRoomDTO(or.getId(), or.getNumber(), or.getName()));
+            ret.add(OperationRoomDTO.builder()
+                    .id(or.getId())
+                    .name(or.getName())
+                    .number(or.getNumber())
+                    .build());
         }
 
         return new ResponseEntity<>(ret, HttpStatus.FOUND);

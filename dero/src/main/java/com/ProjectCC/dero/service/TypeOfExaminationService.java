@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.TypeOfExaminationDTO;
 import com.ProjectCC.dero.model.TypeOfExamination;
 import com.ProjectCC.dero.repository.TypeOfExaminationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +16,22 @@ import java.util.List;
 public class TypeOfExaminationService {
 
     private TypeOfExaminationRepository typeOfExaminationRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public TypeOfExaminationService(TypeOfExaminationRepository typeOfExaminationRepository) {
+    public TypeOfExaminationService(TypeOfExaminationRepository typeOfExaminationRepository,
+                                    ModelMapper modelMapper) {
         this.typeOfExaminationRepository = typeOfExaminationRepository;
+        this.modelMapper = modelMapper;
     }
-
-    public TypeOfExamination save(TypeOfExamination type) {
-        return typeOfExaminationRepository.save(type);
-    }
-
     public List<TypeOfExamination> findAll() {
         return typeOfExaminationRepository.findAll();
     }
 
-    public void update(TypeOfExaminationDTO typeDTO) {
-        typeOfExaminationRepository.update(typeDTO.getName(), typeDTO.getDescription(), typeDTO.getId());
+    public ResponseEntity<TypeOfExaminationDTO> update(TypeOfExaminationDTO typeDTO) {
+        TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
+        this.typeOfExaminationRepository.save(type);
+        return new ResponseEntity<>(typeDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<List<TypeOfExaminationDTO>> getAll() {
@@ -38,10 +39,15 @@ public class TypeOfExaminationService {
 
         List<TypeOfExaminationDTO> listDTO = new ArrayList<>();
         for (TypeOfExamination t : list) {
-            TypeOfExaminationDTO tdo = new TypeOfExaminationDTO(t);
-            listDTO.add(tdo);
+            listDTO.add(modelMapper.map(t, TypeOfExaminationDTO.class));
         }
 
         return new ResponseEntity<>(listDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<TypeOfExaminationDTO> add(TypeOfExaminationDTO typeDTO) {
+        TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
+        type = this.typeOfExaminationRepository.save(type);
+        return new ResponseEntity<>(modelMapper.map(type, TypeOfExaminationDTO.class), HttpStatus.CREATED);
     }
 }

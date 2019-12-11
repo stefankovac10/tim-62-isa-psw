@@ -20,9 +20,6 @@ public class ClinicAdministrator extends User {
    @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @OneToMany(mappedBy = "administrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<VacationRequest> vacationRequests;
-
    public ClinicAdministrator() {
    }
 

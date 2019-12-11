@@ -1,15 +1,17 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Examination {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +68,7 @@ public class Examination {
    @JoinColumn(name = "medRec_id", nullable = true)
    public MedicalRecord medicalRecord;
 
+   /*
    public Examination() {
    }
 
@@ -98,4 +101,5 @@ public class Examination {
          this.patient = (Patient) new User(examinationDTO.getPatient());
          this.medicalRecord =  new MedicalRecord(examinationDTO.getMedicalRecord());
    }
+   */
 }

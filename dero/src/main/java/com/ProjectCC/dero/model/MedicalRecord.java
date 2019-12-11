@@ -1,16 +1,18 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.MedicalRecordDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class MedicalRecord {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,9 +55,11 @@ public class MedicalRecord {
    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Operation> operations;
 
+   /*
    @Autowired
    public MedicalRecord() {
    }
+
 
    @Autowired
    public MedicalRecord(int height, int weight, String bloodType, String diopter) {
@@ -68,5 +72,5 @@ public class MedicalRecord {
    @Autowired
    public MedicalRecord(MedicalRecordDTO medicalRecordDTO){
       this(medicalRecordDTO.getHeight(),medicalRecordDTO.getWidth(),medicalRecordDTO.getBloodType(), medicalRecordDTO.getDiopter());
-   }
+   }*/
 }

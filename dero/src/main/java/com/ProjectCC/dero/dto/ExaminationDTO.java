@@ -3,11 +3,13 @@ package com.ProjectCC.dero.dto;
 import com.ProjectCC.dero.model.Diagnosis;
 import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.Patient;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExaminationDTO {
     private Long id;
     private String date;
@@ -23,6 +25,7 @@ public class ExaminationDTO {
     private UserDTO patient;
     private MedicalRecordDTO medicalRecord;
 
+    /*
     public ExaminationDTO() {
 
     }
@@ -59,6 +62,6 @@ public class ExaminationDTO {
         this.medicalRecord = medicalRecord;
     }
 
-
+    */
 
 }
