@@ -72,4 +72,9 @@ public class ClinicController {
     public ResponseEntity<List<ClinicDTO>> pronadjiKlinikePoImenuAdresiOpisu(@RequestBody ClinicDTO clinicDTO) {
         return this.clinicService.pronadjiPoImenuAdresiOpisu(clinicDTO);
     }
+
+    @GetMapping(value = "/businessReport/{id}")
+    public ResponseEntity<ClinicDTO> getReport(@PathVariable Long id) {
+        return this.clinicService.businessReport(id);
+    }
 }

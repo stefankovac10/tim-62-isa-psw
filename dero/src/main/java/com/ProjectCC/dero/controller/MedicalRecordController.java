@@ -23,14 +23,7 @@ public class MedicalRecordController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MedicalRecordDTO> getMedicalRecord(@PathVariable Long id) {
-        MedicalRecord mr = this.medicalRecordService.getOne(id);
-        return new ResponseEntity<>(MedicalRecordDTO.builder()
-                .bloodType(mr.getBloodType())
-                .diopter(mr.getDiopter())
-                .height(mr.getHeight())
-                .weight(mr.getWeight())
-                .id(mr.getId())
-                .build(), HttpStatus.OK);
+        return new ResponseEntity<>(medicalRecordService.findOne(id), HttpStatus.FOUND);
     }
 
     @PutMapping(consumes = "application/json")

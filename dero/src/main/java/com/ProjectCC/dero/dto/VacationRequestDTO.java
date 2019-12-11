@@ -1,9 +1,10 @@
 package com.ProjectCC.dero.dto;
 
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.ClinicAdministrator;
-import com.ProjectCC.dero.model.MedicalStaff;
+import com.ProjectCC.dero.util.JsonJodaDateTimeSerializer;
+import com.ProjectCC.dero.util.JsonJodaLocalDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+import org.joda.time.LocalDate;
 
 
 @Builder
@@ -13,8 +14,12 @@ import lombok.*;
 @AllArgsConstructor
 public class VacationRequestDTO {
     private Long id;
-    private String startDate;
-    private String endDate;
+    @JsonSerialize(using = JsonJodaLocalDateSerializer.class)
+    private LocalDate startDate;
+    @JsonSerialize(using = JsonJodaLocalDateSerializer.class)
+    private LocalDate endDate;
+//    private String startDate;
+//    private String endDate;
     private boolean accepted;
     public MedicalStaffDTO medicalStaff;
     private ClinicDTO clinic;

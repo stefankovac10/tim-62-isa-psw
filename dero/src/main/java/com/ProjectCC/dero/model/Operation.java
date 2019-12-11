@@ -2,6 +2,9 @@ package com.ProjectCC.dero.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,10 +18,14 @@ public class Operation {
    private Long id;
 
    @Column(name = "date", nullable = false)
-   private String date;
+   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate", parameters = {
+           @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
+           @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
+   })
+   private DateTime date;
 
    @Column(name = "duration", nullable = false)
-   private String duration;
+   private Period duration; // more changes needed probably
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "medRec_id", nullable = false)

@@ -16,8 +16,8 @@ public class Doctor extends MedicalStaff {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column
-   private Double marks;
+   @Column(name = "grade")
+   private Double grade;
 
    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Examination> examinations;
@@ -43,6 +43,7 @@ public class Doctor extends MedicalStaff {
       super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
    }
 
+   @Autowired
    public Doctor(DoctorDTO doctorDTO){
       this(doctorDTO.getFirstName(),doctorDTO.getLastName(),doctorDTO.getJmbg(), doctorDTO.getPassword(),doctorDTO.getEmail(),
               doctorDTO.getAddress(), doctorDTO.getCity(), doctorDTO.getCountry(), doctorDTO.getTelephone());
