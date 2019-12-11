@@ -40,13 +40,9 @@ public class Examination {
    public ExaminationRoom examinationRoom;
 
    //@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @ManyToMany
-   @JoinTable(
-           name = "examinations_diagnosis",
-           joinColumns = @JoinColumn(name = "diagnosis_id", referencedColumnName = "id"),
-           inverseJoinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id")
-   )
-   public Set<Diagnosis> diagnosis;
+   @OneToOne()
+   @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
+   public Diagnosis diagnosis;
 
    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "prescription_id", referencedColumnName = "id")

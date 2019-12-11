@@ -1,16 +1,18 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.DiagnosisDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
 @Table(name = "diagnosis")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Diagnosis {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +27,10 @@ public class Diagnosis {
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   @ManyToMany(mappedBy = "diagnosis")
-   public Set<Examination> examinations;
+   @OneToOne(mappedBy = "diagnosis")
+   public Examination examination;
 
+   /*
    public Diagnosis() {
    }
 
@@ -36,5 +39,5 @@ public class Diagnosis {
       this.name = diagnosisDTO.getName();
       this.description = diagnosisDTO.getDescription();
       this.code = diagnosisDTO.getCode();
-   }
+   }*/
 }
