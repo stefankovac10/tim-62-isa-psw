@@ -33,7 +33,9 @@ public class ExaminationService {
 
     public void save(ExaminationDTO examinationDTO) {
         Examination examination = new Examination();
-        examination.setReport(examination.getReport());
+        examination.setReport(examinationDTO.getReport());
+//        examination.setDiagnosis(examination.getDiagnosis()); // bilo je ovo ispod
+//        examination.setDiagnosis(diagnosisRepository.getByName(examinationDTO.getDiagnosis().get(0).getName()));
         Prescription prescription = new Prescription();
         Set<Medication> medications = new HashSet<>();
         for(MedicationDTO med: examinationDTO.getPrescription().getMedications()){

@@ -10,16 +10,16 @@ import java.util.Set;
 @SuperBuilder
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class ExaminationRoom extends Room {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "appointmentList", nullable = false)
-   private int appointmentList;
+//   @Column(name = "appointmentList", nullable = false)
+//   private int appointmentList;
 
    @OneToMany(mappedBy = "examinationRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Examination> examinations;

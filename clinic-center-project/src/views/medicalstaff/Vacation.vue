@@ -29,19 +29,19 @@ export default {
   methods: {
     add: function() {
       var startDate = new Date(this.start);
-      var month = ("0" + (startDate.getMonth() + 1)).slice(-2);
-      var day = ("0" + startDate.getDate()).slice(-2);
-      var year = startDate.getFullYear();
-      var startTrans = day + "-" + month + "-" + year;
+      // var month = ("0" + (startDate.getMonth() + 1)).slice(-2);
+      // var day = ("0" + startDate.getDate()).slice(-2);
+      // var year = startDate.getFullYear();
+      // var startTrans = day + "-" + month + "-" + year;
       var endDate = new Date(this.finish);
-      month = ("0" + (endDate.getMonth() + 1)).slice(-2);
-      day = ("0" + endDate.getDate()).slice(-2);
-      year = endDate.getFullYear();
-      var finishTrans = day + "-" + month + "-" + year;
+      // month = ("0" + (endDate.getMonth() + 1)).slice(-2);
+      // day = ("0" + endDate.getDate()).slice(-2);
+      // year = endDate.getFullYear();
+      // var finishTrans = day + "-" + month + "-" + year;
 
       var req = {
-        startDate: startTrans,
-        endDate: finishTrans,
+        startDate: startDate,
+        endDate: endDate,
         accepted: false
       };
 

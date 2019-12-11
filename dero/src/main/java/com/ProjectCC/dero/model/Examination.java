@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.model;
 
-import com.ProjectCC.dero.dto.ExaminationDTO;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,14 +18,19 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "date", nullable = true)
-   private String date;
+   @Column(name = "date", nullable = false)
+   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
+           @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
+           @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
+   })
+   private DateTime date;
 
-   @Column(name = "type", nullable = true)
-   private String type;
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "type_id", nullable = false)
+   private TypeOfExamination type;
 
-   @Column(name = "duration", nullable = true)
-   private String duration;
+//   @Column(name = "duration", nullable = false)
+//   private Period duration; // more changes needed probably
 
    @Column(name = "price", nullable = true)
    private String price;
@@ -34,6 +40,10 @@ public class Examination {
 
    @Column(name = "report", nullable = true)
    private String report;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "clinic_id", nullable = true)
+   public Clinic clinic;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "ER_id", nullable = true)
