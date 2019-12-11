@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ExaminationController {
 
     private ExaminationService examinationService;
-
     private ModelMapper modelMapper;
-
 
     @Autowired
     public ExaminationController(ExaminationService examinationService, ModelMapper modelMapper) {

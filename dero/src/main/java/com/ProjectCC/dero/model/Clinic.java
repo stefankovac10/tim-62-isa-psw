@@ -43,12 +43,15 @@ public class Clinic {
 
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Room> rooms;
-   
-   //private Set<Examination> examinationSet;
-   //private ArrayList<Integer> marks;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Examination> examinations;
 
    @Column(name = "income")
-   private double income;
+   private Double income;
+
+   @Column(name = "grade")
+   private Double grade;
 
 //   @Autowired
 //   public Clinic() {}
