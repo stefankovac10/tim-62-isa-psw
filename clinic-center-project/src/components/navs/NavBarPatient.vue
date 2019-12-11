@@ -38,10 +38,16 @@
               <router-link to="/patient/profile">Profile</router-link>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/patient/search">Search</router-link>
-            </a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Search</a>
+            <div class="dropdown-menu">
+              <a class="nav-link dropdown-item">
+                <router-link to="/patient/searchdoctors">Doctors</router-link>
+              </a>
+              <a class="nav-link dropdown-item">
+                <router-link to="/patient/searchclinics">Clinics</router-link>
+              </a>
+            </div>
           </li>
         </ul>
       </div>

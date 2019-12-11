@@ -1,21 +1,31 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.DiagnosisDTO;
+import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.dto.MedicalRecordDTO;
+import com.ProjectCC.dero.dto.MedicationDTO;
+import com.ProjectCC.dero.model.Diagnosis;
+import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.repository.MedicalRecordRepository;
+import org.modelmapper.ExpressionMap;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MedicalRecordService {
 
     private MedicalRecordRepository medicalRecordRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository) {
+    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper) {
         this.medicalRecordRepository = medicalRecordRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<MedicalRecord> findAll() {
@@ -30,8 +40,28 @@ public class MedicalRecordService {
         medicalRecordRepository.deleteById(id);
     }
 
-    public MedicalRecord findOne(Long id) {
-        return medicalRecordRepository.findById(id).orElseGet(null);
+    public MedicalRecordDTO findOne(Long id) {
+        MedicalRecord mr = medicalRecordRepository.findById(id).orElseGet(null);
+        List<ExaminationDTO> examinations = new ArrayList<>();
+
+        for(Examination ex: mr.getExaminations()){
+            ExaminationDTO examination = ExaminationDTO.builder()
+                                        .report(ex.getReport())
+                                        .id(ex.getId())
+                                        .diagnosis(modelMapper.map(ex.getDiagnosis(), DiagnosisDTO.class))
+                                        .build();
+            examinations.add(examination);
+        }
+
+        MedicalRecordDTO mrDTO = MedicalRecordDTO.builder()
+                                .id(mr.getId())
+                                .height(mr.getHeight())
+                                .weight(mr.getWeight())
+                                .diopter(mr.getDiopter())
+                                .bloodType(mr.getBloodType())
+                                .examinations(examinations)
+                                .build();
+        return mrDTO;
     }
 
     public void update(MedicalRecord medicalRecord) {

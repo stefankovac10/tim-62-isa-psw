@@ -15,7 +15,8 @@ import java.util.Set;
 public class PrescriptionDTO {
     private Long id;
     private Boolean certified;
-    private Set<MedicationDTO> medications;
+    private List<MedicationDTO> medication;
+    public ExaminationDTO examination;
     private DoctorDTO doctor;
     private NurseDTO nurse;
 
@@ -36,7 +37,7 @@ public class PrescriptionDTO {
                 .firstName(doc.getFirstName())
                 .lastName(doc.getLastName())
                 .address(doc.getAddress())
-                .city(doc.getCity())
+                .city(doc.getCity())    
                 .country(doc.getCountry())
                 .email(doc.getEmail())
                 .jmbg(doc.getJmbg())
