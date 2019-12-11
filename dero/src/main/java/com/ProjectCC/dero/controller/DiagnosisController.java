@@ -3,6 +3,7 @@ package com.ProjectCC.dero.controller;
 import com.ProjectCC.dero.dto.DiagnosisDTO;
 import com.ProjectCC.dero.model.Diagnosis;
 import com.ProjectCC.dero.service.DiagnosisService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,12 @@ import java.util.List;
 public class DiagnosisController {
 
     private DiagnosisService diagnosisService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public DiagnosisController(DiagnosisService diagnosisService) {
+    public DiagnosisController(DiagnosisService diagnosisService, ModelMapper modelMapper) {
         this.diagnosisService = diagnosisService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/all")
@@ -39,7 +42,7 @@ public class DiagnosisController {
 
     @PostMapping( consumes = "application/json")
     public ResponseEntity<DiagnosisDTO> save(@RequestBody DiagnosisDTO diagnosisDTO){
-        Diagnosis diagnosis = new Diagnosis(diagnosisDTO);
+        Diagnosis diagnosis = modelMapper.map(diagnosisDTO, Diagnosis.class);
 
         diagnosis = diagnosisService.save(diagnosis);
         if(diagnosis == null){
@@ -75,7 +78,7 @@ public class DiagnosisController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<DiagnosisDTO> update(@RequestBody DiagnosisDTO diagnosisDTO){
-        Diagnosis diagnosis = new Diagnosis(diagnosisDTO);
+        Diagnosis diagnosis = modelMapper.map(diagnosisDTO, Diagnosis.class);
         diagnosisService.update(diagnosis);
         return new ResponseEntity<>(diagnosisDTO, HttpStatus.OK);
     }
