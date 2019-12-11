@@ -41,6 +41,7 @@ import POperations from "@/views/patient/POperations";
 import MedicalRecord from "@/views/patient/MedicalRecord";
 import PatientsProfile from "@/views/patient/PatientsProfile";
 import SearchDoctors from "@/views/patient/SearchDoctors";
+import SearchClinics from "@/views/patient/SearchClinics";
 
 import NHomepage from "@/views/nurse/NurseHome";
 import Patients from "@/views/medicalstaff/Patients";
@@ -239,10 +240,15 @@ const routes = [
         component: PatientsProfile
       },
       {
-        path: "search",
-        name: "search",
+        path: "searchdoctors",
+        name: "searchdoctors",
         component: SearchDoctors
-      }
+      },
+      {
+        path: "searchclinics",
+        name: "searchclinics",
+        component: SearchClinics
+      },
     ]
   },
   {
