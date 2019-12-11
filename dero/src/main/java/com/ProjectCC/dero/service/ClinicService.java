@@ -1,12 +1,9 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.ClinicDTO;
-import com.ProjectCC.dero.dto.MedicalStaffDTO;
-import com.ProjectCC.dero.dto.RoomDTO;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.MedicalStaff;
-import com.ProjectCC.dero.model.Room;
+import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
+import com.ProjectCC.dero.repository.ExaminationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +18,13 @@ import java.util.Optional;
 public class ClinicService {
 
     private ModelMapper modelMapper;
-
+    private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public ClinicService(ClinicRepository clinicRepository, ModelMapper modelMapper) {
+    public ClinicService(ClinicRepository clinicRepository, ExaminationRepository examinationRepository, ModelMapper modelMapper) {
         this.clinicRepository = clinicRepository;
+        this.examinationRepository = examinationRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -114,5 +112,39 @@ public class ClinicService {
         }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ClinicDTO> businessReport(Long id) {
+        Optional<Clinic> opt = this.clinicRepository.findById(id);
+        Clinic clinic = opt.get();
+        ArrayList<MedicalStaffDTO> docs = new ArrayList<MedicalStaffDTO>();
+        for (MedicalStaff d : clinic.getMedicalStaff()) {
+            if (d instanceof Doctor) {
+                docs.add(DoctorDTO.builder()
+                .id(d.getId())
+                .firstName(d.getFirstName())
+                .lastName(d.getLastName())
+                .grade(((Doctor) d).getGrade()).build());
+            }
+        }
+
+        Optional<List<Examination>> opts = Optional.of(this.examinationRepository.findAll());
+        List<Examination> examinations = opts.get();
+        ArrayList<ExaminationDTO> exams = new ArrayList<>();
+        for (Examination e : examinations) {
+            if (e.getClinic().equals(clinic)) {
+                exams.add(ExaminationDTO.builder()
+                        .date(e.getDate())
+                        .build());
+            }
+        }
+        // Get examinations
+        ClinicDTO clinicDTO = ClinicDTO.builder()
+                .grade(clinic.getGrade())
+                .medicalStaff(docs)
+                .income(clinic.getIncome())
+                .examinations(exams)
+                .build();
+        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
     }
 }

@@ -75,4 +75,9 @@ public class ClinicController {
         return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
 
     }
+
+    @GetMapping(value = "/businessReport/{id}")
+    public ResponseEntity<ClinicDTO> getReport(@PathVariable Long id) {
+        return this.clinicService.businessReport(id);
+    }
 }
