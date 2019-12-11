@@ -28,8 +28,15 @@ public class ClinicService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Clinic> findAll() {
-        return clinicRepository.findAll();
+    public ResponseEntity<List<ClinicDTO>> findAll() {
+        List<Clinic> clinics = clinicRepository.findAll();
+        List<ClinicDTO> clinicDTOS = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
+        }
+
+        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
     }
 
     public Clinic save(Clinic clinic){
@@ -112,6 +119,21 @@ public class ClinicService {
         }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ClinicDTO>> pronadjiPoImenuAdresiOpisu(ClinicDTO clinicDTO){
+        String name = clinicDTO.getName();
+        String address = clinicDTO.getAddress();
+        String description = clinicDTO.getDescription();
+
+        List<Clinic> clinics = clinicRepository.pronadjiKlinikePoImenuAdresiOpisu(name, address, description);
+        List<ClinicDTO> clinicsDTO = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            clinicsDTO.add(modelMapper.map(c, ClinicDTO.class));
+        }
+
+        return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<ClinicDTO> businessReport(Long id) {
