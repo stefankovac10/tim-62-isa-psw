@@ -1,6 +1,11 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div class="card mb-3" style="min-width: 250px; margin: 5px" v-for="request in requests" :key="request">
+    <div
+      class="card mb-3"
+      style="min-width: 250px; margin: 5px"
+      v-for="request in requests"
+      :key="request.id"
+    >
       <h3 class="card-header">{{request.firstName}} {{request.lastName}}</h3>
       <div class="card-body">
         <h6 class="card-subtitle text-muted">{{request.jmbg}}</h6>
@@ -16,9 +21,12 @@
         <div v-if="request.verified === true">
           <h5>Waiting for confirmation</h5>
         </div>
-        <button type="button" class="btn btn-success"  v-if="request.verified === false" v-on:click="accept(request)">
-          Accept
-        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          v-if="request.verified === false"
+          v-on:click="accept(request)"
+        >Accept</button>
         <button
           type="button"
           class="btn btn-danger"
@@ -26,10 +34,8 @@
           data-target="#exampleModal"
           data-whatever="@mdo"
           v-on:click="declineModal(request)"
-           v-if="request.verified === false"
-        >
-          Decline
-        </button>
+          v-if="request.verified === false"
+        >Decline</button>
       </div>
     </div>
     <div
@@ -45,12 +51,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Message</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -62,16 +63,13 @@
             </form>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-primary"
               data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="decline()">
-              Send
-            </button>
+              v-on:click="decline()"
+            >Send</button>
           </div>
         </div>
       </div>
@@ -85,69 +83,68 @@ export default {
   name: "requests",
   data: function() {
     return {
-        requests : {},
-        request: {},
-        message: undefined
+      requests: {},
+      request: {},
+      message: undefined
     };
   },
-  mounted(){
+  mounted() {
     httpClient
-    .get("/regrequest/all")
-    .then(response => {
-      this.requests = response.data;      
-    })
-    .catch(error => {
-      this.error = error;
-    });
+      .get("/regrequest/all")
+      .then(response => {
+        this.requests = response.data;
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
   methods: {
-    refresh: function(){
+    refresh: function() {
       httpClient
         .get("/regrequest/all")
         .then(response => {
-          this.requests = response.data;      
+          this.requests = response.data;
         })
         .catch(error => {
           this.error = error;
         });
     },
     accept: function(request) {
-        httpClient
-          .get("/mail/accept/"+request.email + "/"+ request.id)
-          .then(response => {
-            this.response = response.data;      
-          })
-          .catch(error => {
-            this.error = error;
-          });
+      httpClient
+        .get("/mail/accept/" + request.email + "/" + request.id)
+        .then(response => {
+          this.response = response.data;
+        })
+        .catch(error => {
+          this.error = error;
+        });
 
-        httpClient
-          .put("/regrequest/accept/"+request.id)
-          .then(response => {
-            this.response = response.data;   
-            this.refresh();   
-          })
-          .catch(error => {
-            this.error = error;
-          });
-
+      httpClient
+        .put("/regrequest/accept/" + request.id)
+        .then(response => {
+          this.response = response.data;
+          this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
     decline: function() {
-        if(this.message == undefined || this.message == ""){
-          alert("Please enter the message");
-          return;
-        }
-        httpClient
-          .delete("/regrequest/"+this.request.id)
-          .then(response => {
-            this.response = response.data;   
-            this.refresh();   
-          })
-          .catch(error => {
-            this.error = error;
-          });
+      if (this.message == undefined || this.message == "") {
+        alert("Please enter the message");
+        return;
+      }
+      httpClient
+        .delete("/regrequest/" + this.request.id)
+        .then(response => {
+          this.response = response.data;
+          this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
 
-       /* httpClient
+      /* httpClient
           .get("/mail/refuse/"+this.request.email + "/" + this.message )
           .then(response => {
             this.response = response.data;      
@@ -155,9 +152,9 @@ export default {
           .catch(error => {
             this.error = error;
           });*/
-          this.message = undefined;
+      this.message = undefined;
     },
-    declineModal : function(request){
+    declineModal: function(request) {
       this.request = request;
       this.message = undefined;
     }

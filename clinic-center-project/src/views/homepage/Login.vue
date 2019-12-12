@@ -6,20 +6,16 @@
       <label class="p-2">E-mail</label>
       <input type="text" class="p-2" id="email" v-model="email" />
       <label class="p-2" for="password">Password</label>
-      <input
-        type="password"
-        class="p-2"
-        id="password"
-        v-model="password"
-        placeholder="Password"
-      />
+      <input type="password" class="p-2" id="password" v-model="password" placeholder="Password" />
       <br />
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" v-on:click.prevent="login">Submit</button>
     </form>
   </div>
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
+
 export default {
   name: "login",
   props: {
@@ -30,6 +26,23 @@ export default {
       email: undefined,
       password: undefined
     };
+  },
+  methods: {
+    login: function() {
+      let user = {
+        email: this.email,
+        password: this.password
+      };
+
+      httpClient
+        .post("/auth/login", user)
+        .then(response => {
+          localStorage.setItem("User-token", response.data);
+        })
+        .catch(error => {
+          alert(error);
+        });
+    }
   }
 };
 </script>

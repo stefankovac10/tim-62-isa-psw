@@ -38,9 +38,6 @@ export default {
   },
   methods: {
     registerUser: function(event) {
-      alert(event.firstName);
-
-
       httpClient
         .post("/regrequest", event)
         .then(response => {
