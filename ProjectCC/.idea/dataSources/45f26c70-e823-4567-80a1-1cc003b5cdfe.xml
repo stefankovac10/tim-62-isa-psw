@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="postgres">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.16">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
     <root id="1">
       <ServerVersion>12.0</ServerVersion>
-      <StartupTime>1574926443</StartupTime>
+      <StartupTime>1576095818</StartupTime>
     </root>
     <database id="2" parent="1" name="postgres">
       <ObjectId>13318</ObjectId>
       <Comment>default administrative connection database</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>8088</IntrospectionStateNumber>
+      <IntrospectionStateNumber>33517</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|30904|30906|1
-sequence|table|26815|26817|1
-sequence|table|16755|16757|1
-sequence|table|35843|35845|1
-sequence|table|35891|35893|1
-sequence|table|35904|35906|1
-sequence|table|35864|35866|1
-sequence|table|35880|35882|1
-sequence|table|35925|35927|1
-sequence|table|35941|35943|1
-sequence|table|35952|35954|1
-sequence|table|35988|35990|1
-sequence|table|35970|35972|1
-sequence|table|35999|36001|1
-sequence|table|36010|36012|1
+      <Relations>sequence|table|104485|104487|1
+sequence|table|104493|104495|1
+sequence|table|104514|104516|1
+sequence|table|104530|104532|1
+sequence|table|104546|104548|1
+sequence|table|104567|104569|1
+sequence|table|104583|104585|1
+sequence|table|104609|104611|1
+sequence|table|104627|104629|1
+sequence|table|104635|104637|1
+sequence|table|104649|104651|1
+sequence|table|104660|104662|1
+sequence|table|36873|36875|1
 </Relations>
     </database>
     <role id="3" parent="1" name="pg_execute_server_program">
@@ -77,7 +75,7 @@ sequence|table|36010|36012|1
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>8089</IntrospectionStateNumber>
+      <IntrospectionStateNumber>33518</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="15" parent="2" name="heap">
@@ -152,1706 +150,1732 @@ sequence|table|36010|36012|1
       <SchemaId>11</SchemaId>
     </extension>
     <sequence id="24" parent="14" name="authorities_id_seq">
-      <ObjectId>30904</ObjectId>
-      <StateNumber>5877</StateNumber>
+      <ObjectId>104485</ObjectId>
+      <StateNumber>33364</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
     <sequence id="25" parent="14" name="clinic_center_id_seq">
-      <ObjectId>26815</ObjectId>
-      <StateNumber>4167</StateNumber>
+      <ObjectId>36873</ObjectId>
+      <StateNumber>5432</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
     <sequence id="26" parent="14" name="clinic_id_seq">
-      <ObjectId>35843</ObjectId>
-      <StateNumber>7979</StateNumber>
+      <ObjectId>104493</ObjectId>
+      <StateNumber>33365</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
     <sequence id="27" parent="14" name="diagnosis_id_seq">
-      <ObjectId>35864</ObjectId>
-      <StateNumber>7982</StateNumber>
+      <ObjectId>104514</ObjectId>
+      <StateNumber>33368</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
     <sequence id="28" parent="14" name="examination_id_seq">
-      <ObjectId>35880</ObjectId>
-      <StateNumber>7984</StateNumber>
+      <ObjectId>104530</ObjectId>
+      <StateNumber>33370</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="29" parent="14" name="examination_room_id_seq">
-      <ObjectId>35891</ObjectId>
-      <StateNumber>7985</StateNumber>
+    <sequence id="29" parent="14" name="medical_record_id_seq">
+      <ObjectId>104546</ObjectId>
+      <StateNumber>33372</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="30" parent="14" name="medical_record_id_seq">
-      <ObjectId>35904</ObjectId>
-      <StateNumber>7987</StateNumber>
+    <sequence id="30" parent="14" name="medication_id_seq">
+      <ObjectId>104567</ObjectId>
+      <StateNumber>33375</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="31" parent="14" name="medication_id_seq">
-      <ObjectId>35925</ObjectId>
-      <StateNumber>7990</StateNumber>
+    <sequence id="31" parent="14" name="operation_id_seq">
+      <ObjectId>104583</ObjectId>
+      <StateNumber>33377</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="32" parent="14" name="operation_id_seq">
-      <ObjectId>35941</ObjectId>
-      <StateNumber>7992</StateNumber>
+    <sequence id="32" parent="14" name="prescription_id_seq">
+      <ObjectId>104609</ObjectId>
+      <StateNumber>33381</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="33" parent="14" name="operation_room_id_seq">
-      <ObjectId>35952</ObjectId>
-      <StateNumber>7993</StateNumber>
+    <sequence id="33" parent="14" name="rooms_table_id_seq">
+      <ObjectId>104627</ObjectId>
+      <StateNumber>33384</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="34" parent="14" name="prescription_id_seq">
-      <ObjectId>35970</ObjectId>
-      <StateNumber>7996</StateNumber>
+    <sequence id="34" parent="14" name="type_of_examination_id_seq">
+      <ObjectId>104635</ObjectId>
+      <StateNumber>33385</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="35" parent="14" name="registration_requests_id_seq">
-      <ObjectId>16755</ObjectId>
-      <StateNumber>616</StateNumber>
+    <sequence id="35" parent="14" name="user_table_id_seq">
+      <ObjectId>104649</ObjectId>
+      <StateNumber>33387</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="36" parent="14" name="type_of_examination_id_seq">
-      <ObjectId>35988</ObjectId>
-      <StateNumber>7999</StateNumber>
+    <sequence id="36" parent="14" name="vacation_request_id_seq">
+      <ObjectId>104660</ObjectId>
+      <StateNumber>33388</StateNumber>
       <Owner>postgres</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
-    <sequence id="37" parent="14" name="user_table_id_seq">
-      <ObjectId>35999</ObjectId>
-      <StateNumber>8000</StateNumber>
+    <table id="37" parent="14" name="authorities">
+      <ObjectId>104487</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
-      <SequenceIdentity>1</SequenceIdentity>
-      <CacheSize>1</CacheSize>
-      <DataType>bigint</DataType>
-    </sequence>
-    <sequence id="38" parent="14" name="vacation_request_id_seq">
-      <ObjectId>36010</ObjectId>
-      <StateNumber>8001</StateNumber>
-      <Owner>postgres</Owner>
-      <SequenceIdentity>1</SequenceIdentity>
-      <CacheSize>1</CacheSize>
-      <DataType>bigint</DataType>
-    </sequence>
-    <table id="39" parent="14" name="authorities">
-      <ObjectId>30906</ObjectId>
-      <Owner>postgres</Owner>
-      <StateNumber>5939</StateNumber>
+      <StateNumber>33430</StateNumber>
     </table>
-    <table id="40" parent="14" name="clinic">
-      <ObjectId>35845</ObjectId>
+    <table id="38" parent="14" name="clinic">
+      <ObjectId>104495</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8008</StateNumber>
+      <StateNumber>33395</StateNumber>
     </table>
-    <table id="41" parent="14" name="clinic_administrator">
-      <ObjectId>35854</ObjectId>
+    <table id="39" parent="14" name="clinic_administrator">
+      <ObjectId>104504</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8008</StateNumber>
+      <StateNumber>33395</StateNumber>
     </table>
-    <table id="42" parent="14" name="clinic_center">
-      <ObjectId>26817</ObjectId>
+    <table id="40" parent="14" name="clinic_center">
+      <ObjectId>36875</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>4195</StateNumber>
+      <StateNumber>5461</StateNumber>
     </table>
-    <table id="43" parent="14" name="clinic_center_administrator">
-      <ObjectId>35859</ObjectId>
+    <table id="41" parent="14" name="clinic_center_administrator">
+      <ObjectId>104509</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8010</StateNumber>
+      <StateNumber>33397</StateNumber>
     </table>
-    <table id="44" parent="14" name="diagnosis">
-      <ObjectId>35866</ObjectId>
+    <table id="42" parent="14" name="diagnosis">
+      <ObjectId>104516</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8019</StateNumber>
+      <StateNumber>33401</StateNumber>
     </table>
-    <table id="45" parent="14" name="doctor">
-      <ObjectId>35875</ObjectId>
+    <table id="43" parent="14" name="doctor">
+      <ObjectId>104525</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8011</StateNumber>
+      <StateNumber>33398</StateNumber>
     </table>
-    <table id="46" parent="14" name="examination">
-      <ObjectId>35882</ObjectId>
+    <table id="44" parent="14" name="examination">
+      <ObjectId>104532</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8013</StateNumber>
+      <StateNumber>33400</StateNumber>
     </table>
-    <table id="47" parent="14" name="examination_room">
-      <ObjectId>35893</ObjectId>
+    <table id="45" parent="14" name="examination_room">
+      <ObjectId>104541</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8014</StateNumber>
+      <StateNumber>33403</StateNumber>
     </table>
-    <table id="48" parent="14" name="examinations_diagnosis">
-      <ObjectId>35899</ObjectId>
+    <table id="46" parent="14" name="examinations_diagnosis">
+      <ObjectId>99551</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8019</StateNumber>
+      <StateNumber>30653</StateNumber>
     </table>
-    <table id="49" parent="14" name="medical_record">
-      <ObjectId>35906</ObjectId>
+    <table id="47" parent="14" name="medical_record">
+      <ObjectId>104548</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8015</StateNumber>
+      <StateNumber>33404</StateNumber>
     </table>
-    <table id="50" parent="14" name="medical_records_medical_staffs">
-      <ObjectId>35915</ObjectId>
+    <table id="48" parent="14" name="medical_records_medical_staffs">
+      <ObjectId>104557</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8021</StateNumber>
+      <StateNumber>33410</StateNumber>
     </table>
-    <table id="51" parent="14" name="medical_staff">
-      <ObjectId>35920</ObjectId>
+    <table id="49" parent="14" name="medical_staff">
+      <ObjectId>104562</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8012</StateNumber>
+      <StateNumber>33399</StateNumber>
     </table>
-    <table id="52" parent="14" name="medication">
-      <ObjectId>35927</ObjectId>
+    <table id="50" parent="14" name="medication">
+      <ObjectId>104569</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8036</StateNumber>
+      <StateNumber>33426</StateNumber>
     </table>
-    <table id="53" parent="14" name="nurse">
-      <ObjectId>35936</ObjectId>
+    <table id="51" parent="14" name="nurse">
+      <ObjectId>104578</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8016</StateNumber>
+      <StateNumber>33405</StateNumber>
     </table>
-    <table id="54" parent="14" name="operation">
-      <ObjectId>35943</ObjectId>
+    <table id="52" parent="14" name="operation">
+      <ObjectId>104585</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8027</StateNumber>
+      <StateNumber>33416</StateNumber>
     </table>
-    <table id="55" parent="14" name="operation_room">
-      <ObjectId>35954</ObjectId>
+    <table id="53" parent="14" name="operation_room">
+      <ObjectId>104594</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8028</StateNumber>
+      <StateNumber>33417</StateNumber>
     </table>
-    <table id="56" parent="14" name="operations_doctors">
-      <ObjectId>35960</ObjectId>
+    <table id="54" parent="14" name="operations_doctors">
+      <ObjectId>104599</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8030</StateNumber>
+      <StateNumber>33420</StateNumber>
     </table>
-    <table id="57" parent="14" name="patient">
-      <ObjectId>35965</ObjectId>
+    <table id="55" parent="14" name="patient">
+      <ObjectId>104604</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8017</StateNumber>
+      <StateNumber>33406</StateNumber>
     </table>
-    <table id="58" parent="14" name="prescription">
-      <ObjectId>35972</ObjectId>
+    <table id="56" parent="14" name="prescription">
+      <ObjectId>104611</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8018</StateNumber>
+      <StateNumber>33407</StateNumber>
     </table>
-    <table id="59" parent="14" name="prescriptions_medication">
-      <ObjectId>35978</ObjectId>
+    <table id="57" parent="14" name="prescriptions_medication">
+      <ObjectId>104617</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8036</StateNumber>
+      <StateNumber>33426</StateNumber>
     </table>
-    <table id="60" parent="14" name="registration_request">
-      <ObjectId>35983</ObjectId>
+    <table id="58" parent="14" name="registration_request">
+      <ObjectId>104622</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8038</StateNumber>
+      <StateNumber>33428</StateNumber>
     </table>
-    <table id="61" parent="14" name="registration_requests">
-      <ObjectId>16757</ObjectId>
+    <table id="59" parent="14" name="rooms_table">
+      <ObjectId>104629</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>626</StateNumber>
+      <StateNumber>33409</StateNumber>
     </table>
-    <table id="62" parent="14" name="type_of_examination">
-      <ObjectId>35990</ObjectId>
+    <table id="60" parent="14" name="type_of_examination">
+      <ObjectId>104637</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8011</StateNumber>
+      <StateNumber>33398</StateNumber>
     </table>
-    <table id="63" parent="14" name="user_authority">
-      <ObjectId>31068</ObjectId>
+    <table id="61" parent="14" name="user_authority">
+      <ObjectId>104646</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
-      <StateNumber>5939</StateNumber>
+      <StateNumber>33430</StateNumber>
     </table>
-    <table id="64" parent="14" name="user_table">
-      <ObjectId>36001</ObjectId>
+    <table id="62" parent="14" name="user_table">
+      <ObjectId>104651</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
-      <StateNumber>8009</StateNumber>
+      <StateNumber>33396</StateNumber>
     </table>
-    <table id="65" parent="14" name="vacation_request">
-      <ObjectId>36012</ObjectId>
+    <table id="63" parent="14" name="vacation_request">
+      <ObjectId>104662</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>8024</StateNumber>
+      <StateNumber>33413</StateNumber>
     </table>
-    <column id="66" parent="39" name="id">
+    <column id="64" parent="37" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>5877</StateNumber>
+      <StateNumber>33364</StateNumber>
       <DefaultExpression>nextval(&apos;authorities_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="67" parent="39" name="name">
+    <column id="65" parent="37" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>5877</StateNumber>
+      <StateNumber>33364</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="68" parent="39" name="authorities_pkey">
-      <ObjectId>30910</ObjectId>
-      <StateNumber>5877</StateNumber>
+    <index id="66" parent="37" name="authorities_pkey">
+      <ObjectId>104491</ObjectId>
+      <StateNumber>33364</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="69" parent="39" name="authorities_pkey">
-      <ObjectId>30911</ObjectId>
-      <StateNumber>5877</StateNumber>
+    <key id="67" parent="37" name="authorities_pkey">
+      <ObjectId>104492</ObjectId>
+      <StateNumber>33364</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>authorities_pkey</UnderlyingIndexName>
     </key>
-    <column id="70" parent="40" name="id">
+    <column id="68" parent="38" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7979</StateNumber>
+      <StateNumber>33365</StateNumber>
       <DefaultExpression>nextval(&apos;clinic_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="71" parent="40" name="address">
+    <column id="69" parent="38" name="address">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7979</StateNumber>
+      <StateNumber>33365</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="72" parent="40" name="description">
+    <column id="70" parent="38" name="description">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7979</StateNumber>
+      <StateNumber>33365</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="73" parent="40" name="income">
+    <column id="71" parent="38" name="grade">
       <Position>4</Position>
       <DataType>double precision|0s</DataType>
-      <StateNumber>7979</StateNumber>
+      <StateNumber>33365</StateNumber>
       <TypeId>701</TypeId>
     </column>
-    <column id="74" parent="40" name="name">
+    <column id="72" parent="38" name="income">
       <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7979</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>33365</StateNumber>
+      <TypeId>701</TypeId>
     </column>
-    <column id="75" parent="40" name="price_list">
+    <column id="73" parent="38" name="name">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7979</StateNumber>
+      <NotNull>1</NotNull>
+      <StateNumber>33365</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="76" parent="40" name="clinic_pkey">
-      <ObjectId>35852</ObjectId>
-      <StateNumber>7979</StateNumber>
+    <column id="74" parent="38" name="price_list">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>33365</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="75" parent="38" name="clinic_pkey">
+      <ObjectId>104502</ObjectId>
+      <StateNumber>33365</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <index id="77" parent="40" name="uk_4oksleusu4wksqjpftwjqbj0m">
-      <ObjectId>36021</ObjectId>
-      <StateNumber>8002</StateNumber>
+    <index id="76" parent="38" name="uk_4oksleusu4wksqjpftwjqbj0m">
+      <ObjectId>104668</ObjectId>
+      <StateNumber>33389</StateNumber>
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="78" parent="40" name="clinic_pkey">
-      <ObjectId>35853</ObjectId>
-      <StateNumber>7979</StateNumber>
+    <key id="77" parent="38" name="clinic_pkey">
+      <ObjectId>104503</ObjectId>
+      <StateNumber>33365</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>clinic_pkey</UnderlyingIndexName>
     </key>
-    <key id="79" parent="40" name="uk_4oksleusu4wksqjpftwjqbj0m">
-      <ObjectId>36022</ObjectId>
-      <StateNumber>8002</StateNumber>
+    <key id="78" parent="38" name="uk_4oksleusu4wksqjpftwjqbj0m">
+      <ObjectId>104669</ObjectId>
+      <StateNumber>33389</StateNumber>
       <ColNames>name</ColNames>
       <UnderlyingIndexName>uk_4oksleusu4wksqjpftwjqbj0m</UnderlyingIndexName>
     </key>
-    <column id="80" parent="41" name="id">
+    <column id="79" parent="39" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7980</StateNumber>
+      <StateNumber>33366</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="81" parent="41" name="clinic_id">
+    <column id="80" parent="39" name="clinic_id">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7980</StateNumber>
+      <StateNumber>33366</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="82" parent="41" name="clinic_administrator_pkey">
-      <ObjectId>35857</ObjectId>
-      <StateNumber>7980</StateNumber>
+    <index id="81" parent="39" name="clinic_administrator_pkey">
+      <ObjectId>104507</ObjectId>
+      <StateNumber>33366</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="83" parent="41" name="clinic_administrator_pkey">
-      <ObjectId>35858</ObjectId>
-      <StateNumber>7980</StateNumber>
+    <key id="82" parent="39" name="clinic_administrator_pkey">
+      <ObjectId>104508</ObjectId>
+      <StateNumber>33366</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>clinic_administrator_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="84" parent="41" name="fk8npqsg5xkr8eyjn1vckdjp5k9">
-      <ObjectId>36038</ObjectId>
-      <StateNumber>8009</StateNumber>
+    <foreign-key id="83" parent="39" name="fk8npqsg5xkr8eyjn1vckdjp5k9">
+      <ObjectId>104685</ObjectId>
+      <StateNumber>33396</StateNumber>
       <ColNames>id</ColNames>
-      <RefTableId>36001</RefTableId>
+      <RefTableId>104651</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>user_table</RefTableName>
       <RefKeyName>user_table_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="85" parent="41" name="fkrutcaul7x1k33bv8uxtiyq203">
-      <ObjectId>36033</ObjectId>
-      <StateNumber>8008</StateNumber>
+    <foreign-key id="84" parent="39" name="fkrutcaul7x1k33bv8uxtiyq203">
+      <ObjectId>104680</ObjectId>
+      <StateNumber>33395</StateNumber>
       <ColNames>clinic_id</ColNames>
-      <RefTableId>35845</RefTableId>
+      <RefTableId>104495</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>clinic</RefTableName>
       <RefKeyName>clinic_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="86" parent="42" name="id">
+    <column id="85" parent="40" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>4167</StateNumber>
+      <StateNumber>5432</StateNumber>
       <DefaultExpression>nextval(&apos;clinic_center_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <index id="87" parent="42" name="clinic_center_pkey">
-      <ObjectId>26821</ObjectId>
-      <StateNumber>4167</StateNumber>
+    <index id="86" parent="40" name="clinic_center_pkey">
+      <ObjectId>36879</ObjectId>
+      <StateNumber>5432</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="88" parent="42" name="clinic_center_pkey">
-      <ObjectId>26822</ObjectId>
-      <StateNumber>4167</StateNumber>
+    <key id="87" parent="40" name="clinic_center_pkey">
+      <ObjectId>36880</ObjectId>
+      <StateNumber>5432</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>clinic_center_pkey</UnderlyingIndexName>
     </key>
-    <column id="89" parent="43" name="log_first_time">
+    <column id="88" parent="41" name="log_first_time">
       <Position>1</Position>
       <DataType>boolean|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7981</StateNumber>
+      <StateNumber>33367</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="90" parent="43" name="id">
+    <column id="89" parent="41" name="id">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7981</StateNumber>
+      <StateNumber>33367</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="91" parent="43" name="clinic_center_administrator_pkey">
-      <ObjectId>35862</ObjectId>
-      <StateNumber>7981</StateNumber>
+    <index id="90" parent="41" name="clinic_center_administrator_pkey">
+      <ObjectId>104512</ObjectId>
+      <StateNumber>33367</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="92" parent="43" name="clinic_center_administrator_pkey">
-      <ObjectId>35863</ObjectId>
-      <StateNumber>7981</StateNumber>
+    <key id="91" parent="41" name="clinic_center_administrator_pkey">
+      <ObjectId>104513</ObjectId>
+      <StateNumber>33367</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>clinic_center_administrator_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="93" parent="43" name="fkqcc3x3mvdwd3l8t4vda9noyk0">
-      <ObjectId>36043</ObjectId>
-      <StateNumber>8010</StateNumber>
+    <foreign-key id="92" parent="41" name="fkqcc3x3mvdwd3l8t4vda9noyk0">
+      <ObjectId>104690</ObjectId>
+      <StateNumber>33397</StateNumber>
       <ColNames>id</ColNames>
-      <RefTableId>36001</RefTableId>
+      <RefTableId>104651</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>user_table</RefTableName>
       <RefKeyName>user_table_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="94" parent="44" name="id">
+    <column id="93" parent="42" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7982</StateNumber>
+      <StateNumber>33368</StateNumber>
       <DefaultExpression>nextval(&apos;diagnosis_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="95" parent="44" name="code">
+    <column id="94" parent="42" name="code">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7982</StateNumber>
+      <StateNumber>33368</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="96" parent="44" name="description">
+    <column id="95" parent="42" name="description">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7982</StateNumber>
+      <StateNumber>33368</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="97" parent="44" name="name">
+    <column id="96" parent="42" name="name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7982</StateNumber>
+      <StateNumber>33368</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="98" parent="44" name="diagnosis_pkey">
-      <ObjectId>35873</ObjectId>
-      <StateNumber>7982</StateNumber>
+    <index id="97" parent="42" name="diagnosis_pkey">
+      <ObjectId>104523</ObjectId>
+      <StateNumber>33368</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <index id="99" parent="44" name="uk_1yougjwu1bu2lidjw3sm6qln3">
-      <ObjectId>36023</ObjectId>
-      <StateNumber>8003</StateNumber>
+    <index id="98" parent="42" name="uk_1yougjwu1bu2lidjw3sm6qln3">
+      <ObjectId>104670</ObjectId>
+      <StateNumber>33390</StateNumber>
       <ColNames>code</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="100" parent="44" name="diagnosis_pkey">
-      <ObjectId>35874</ObjectId>
-      <StateNumber>7982</StateNumber>
+    <key id="99" parent="42" name="diagnosis_pkey">
+      <ObjectId>104524</ObjectId>
+      <StateNumber>33368</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>diagnosis_pkey</UnderlyingIndexName>
     </key>
-    <key id="101" parent="44" name="uk_1yougjwu1bu2lidjw3sm6qln3">
-      <ObjectId>36024</ObjectId>
-      <StateNumber>8003</StateNumber>
+    <key id="100" parent="42" name="uk_1yougjwu1bu2lidjw3sm6qln3">
+      <ObjectId>104671</ObjectId>
+      <StateNumber>33390</StateNumber>
       <ColNames>code</ColNames>
       <UnderlyingIndexName>uk_1yougjwu1bu2lidjw3sm6qln3</UnderlyingIndexName>
     </key>
-    <column id="102" parent="45" name="id">
+    <column id="101" parent="43" name="grade">
       <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7983</StateNumber>
-      <TypeId>20</TypeId>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>33369</StateNumber>
+      <TypeId>701</TypeId>
     </column>
-    <column id="103" parent="45" name="specialised_type_id">
+    <column id="102" parent="43" name="id">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7983</StateNumber>
+      <NotNull>1</NotNull>
+      <StateNumber>33369</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="104" parent="45" name="doctor_pkey">
-      <ObjectId>35878</ObjectId>
-      <StateNumber>7983</StateNumber>
+    <column id="103" parent="43" name="specialised_type_id">
+      <Position>3</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33369</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="104" parent="43" name="doctor_pkey">
+      <ObjectId>104528</ObjectId>
+      <StateNumber>33369</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="105" parent="45" name="doctor_pkey">
-      <ObjectId>35879</ObjectId>
-      <StateNumber>7983</StateNumber>
+    <key id="105" parent="43" name="doctor_pkey">
+      <ObjectId>104529</ObjectId>
+      <StateNumber>33369</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>doctor_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="106" parent="45" name="fktfpekrtw4ehd5gndhwjclfw2m">
-      <ObjectId>36053</ObjectId>
-      <StateNumber>8012</StateNumber>
+    <foreign-key id="106" parent="43" name="fktfpekrtw4ehd5gndhwjclfw2m">
+      <ObjectId>104700</ObjectId>
+      <StateNumber>33399</StateNumber>
       <ColNames>id</ColNames>
-      <RefTableId>35920</RefTableId>
+      <RefTableId>104562</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>medical_staff</RefTableName>
       <RefKeyName>medical_staff_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="107" parent="45" name="fkn7asm2x513lw327cejov2otdl">
-      <ObjectId>36048</ObjectId>
-      <StateNumber>8011</StateNumber>
+    <foreign-key id="107" parent="43" name="fkn7asm2x513lw327cejov2otdl">
+      <ObjectId>104695</ObjectId>
+      <StateNumber>33398</StateNumber>
       <ColNames>specialised_type_id</ColNames>
-      <RefTableId>35990</RefTableId>
+      <RefTableId>104637</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>type_of_examination</RefTableName>
       <RefKeyName>type_of_examination_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="108" parent="46" name="id">
+    <column id="108" parent="44" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <DefaultExpression>nextval(&apos;examination_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="109" parent="46" name="date">
+    <column id="109" parent="44" name="date">
       <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>33370</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
-    <column id="110" parent="46" name="discount">
+    <column id="110" parent="44" name="discount">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="111" parent="46" name="duration">
+    <column id="111" parent="44" name="price">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="112" parent="46" name="price">
+    <column id="112" parent="44" name="report">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="113" parent="46" name="report">
+    <column id="113" parent="44" name="clinic_id">
       <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33370</StateNumber>
+      <TypeId>20</TypeId>
     </column>
-    <column id="114" parent="46" name="type">
+    <column id="114" parent="44" name="diagnosis_id">
       <Position>7</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7984</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33370</StateNumber>
+      <TypeId>20</TypeId>
     </column>
-    <column id="115" parent="46" name="doctor_id">
+    <column id="115" parent="44" name="doctor_id">
       <Position>8</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="116" parent="46" name="er_id">
+    <column id="116" parent="44" name="er_id">
       <Position>9</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="117" parent="46" name="med_rec_id">
+    <column id="117" parent="44" name="med_rec_id">
       <Position>10</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="118" parent="46" name="nurse_id">
+    <column id="118" parent="44" name="nurse_id">
       <Position>11</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="119" parent="46" name="patient_id">
+    <column id="119" parent="44" name="patient_id">
       <Position>12</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="120" parent="46" name="prescription_id">
+    <column id="120" parent="44" name="prescription_id">
       <Position>13</Position>
       <DataType>bigint|0s</DataType>
-      <StateNumber>7984</StateNumber>
+      <StateNumber>33370</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="121" parent="46" name="examination_pkey">
-      <ObjectId>35889</ObjectId>
-      <StateNumber>7984</StateNumber>
+    <column id="121" parent="44" name="type_id">
+      <Position>14</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33370</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="122" parent="44" name="examination_pkey">
+      <ObjectId>104539</ObjectId>
+      <StateNumber>33370</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="122" parent="46" name="examination_pkey">
-      <ObjectId>35890</ObjectId>
-      <StateNumber>7984</StateNumber>
+    <key id="123" parent="44" name="examination_pkey">
+      <ObjectId>104540</ObjectId>
+      <StateNumber>33370</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>examination_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="123" parent="46" name="fkshmi4826wvo1tqq71x3euteay">
-      <ObjectId>36058</ObjectId>
-      <StateNumber>8013</StateNumber>
-      <ColNames>doctor_id</ColNames>
-      <RefTableId>35875</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>doctor</RefTableName>
-      <RefKeyName>doctor_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="124" parent="46" name="fkd13wpjpcfen833soi01mc3g1g">
-      <ObjectId>36063</ObjectId>
-      <StateNumber>8014</StateNumber>
-      <ColNames>er_id</ColNames>
-      <RefTableId>35893</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>examination_room</RefTableName>
-      <RefKeyName>examination_room_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="125" parent="46" name="fk1wohv4sk3hvedwaoskd90kbpw">
-      <ObjectId>36068</ObjectId>
-      <StateNumber>8015</StateNumber>
-      <ColNames>med_rec_id</ColNames>
-      <RefTableId>35906</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>medical_record</RefTableName>
-      <RefKeyName>medical_record_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="126" parent="46" name="fkiywtka3srq7uu630iqkv174ex">
-      <ObjectId>36073</ObjectId>
-      <StateNumber>8016</StateNumber>
-      <ColNames>nurse_id</ColNames>
-      <RefTableId>35936</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>nurse</RefTableName>
-      <RefKeyName>nurse_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="127" parent="46" name="fkmn1l13u1iroqkv46h8dnxcmuw">
-      <ObjectId>36078</ObjectId>
-      <StateNumber>8017</StateNumber>
-      <ColNames>patient_id</ColNames>
-      <RefTableId>35965</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>patient</RefTableName>
-      <RefKeyName>patient_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="128" parent="46" name="fkpe6dlvxlui6ettjbdvoquxxkm">
-      <ObjectId>36083</ObjectId>
-      <StateNumber>8018</StateNumber>
-      <ColNames>prescription_id</ColNames>
-      <RefTableId>35972</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>prescription</RefTableName>
-      <RefKeyName>prescription_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="129" parent="47" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7985</StateNumber>
-      <DefaultExpression>nextval(&apos;examination_room_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="130" parent="47" name="appointment_list">
-      <Position>2</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7985</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="131" parent="47" name="name">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7985</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="132" parent="47" name="number">
-      <Position>4</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7985</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="133" parent="47" name="examination_room_pkey">
-      <ObjectId>35897</ObjectId>
-      <StateNumber>7985</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="134" parent="47" name="examination_room_pkey">
-      <ObjectId>35898</ObjectId>
-      <StateNumber>7985</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>examination_room_pkey</UnderlyingIndexName>
-    </key>
-    <column id="135" parent="48" name="diagnosis_id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7986</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="136" parent="48" name="examination_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7986</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="137" parent="48" name="examinations_diagnosis_pkey">
-      <ObjectId>35902</ObjectId>
-      <StateNumber>7986</StateNumber>
-      <ColNames>diagnosis_id
-examination_id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="138" parent="48" name="examinations_diagnosis_pkey">
-      <ObjectId>35903</ObjectId>
-      <StateNumber>7986</StateNumber>
-      <ColNames>diagnosis_id
-examination_id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>examinations_diagnosis_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="139" parent="48" name="fk4u73irjt1kr7f0jwy8hr4txjd">
-      <ObjectId>36093</ObjectId>
-      <StateNumber>8020</StateNumber>
-      <ColNames>diagnosis_id</ColNames>
-      <RefTableId>35882</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>examination</RefTableName>
-      <RefKeyName>examination_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="140" parent="48" name="fkkeknnmpx17fittnhvjg019ghf">
-      <ObjectId>36088</ObjectId>
-      <StateNumber>8019</StateNumber>
-      <ColNames>examination_id</ColNames>
-      <RefTableId>35866</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>diagnosis</RefTableName>
-      <RefKeyName>diagnosis_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="141" parent="49" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7987</StateNumber>
-      <DefaultExpression>nextval(&apos;medical_record_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="142" parent="49" name="blood_type">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7987</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="143" parent="49" name="diopter">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7987</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="144" parent="49" name="height">
-      <Position>4</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7987</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="145" parent="49" name="weight">
-      <Position>5</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7987</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="146" parent="49" name="medical_record_pkey">
-      <ObjectId>35913</ObjectId>
-      <StateNumber>7987</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="147" parent="49" name="medical_record_pkey">
-      <ObjectId>35914</ObjectId>
-      <StateNumber>7987</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>medical_record_pkey</UnderlyingIndexName>
-    </key>
-    <column id="148" parent="50" name="med_staff_id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7988</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="149" parent="50" name="med_rec_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7988</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="150" parent="50" name="medical_records_medical_staffs_pkey">
-      <ObjectId>35918</ObjectId>
-      <StateNumber>7988</StateNumber>
-      <ColNames>med_staff_id
-med_rec_id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="151" parent="50" name="medical_records_medical_staffs_pkey">
-      <ObjectId>35919</ObjectId>
-      <StateNumber>7988</StateNumber>
-      <ColNames>med_staff_id
-med_rec_id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>medical_records_medical_staffs_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="152" parent="50" name="fkpvtxk5u79il3hh99g9l7lbjg6">
-      <ObjectId>36103</ObjectId>
-      <StateNumber>8022</StateNumber>
-      <ColNames>med_staff_id</ColNames>
-      <RefTableId>35906</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>medical_record</RefTableName>
-      <RefKeyName>medical_record_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="153" parent="50" name="fkpigkfrc31bl8tim7hqk22wp5r">
-      <ObjectId>36098</ObjectId>
-      <StateNumber>8021</StateNumber>
-      <ColNames>med_rec_id</ColNames>
-      <RefTableId>35920</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>medical_staff</RefTableName>
-      <RefKeyName>medical_staff_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="154" parent="51" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7989</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="155" parent="51" name="clinic_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7989</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="156" parent="51" name="vac_req_id">
-      <Position>3</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>7989</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="157" parent="51" name="medical_staff_pkey">
-      <ObjectId>35923</ObjectId>
-      <StateNumber>7989</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="158" parent="51" name="medical_staff_pkey">
-      <ObjectId>35924</ObjectId>
-      <StateNumber>7989</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>medical_staff_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="159" parent="51" name="fkpe328ki9p67dpgo22h8brs46t">
-      <ObjectId>36118</ObjectId>
-      <StateNumber>8025</StateNumber>
-      <ColNames>id</ColNames>
-      <RefTableId>36001</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>user_table</RefTableName>
-      <RefKeyName>user_table_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="160" parent="51" name="fknnsaeaori5pc4gdqtwx8pyjlc">
-      <ObjectId>36108</ObjectId>
-      <StateNumber>8023</StateNumber>
+    <foreign-key id="124" parent="44" name="fkbwua9w1irpvs68gm5wtlgcyri">
+      <ObjectId>104705</ObjectId>
+      <StateNumber>33400</StateNumber>
       <ColNames>clinic_id</ColNames>
-      <RefTableId>35845</RefTableId>
+      <RefTableId>104495</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>clinic</RefTableName>
       <RefKeyName>clinic_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="161" parent="51" name="fkmvgl3i5ivs2wgcff8m8rwl3x3">
-      <ObjectId>36113</ObjectId>
-      <StateNumber>8024</StateNumber>
-      <ColNames>vac_req_id</ColNames>
-      <RefTableId>36012</RefTableId>
+    <foreign-key id="125" parent="44" name="fk2ch9tdxdbl3ngqbnu2c9vltk7">
+      <ObjectId>104710</ObjectId>
+      <StateNumber>33401</StateNumber>
+      <ColNames>diagnosis_id</ColNames>
+      <RefTableId>104516</RefTableId>
       <RefColPositions>1</RefColPositions>
-      <RefTableName>vacation_request</RefTableName>
-      <RefKeyName>vacation_request_pkey</RefKeyName>
+      <RefTableName>diagnosis</RefTableName>
+      <RefKeyName>diagnosis_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="162" parent="52" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7990</StateNumber>
-      <DefaultExpression>nextval(&apos;medication_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="163" parent="52" name="code">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7990</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="164" parent="52" name="description">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7990</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="165" parent="52" name="name">
-      <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7990</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <index id="166" parent="52" name="medication_pkey">
-      <ObjectId>35934</ObjectId>
-      <StateNumber>7990</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <index id="167" parent="52" name="uk_pex4ncvrjs43bnm3oucqghy42">
-      <ObjectId>36025</ObjectId>
-      <StateNumber>8004</StateNumber>
-      <ColNames>code</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="168" parent="52" name="medication_pkey">
-      <ObjectId>35935</ObjectId>
-      <StateNumber>7990</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>medication_pkey</UnderlyingIndexName>
-    </key>
-    <key id="169" parent="52" name="uk_pex4ncvrjs43bnm3oucqghy42">
-      <ObjectId>36026</ObjectId>
-      <StateNumber>8004</StateNumber>
-      <ColNames>code</ColNames>
-      <UnderlyingIndexName>uk_pex4ncvrjs43bnm3oucqghy42</UnderlyingIndexName>
-    </key>
-    <column id="170" parent="53" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7991</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="171" parent="53" name="nurse_pkey">
-      <ObjectId>35939</ObjectId>
-      <StateNumber>7991</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="172" parent="53" name="nurse_pkey">
-      <ObjectId>35940</ObjectId>
-      <StateNumber>7991</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>nurse_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="173" parent="53" name="fk8uvus7xnxs1ma0c9serhgub0c">
-      <ObjectId>36123</ObjectId>
-      <StateNumber>8026</StateNumber>
-      <ColNames>id</ColNames>
-      <RefTableId>35920</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>medical_staff</RefTableName>
-      <RefKeyName>medical_staff_pkey</RefKeyName>
+    <foreign-key id="126" parent="44" name="fkshmi4826wvo1tqq71x3euteay">
+      <ObjectId>104715</ObjectId>
+      <StateNumber>33402</StateNumber>
+      <ColNames>doctor_id</ColNames>
+      <RefTableId>104525</RefTableId>
+      <RefColPositions>2</RefColPositions>
+      <RefTableName>doctor</RefTableName>
+      <RefKeyName>doctor_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="174" parent="54" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <DefaultExpression>nextval(&apos;operation_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="175" parent="54" name="date">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="176" parent="54" name="duration">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="177" parent="54" name="med_rec_id">
-      <Position>4</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="178" parent="54" name="or_id">
-      <Position>5</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="179" parent="54" name="patient_id">
-      <Position>6</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7992</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="180" parent="54" name="operation_pkey">
-      <ObjectId>35950</ObjectId>
-      <StateNumber>7992</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="181" parent="54" name="operation_pkey">
-      <ObjectId>35951</ObjectId>
-      <StateNumber>7992</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>operation_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="182" parent="54" name="fk43nkp1oh8h43dycutfxbw3s4s">
-      <ObjectId>36128</ObjectId>
-      <StateNumber>8027</StateNumber>
+    <foreign-key id="127" parent="44" name="fkd13wpjpcfen833soi01mc3g1g">
+      <ObjectId>104720</ObjectId>
+      <StateNumber>33403</StateNumber>
+      <ColNames>er_id</ColNames>
+      <RefTableId>104541</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>examination_room</RefTableName>
+      <RefKeyName>examination_room_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="128" parent="44" name="fk1wohv4sk3hvedwaoskd90kbpw">
+      <ObjectId>104725</ObjectId>
+      <StateNumber>33404</StateNumber>
       <ColNames>med_rec_id</ColNames>
-      <RefTableId>35906</RefTableId>
+      <RefTableId>104548</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>medical_record</RefTableName>
       <RefKeyName>medical_record_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="183" parent="54" name="fkp9sddggdocg5bpmawmej93o9l">
-      <ObjectId>36133</ObjectId>
-      <StateNumber>8028</StateNumber>
-      <ColNames>or_id</ColNames>
-      <RefTableId>35954</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>operation_room</RefTableName>
-      <RefKeyName>operation_room_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="184" parent="54" name="fkrnhrme2dycdtl3tp2ibiyjyh">
-      <ObjectId>36138</ObjectId>
-      <StateNumber>8029</StateNumber>
-      <ColNames>patient_id</ColNames>
-      <RefTableId>35965</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>patient</RefTableName>
-      <RefKeyName>patient_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="185" parent="55" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7993</StateNumber>
-      <DefaultExpression>nextval(&apos;operation_room_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="186" parent="55" name="name">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7993</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="187" parent="55" name="number">
-      <Position>3</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7993</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="188" parent="55" name="operation_room_pkey">
-      <ObjectId>35958</ObjectId>
-      <StateNumber>7993</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="189" parent="55" name="operation_room_pkey">
-      <ObjectId>35959</ObjectId>
-      <StateNumber>7993</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>operation_room_pkey</UnderlyingIndexName>
-    </key>
-    <column id="190" parent="56" name="doctor_id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7994</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="191" parent="56" name="operation_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7994</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="192" parent="56" name="operations_doctors_pkey">
-      <ObjectId>35963</ObjectId>
-      <StateNumber>7994</StateNumber>
-      <ColNames>doctor_id
-operation_id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="193" parent="56" name="operations_doctors_pkey">
-      <ObjectId>35964</ObjectId>
-      <StateNumber>7994</StateNumber>
-      <ColNames>doctor_id
-operation_id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>operations_doctors_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="194" parent="56" name="fkirdpj4ekqje3sbvpvb86tpl5g">
-      <ObjectId>36148</ObjectId>
-      <StateNumber>8031</StateNumber>
-      <ColNames>doctor_id</ColNames>
-      <RefTableId>35943</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>operation</RefTableName>
-      <RefKeyName>operation_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="195" parent="56" name="fk6g91gr7wfs81ri2wastgbecww">
-      <ObjectId>36143</ObjectId>
-      <StateNumber>8030</StateNumber>
-      <ColNames>operation_id</ColNames>
-      <RefTableId>35875</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>doctor</RefTableName>
-      <RefKeyName>doctor_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="196" parent="57" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7995</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="197" parent="57" name="med_rec_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>7995</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="198" parent="57" name="patient_pkey">
-      <ObjectId>35968</ObjectId>
-      <StateNumber>7995</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="199" parent="57" name="patient_pkey">
-      <ObjectId>35969</ObjectId>
-      <StateNumber>7995</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>patient_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="200" parent="57" name="fkjbc0h13hdpavkgi6mhuh26g72">
-      <ObjectId>36158</ObjectId>
-      <StateNumber>8033</StateNumber>
-      <ColNames>id</ColNames>
-      <RefTableId>36001</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>user_table</RefTableName>
-      <RefKeyName>user_table_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="201" parent="57" name="fk3p7ko058pyl8iajysb1m0i6be">
-      <ObjectId>36153</ObjectId>
-      <StateNumber>8032</StateNumber>
-      <ColNames>med_rec_id</ColNames>
-      <RefTableId>35906</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>medical_record</RefTableName>
-      <RefKeyName>medical_record_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="202" parent="58" name="id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7996</StateNumber>
-      <DefaultExpression>nextval(&apos;prescription_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="203" parent="58" name="certified">
-      <Position>2</Position>
-      <DataType>boolean|0s</DataType>
-      <StateNumber>7996</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="204" parent="58" name="doctor_id">
-      <Position>3</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>7996</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="205" parent="58" name="nurse_id">
-      <Position>4</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>7996</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="206" parent="58" name="prescription_pkey">
-      <ObjectId>35976</ObjectId>
-      <StateNumber>7996</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="207" parent="58" name="prescription_pkey">
-      <ObjectId>35977</ObjectId>
-      <StateNumber>7996</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>prescription_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="208" parent="58" name="fk1ppr8greedyrey8nchpr0v4dn">
-      <ObjectId>36163</ObjectId>
-      <StateNumber>8034</StateNumber>
-      <ColNames>doctor_id</ColNames>
-      <RefTableId>35875</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>doctor</RefTableName>
-      <RefKeyName>doctor_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="209" parent="58" name="fktq94enqq18631xrbi82gp534r">
-      <ObjectId>36168</ObjectId>
-      <StateNumber>8035</StateNumber>
+    <foreign-key id="129" parent="44" name="fkiywtka3srq7uu630iqkv174ex">
+      <ObjectId>104730</ObjectId>
+      <StateNumber>33405</StateNumber>
       <ColNames>nurse_id</ColNames>
-      <RefTableId>35936</RefTableId>
+      <RefTableId>104578</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>nurse</RefTableName>
       <RefKeyName>nurse_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="210" parent="59" name="medication_id">
-      <Position>1</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7997</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="211" parent="59" name="prescription_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7997</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="212" parent="59" name="prescriptions_medication_pkey">
-      <ObjectId>35981</ObjectId>
-      <StateNumber>7997</StateNumber>
-      <ColNames>medication_id
-prescription_id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-    </index>
-    <key id="213" parent="59" name="prescriptions_medication_pkey">
-      <ObjectId>35982</ObjectId>
-      <StateNumber>7997</StateNumber>
-      <ColNames>medication_id
-prescription_id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>prescriptions_medication_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="214" parent="59" name="fkksgb43kmk7rhx64hes84mijmd">
-      <ObjectId>36178</ObjectId>
-      <StateNumber>8037</StateNumber>
-      <ColNames>medication_id</ColNames>
-      <RefTableId>35972</RefTableId>
+    <foreign-key id="130" parent="44" name="fkmn1l13u1iroqkv46h8dnxcmuw">
+      <ObjectId>104735</ObjectId>
+      <StateNumber>33406</StateNumber>
+      <ColNames>patient_id</ColNames>
+      <RefTableId>104604</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>patient</RefTableName>
+      <RefKeyName>patient_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="131" parent="44" name="fkpe6dlvxlui6ettjbdvoquxxkm">
+      <ObjectId>104740</ObjectId>
+      <StateNumber>33407</StateNumber>
+      <ColNames>prescription_id</ColNames>
+      <RefTableId>104611</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>prescription</RefTableName>
       <RefKeyName>prescription_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="215" parent="59" name="fkdw177r8l9udlssf86et7doapf">
-      <ObjectId>36173</ObjectId>
-      <StateNumber>8036</StateNumber>
-      <ColNames>prescription_id</ColNames>
-      <RefTableId>35927</RefTableId>
+    <foreign-key id="132" parent="44" name="fkth3bgnlanksy0r88jtf1qn9y">
+      <ObjectId>104745</ObjectId>
+      <StateNumber>33408</StateNumber>
+      <ColNames>type_id</ColNames>
+      <RefTableId>104637</RefTableId>
       <RefColPositions>1</RefColPositions>
-      <RefTableName>medication</RefTableName>
-      <RefKeyName>medication_pkey</RefKeyName>
+      <RefTableName>type_of_examination</RefTableName>
+      <RefKeyName>type_of_examination_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="216" parent="60" name="verified">
+    <column id="133" parent="45" name="id">
       <Position>1</Position>
-      <DataType>boolean|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>7998</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="217" parent="60" name="id">
-      <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7998</StateNumber>
+      <StateNumber>33371</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="218" parent="60" name="registration_request_pkey">
-      <ObjectId>35986</ObjectId>
-      <StateNumber>7998</StateNumber>
+    <index id="134" parent="45" name="examination_room_pkey">
+      <ObjectId>104544</ObjectId>
+      <StateNumber>33371</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="219" parent="60" name="registration_request_pkey">
-      <ObjectId>35987</ObjectId>
-      <StateNumber>7998</StateNumber>
+    <key id="135" parent="45" name="examination_room_pkey">
+      <ObjectId>104545</ObjectId>
+      <StateNumber>33371</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
-      <UnderlyingIndexName>registration_request_pkey</UnderlyingIndexName>
+      <UnderlyingIndexName>examination_room_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="220" parent="60" name="fk7kpjtnas53wlq1co4o496i487">
-      <ObjectId>36183</ObjectId>
-      <StateNumber>8038</StateNumber>
+    <foreign-key id="136" parent="45" name="fkh1o1tf8qw7i2njvcwvj08kxrh">
+      <ObjectId>104750</ObjectId>
+      <StateNumber>33409</StateNumber>
       <ColNames>id</ColNames>
-      <RefTableId>36001</RefTableId>
+      <RefTableId>104629</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>rooms_table</RefTableName>
+      <RefKeyName>rooms_table_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="137" parent="46" name="diagnosis_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>30616</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="138" parent="46" name="examination_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>30616</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="139" parent="46" name="examinations_diagnosis_pkey">
+      <ObjectId>99554</ObjectId>
+      <StateNumber>30616</StateNumber>
+      <ColNames>diagnosis_id
+examination_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="140" parent="46" name="examinations_diagnosis_pkey">
+      <ObjectId>99555</ObjectId>
+      <StateNumber>30616</StateNumber>
+      <ColNames>diagnosis_id
+examination_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>examinations_diagnosis_pkey</UnderlyingIndexName>
+    </key>
+    <column id="141" parent="47" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33372</StateNumber>
+      <DefaultExpression>nextval(&apos;medical_record_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="142" parent="47" name="blood_type">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33372</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="143" parent="47" name="diopter">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33372</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="144" parent="47" name="height">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33372</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="145" parent="47" name="weight">
+      <Position>5</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33372</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="146" parent="47" name="medical_record_pkey">
+      <ObjectId>104555</ObjectId>
+      <StateNumber>33372</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="147" parent="47" name="medical_record_pkey">
+      <ObjectId>104556</ObjectId>
+      <StateNumber>33372</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>medical_record_pkey</UnderlyingIndexName>
+    </key>
+    <column id="148" parent="48" name="med_staff_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33373</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="149" parent="48" name="med_rec_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33373</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="150" parent="48" name="medical_records_medical_staffs_pkey">
+      <ObjectId>104560</ObjectId>
+      <StateNumber>33373</StateNumber>
+      <ColNames>med_staff_id
+med_rec_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="151" parent="48" name="medical_records_medical_staffs_pkey">
+      <ObjectId>104561</ObjectId>
+      <StateNumber>33373</StateNumber>
+      <ColNames>med_staff_id
+med_rec_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>medical_records_medical_staffs_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="152" parent="48" name="fkpvtxk5u79il3hh99g9l7lbjg6">
+      <ObjectId>104760</ObjectId>
+      <StateNumber>33411</StateNumber>
+      <ColNames>med_staff_id</ColNames>
+      <RefTableId>104548</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medical_record</RefTableName>
+      <RefKeyName>medical_record_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="153" parent="48" name="fkpigkfrc31bl8tim7hqk22wp5r">
+      <ObjectId>104755</ObjectId>
+      <StateNumber>33410</StateNumber>
+      <ColNames>med_rec_id</ColNames>
+      <RefTableId>104562</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medical_staff</RefTableName>
+      <RefKeyName>medical_staff_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="154" parent="49" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33374</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="155" parent="49" name="clinic_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33374</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="156" parent="49" name="vac_req_id">
+      <Position>3</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33374</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="157" parent="49" name="medical_staff_pkey">
+      <ObjectId>104565</ObjectId>
+      <StateNumber>33374</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="158" parent="49" name="medical_staff_pkey">
+      <ObjectId>104566</ObjectId>
+      <StateNumber>33374</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>medical_staff_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="159" parent="49" name="fkpe328ki9p67dpgo22h8brs46t">
+      <ObjectId>104775</ObjectId>
+      <StateNumber>33414</StateNumber>
+      <ColNames>id</ColNames>
+      <RefTableId>104651</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>user_table</RefTableName>
       <RefKeyName>user_table_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="221" parent="61" name="id">
+    <foreign-key id="160" parent="49" name="fknnsaeaori5pc4gdqtwx8pyjlc">
+      <ObjectId>104765</ObjectId>
+      <StateNumber>33412</StateNumber>
+      <ColNames>clinic_id</ColNames>
+      <RefTableId>104495</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>clinic</RefTableName>
+      <RefKeyName>clinic_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="161" parent="49" name="fkmvgl3i5ivs2wgcff8m8rwl3x3">
+      <ObjectId>104770</ObjectId>
+      <StateNumber>33413</StateNumber>
+      <ColNames>vac_req_id</ColNames>
+      <RefTableId>104662</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>vacation_request</RefTableName>
+      <RefKeyName>vacation_request_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="162" parent="50" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>616</StateNumber>
-      <DefaultExpression>nextval(&apos;registration_requests_id_seq&apos;::regclass)</DefaultExpression>
+      <StateNumber>33375</StateNumber>
+      <DefaultExpression>nextval(&apos;medication_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="222" parent="61" name="rr_id">
+    <column id="163" parent="50" name="code">
       <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>616</StateNumber>
-      <TypeId>20</TypeId>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33375</StateNumber>
+      <TypeId>1043</TypeId>
     </column>
-    <index id="223" parent="61" name="registration_requests_pkey">
-      <ObjectId>16761</ObjectId>
-      <StateNumber>616</StateNumber>
+    <column id="164" parent="50" name="description">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33375</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="165" parent="50" name="name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33375</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="166" parent="50" name="medication_pkey">
+      <ObjectId>104576</ObjectId>
+      <StateNumber>33375</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="224" parent="61" name="registration_requests_pkey">
-      <ObjectId>16762</ObjectId>
-      <StateNumber>616</StateNumber>
+    <index id="167" parent="50" name="uk_pex4ncvrjs43bnm3oucqghy42">
+      <ObjectId>104672</ObjectId>
+      <StateNumber>33391</StateNumber>
+      <ColNames>code</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="168" parent="50" name="medication_pkey">
+      <ObjectId>104577</ObjectId>
+      <StateNumber>33375</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
-      <UnderlyingIndexName>registration_requests_pkey</UnderlyingIndexName>
+      <UnderlyingIndexName>medication_pkey</UnderlyingIndexName>
     </key>
-    <column id="225" parent="62" name="id">
+    <key id="169" parent="50" name="uk_pex4ncvrjs43bnm3oucqghy42">
+      <ObjectId>104673</ObjectId>
+      <StateNumber>33391</StateNumber>
+      <ColNames>code</ColNames>
+      <UnderlyingIndexName>uk_pex4ncvrjs43bnm3oucqghy42</UnderlyingIndexName>
+    </key>
+    <column id="170" parent="51" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>7999</StateNumber>
+      <StateNumber>33376</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="171" parent="51" name="nurse_pkey">
+      <ObjectId>104581</ObjectId>
+      <StateNumber>33376</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="172" parent="51" name="nurse_pkey">
+      <ObjectId>104582</ObjectId>
+      <StateNumber>33376</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>nurse_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="173" parent="51" name="fk8uvus7xnxs1ma0c9serhgub0c">
+      <ObjectId>104780</ObjectId>
+      <StateNumber>33415</StateNumber>
+      <ColNames>id</ColNames>
+      <RefTableId>104562</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medical_staff</RefTableName>
+      <RefKeyName>medical_staff_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="174" parent="52" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <DefaultExpression>nextval(&apos;operation_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="175" parent="52" name="date">
+      <Position>2</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="176" parent="52" name="duration">
+      <Position>3</Position>
+      <DataType>bytea|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <TypeId>17</TypeId>
+    </column>
+    <column id="177" parent="52" name="med_rec_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="178" parent="52" name="or_id">
+      <Position>5</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="179" parent="52" name="patient_id">
+      <Position>6</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33377</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="180" parent="52" name="operation_pkey">
+      <ObjectId>104592</ObjectId>
+      <StateNumber>33377</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="181" parent="52" name="operation_pkey">
+      <ObjectId>104593</ObjectId>
+      <StateNumber>33377</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>operation_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="182" parent="52" name="fk43nkp1oh8h43dycutfxbw3s4s">
+      <ObjectId>104785</ObjectId>
+      <StateNumber>33416</StateNumber>
+      <ColNames>med_rec_id</ColNames>
+      <RefTableId>104548</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medical_record</RefTableName>
+      <RefKeyName>medical_record_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="183" parent="52" name="fkp9sddggdocg5bpmawmej93o9l">
+      <ObjectId>104790</ObjectId>
+      <StateNumber>33417</StateNumber>
+      <ColNames>or_id</ColNames>
+      <RefTableId>104594</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>operation_room</RefTableName>
+      <RefKeyName>operation_room_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="184" parent="52" name="fkrnhrme2dycdtl3tp2ibiyjyh">
+      <ObjectId>104795</ObjectId>
+      <StateNumber>33418</StateNumber>
+      <ColNames>patient_id</ColNames>
+      <RefTableId>104604</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>patient</RefTableName>
+      <RefKeyName>patient_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="185" parent="53" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33378</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="186" parent="53" name="operation_room_pkey">
+      <ObjectId>104597</ObjectId>
+      <StateNumber>33378</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="187" parent="53" name="operation_room_pkey">
+      <ObjectId>104598</ObjectId>
+      <StateNumber>33378</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>operation_room_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="188" parent="53" name="fknda4rsf56wbr9rgkabeq3kwk">
+      <ObjectId>104800</ObjectId>
+      <StateNumber>33419</StateNumber>
+      <ColNames>id</ColNames>
+      <RefTableId>104629</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>rooms_table</RefTableName>
+      <RefKeyName>rooms_table_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="189" parent="54" name="doctor_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33379</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="190" parent="54" name="operation_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33379</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="191" parent="54" name="operations_doctors_pkey">
+      <ObjectId>104602</ObjectId>
+      <StateNumber>33379</StateNumber>
+      <ColNames>doctor_id
+operation_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="192" parent="54" name="operations_doctors_pkey">
+      <ObjectId>104603</ObjectId>
+      <StateNumber>33379</StateNumber>
+      <ColNames>doctor_id
+operation_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>operations_doctors_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="193" parent="54" name="fkirdpj4ekqje3sbvpvb86tpl5g">
+      <ObjectId>104810</ObjectId>
+      <StateNumber>33421</StateNumber>
+      <ColNames>doctor_id</ColNames>
+      <RefTableId>104585</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>operation</RefTableName>
+      <RefKeyName>operation_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="194" parent="54" name="fk6g91gr7wfs81ri2wastgbecww">
+      <ObjectId>104805</ObjectId>
+      <StateNumber>33420</StateNumber>
+      <ColNames>operation_id</ColNames>
+      <RefTableId>104525</RefTableId>
+      <RefColPositions>2</RefColPositions>
+      <RefTableName>doctor</RefTableName>
+      <RefKeyName>doctor_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="195" parent="55" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33380</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="196" parent="55" name="med_rec_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33380</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="197" parent="55" name="patient_pkey">
+      <ObjectId>104607</ObjectId>
+      <StateNumber>33380</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="198" parent="55" name="patient_pkey">
+      <ObjectId>104608</ObjectId>
+      <StateNumber>33380</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>patient_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="199" parent="55" name="fkjbc0h13hdpavkgi6mhuh26g72">
+      <ObjectId>104820</ObjectId>
+      <StateNumber>33423</StateNumber>
+      <ColNames>id</ColNames>
+      <RefTableId>104651</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_table</RefTableName>
+      <RefKeyName>user_table_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="200" parent="55" name="fk3p7ko058pyl8iajysb1m0i6be">
+      <ObjectId>104815</ObjectId>
+      <StateNumber>33422</StateNumber>
+      <ColNames>med_rec_id</ColNames>
+      <RefTableId>104548</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medical_record</RefTableName>
+      <RefKeyName>medical_record_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="201" parent="56" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33381</StateNumber>
+      <DefaultExpression>nextval(&apos;prescription_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="202" parent="56" name="certified">
+      <Position>2</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>33381</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="203" parent="56" name="doctor_id">
+      <Position>3</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33381</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="204" parent="56" name="nurse_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>33381</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="205" parent="56" name="prescription_pkey">
+      <ObjectId>104615</ObjectId>
+      <StateNumber>33381</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="206" parent="56" name="prescription_pkey">
+      <ObjectId>104616</ObjectId>
+      <StateNumber>33381</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>prescription_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="207" parent="56" name="fk1ppr8greedyrey8nchpr0v4dn">
+      <ObjectId>104825</ObjectId>
+      <StateNumber>33424</StateNumber>
+      <ColNames>doctor_id</ColNames>
+      <RefTableId>104525</RefTableId>
+      <RefColPositions>2</RefColPositions>
+      <RefTableName>doctor</RefTableName>
+      <RefKeyName>doctor_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="208" parent="56" name="fktq94enqq18631xrbi82gp534r">
+      <ObjectId>104830</ObjectId>
+      <StateNumber>33425</StateNumber>
+      <ColNames>nurse_id</ColNames>
+      <RefTableId>104578</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>nurse</RefTableName>
+      <RefKeyName>nurse_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="209" parent="57" name="prescription_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33382</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="210" parent="57" name="medication_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33382</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="211" parent="57" name="prescriptions_medication_pkey">
+      <ObjectId>104620</ObjectId>
+      <StateNumber>33382</StateNumber>
+      <ColNames>prescription_id
+medication_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="212" parent="57" name="prescriptions_medication_pkey">
+      <ObjectId>104621</ObjectId>
+      <StateNumber>33382</StateNumber>
+      <ColNames>prescription_id
+medication_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>prescriptions_medication_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="213" parent="57" name="fk1ha8i9jhotigyejv4saqikmoe">
+      <ObjectId>104840</ObjectId>
+      <StateNumber>33427</StateNumber>
+      <ColNames>prescription_id</ColNames>
+      <RefTableId>104611</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>prescription</RefTableName>
+      <RefKeyName>prescription_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="214" parent="57" name="fk3rw0t1g8dt4akjr773k3wono1">
+      <ObjectId>104835</ObjectId>
+      <StateNumber>33426</StateNumber>
+      <ColNames>medication_id</ColNames>
+      <RefTableId>104569</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>medication</RefTableName>
+      <RefKeyName>medication_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="215" parent="58" name="verified">
+      <Position>1</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33383</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="216" parent="58" name="id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33383</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="217" parent="58" name="registration_request_pkey">
+      <ObjectId>104625</ObjectId>
+      <StateNumber>33383</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="218" parent="58" name="registration_request_pkey">
+      <ObjectId>104626</ObjectId>
+      <StateNumber>33383</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>registration_request_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="219" parent="58" name="fk7kpjtnas53wlq1co4o496i487">
+      <ObjectId>104845</ObjectId>
+      <StateNumber>33428</StateNumber>
+      <ColNames>id</ColNames>
+      <RefTableId>104651</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_table</RefTableName>
+      <RefKeyName>user_table_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="220" parent="59" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33384</StateNumber>
+      <DefaultExpression>nextval(&apos;rooms_table_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="221" parent="59" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33384</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="222" parent="59" name="number">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33384</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="223" parent="59" name="clinic_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33384</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="224" parent="59" name="rooms_table_pkey">
+      <ObjectId>104633</ObjectId>
+      <StateNumber>33384</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="225" parent="59" name="rooms_table_pkey">
+      <ObjectId>104634</ObjectId>
+      <StateNumber>33384</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>rooms_table_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="226" parent="59" name="fk9gbutlv14x6ehcu3ch8lkytkn">
+      <ObjectId>104850</ObjectId>
+      <StateNumber>33429</StateNumber>
+      <ColNames>clinic_id</ColNames>
+      <RefTableId>104495</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>clinic</RefTableName>
+      <RefKeyName>clinic_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="227" parent="60" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33385</StateNumber>
       <DefaultExpression>nextval(&apos;type_of_examination_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="226" parent="62" name="description">
+    <column id="228" parent="60" name="description">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7999</StateNumber>
+      <StateNumber>33385</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="227" parent="62" name="name">
+    <column id="229" parent="60" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>7999</StateNumber>
+      <StateNumber>33385</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="228" parent="62" name="type_of_examination_pkey">
-      <ObjectId>35997</ObjectId>
-      <StateNumber>7999</StateNumber>
+    <index id="230" parent="60" name="type_of_examination_pkey">
+      <ObjectId>104644</ObjectId>
+      <StateNumber>33385</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="229" parent="62" name="type_of_examination_pkey">
-      <ObjectId>35998</ObjectId>
-      <StateNumber>7999</StateNumber>
+    <key id="231" parent="60" name="type_of_examination_pkey">
+      <ObjectId>104645</ObjectId>
+      <StateNumber>33385</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>type_of_examination_pkey</UnderlyingIndexName>
     </key>
-    <column id="230" parent="63" name="user_id">
+    <column id="232" parent="61" name="user_id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>5899</StateNumber>
+      <StateNumber>33386</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="231" parent="63" name="authority_id">
+    <column id="233" parent="61" name="authority_id">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>5899</StateNumber>
+      <StateNumber>33386</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="232" parent="63" name="fkil6f39w6fgqh4gk855pstsnmy">
-      <ObjectId>31260</ObjectId>
-      <StateNumber>5939</StateNumber>
+    <foreign-key id="234" parent="61" name="fk83r0k35bfa4u6b61y5235ifdb">
+      <ObjectId>104860</ObjectId>
+      <StateNumber>33431</StateNumber>
+      <ColNames>user_id</ColNames>
+      <RefTableId>104651</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_table</RefTableName>
+      <RefKeyName>user_table_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="235" parent="61" name="fkil6f39w6fgqh4gk855pstsnmy">
+      <ObjectId>104855</ObjectId>
+      <StateNumber>33430</StateNumber>
       <ColNames>authority_id</ColNames>
-      <RefTableId>30906</RefTableId>
+      <RefTableId>104487</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>authorities</RefTableName>
       <RefKeyName>authorities_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="233" parent="64" name="id">
+    <column id="236" parent="62" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <DefaultExpression>nextval(&apos;user_table_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="234" parent="64" name="address">
+    <column id="237" parent="62" name="address">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="235" parent="64" name="city">
+    <column id="238" parent="62" name="city">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="236" parent="64" name="country">
+    <column id="239" parent="62" name="country">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="237" parent="64" name="email">
+    <column id="240" parent="62" name="email">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="238" parent="64" name="first_name">
+    <column id="241" parent="62" name="enabled">
       <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>33387</StateNumber>
+      <TypeId>16</TypeId>
     </column>
-    <column id="239" parent="64" name="jmbg">
+    <column id="242" parent="62" name="first_name">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="240" parent="64" name="last_name">
+    <column id="243" parent="62" name="jmbg">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="241" parent="64" name="password">
+    <column id="244" parent="62" name="last_name">
       <Position>9</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="242" parent="64" name="telephone">
+    <column id="245" parent="62" name="last_password_reset_date">
       <Position>10</Position>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>33387</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="246" parent="62" name="password">
+      <Position>11</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8000</StateNumber>
+      <StateNumber>33387</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="243" parent="64" name="user_table_pkey">
-      <ObjectId>36008</ObjectId>
-      <StateNumber>8000</StateNumber>
+    <column id="247" parent="62" name="telephone">
+      <Position>12</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33387</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="248" parent="62" name="user_table_pkey">
+      <ObjectId>104658</ObjectId>
+      <StateNumber>33387</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <index id="244" parent="64" name="uk_eamk4l51hm6yqb8xw37i23kb5">
-      <ObjectId>36027</ObjectId>
-      <StateNumber>8005</StateNumber>
+    <index id="249" parent="62" name="uk_eamk4l51hm6yqb8xw37i23kb5">
+      <ObjectId>104674</ObjectId>
+      <StateNumber>33392</StateNumber>
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="245" parent="64" name="uk_e7gts02fdgf7j4i1lobg1jutf">
-      <ObjectId>36029</ObjectId>
-      <StateNumber>8006</StateNumber>
+    <index id="250" parent="62" name="uk_e7gts02fdgf7j4i1lobg1jutf">
+      <ObjectId>104676</ObjectId>
+      <StateNumber>33393</StateNumber>
       <ColNames>jmbg</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="246" parent="64" name="uk_8h2r7bdn7c79ngmq1t7m5blgl">
-      <ObjectId>36031</ObjectId>
-      <StateNumber>8007</StateNumber>
+    <index id="251" parent="62" name="uk_8h2r7bdn7c79ngmq1t7m5blgl">
+      <ObjectId>104678</ObjectId>
+      <StateNumber>33394</StateNumber>
       <ColNames>telephone</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="247" parent="64" name="user_table_pkey">
-      <ObjectId>36009</ObjectId>
-      <StateNumber>8000</StateNumber>
+    <key id="252" parent="62" name="user_table_pkey">
+      <ObjectId>104659</ObjectId>
+      <StateNumber>33387</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>user_table_pkey</UnderlyingIndexName>
     </key>
-    <key id="248" parent="64" name="uk_eamk4l51hm6yqb8xw37i23kb5">
-      <ObjectId>36028</ObjectId>
-      <StateNumber>8005</StateNumber>
+    <key id="253" parent="62" name="uk_eamk4l51hm6yqb8xw37i23kb5">
+      <ObjectId>104675</ObjectId>
+      <StateNumber>33392</StateNumber>
       <ColNames>email</ColNames>
       <UnderlyingIndexName>uk_eamk4l51hm6yqb8xw37i23kb5</UnderlyingIndexName>
     </key>
-    <key id="249" parent="64" name="uk_e7gts02fdgf7j4i1lobg1jutf">
-      <ObjectId>36030</ObjectId>
-      <StateNumber>8006</StateNumber>
+    <key id="254" parent="62" name="uk_e7gts02fdgf7j4i1lobg1jutf">
+      <ObjectId>104677</ObjectId>
+      <StateNumber>33393</StateNumber>
       <ColNames>jmbg</ColNames>
       <UnderlyingIndexName>uk_e7gts02fdgf7j4i1lobg1jutf</UnderlyingIndexName>
     </key>
-    <key id="250" parent="64" name="uk_8h2r7bdn7c79ngmq1t7m5blgl">
-      <ObjectId>36032</ObjectId>
-      <StateNumber>8007</StateNumber>
+    <key id="255" parent="62" name="uk_8h2r7bdn7c79ngmq1t7m5blgl">
+      <ObjectId>104679</ObjectId>
+      <StateNumber>33394</StateNumber>
       <ColNames>telephone</ColNames>
       <UnderlyingIndexName>uk_8h2r7bdn7c79ngmq1t7m5blgl</UnderlyingIndexName>
     </key>
-    <column id="251" parent="65" name="id">
+    <column id="256" parent="63" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>8001</StateNumber>
+      <StateNumber>33388</StateNumber>
       <DefaultExpression>nextval(&apos;vacation_request_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="252" parent="65" name="accepted">
+    <column id="257" parent="63" name="accepted">
       <Position>2</Position>
       <DataType>boolean|0s</DataType>
-      <StateNumber>8001</StateNumber>
+      <StateNumber>33388</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="253" parent="65" name="duration">
+    <column id="258" parent="63" name="end_date">
       <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>8001</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>date|0s</DataType>
+      <StateNumber>33388</StateNumber>
+      <TypeId>1082</TypeId>
     </column>
-    <column id="254" parent="65" name="date">
+    <column id="259" parent="63" name="start_date">
       <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>8001</StateNumber>
-      <TypeId>1043</TypeId>
+      <DataType>date|0s</DataType>
+      <StateNumber>33388</StateNumber>
+      <TypeId>1082</TypeId>
     </column>
-    <column id="255" parent="65" name="cadmin_id">
+    <column id="260" parent="63" name="clinic_id">
       <Position>5</Position>
       <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>8001</StateNumber>
+      <StateNumber>33388</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="256" parent="65" name="clinic_id">
-      <Position>6</Position>
-      <DataType>bigint|0s</DataType>
-      <StateNumber>8001</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="257" parent="65" name="vacation_request_pkey">
-      <ObjectId>36019</ObjectId>
-      <StateNumber>8001</StateNumber>
+    <index id="261" parent="63" name="vacation_request_pkey">
+      <ObjectId>104666</ObjectId>
+      <StateNumber>33388</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="258" parent="65" name="vacation_request_pkey">
-      <ObjectId>36020</ObjectId>
-      <StateNumber>8001</StateNumber>
+    <key id="262" parent="63" name="vacation_request_pkey">
+      <ObjectId>104667</ObjectId>
+      <StateNumber>33388</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>vacation_request_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="259" parent="65" name="fk68tpcwjo98i6jst96607vbpev">
-      <ObjectId>36188</ObjectId>
-      <StateNumber>8039</StateNumber>
-      <ColNames>cadmin_id</ColNames>
-      <RefTableId>35854</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>clinic_administrator</RefTableName>
-      <RefKeyName>clinic_administrator_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="260" parent="65" name="fkjaq9cx745jugrjgxdd960wf72">
-      <ObjectId>36193</ObjectId>
-      <StateNumber>8040</StateNumber>
+    <foreign-key id="263" parent="63" name="fkjaq9cx745jugrjgxdd960wf72">
+      <ObjectId>104865</ObjectId>
+      <StateNumber>33432</StateNumber>
       <ColNames>clinic_id</ColNames>
-      <RefTableId>35845</RefTableId>
+      <RefTableId>104495</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>clinic</RefTableName>
       <RefKeyName>clinic_pkey</RefKeyName>

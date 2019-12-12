@@ -1,12 +1,14 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.PatientDTO;
+import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,14 +19,24 @@ public class PatientService {
 
     private PatientRepository patientRepository;
     private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
+    private AuthorityService authorityService;
 
     @Autowired
-    public PatientService(PatientRepository patientRepository, ModelMapper modelMapper) {
+    public PatientService(PatientRepository patientRepository, PasswordEncoder passwordEncoder,
+                AuthorityService authorityService, ModelMapper modelMapper) {
         this.patientRepository = patientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityService = authorityService;
         this.modelMapper = modelMapper;
     }
 
     public Patient save(Patient patient) {
+        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+
+        List<Authority> authorities = authorityService.findByName("ROLE_PATIENT");
+        patient.setAuthorities(authorities);
+
         return patientRepository.save(patient);
     }
 

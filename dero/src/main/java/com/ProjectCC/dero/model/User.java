@@ -4,15 +4,18 @@ import com.ProjectCC.dero.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "user_table")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements UserDetails {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +48,18 @@ public class User {
    @Column(name = "telephone", unique = true, nullable = false)
    private String telephone;
 
+   @ManyToMany(fetch = FetchType.EAGER)
+   @JoinTable(name = "user_authority",
+                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+   private List<Authority> authorities;
+
+   @Column(name = "enabled")
+   private boolean enabled;
+
+   @Column(name = "last_password_reset_date")
+   private Timestamp lastPasswordResetDate;
+
    /*@OneToOne(mappedBy = "user")
    public RegistrationRequest registrationRequest;*/
 
@@ -72,4 +87,29 @@ public class User {
       this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
               userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
    }
+    @Override
+    public String getUsername() {
+        return email;   // kod njih je username
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 }
