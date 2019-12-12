@@ -25,8 +25,8 @@ public class ExaminationDTO {
     private String price;
     private String discount;
     public ExaminationRoomDTO examinationRoom;
-    public List<DiagnosisDTO> diagnosis;
-//    private DiagnosisDTO diagnosis;
+    // public List<DiagnosisDTO> diagnosis;
+    private DiagnosisDTO diagnosis;
     public PrescriptionDTO prescription;
     public NurseDTO nurse;
     public DoctorDTO doctor;

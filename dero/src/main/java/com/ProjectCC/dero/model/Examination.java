@@ -18,7 +18,7 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "date", nullable = false)
+   @Column(name = "date", nullable = true)
    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
            @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
            @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
@@ -26,7 +26,7 @@ public class Examination {
    private DateTime date;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "type_id", nullable = false)
+   @JoinColumn(name = "type_id", nullable = true)
    private TypeOfExamination type;
 
 //   @Column(name = "duration", nullable = false)
