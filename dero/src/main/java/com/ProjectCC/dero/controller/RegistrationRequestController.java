@@ -39,6 +39,8 @@ public class RegistrationRequestController {
                 userDTO.getTelephone(),
                 false);
 
+        registrationRequest.setEnabled(false);
+
         registrationRequest = registrationRequestService.save(registrationRequest);
 
         userDTO.setId(registrationRequest.getId());
@@ -100,6 +102,7 @@ public class RegistrationRequestController {
     public ResponseEntity<RegistrationRequestDTO> update(@PathVariable Long id){
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
         registrationRequest.setVerified(true);
+        registrationRequest.setEnabled(true);
         registrationRequestService.update(registrationRequest);
         return new ResponseEntity<>(new RegistrationRequestDTO(registrationRequest), HttpStatus.OK);
 

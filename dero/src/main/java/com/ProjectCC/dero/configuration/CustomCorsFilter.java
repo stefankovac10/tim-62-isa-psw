@@ -20,7 +20,7 @@ public class CustomCorsFilter implements Filter {
         response.setHeader("Access-Control_Max-Age", "3600");
 //        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
         response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, User-token");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

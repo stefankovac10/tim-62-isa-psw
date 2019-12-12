@@ -29,7 +29,7 @@ public class RegistrationRequestService {
 
         List<Authority> authorities = authorityService.findByName("ROLE_REQUEST");
         registrationRequest.setAuthorities(authorities);
-
+        registrationRequest.setEnabled(false);
         return registrationRequestRepository.save(registrationRequest);
     }
 
