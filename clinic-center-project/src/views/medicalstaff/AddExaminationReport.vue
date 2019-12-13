@@ -79,9 +79,10 @@ export default {
             this.examination.report = this.report;
             this.examination.prescription.medication = this.medicinesSelected;
             this.examination.diagnosis = this.diagnosis;
+            this.examination.id = 1;
             
             httpClient
-              .post("/examination/", this.examination)
+              .post("/examination/addReport", this.examination)
               .then(response => {
                 this.response = response.data;
               })
