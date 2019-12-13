@@ -35,12 +35,13 @@ export default {
           description: this.description
         })
         .then(response => {
-          this.response = response;
-          this.$router.push("/cadmin/types");
+          response;
         })
         .catch(error => {
           this.error = error;
         });
+
+      this.$router.push("/cadmin/types");
     }
   }
 };
