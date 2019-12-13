@@ -1,24 +1,28 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
-    <div class="d-flex flex-column">
-      <h1>Manage rooms</h1>
-      <label class="p-2">Room type</label>
-      <select class="p-2" id="type" name="type" v-model="type">
-        <option>Examination</option>
-        <option>Operation</option>
-      </select>
-      <div
-        v-for="room in rooms"
-        v-bind:key="room.id"
-        class="card border-primary mb-3 d-flex flex-row flex-wrap"
-        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
-      >
-        <div class="card-body">
-          <h4 class="card-title">Room name: {{room.name}}</h4>
-          <p class="card-text">Number: {{room.number}}</p>
-          <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
-          <button type="button" class="btn btn-primary" v-on:click="edit(id)">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+  <div class="d-flex p-2">
+    <div class="d-flex flex-column justify-content-center">
+      <div id="slct" class="d-flex flex-column col-sm-4 justify-content-center">
+        <h1>Manage rooms</h1>
+        <label class="p-2">Room type</label>
+        <select class="p-2" id="type" name="type" v-model="type">
+          <option>Examination</option>
+          <option>Operation</option>
+        </select>
+      </div>
+      <div class="d-flex flex-row flex-wrap">
+        <div
+          class="card border-primary"
+          v-for="room in rooms"
+          v-bind:key="room.id"
+          style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
+        >
+          <div class="card-body">
+            <h4 class="card-title">Room name: {{room.name}}</h4>
+            <p class="card-text">Number: {{room.number}}</p>
+            <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
+            <button type="button" class="btn btn-primary" v-on:click="edit(id)">Edit</button>
+            <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -40,14 +44,12 @@ export default {
       let path = "/rooms/" + this.type.toLowerCase() + "/all";
       httpClient
         .get(path)
-        .then(function(response) {
-          alert("wooohooo");
+        .then(response => {
           this.rooms = response.data;
         })
-        .catch(function(error) {
+        .catch(error => {
           if (error.response.status == 302) {
             this.rooms = error.response.data;
-            alert("yo");
           }
         });
     }
@@ -56,7 +58,7 @@ export default {
     edit: function(id) {
       this.$router.push("/cadmin/editRoom/" + id);
     },
-    delete: function() {}
+    remove: function() {}
   }
 };
 </script>

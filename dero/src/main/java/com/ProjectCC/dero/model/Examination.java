@@ -25,8 +25,9 @@ public class Examination {
    })
    private DateTime date;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "type_id", nullable = false)
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "type_id", nullable = true)
    private TypeOfExamination type;
 
 //   @Column(name = "duration", nullable = false)
@@ -45,8 +46,9 @@ public class Examination {
    @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "ER_id", nullable = false)
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "ER_id", nullable = true)
    public ExaminationRoom examinationRoom;
 
    //@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -58,19 +60,19 @@ public class Examination {
    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
    public Prescription prescription;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "nurse_id", referencedColumnName = "id")
    public Nurse nurse;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
    public Doctor doctor;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "patient_id", referencedColumnName = "id")
    public Patient patient;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "medRec_id", nullable = true)
    public MedicalRecord medicalRecord;
 
