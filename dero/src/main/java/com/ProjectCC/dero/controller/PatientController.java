@@ -9,10 +9,13 @@ import com.ProjectCC.dero.service.MedicalRecordService;
 import com.ProjectCC.dero.service.PatientService;
 import com.ProjectCC.dero.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class PatientController {
     }
 
     @GetMapping(value = "add/{id}")
-    public ResponseEntity<Void> save(@PathVariable Long id){
+    public ResponseEntity<Void> save(@PathVariable Long id) throws URISyntaxException {
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
         registrationRequestService.remove(id);
         MedicalRecord medicalRecord = MedicalRecord.builder()
@@ -58,8 +61,10 @@ public class PatientController {
 
         patient = patientService.save(patient);
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI("http://localhost:8081/login"));
         if(patient != null)
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
