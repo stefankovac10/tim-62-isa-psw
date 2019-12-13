@@ -1,14 +1,20 @@
 package com.ProjectCC.dero.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@SuperBuilder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Patient extends User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +29,5 @@ public class Patient extends User {
 
    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Operation> operations;
-
-
-   public Patient() {
-   }
-
-   public Patient(String firstName, String lastName, String jmbg, String password, String email, String address, String city, String country, String telephone) {
-      super(firstName, lastName, jmbg, password, email, address, city, country, telephone);
-   }
-
 
 }

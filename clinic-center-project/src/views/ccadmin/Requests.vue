@@ -130,11 +130,24 @@ export default {
           .catch(error => {
             this.error = error;
           });
+          this.$vToastify.info({
+              body: "Mail has been sent",
+              title: "Success",
+              type: "success",
+              canTimeout: false,
+              append: false
+          });
 
     },
     decline: function() {
         if(this.message == undefined || this.message == ""){
-          alert("Please enter the message");
+          this.$vToastify.info({
+              body: "Please, enter the reason for rejections",
+              title: "Info",
+              type: "info",
+              canTimeout: false,
+              append: false
+          });
           return;
         }
         httpClient
@@ -147,14 +160,14 @@ export default {
             this.error = error;
           });
 
-       /* httpClient
+        httpClient
           .get("/mail/refuse/"+this.request.email + "/" + this.message )
           .then(response => {
             this.response = response.data;      
           })
           .catch(error => {
             this.error = error;
-          });*/
+          });
           this.message = undefined;
     },
     declineModal : function(request){

@@ -41,7 +41,7 @@ public class Examination {
    @Column(name = "report", nullable = true)
    private String report;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "clinic_id", nullable = true)
    public Clinic clinic;
 

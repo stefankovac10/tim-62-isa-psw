@@ -13,7 +13,7 @@
             {{medication.description}}
           </p>
           <button type="button" class="btn btn-primary" v-on:click="edit(medication)" style="margin-right:10px">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove(medication.id)">Delete</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove(medication)">Delete</button>
         </div>
       </div>
     </div>
@@ -45,8 +45,8 @@
             <label for="exampleTextarea">Description</label>
             <textarea class="form-control" id="descriptionClinic" v-model="description" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click="save" style="margin-right:10px">Save</button>
-          <button type="submit" class="btn btn-danger" v-on:click="cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" v-on:click.prevent="save" style="margin-right:10px">Save</button>
+          <button type="submit" class="btn btn-danger" v-on:click.prevent="cancel">Cancel</button>
         </fieldset>
       </form>
     </div>
@@ -115,10 +115,18 @@ export default {
         .catch(error => {
           this.error = error;
         });
+
+      this.$vToastify.info({
+        body: "Medication is edited",
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false
+       });
     },
-    remove: function(id) {
+    remove: function(medication) {
       httpClient
-        .delete("/medication/"+id)
+        .delete("/medication/"+medication.id)
         .then(response => {
             this.response = response; 
             this.refresh();
@@ -126,6 +134,14 @@ export default {
         .catch(error => {
           this.error = error;
         });
+
+        this.$vToastify.info({
+        body: "Medication "+ medication.name + " is removed",
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false
+       });
     }
   }
 };

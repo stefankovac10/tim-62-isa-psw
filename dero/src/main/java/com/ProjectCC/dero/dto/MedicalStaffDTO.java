@@ -19,22 +19,4 @@ public class MedicalStaffDTO extends UserDTO{
 
     private VacationRequestDTO vacationRequest;
 
-//    @Autowired
-//    public MedicalStaffDTO() {
-//    }
-//
-//    @Autowired
-//    public MedicalStaffDTO(String firstName, String lastName, String jmbg,
-//                           String password, String email, String address, String city,
-//                           String country, String telephone) {
-//        super(firstName, lastName, jmbg, password, email, address, city, country, telephone);
-//    }
-//
-//    @Autowired
-//    public MedicalStaffDTO(Long id, String firstName, String lastName, String jmbg,
-//                           String password, String email, String address, String city,
-//                           String country, String telephone, ClinicDTO clinic) {
-//        super(id, firstName, lastName, jmbg, password, email, address, city, country, telephone);
-//        this.clinic = clinic;
-//    }
 }

@@ -5,6 +5,7 @@ import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ClinicService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/cadmin")
 public class ClinicAdministratorController {
+
     private ClinicAdministratorService clinicAdministratorService;
     private ClinicService clinicService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, ClinicService clinicService) {
+    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, ClinicService clinicService, ModelMapper modelMapper) {
         this.clinicAdministratorService = clinicAdministratorService;
         this.clinicService = clinicService;
+        this.modelMapper = modelMapper;
     }
 
     @PutMapping(consumes = "application/json")
@@ -43,9 +47,9 @@ public class ClinicAdministratorController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        ClinicAdministrator cadmin = new ClinicAdministrator(clinicAdministratorDTO);
+        ClinicAdministrator cadmin = modelMapper.map(clinicAdministratorDTO, ClinicAdministrator.class);
 
-        Clinic clinic = clinicService.findByName(clinicAdministratorDTO.getClinic());
+        Clinic clinic = clinicService.findByName(clinicAdministratorDTO.getClinic().getName());
         cadmin.setClinic(clinic);
 
         cadmin = clinicAdministratorService.save(cadmin);

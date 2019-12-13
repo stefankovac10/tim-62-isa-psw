@@ -30,7 +30,7 @@ export default {
     registerDoc: function(args) {
       if (args[1] === "Nurse") {
         httpClient
-          .post("/users/nurse", args[0])
+          .post("/nurse", args[0])
           .then(function(response) {
             alert(response.data.email);
           })

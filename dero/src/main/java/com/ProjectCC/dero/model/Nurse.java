@@ -1,16 +1,22 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.NurseDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@SuperBuilder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Nurse extends MedicalStaff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,19 +29,4 @@ public class Nurse extends MedicalStaff {
     @JoinColumn(name = "medRec_id", nullable = false)
     private MedicalRecord medicalRecord;*/
 
-    @Autowired
-    public Nurse() {
-    }
-
-    @Autowired
-    public Nurse(String firstName, String lastName, String jmbg, String password, String email,
-                  String address, String city, String country, String telephone) {
-        super(firstName, lastName, jmbg, password, email, address,city, country, telephone);
-    }
-
-    @Autowired
-    public Nurse(NurseDTO nurseDTO) {
-        super(nurseDTO.getFirstName(), nurseDTO.getLastName(), nurseDTO.getJmbg(), nurseDTO.getPassword(), nurseDTO.getEmail(),
-                nurseDTO.getAddress(), nurseDTO.getCity(), nurseDTO.getCountry(), nurseDTO.getTelephone());
-    }
 }

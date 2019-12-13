@@ -33,32 +33,16 @@ public class ClinicController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-            Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
-
-            clinic = clinicService.save(clinic);
-            if(clinic == null){
-                return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
-            }
-            clinicDTO.setId(clinic.getId());
-            return new ResponseEntity<>(clinicDTO, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(clinicService.save(clinicDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-        Clinic clinic = clinicService.findOne(id);
-
-        if (clinic != null) {
-            clinicService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return clinicService.remove(id);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClinicDTO> getCourse(@PathVariable Long id) {
-
         return this.clinicService.findById(id);
     }
 

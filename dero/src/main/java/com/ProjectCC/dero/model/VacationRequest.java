@@ -42,7 +42,7 @@ public class VacationRequest {
    @OneToOne(mappedBy = "vacationRequest")
    public MedicalStaff medicalStaff;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    private Clinic clinic;
 
 //   public VacationRequest() {}
