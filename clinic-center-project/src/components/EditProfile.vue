@@ -26,29 +26,6 @@
         <label class="p-2">Address</label>
         <input type="text" class="p-2" id="address" name="address" v-model="address" />
         <br />
-
-        <label class="p-2" for="password">Password</label>
-        <input
-          type="password"
-          class="p-2"
-          id="password"
-          name="password"
-          v-bind="password"
-          placeholder="Password"
-        />
-
-        <label class="p-2" for="confirmPassword">Confirm password</label>
-        <input
-          type="password"
-          class="p-2"
-          id="confirmPassword"
-          name="confirmPassword"
-          v-bind="confirmPassword"
-          placeholder="Confirm password"
-        />
-        <label class="p-2" for="matching" id="matching">{{matching}}</label>
-
-        <br />
         <button class="btn btn-primary p-2" v-on:click.prevent="update">Update</button>
       </form>
     </div>
@@ -58,6 +35,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import EventBus from "@/EventBus.js";
 
 export default {
   data: function() {
@@ -69,18 +47,8 @@ export default {
       country: undefined,
       city: undefined,
       address: undefined,
-      password: undefined,
-      confirmPassword: undefined,
-      matching: "",
       user: undefined
     };
-  },
-  watch: {
-    confirmPassword() {
-      if (this.confirmPassword != this.password)
-        this.matching = "Passwords are not matching!";
-      else this.matching = "";
-    }
   },
   mounted() {
     httpClient
@@ -110,7 +78,8 @@ export default {
   },
   methods: {
     update: function() {
-      var newProfile = {
+      let newProfile = {
+        id: this.user.id,
         firstName: this.firstName,
         lastName: this.lastName,
         jmbg: this.jmbg,
@@ -124,20 +93,15 @@ export default {
       httpClient
         .put("/users/edit", newProfile)
         .then(response => {
-          alert(response.data);
+          response;
         })
         .catch(error => {
           alert(error.response.data);
         });
 
+      EventBus.$emit("refresh", newProfile);
       this.$router.push("/cadmin/profile");
     }
   }
 };
 </script>
-
-<style scoped>
-#matching {
-  color: red;
-}
-</style>

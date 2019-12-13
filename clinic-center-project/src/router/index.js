@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Profile from "@/components/Profile.vue";
+import EditProfile from "@/components/EditProfile.vue";
 
 import Register from "@/views/homepage/Register.vue";
 import Login from "@/views/homepage/Login.vue";
@@ -31,7 +32,6 @@ import ManageTypes from "@/views/cadmin/ManageTypes.vue";
 import VacationRequests from "@/views/cadmin/Requests.vue";
 import EditClinic from "@/views/cadmin/EditClinic.vue";
 
-import EditProfile from "@/views/cadmin/EditProfile.vue";
 import EditRoom from "@/views/cadmin/EditRoom.vue";
 
 import PHomepage from "@/views/patient/PatientHome";

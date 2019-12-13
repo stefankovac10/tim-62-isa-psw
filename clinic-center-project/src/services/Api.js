@@ -2,9 +2,9 @@ import axios from 'axios';
 
 let config = {
 	baseURL: "http://localhost:8080/api",
-	// headers: {
-	//     'Content-Type': 'application/json'
-	// }
+	headers: {
+		'Content-Type': 'application/json'
+	}
 };
 
 const httpClient = axios.create(config);
