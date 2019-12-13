@@ -22,7 +22,10 @@ public class CustomCorsFilter implements Filter {
 //        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
         response.setHeader("Content-Type", "application/json");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, User-token");
-        filterChain.doFilter(servletRequest, servletResponse);
+        if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest)servletRequest).getMethod()))
+            ((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_OK);
+        else
+            filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
