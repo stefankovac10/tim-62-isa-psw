@@ -1,16 +1,19 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.UserDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
+@SuperBuilder
 @Getter
 @Setter
 @Entity
 @Table(name = "user_table")
+@NoArgsConstructor
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
@@ -47,29 +50,4 @@ public class User {
 
    /*@OneToOne(mappedBy = "user")
    public RegistrationRequest registrationRequest;*/
-
-   @Autowired
-   public User() {
-   }
-
-   @Autowired
-   public User(String firstName, String lastName, String jmbg,
-               String password, String email, String address, String city,
-               String country, String telephone) {
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.jmbg = jmbg;
-      this.password = password;
-      this.email = email;
-      this.address = address;
-      this.city = city;
-      this.country = country;
-      this.telephone = telephone;
-   }
-
-   @Autowired
-   public User(UserDTO userDTO){
-      this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
-              userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
-   }
 }
