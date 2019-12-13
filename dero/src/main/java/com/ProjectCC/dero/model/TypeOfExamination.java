@@ -26,4 +26,7 @@ public class TypeOfExamination {
     @OneToMany(mappedBy = "specialisedType")
     private Set<Doctor> specialisedDoctors;
 
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    private Set<Examination> examinations;
+
 }

@@ -30,12 +30,12 @@ export default {
     registerDoc: function(args) {
       if (args[1] === "Nurse") {
         httpClient
-          .post("/users/nurse", args[0])
+          .post("/nurse", args[0])
           .then(function(response) {
             alert(response.data.email);
           })
           .catch(function(error) {
-            alert(error.response);
+            alert(error);
           });
         this.$router.push("/cadmin");
 
@@ -43,12 +43,12 @@ export default {
       }
 
       httpClient
-        .post("/users/doc", args[0])
+        .post("/users/doc/" + args[2], args[0])
         .then(function(response) {
           this.response = response;
         })
         .catch(function(error) {
-          alert(error.response);
+          alert(error);
         });
       this.$router.push("/cadmin");
     }

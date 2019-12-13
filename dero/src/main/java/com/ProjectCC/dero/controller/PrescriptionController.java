@@ -40,8 +40,9 @@ public class PrescriptionController {
     }
 
     @GetMapping(value = "/certify/{id}")
-    public ResponseEntity<PrescriptionDTO> certify(@PathVariable Long id){
-        return new ResponseEntity<>(prescriptionService.certify(id), HttpStatus.OK);
+    public ResponseEntity<Void> certify(@PathVariable Long id){
+        prescriptionService.certify(id);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
 }

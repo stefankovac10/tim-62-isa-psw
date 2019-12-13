@@ -5,6 +5,7 @@ import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.RegistrationRequest;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.RegistrationRequestService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +19,30 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "api/regrequest")
 public class RegistrationRequestController {
+
     private RegistrationRequestService registrationRequestService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public RegistrationRequestController(RegistrationRequestService registrationRequestService) {
+    public RegistrationRequestController(RegistrationRequestService registrationRequestService, ModelMapper modelMapper) {
         this.registrationRequestService = registrationRequestService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
-        RegistrationRequest registrationRequest = new RegistrationRequest(
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getJmbg(),
-                userDTO.getPassword(),
-                userDTO.getEmail(),
-                userDTO.getAddress(),
-                userDTO.getCity(),
-                userDTO.getCountry(),
-                userDTO.getTelephone(),
-                false);
+        RegistrationRequest registrationRequest = RegistrationRequest.builder()
+                                                    .firstName(userDTO.getFirstName())
+                                                    .lastName(userDTO.getLastName())
+                                                    .address(userDTO.getAddress())
+                                                    .city(userDTO.getCity())
+                                                    .country(userDTO.getCountry())
+                                                    .password(userDTO.getPassword())
+                                                    .email(userDTO.getEmail())
+                                                    .telephone(userDTO.getTelephone())
+                                                    .jmbg(userDTO.getJmbg())
+                                                    .verified(false)
+                                                    .build();
 
         registrationRequest.setEnabled(false);
 
@@ -57,7 +62,7 @@ public class RegistrationRequestController {
 
         List<RegistrationRequestDTO> registrationRequestsDTOS = new ArrayList<>();
         for(RegistrationRequest r : registrationRequests){
-            registrationRequestsDTOS.add(new RegistrationRequestDTO(r));
+            registrationRequestsDTOS.add(modelMapper.map(r,RegistrationRequestDTO.class));
         }
 
         return new ResponseEntity<>(registrationRequestsDTOS, HttpStatus.OK);
@@ -104,7 +109,7 @@ public class RegistrationRequestController {
         registrationRequest.setVerified(true);
         registrationRequest.setEnabled(true);
         registrationRequestService.update(registrationRequest);
-        return new ResponseEntity<>(new RegistrationRequestDTO(registrationRequest), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(registrationRequest, RegistrationRequestDTO.class), HttpStatus.OK);
 
     }
 

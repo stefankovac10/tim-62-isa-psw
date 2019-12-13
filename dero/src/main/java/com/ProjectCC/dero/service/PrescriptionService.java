@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.dto.NurseDTO;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
+import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.model.Medication;
 import com.ProjectCC.dero.model.Prescription;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
@@ -33,10 +34,14 @@ public class PrescriptionService {
 
         List<PrescriptionDTO> prescriptionDTOS = new ArrayList<>();
         for (Prescription p : prescriptions) {
+            DoctorDTO doctor = DoctorDTO.builder()
+                                .firstName(p.getDoctor().getFirstName())
+                                .lastName(p.getDoctor().getLastName())
+                                .build();
             PrescriptionDTO pDTO = PrescriptionDTO.builder()
                                     .certified(p.getCertified())
                                     .id(p.getId())
-                                    //.doctor(modelMapper.map(p.getDoctor(), DoctorDTO.class))
+                                    .doctor(doctor)
                                     //.nurse(modelMapper.map(p.getNurse(), NurseDTO.class))
                                     .build();
 
@@ -68,15 +73,12 @@ public class PrescriptionService {
 
     }
 
-    public PrescriptionDTO certify(Long  id) {
+    public void certify(Long  id) {
         Prescription prescription = prescriptionRepository.findById(id).orElseGet(null);
 
         if(prescription !=null){
             prescription.setCertified(true);
             prescriptionRepository.save(prescription);
-            return modelMapper.map(prescription, PrescriptionDTO.class);
-        }else{
-            return null;
         }
     }
 

@@ -18,14 +18,15 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "date", nullable = true)
+   @Column(name = "date", nullable = false)
    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
            @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
            @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
    })
    private DateTime date;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "type_id", nullable = true)
    private TypeOfExamination type;
 
@@ -41,11 +42,12 @@ public class Examination {
    @Column(name = "report", nullable = true)
    private String report;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "clinic_id", nullable = true)
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "ER_id", nullable = true)
    public ExaminationRoom examinationRoom;
 
@@ -58,19 +60,19 @@ public class Examination {
    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
    public Prescription prescription;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "nurse_id", referencedColumnName = "id")
    public Nurse nurse;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
    public Doctor doctor;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "patient_id", referencedColumnName = "id")
    public Patient patient;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "medRec_id", nullable = true)
    public MedicalRecord medicalRecord;
 

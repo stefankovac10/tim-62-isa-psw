@@ -9,10 +9,13 @@ import com.ProjectCC.dero.service.MedicalRecordService;
 import com.ProjectCC.dero.service.PatientService;
 import com.ProjectCC.dero.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,46 +25,15 @@ import java.util.List;
 public class PatientController {
 
     private PatientService patientService;
-    private RegistrationRequestService registrationRequestService;
-    private MedicalRecordService medicalRecordService;
 
     @Autowired
-    public PatientController(PatientService patientService, RegistrationRequestService registrationRequestService, MedicalRecordService medicalRecordService) {
+    public PatientController(PatientService patientService) {
         this.patientService = patientService;
-        this.registrationRequestService = registrationRequestService;
-        this.medicalRecordService = medicalRecordService;
     }
 
     @GetMapping(value = "add/{id}")
-    public ResponseEntity<Void> save(@PathVariable Long id){
-        RegistrationRequest registrationRequest = registrationRequestService.findById(id);
-        registrationRequestService.remove(id);
-        MedicalRecord medicalRecord = MedicalRecord.builder()
-                                        .height(0)
-                                        .weight(0)
-                                        .bloodType("")
-                                        .diopter("")
-                                        .build();
-        medicalRecord = medicalRecordService.save(medicalRecord);
-
-        Patient patient = new Patient();
-        patient.setFirstName(registrationRequest.getFirstName());
-        patient.setLastName(registrationRequest.getLastName());
-        patient.setAddress(registrationRequest.getAddress());
-        patient.setCity(registrationRequest.getCity());
-        patient.setCountry(registrationRequest.getCountry());
-        patient.setEmail(registrationRequest.getEmail());
-        patient.setJmbg(registrationRequest.getJmbg());
-        patient.setPassword(registrationRequest.getPassword());
-        patient.setTelephone(registrationRequest.getTelephone());
-        patient.setMedicalRecord(medicalRecord);
-
-        patient = patientService.save(patient);
-
-        if(patient != null)
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Void> save(@PathVariable Long id) throws URISyntaxException {
+        return patientService.save(id);
     }
 
     @GetMapping(value = "/all")

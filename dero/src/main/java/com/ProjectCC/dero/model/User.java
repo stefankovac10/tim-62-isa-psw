@@ -1,8 +1,8 @@
 package com.ProjectCC.dero.model;
 
 import com.ProjectCC.dero.dto.UserDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,10 +10,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@SuperBuilder
 @Getter
 @Setter
 @Entity
 @Table(name = "user_table")
+@NoArgsConstructor
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
@@ -59,9 +62,6 @@ public class User implements UserDetails {
 
    @Column(name = "last_password_reset_date")
    private Timestamp lastPasswordResetDate;
-
-   /*@OneToOne(mappedBy = "user")
-   public RegistrationRequest registrationRequest;*/
 
    @Autowired
    public User() {

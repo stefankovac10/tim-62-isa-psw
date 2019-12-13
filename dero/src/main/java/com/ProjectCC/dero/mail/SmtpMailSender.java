@@ -19,10 +19,10 @@ public class SmtpMailSender {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
 
-        helper = new MimeMessageHelper(message,true);
+        helper = new MimeMessageHelper(message,"utf-8");
         helper.setSubject(subject);
         helper.setTo(to);
-        helper.setText(body);
+        helper.setText(body,true);
 
         javaMailSender.send(message);
     }

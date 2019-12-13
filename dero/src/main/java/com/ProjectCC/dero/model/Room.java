@@ -27,7 +27,7 @@ public class Room {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clinic_id", nullable = false)
     private Clinic clinic;
 }

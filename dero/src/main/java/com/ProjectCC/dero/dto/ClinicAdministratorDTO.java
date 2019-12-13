@@ -1,6 +1,8 @@
 package com.ProjectCC.dero.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SuperBuilder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClinicAdministratorDTO extends UserDTO {
     private Long id;
-    private String clinic;
+    private ClinicDTO clinic;
 
-//    @Autowired
-//    public ClinicAdministratorDTO() {
-//        super();
-//    }
-//
-//    @Autowired
-//    public ClinicAdministratorDTO(String firstName, String lastName, String jmbg, String password, String email, String address, String city, String country, String telephone, String clinic) {
-//        super(firstName, lastName, jmbg, password, email, address, city, country, telephone);
-//        this.clinic = clinic;
-//    }
 }

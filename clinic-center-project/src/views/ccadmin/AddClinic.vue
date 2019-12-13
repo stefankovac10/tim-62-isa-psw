@@ -52,7 +52,13 @@ export default {
   methods : {
     add: function(){
       if(this.name === undefined || this.name === '' || this.address ===  undefined || this.address === '' || this.description === undefined || this.description === ''){
-        alert("All field must be filled");
+        this.$vToastify.info({
+              body: "Please, fill all the information",
+              title: "Info",
+              type: "info",
+              canTimeout: true,
+              append: false
+        });
         return;
       }
     
@@ -63,12 +69,20 @@ export default {
           description: this.description
         })
         .then(response => {
-          this.response = response;
-          this.$router.push('/ccadmin/clinics');
+          this.response = response;  
         })
         .catch(error => {
           this.error = error;
         });
+        this.$vToastify.info({
+              body: "Clinic "+ this.name + " has been added",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
+        });
+
+        
     }
   }
 };

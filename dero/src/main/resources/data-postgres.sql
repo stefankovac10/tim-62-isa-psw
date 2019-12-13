@@ -53,6 +53,7 @@ insert into medication (code, description, name) values ('A02BC05', 'Opis', 'EMA
 
 insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 11, 7);
 insert into prescription (certified, doctor_id, nurse_id) VALUES (true, 12, 7);
+insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 12, 7);
 
 insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 1);
 insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 1);
@@ -60,9 +61,6 @@ insert into examination_room (id) values (1);
 insert into operation_room (id) values (2);
 
 insert into type_of_examination (description, name) values ('Gleda ti oci', 'oftamolog');
-
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, 1);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 2);
 
 insert into authorities (name) values ('ROLE_REQUEST');
 insert into authorities (name) values ('ROLE_PATIENT');
@@ -84,3 +82,15 @@ insert into user_authority (user_id, authority_id) values (10, 2);
 insert into user_authority (user_id, authority_id) values (11, 4);
 insert into user_authority (user_id, authority_id) values (12, 4);
 insert into user_authority (user_id, authority_id) values (13, 4);
+
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-12T15:43:39Z', '0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null);
+
+insert into prescriptions_medication (prescription_id, medication_id) values (1, 2);
+insert into prescriptions_medication (prescription_id, medication_id) values (1, 3);
+insert into prescriptions_medication (prescription_id, medication_id) values (1, 4);
+
+insert into prescriptions_medication (prescription_id, medication_id) values (3, 1);
+insert into prescriptions_medication (prescription_id, medication_id) values (3, 3);
+insert into prescriptions_medication (prescription_id, medication_id) values (3, 5);

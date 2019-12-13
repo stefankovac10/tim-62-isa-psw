@@ -2,8 +2,8 @@
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
       <div class="card border-success mb-3" style="max-width: 20rem; max-height: 15rem; height:15rem; width:20rem; margin-right: 10px; margin-top:20px"
        v-for = "p in filteredPrescriptions" v-bind:key="p.id">
-       <div>Doctor: Stefan Kovac</div>
-          <div class="card-body">
+       <div>Doctor: {{p.doctor.firstName}} {{p.doctor.lastName}}</div><br/>
+          <div class="card-body"> 
             <p class="card-text" v-for = "m in p.medication" v-bind:key = "m.id">{{m.name}}</p>
             <button type="button" style="position: absolute; right: 0; bottom:0; margin: 10px" class="btn btn-success" v-on:click="certify(p.id)">Certify</button>
           </div>
@@ -38,7 +38,7 @@ export default {
   computed: {
     filteredPrescriptions: function () {
       return this.prescriptions.filter(function (p) {
-      return p.certified === false || p.certified === null;
+        return p.certified === false || p.certified === null;
     })
      }
   },
@@ -63,7 +63,13 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        
+        this.$vToastify.info({
+              body: "Prescription is succesfully certified",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
+            });  
       }
   }
 };

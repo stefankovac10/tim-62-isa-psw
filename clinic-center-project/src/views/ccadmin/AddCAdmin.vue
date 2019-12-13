@@ -86,12 +86,12 @@
       <div class="form-group">
         <label for="exampleSelect1">Clinic</label>
         <select class="form-control" id="exampleSelect1" v-model="clinic">
-          <option v-for="clinic in clinics" :key="clinic">{{clinic.name}}</option>
+          <option v-for="clinic in clinics" :key="clinic.id">{{clinic.name}}</option>
         </select>
       </div>
 
       <br />
-      <button class="btn btn-primary p-2" v-on:click="add">Add</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="add">Add</button>
     </form>
   </div>
 </template>
@@ -112,6 +112,12 @@ export default {
       email: undefined,
       password: undefined,
       clinic: undefined,
+      user: {
+        clinic: {
+        name: undefined
+        }
+      },
+      
       clinics: {}
     };
   },
@@ -127,26 +133,45 @@ export default {
   },
   methods: {
     add: function() {
-      httpClient
-        .post("/cadmin", {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          jmbg: this.jmbg,
-          password: this.password,
-          email: this.email,
-          address: this.address,
-          city: this.city,
-          country: this.country,
-          telephone: this.telephone,
-          clinic: this.clinic
-        })
-        .then(response => {
-          this.response = response;
-          alert("Administrator successufully added");
-        })
-        .catch(error => {
-          this.error = error;
-        });
+      if(this.firstName === ''  || this.firstName === undefined || this.lastName === ''  || this.lastName === undefined || this.password === ''  || this.password === undefined
+          || this.email === ''  || this.email === undefined || this.jmbg === ''  || this.jmbg === undefined || this.telephone === ''  || this.telephone === undefined
+          || this.country === ''  || this.country === undefined || this.city === ''  || this.city === undefined || this.address === ''  || this.address === undefined
+          || this.clinic === '' || this.clinic === undefined){
+              this.$vToastify.info({
+              body: "Please, fill all the information",
+              title: "Info",
+              type: "info",
+              canTimeout: true,
+              append: false
+            });
+            
+      }else{
+        this.user.firstName = this.firstName;
+        this.user.lastName = this.lastName;
+        this.user.jmbg = this.jmbg;
+        this.user.password = this.password;
+        this.user.email = this.email;
+        this.user.address = this.address;
+        this.user.city = this.city;
+        this.user.country = this.country;
+        this.user.telephone = this.telephone;
+        this.user.clinic.name = this.clinic;
+        httpClient
+          .post("/cadmin", this.user)
+          .then(response => {
+            this.response = response;
+          })
+          .catch(error => {
+            this.error = error;
+          });
+          this.$vToastify.info({
+                body: "Clinical Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
+                title: "Info",
+                type: "info",
+                canTimeout: true,
+                append: false
+              });
+      }
     }
   }
 };

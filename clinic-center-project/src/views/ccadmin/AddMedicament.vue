@@ -32,7 +32,7 @@
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" v-on:click="add">Add</button>
+        <button type="submit" class="btn btn-primary" v-on:click.prevent="add">Add</button>
       </fieldset>
     </form>
   </div>
@@ -52,7 +52,13 @@ export default {
   methods : {
     add : function(){
         if(this.name === undefined || this.name === '' || this.code ===  undefined || this.code === '' || this.description === undefined || this.description === ''){
-        alert("All field must be filled");
+        this.$vToastify.info({
+          body: "Please, fill all the information",
+          title: "Info",
+          type: "info",
+          canTimeout: true,
+          append: false
+        });
         return;
       }
 
@@ -64,11 +70,17 @@ export default {
         })
         .then(response => {
           this.response = response;
-          this.$router.push('/ccadmin/ListMedicaments');
         })
         .catch(error => {
           this.error = error;
-        });      
+        }); 
+      this.$vToastify.info({
+        body: "Medication "+ this.name + " is added",
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false
+       });     
     }
   }
 };

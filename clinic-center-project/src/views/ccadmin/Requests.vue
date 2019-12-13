@@ -1,11 +1,6 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div
-      class="card mb-3"
-      style="min-width: 250px; margin: 5px"
-      v-for="request in requests"
-      :key="request.id"
-    >
+    <div class="card mb-3" style="min-width: 250px; margin: 5px" v-for="request in filteredRequests" :key="request.id">
       <h3 class="card-header">{{request.firstName}} {{request.lastName}}</h3>
       <div class="card-body">
         <h6 class="card-subtitle text-muted">{{request.jmbg}}</h6>
@@ -18,15 +13,9 @@
         <li class="list-group-item">{{request.telephone}}</li>
       </ul>
       <div class="card-body">
-        <div v-if="request.verified === true">
-          <h5>Waiting for confirmation</h5>
-        </div>
-        <button
-          type="button"
-          class="btn btn-success"
-          v-if="request.verified === false"
-          v-on:click="accept(request)"
-        >Accept</button>
+        <button type="button" class="btn btn-success"   v-on:click="accept(request)">
+          Accept
+        </button>
         <button
           type="button"
           class="btn btn-danger"
@@ -34,8 +23,9 @@
           data-target="#exampleModal"
           data-whatever="@mdo"
           v-on:click="declineModal(request)"
-          v-if="request.verified === false"
-        >Decline</button>
+        >
+          Decline
+        </button>
       </div>
     </div>
     <div
@@ -83,9 +73,9 @@ export default {
   name: "requests",
   data: function() {
     return {
-      requests: {},
-      request: {},
-      message: undefined
+        requests : [],
+        request: {},
+        message: undefined
     };
   },
   mounted() {
@@ -97,6 +87,13 @@ export default {
       .catch(error => {
         this.error = error;
       });
+  },
+  computed: {
+    filteredRequests: function () {
+      return this.requests.filter(function (r) {
+        return r.verified === false || r.verified === null;
+    })
+     }
   },
   methods: {
     refresh: function() {
@@ -110,14 +107,31 @@ export default {
         });
     },
     accept: function(request) {
-      httpClient
-        .get("/mail/accept/" + request.email + "/" + request.id)
-        .then(response => {
-          this.response = response.data;
-        })
-        .catch(error => {
-          this.error = error;
-        });
+        httpClient
+          .get("/mail/accept/"+request.email + "/"+ request.id)
+          .then(response => {
+            this.response = response.data;      
+          })
+          .catch(error => {
+            this.error = error;
+          });
+
+        httpClient
+          .put("/regrequest/accept/"+request.id)
+          .then(response => {
+            this.response = response.data;   
+            this.refresh();   
+          })
+          .catch(error => {
+            this.error = error;
+          });
+          this.$vToastify.info({
+              body: "Mail has been sent",
+              title: "Success",
+              type: "success",
+              canTimeout: false,
+              append: false
+          });
 
       httpClient
         .put("/regrequest/accept/" + request.id)
@@ -130,29 +144,35 @@ export default {
         });
     },
     decline: function() {
-      if (this.message == undefined || this.message == "") {
-        alert("Please enter the message");
-        return;
-      }
-      httpClient
-        .delete("/regrequest/" + this.request.id)
-        .then(response => {
-          this.response = response.data;
-          this.refresh();
-        })
-        .catch(error => {
-          this.error = error;
-        });
+        if(this.message == undefined || this.message == ""){
+          this.$vToastify.info({
+              body: "Please, enter the reason for rejections",
+              title: "Info",
+              type: "info",
+              canTimeout: false,
+              append: false
+          });
+          return;
+        }
+        httpClient
+          .delete("/regrequest/"+this.request.id)
+          .then(response => {
+            this.response = response.data;   
+            this.refresh();   
+          })
+          .catch(error => {
+            this.error = error;
+          });
 
-      /* httpClient
+        httpClient
           .get("/mail/refuse/"+this.request.email + "/" + this.message )
           .then(response => {
             this.response = response.data;      
           })
           .catch(error => {
             this.error = error;
-          });*/
-      this.message = undefined;
+          });
+          this.message = undefined;
     },
     declineModal: function(request) {
       this.request = request;
