@@ -37,4 +37,9 @@ public class TypeOfExaminationController {
         return this.typeOfExaminationService.update(typeDTO);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<TypeOfExaminationDTO> delete(@PathVariable Long id) {
+        return this.typeOfExaminationService.delete(id);
+    }
+
 }

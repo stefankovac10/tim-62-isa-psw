@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.dto;
 
 import com.ProjectCC.dero.model.Doctor;
+import com.ProjectCC.dero.model.Examination;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ public class TypeOfExaminationDTO {
     private String name;
     private String description;
     private List<DoctorDTO> specialisedDoctors;
+//    private List<ExaminationDTO> examinations;
 
 //    @Autowired
 //    public TypeOfExaminationDTO(String name, String description) {

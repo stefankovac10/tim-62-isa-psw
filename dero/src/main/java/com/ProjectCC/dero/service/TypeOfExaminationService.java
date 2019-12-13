@@ -24,9 +24,6 @@ public class TypeOfExaminationService {
         this.typeOfExaminationRepository = typeOfExaminationRepository;
         this.modelMapper = modelMapper;
     }
-    public List<TypeOfExamination> findAll() {
-        return typeOfExaminationRepository.findAll();
-    }
 
     public ResponseEntity<TypeOfExaminationDTO> update(TypeOfExaminationDTO typeDTO) {
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
@@ -39,7 +36,11 @@ public class TypeOfExaminationService {
 
         List<TypeOfExaminationDTO> listDTO = new ArrayList<>();
         for (TypeOfExamination t : list) {
-            listDTO.add(modelMapper.map(t, TypeOfExaminationDTO.class));
+            listDTO.add(TypeOfExaminationDTO.builder()
+            .id(t.getId())
+            .name(t.getName())
+            .description(t.getDescription())
+            .build());
         }
 
         return new ResponseEntity<>(listDTO, HttpStatus.OK);
@@ -49,5 +50,14 @@ public class TypeOfExaminationService {
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
         type = this.typeOfExaminationRepository.save(type);
         return new ResponseEntity<>(modelMapper.map(type, TypeOfExaminationDTO.class), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<TypeOfExaminationDTO> delete(Long id) {
+        this.typeOfExaminationRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public TypeOfExamination findByName(String type) {
+        return this.typeOfExaminationRepository.findByName(type);
     }
 }
