@@ -49,6 +49,7 @@ public class UserService {
         user.setCountry(userDTO.getCountry());
         user.setJmbg(userDTO.getJmbg());
         user.setTelephone(userDTO.getTelephone());
+        this.userRepository.save(user);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }
