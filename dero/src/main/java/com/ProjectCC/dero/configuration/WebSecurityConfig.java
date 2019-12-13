@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanjama /auth/**, /h2-console/** i /api/foo
-                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
 
                 // svaki zahtev mora biti autorizovan
                 .anyRequest().authenticated().and()
@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // presretni svaki zahtev filterom
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
                         BasicAuthenticationFilter.class)
-                .addFilterAfter(new CustomCorsFilter(), TokenAuthenticationFilter.class);
+                .addFilterAfter(new CustomCorsFilter(), BasicAuthenticationFilter.class);
 
         http.csrf().disable();
     }
@@ -94,14 +94,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }
-    /*
+
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         UrlBasedCorsConfigurationSource source =  new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/auth/**", configuration);
         return  source;
-    }*/
+    }
 }

@@ -15,15 +15,15 @@
 sequence|table|104493|104495|1
 sequence|table|104514|104516|1
 sequence|table|104530|104532|1
-sequence|table|104546|104548|1
-sequence|table|104567|104569|1
-sequence|table|104583|104585|1
-sequence|table|104609|104611|1
+sequence|table|36873|36875|1
 sequence|table|104627|104629|1
 sequence|table|104635|104637|1
 sequence|table|104649|104651|1
 sequence|table|104660|104662|1
-sequence|table|36873|36875|1
+sequence|table|104546|104548|1
+sequence|table|104567|104569|1
+sequence|table|104583|104585|1
+sequence|table|104609|104611|1
 </Relations>
     </database>
     <role id="3" parent="1" name="pg_execute_server_program">
@@ -361,6 +361,7 @@ sequence|table|36873|36875|1
     </table>
     <table id="58" parent="14" name="registration_request">
       <ObjectId>104622</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>33428</StateNumber>
     </table>
