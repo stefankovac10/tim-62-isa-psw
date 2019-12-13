@@ -37,11 +37,15 @@ export default {
       httpClient
         .post("/auth/login", user)
         .then(response => {
-          localStorage.setItem("User-token", response.data);
+          localStorage.setItem("User-token", response.data.accessToken);
+          localStorage.setItem("Expiary", response.data.expiresIn);
+          localStorage.setItem("Token", response.data);
         })
         .catch(error => {
           alert(error);
         });
+
+      if (!localStorage.getItem("Token")) this.$router.push("/login");
     }
   }
 };
