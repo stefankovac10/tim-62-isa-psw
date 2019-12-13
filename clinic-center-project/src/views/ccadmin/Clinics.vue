@@ -4,7 +4,7 @@
       <div 
         class="card border-primary mb-3"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px" 
-        v-for="clinic in clinics" :key="clinic"
+        v-for="clinic in clinics" :key="clinic.id"
       >
         <div class="card-header">{{clinic.address}}</div>
         <div class="card-body">
@@ -12,8 +12,14 @@
           <p class="card-text">
             {{clinic.description}}
           </p>
+          <p class="card-text">
+           Grade: {{clinic.grade}}
+          </p>
+          <p class="card-text">
+            Income: {{clinic.income}}
+          </p>
           <button type="button" class="btn btn-primary" v-on:click="edit(clinic)" style="margin-right:10px">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove(clinic.id)">Delete</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove(clinic)">Delete</button>
         </div>
       </div>
     </div>
@@ -116,16 +122,30 @@ export default {
         .catch(error => {
           this.error = error;
         });
+        this.$vToastify.info({
+              body: "Clinic has been edited",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
+        });
     },
-    remove: function(id) {
+    remove: function(clinic) {
         httpClient
-        .delete("/clinics/"+id)
-        .then(response => {
-            this.response = response; 
-            this.refresh();
-        })
-        .catch(error => {
-          this.error = error;
+          .delete("/clinics/"+clinic.id)
+          .then(response => {
+              this.response = response; 
+              this.refresh();
+          })
+          .catch(error => {
+            this.error = error;
+          });
+        this.$vToastify.info({
+              body: "Clinic " + clinic.name + " has been deleted",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
         });
     }
   }
