@@ -67,10 +67,10 @@ export default {
       add: function(){
           if(this.diagnosis === null  || this.report === undefined || this.report === ''){
             this.$vToastify.info({
-              body: "Pleas fill the report and chose the diagnosis",
+              body: "Please, fill the report and chose the diagnosis",
               title: "Warning",
               type: "warning",
-              canTimeout: false,
+              canTimeout: true,
               append: false
             });
             return;
@@ -89,6 +89,13 @@ export default {
               .catch(error => {
                 this.error = error;
               });
+            this.$vToastify.info({
+              body: "Examination report has been saved",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
+            });
             this.$router.push("/doc/patients");
           }
       }

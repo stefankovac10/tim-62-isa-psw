@@ -63,7 +63,13 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        
+        this.$vToastify.info({
+              body: "Prescription is succesfully certified",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false
+            });  
       }
   }
 };
