@@ -29,6 +29,12 @@ public class ExaminationController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping( consumes = "application/json", value = "/addReport")
+    public ResponseEntity<Void> addReport(@RequestBody ExaminationDTO examinationDTO){
+        examinationService.addExaminationReport(examinationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<ExaminationDTO> getExamination(@PathVariable Long id) {
         return new ResponseEntity<>(examinationService.getOne(id), HttpStatus.OK);
