@@ -21,8 +21,7 @@ public class ExaminationController {
         this.examinationService = examinationService;
         this.modelMapper = modelMapper;
     }
-
-
+    
     @PostMapping( consumes = "application/json")
     public ResponseEntity<Void> save(@RequestBody ExaminationDTO examinationDTO){
         examinationService.save(examinationDTO);
