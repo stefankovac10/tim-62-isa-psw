@@ -82,8 +82,21 @@
               <router-link to="/cadmin/profile">Profile</router-link>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" v-on:click="logout">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout: function() {
+      localStorage.removeItem("User-token");
+    }
+  }
+};
+</script>
