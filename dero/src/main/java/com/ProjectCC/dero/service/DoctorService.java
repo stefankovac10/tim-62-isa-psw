@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.Doctor;
+import com.ProjectCC.dero.model.TypeOfExamination;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,35 +21,29 @@ public class DoctorService {
 
     private DoctorRepository doctorRepository;
     private ClinicService clinicService;
+    private TypeOfExaminationService typeOfExaminationService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public DoctorService(ModelMapper modelMapper, DoctorRepository doctorRepository, ClinicService clinicService) {
+    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService, TypeOfExaminationService typeOfExaminationService, ModelMapper modelMapper) {
         this.doctorRepository = doctorRepository;
         this.clinicService = clinicService;
+        this.typeOfExaminationService = typeOfExaminationService;
         this.modelMapper = modelMapper;
     }
 
-    public ResponseEntity<DoctorDTO> save(DoctorDTO doctorDTO) {
-        Doctor doctor = Doctor.builder()
-                        .firstName(doctorDTO.getFirstName())
-                        .lastName(doctorDTO.getLastName())
-                        .jmbg(doctorDTO.getJmbg())
-                        .password(doctorDTO.getPassword())
-                        .address(doctorDTO.getAddress())
-                        .city(doctorDTO.getCity())
-                        .country(doctorDTO.getCountry())
-                        .telephone(doctorDTO.getTelephone())
-                        .email(doctorDTO.getEmail())
-                        .grade((double)0)
-                        .build();
+    public ResponseEntity<DoctorDTO> save(DoctorDTO doctorDTO, String type) {
+        TypeOfExamination typeOfExamination = this.typeOfExaminationService.findByName(type);
+        Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
+        doctor.setSpecialisedType(typeOfExamination);
+
 
         Clinic clinic = clinicService.findOne((long) 1);
         doctor.setClinic(clinic);
 
         doctor = doctorRepository.save(doctor);
 
-        return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     public ResponseEntity<Void> delete(Long id) {

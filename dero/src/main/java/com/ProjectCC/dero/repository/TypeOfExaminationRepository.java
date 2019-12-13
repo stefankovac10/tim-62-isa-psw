@@ -10,4 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface TypeOfExaminationRepository extends JpaRepository<TypeOfExamination, Long> {
 
+    TypeOfExamination findByName(String type);
 }

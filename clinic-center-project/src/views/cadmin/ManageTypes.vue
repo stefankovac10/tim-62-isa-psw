@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
+  <div class="d-flex p-2 justify-content-center" v-bind:key="componentKey">
     <div class="d-flex flex-column p-2 justify-content-center">
       <h1>Manage types</h1>
 
@@ -13,8 +13,8 @@
           <div class="card-body">
             <h4 class="card-title">{{type.name}}</h4>
             <p class="card-text">{{type.description}}</p>
-            <button type="button" class="btn btn-primary" v-on:click="edit">Edit</button>
-            <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+            <button type="button" class="btn btn-primary" v-on:click="edit(type)">Edit</button>
+            <button type="button" class="btn btn-danger" v-on:click="remove(type.id)">Delete</button>
           </div>
         </div>
       </div>
@@ -51,13 +51,16 @@ export default {
   name: "listDiagnosis",
   data: function() {
     return {
+      id: undefined,
       name: undefined,
       description: undefined,
       types: undefined,
-      mode: "VIEW"
+      mode: "VIEW",
+      componentKey: 0
     };
   },
-  created: function() {
+  mounted: function() {
+    this.componentKey += 1;
     httpClient
       .get("/types/all")
       .then(response => {
@@ -68,13 +71,41 @@ export default {
       });
   },
   methods: {
-    edit: function() {
+    edit: function(type) {
       this.mode = "EDIT";
+      this.name = type.name;
+      this.description = type.description;
+      this.id = type.id;
+      this.componentKey += 1;
     },
     save: function() {
       this.mode = "VIEW";
+      httpClient
+        .put("/types", {
+          id: this.id,
+          name: this.name,
+          description: this.description
+        })
+        .then(response => {
+          response;
+        })
+        .catch(error => {
+          alert(error);
+        });
+      this.componentKey += 1;
     },
-    remove: function() {}
+    remove: function(id) {
+      httpClient
+        .delete("/types/" + id)
+        .then(response => {
+          response;
+        })
+        .catch(error => {
+          alert(error);
+        });
+      this.componentKey += 1;
+      this.types.slice();
+    }
   }
 };
 </script>

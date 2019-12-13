@@ -31,9 +31,9 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-        return doctorService.save(doctorDTO);
+    @PostMapping(value = "/{type}",consumes = "application/json")
+    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO, @PathVariable String type) {
+        return doctorService.save(doctorDTO, type);
     }
 
     @DeleteMapping(path = "/{id}")
