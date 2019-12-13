@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div class="card mb-3" style="min-width: 250px; margin: 5px" v-for="request in requests" :key="request">
+    <div class="card mb-3" style="min-width: 250px; margin: 5px" v-for="request in filteredRequests" :key="request.id">
       <h3 class="card-header">{{request.firstName}} {{request.lastName}}</h3>
       <div class="card-body">
         <h6 class="card-subtitle text-muted">{{request.jmbg}}</h6>
@@ -13,10 +13,7 @@
         <li class="list-group-item">{{request.telephone}}</li>
       </ul>
       <div class="card-body">
-        <div v-if="request.verified === true">
-          <h5>Waiting for confirmation</h5>
-        </div>
-        <button type="button" class="btn btn-success"  v-if="request.verified === false" v-on:click="accept(request)">
+        <button type="button" class="btn btn-success"   v-on:click="accept(request)">
           Accept
         </button>
         <button
@@ -26,7 +23,6 @@
           data-target="#exampleModal"
           data-whatever="@mdo"
           v-on:click="declineModal(request)"
-           v-if="request.verified === false"
         >
           Decline
         </button>
@@ -85,7 +81,7 @@ export default {
   name: "requests",
   data: function() {
     return {
-        requests : {},
+        requests : [],
         request: {},
         message: undefined
     };
@@ -99,6 +95,13 @@ export default {
     .catch(error => {
       this.error = error;
     });
+  },
+  computed: {
+    filteredRequests: function () {
+      return this.requests.filter(function (r) {
+        return r.verified === false || r.verified === null;
+    })
+     }
   },
   methods: {
     refresh: function(){

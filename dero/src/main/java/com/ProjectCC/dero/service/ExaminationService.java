@@ -59,6 +59,25 @@ public class ExaminationService {
         examinationRepository.save(examination);
     }
 
+    public void addExaminationReport(ExaminationDTO examinationDTO){
+        Set<Medication> medications = new HashSet<>();
+        for(MedicationDTO med: examinationDTO.getPrescription().getMedication()){
+            medications.add(modelMapper.map(med, Medication.class));
+        }
+
+        Prescription prescription = Prescription.builder()
+                                .medication(medications)
+                                .certified(false)
+                                .build();
+
+        Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
+        examination.setPrescription(prescription);
+        examination.setDiagnosis(modelMapper.map(examinationDTO.getDiagnosis(), Diagnosis.class));
+        examination.setReport(examinationDTO.getReport());
+
+        examinationRepository.save(examination);
+    }
+
     public ExaminationDTO edit(ExaminationDTO examinationDTO) {
         Examination examination = examinationRepository.getOne(examinationDTO.getId());
         examination.setReport(examinationDTO.getReport());

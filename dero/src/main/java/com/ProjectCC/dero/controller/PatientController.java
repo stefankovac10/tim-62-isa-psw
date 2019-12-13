@@ -25,48 +25,15 @@ import java.util.List;
 public class PatientController {
 
     private PatientService patientService;
-    private RegistrationRequestService registrationRequestService;
-    private MedicalRecordService medicalRecordService;
 
     @Autowired
-    public PatientController(PatientService patientService, RegistrationRequestService registrationRequestService, MedicalRecordService medicalRecordService) {
+    public PatientController(PatientService patientService) {
         this.patientService = patientService;
-        this.registrationRequestService = registrationRequestService;
-        this.medicalRecordService = medicalRecordService;
     }
 
     @GetMapping(value = "add/{id}")
     public ResponseEntity<Void> save(@PathVariable Long id) throws URISyntaxException {
-        RegistrationRequest registrationRequest = registrationRequestService.findById(id);
-        registrationRequestService.remove(id);
-        MedicalRecord medicalRecord = MedicalRecord.builder()
-                                        .height(0)
-                                        .weight(0)
-                                        .bloodType("")
-                                        .diopter("")
-                                        .build();
-        medicalRecord = medicalRecordService.save(medicalRecord);
-
-        Patient patient = new Patient();
-        patient.setFirstName(registrationRequest.getFirstName());
-        patient.setLastName(registrationRequest.getLastName());
-        patient.setAddress(registrationRequest.getAddress());
-        patient.setCity(registrationRequest.getCity());
-        patient.setCountry(registrationRequest.getCountry());
-        patient.setEmail(registrationRequest.getEmail());
-        patient.setJmbg(registrationRequest.getJmbg());
-        patient.setPassword(registrationRequest.getPassword());
-        patient.setTelephone(registrationRequest.getTelephone());
-        patient.setMedicalRecord(medicalRecord);
-
-        patient = patientService.save(patient);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("http://localhost:8081/login"));
-        if(patient != null)
-            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return patientService.save(id);
     }
 
     @GetMapping(value = "/all")
