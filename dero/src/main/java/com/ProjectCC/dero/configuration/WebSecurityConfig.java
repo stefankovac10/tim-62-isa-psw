@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanjama /auth/**, /h2-console/** i /api/foo
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
 
                 // svaki zahtev mora biti autorizovan
                 .anyRequest().authenticated().and()
@@ -78,8 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // presretni svaki zahtev filterom
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-                        BasicAuthenticationFilter.class)
-                .addFilterAfter(new CustomCorsFilter(), BasicAuthenticationFilter.class);
+                        BasicAuthenticationFilter.class);
 
         http.csrf().disable();
     }
@@ -95,13 +94,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.css", "/**/*.js");
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        UrlBasedCorsConfigurationSource source =  new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/auth/**", configuration);
-        return  source;
-    }
+//    @Bean
+////    CorsConfigurationSource corsConfigurationSource(){
+////        CorsConfiguration configuration = new CorsConfiguration();
+////        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+////        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+////        UrlBasedCorsConfigurationSource source =  new UrlBasedCorsConfigurationSource();
+////        source.registerCorsConfiguration("/api/auth/**", configuration);
+////        return  source;
+////    }
 }
