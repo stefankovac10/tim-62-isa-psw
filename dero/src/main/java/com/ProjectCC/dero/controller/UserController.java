@@ -32,12 +32,16 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "{email}")
-    public ResponseEntity<User> getUser(@PathVariable String email) {
-        User user = new User();
-
-        user = userService.findByEmail(email);
-        return new ResponseEntity<>(user, HttpStatus.FOUND);
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable String email) {
+        User user = userService.findByEmail(email);
+        UserDTO userDTO = UserDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .id(user.getId())
+                .email(user.getEmail())
+                .build();
+        return new ResponseEntity<>(userDTO, HttpStatus.FOUND);
     }
 
     @GetMapping(value = "/profile/{id}")

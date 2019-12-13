@@ -81,6 +81,9 @@
               </a>
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" v-on:click="logout">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -89,6 +92,11 @@
 
 <script>
 export default {
-  name: "NBCCAdmin"
+  name: "NBCCAdmin",
+  methods: {
+    logout: function() {
+      localStorage.removeItem("User-token");
+    }
+  }
 };
 </script>

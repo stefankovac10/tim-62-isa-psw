@@ -41,12 +41,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Message</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -58,16 +53,13 @@
             </form>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-primary"
               data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="decline()">
-              Send
-            </button>
+              v-on:click="decline()"
+            >Send</button>
           </div>
         </div>
       </div>
@@ -86,15 +78,15 @@ export default {
         message: undefined
     };
   },
-  mounted(){
+  mounted() {
     httpClient
-    .get("/regrequest/all")
-    .then(response => {
-      this.requests = response.data;      
-    })
-    .catch(error => {
-      this.error = error;
-    });
+      .get("/regrequest/all")
+      .then(response => {
+        this.requests = response.data;
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
   computed: {
     filteredRequests: function () {
@@ -104,11 +96,11 @@ export default {
      }
   },
   methods: {
-    refresh: function(){
+    refresh: function() {
       httpClient
         .get("/regrequest/all")
         .then(response => {
-          this.requests = response.data;      
+          this.requests = response.data;
         })
         .catch(error => {
           this.error = error;
@@ -141,6 +133,15 @@ export default {
               append: false
           });
 
+      httpClient
+        .put("/regrequest/accept/" + request.id)
+        .then(response => {
+          this.response = response.data;
+          this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
     decline: function() {
         if(this.message == undefined || this.message == ""){
@@ -173,7 +174,7 @@ export default {
           });
           this.message = undefined;
     },
-    declineModal : function(request){
+    declineModal: function(request) {
       this.request = request;
       this.message = undefined;
     }

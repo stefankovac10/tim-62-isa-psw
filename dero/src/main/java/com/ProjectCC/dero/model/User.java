@@ -4,8 +4,11 @@ import com.ProjectCC.dero.dto.UserDTO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 @SuperBuilder
 @Getter
@@ -15,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements UserDetails {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +51,65 @@ public class User {
    @Column(name = "telephone", unique = true, nullable = false)
    private String telephone;
 
-   /*@OneToOne(mappedBy = "user")
-   public RegistrationRequest registrationRequest;*/
+   @ManyToMany(fetch = FetchType.EAGER)
+   @JoinTable(name = "user_authority",
+                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+   private List<Authority> authorities;
+
+   @Column(name = "enabled")
+   private boolean enabled;
+
+   @Column(name = "last_password_reset_date")
+   private Timestamp lastPasswordResetDate;
+
+   @Autowired
+   public User() {
+   }
+
+   @Autowired
+   public User(String firstName, String lastName, String jmbg,
+               String password, String email, String address, String city,
+               String country, String telephone) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.jmbg = jmbg;
+      this.password = password;
+      this.email = email;
+      this.address = address;
+      this.city = city;
+      this.country = country;
+      this.telephone = telephone;
+   }
+
+   @Autowired
+   public User(UserDTO userDTO){
+      this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
+              userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
+   }
+    @Override
+    public String getUsername() {
+        return email;   // kod njih je username
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 }

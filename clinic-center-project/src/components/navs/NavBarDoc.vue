@@ -38,6 +38,9 @@
               <router-link to="/doc/scheduling">Schedule an examination or operation</router-link>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" v-on:click="logout">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -46,6 +49,11 @@
 
 <script>
 export default {
-  name: "NBDoc"
+  name: "NBDoc",
+  methods: {
+    logout: function() {
+      localStorage.removeItem("User-token");
+    }
+  }
 };
 </script>

@@ -39,7 +39,14 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Search</a>
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Search</a>
             <div class="dropdown-menu">
               <a class="nav-link dropdown-item">
                 <router-link to="/patient/searchdoctors">Doctors</router-link>
@@ -49,6 +56,9 @@
               </a>
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" v-on:click="logout">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -57,6 +67,11 @@
 
 <script>
 export default {
-  name: "PHomepage"
+  name: "PHomepage",
+  methods: {
+    logout: function() {
+      localStorage.removeItem("User-token");
+    }
+  }
 };
 </script>

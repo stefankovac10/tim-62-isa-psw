@@ -44,6 +44,8 @@ public class RegistrationRequestController {
                                                     .verified(false)
                                                     .build();
 
+        registrationRequest.setEnabled(false);
+
         registrationRequest = registrationRequestService.save(registrationRequest);
 
         userDTO.setId(registrationRequest.getId());
@@ -105,6 +107,7 @@ public class RegistrationRequestController {
     public ResponseEntity<RegistrationRequestDTO> update(@PathVariable Long id){
         RegistrationRequest registrationRequest = registrationRequestService.findById(id);
         registrationRequest.setVerified(true);
+        registrationRequest.setEnabled(true);
         registrationRequestService.update(registrationRequest);
         return new ResponseEntity<>(modelMapper.map(registrationRequest, RegistrationRequestDTO.class), HttpStatus.OK);
 

@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.PatientDTO;
+import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.RegistrationRequest;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -25,10 +27,16 @@ public class PatientService {
     private RegistrationRequestService registrationRequestService;
     private MedicalRecordService medicalRecordService;
     private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
+    private AuthorityService authorityService;
 
     @Autowired
-    public PatientService(PatientRepository patientRepository, RegistrationRequestService registrationRequestService, MedicalRecordService medicalRecordService, ModelMapper modelMapper) {
+    public PatientService(PatientRepository patientRepository, PasswordEncoder passwordEncoder,
+                AuthorityService authorityService, RegistrationRequestService registrationRequestService,
+                          MedicalRecordService medicalRecordService, ModelMapper modelMapper) {
         this.patientRepository = patientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityService = authorityService;
         this.registrationRequestService = registrationRequestService;
         this.medicalRecordService = medicalRecordService;
         this.modelMapper = modelMapper;
@@ -58,6 +66,10 @@ public class PatientService {
                             .telephone(registrationRequest.getTelephone())
                             .medicalRecord(medicalRecord)
                             .build();
+        patient.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+
+        List<Authority> authorities = authorityService.findByName("ROLE_PATIENT");
+        patient.setAuthorities(authorities);
         patient = patientRepository.save(patient);
 
         HttpHeaders headers = new HttpHeaders();
