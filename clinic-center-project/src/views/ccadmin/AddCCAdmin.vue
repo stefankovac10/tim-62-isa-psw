@@ -82,7 +82,7 @@
       />
 
       <br />
-      <button class="btn btn-primary p-2" v-on:click="add">Add</button>
+      <button class="btn btn-primary p-2" v-on:click.prevent="add">Add</button>
     </form>
   </div>
 </template>
@@ -106,6 +106,18 @@ export default {
   },
   methods: {
     add: function() {
+      if(this.firstName === ''  || this.firstName === undefined || this.lastName === ''  || this.lastName === undefined || this.password === ''  || this.password === undefined
+          || this.email === ''  || this.email === undefined || this.jmbg === ''  || this.jmbg === undefined || this.telephone === ''  || this.telephone === undefined
+          || this.country === ''  || this.country === undefined || this.city === ''  || this.city === undefined || this.address === ''  || this.address === undefined){
+              this.$vToastify.info({
+              body: "Please, fill all the information",
+              title: "Info",
+              type: "info",
+              canTimeout: true,
+              append: false
+            });
+            return;
+        }
       httpClient
         .post("/ccadmin", {
           firstName: this.firstName,
@@ -124,8 +136,13 @@ export default {
         .catch(error => {
           this.error = error;
         });
-
-      this.$router.push("/ccadmin/addCCAdmin");
+        this.$vToastify.info({
+              body: "Clinical Centre Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
+              title: "Info",
+              type: "info",
+              canTimeout: true,
+              append: false
+            });
     }
   }
 };

@@ -23,15 +23,7 @@ public class ClinicCenterAdministratorController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicCenterAdministratorDTO> save(@RequestBody ClinicCenterAdministratorDTO ccadminDTO){
-        ClinicCenterAdministrator clinicCenterAdministrator = new ClinicCenterAdministrator(ccadminDTO);
-
-        clinicCenterAdministrator.setLogFirstTime(false);
-
-        clinicCenterAdministrator = clinicCenterAdministratorService.save(clinicCenterAdministrator);
-
-        ccadminDTO.setId(clinicCenterAdministrator.getId());
-        return new ResponseEntity<>(ccadminDTO, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(clinicCenterAdministratorService.save(ccadminDTO), HttpStatus.CREATED);
     }
 
 

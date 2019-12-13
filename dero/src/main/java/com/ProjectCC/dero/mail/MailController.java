@@ -28,8 +28,8 @@ public class MailController {
     @GetMapping(value = "/accept/{email}/{id}")
     public void accept(@PathVariable String email, @PathVariable String id) throws MessagingException {
         smtpMailSender.send(email, "Registration", "You have been successfully registered." +
-                                                            "Please activate your account, clicking on the link below. " +
-                                                             "<a href='http://localhost:8080/api/patient/add/"+id+"'>Activate</a>");
+                                                            "Please activate your account, clicking on the link.    " +
+                                                             "http://localhost:8080/api/patient/add/"+id);
     }
 
     @GetMapping(value = "/refuse/{email}/{description}")

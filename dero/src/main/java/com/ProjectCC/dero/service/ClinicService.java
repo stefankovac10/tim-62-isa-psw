@@ -33,24 +33,49 @@ public class ClinicService {
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
 
         for (Clinic c : clinics) {
-            clinicDTOS.add(modelMapper.map(c, ClinicDTO.class));
+            ClinicDTO clinicDTO  = ClinicDTO.builder()
+                                    .id(c.getId())
+                                    .name(c.getName())
+                                    .address(c.getAddress())
+                                    .description(c.getDescription())
+                                    .grade(c.getGrade())
+                                    .income(c.getIncome())
+                                    .build();
+            clinicDTOS.add(clinicDTO);
         }
 
         return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
     }
 
-    public Clinic save(Clinic clinic){
-        
+    public ClinicDTO save(ClinicDTO clinicDTO){
+        Clinic clinic = Clinic.builder()
+                        .address(clinicDTO.getAddress())
+                        .income((double) 0)
+                        .grade((double) 0)
+                        .name(clinicDTO.getName())
+                        .description(clinicDTO.getDescription())
+                        .priceList("")
+                        .build();
+
         Clinic clinic_find = clinicRepository.findByName(clinic.getName());
         if(clinic_find == null){
-            return clinicRepository.save(clinic);
+           clinic = clinicRepository.save(clinic);
+            return modelMapper.map(clinic, ClinicDTO.class);
+        }else{
+            return null;
         }
-
-        return null;
     }
 
-    public void remove(Long id){
-        clinicRepository.deleteById(id);
+    public ResponseEntity<Void> remove(Long id){
+        Clinic clinic = clinicRepository.findById(id).orElseGet(null);
+
+        if(clinic == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            clinicRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
     }
 
     public Clinic findOne(Long id) {

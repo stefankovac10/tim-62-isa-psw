@@ -37,6 +37,7 @@ public class DoctorService {
         Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
         doctor.setSpecialisedType(typeOfExamination);
 
+
         Clinic clinic = clinicService.findOne((long) 1);
         doctor.setClinic(clinic);
 
