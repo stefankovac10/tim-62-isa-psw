@@ -63,6 +63,12 @@
           <option>Doctor</option>
           <option>Nurse</option>
         </select>
+        <div class="d-flex flex-column" v-if="type==='Doctor'">
+          <label for="tyepOfExamination">Specialised type of examination</label>
+          <select name="typeOfExamination" id="typeEx" v-model="typeOfExamination">
+            <option v-for="t in types" v-bind:key="t.key">{{t.name}}</option>
+          </select>
+        </div>
       </div>
 
       <br />
@@ -72,6 +78,8 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
+
 export default {
   name: "registerForm",
   data: function() {
@@ -87,7 +95,9 @@ export default {
       password: undefined,
       confirmPassword: undefined,
       matching: "",
-      type: undefined
+      type: undefined,
+      types: undefined,
+      typeOfExamination: undefined
     };
   },
   props: {
@@ -100,6 +110,16 @@ export default {
         this.matching = "Passwords are not matching!";
       else this.matching = "";
     }
+  },
+  mounted() {
+    httpClient
+      .get("/types/all")
+      .then(response => {
+        this.types = response.data;
+      })
+      .catch(error => {
+        alert(error);
+      });
   },
   methods: {
     register: function() {
@@ -115,7 +135,7 @@ export default {
         telephone: this.telephone
       };
 
-      this.$emit("register", user, this.type);
+      this.$emit("register", user, this.type, this.typeOfExamination);
     }
   }
 };
