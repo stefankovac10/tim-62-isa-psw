@@ -23,29 +23,32 @@ public class DoctorService {
     private ModelMapper modelMapper;
 
     @Autowired
-    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService) {
+    public DoctorService(ModelMapper modelMapper, DoctorRepository doctorRepository, ClinicService clinicService) {
         this.doctorRepository = doctorRepository;
         this.clinicService = clinicService;
+        this.modelMapper = modelMapper;
     }
 
     public ResponseEntity<DoctorDTO> save(DoctorDTO doctorDTO) {
-        Doctor doctor = new Doctor(
-                doctorDTO.getFirstName(),
-                doctorDTO.getLastName(),
-                doctorDTO.getJmbg(),
-                doctorDTO.getPassword(),
-                doctorDTO.getEmail(),
-                doctorDTO.getAddress(),
-                doctorDTO.getCity(),
-                doctorDTO.getCountry(),
-                doctorDTO.getTelephone());
+        Doctor doctor = Doctor.builder()
+                        .firstName(doctorDTO.getFirstName())
+                        .lastName(doctorDTO.getLastName())
+                        .jmbg(doctorDTO.getJmbg())
+                        .password(doctorDTO.getPassword())
+                        .address(doctorDTO.getAddress())
+                        .city(doctorDTO.getCity())
+                        .country(doctorDTO.getCountry())
+                        .telephone(doctorDTO.getTelephone())
+                        .email(doctorDTO.getEmail())
+                        .grade((double)0)
+                        .build();
 
         Clinic clinic = clinicService.findOne((long) 1);
         doctor.setClinic(clinic);
 
         doctor = doctorRepository.save(doctor);
 
-        return new ResponseEntity<>(modelMapper.map(doctor, DoctorDTO.class), HttpStatus.CREATED);
+        return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
     }
 
     public ResponseEntity<Void> delete(Long id) {
