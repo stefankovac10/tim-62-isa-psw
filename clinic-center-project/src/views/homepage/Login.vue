@@ -33,19 +33,34 @@ export default {
         email: this.email,
         password: this.password
       };
-
       httpClient
         .post("/auth/login", user)
         .then(response => {
           localStorage.setItem("User-token", response.data.accessToken);
           localStorage.setItem("Expiary", response.data.expiresIn);
-          localStorage.setItem("Token", response.data);
+          localStorage.setItem("Email", response.data.email);
+          localStorage.setItem("Authority", response.data.authority);
+          let role = response.data.authority;
+          let path;
+          if (role === "ROLE_CCADMIN") {
+            path = "/ccadmin";
+          } else if (role === "ROLE_CADMIN") {
+            path = "/cadmin";
+          } else if (role === "ROLE_DOCTOR") {
+            path = "/doc";
+          } else if (role === "ROLE_NURSE") {
+            path = "/nurse";
+          } else if (role === "ROLE_PATIENT") {
+            path = "/patient";
+          } else if (role === "ROLE_REQUEST") {
+            path = "/login";
+            alert("You hove to be accepted by admin to log in.");
+          }
+          this.$router.push(path);
         })
         .catch(error => {
           alert(error);
         });
-
-      if (!localStorage.getItem("Token")) this.$router.push("/login");
     }
   }
 };
