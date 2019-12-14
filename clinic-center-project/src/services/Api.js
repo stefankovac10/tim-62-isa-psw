@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+let AUTH_TOKEN = "Bearer " + localStorage.getItem("User-token");
 let config = {
 	baseURL: "http://localhost:8080/api",
 	headers: {
@@ -8,6 +9,7 @@ let config = {
 };
 
 const httpClient = axios.create(config);
+httpClient.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 // Token interceptor
 // const authInterceptor = config => {
