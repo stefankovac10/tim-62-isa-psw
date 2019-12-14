@@ -62,6 +62,9 @@ const routes = [
     path: "/",
     name: "homepage",
     component: Home,
+    meta: {
+      requiresAuth: false
+    },
     children: [
       {
         path: "register",
@@ -79,6 +82,9 @@ const routes = [
     path: "/ccadmin",
     name: "NBCCAdmin",
     component: CCAHome,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "clinics",
@@ -131,6 +137,9 @@ const routes = [
     path: "/cadmin",
     name: "CAdmin",
     component: CAdminHome,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "addAppointment",
@@ -208,6 +217,9 @@ const routes = [
     path: "/patient",
     name: "Patient",
     component: PHomepage,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "clinics",
@@ -255,6 +267,9 @@ const routes = [
     path: "/nurse",
     name: "Nurse",
     component: NHomepage,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "patients",
@@ -287,6 +302,9 @@ const routes = [
     path: "/doc",
     name: "doctor",
     component: DocHomepage,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "patients",
