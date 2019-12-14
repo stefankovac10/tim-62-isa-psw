@@ -43,17 +43,18 @@ import PatientsProfile from "@/views/patient/PatientsProfile";
 import SearchDoctors from "@/views/patient/SearchDoctors";
 import SearchClinics from "@/views/patient/SearchClinics";
 
-import NHomepage from "@/views/nurse/NurseHome";
 import Patients from "@/views/medicalstaff/Patients";
 import Vacation from "@/views/medicalstaff/Vacation";
 import Calendar from "@/views/medicalstaff/Calendar";
-import Perscription from "@/views/nurse/Perscription";
 import EditMedicalRecord from "@/views/medicalstaff/EditMedicalRecord";
 import AddExaminationReport from "@/views/medicalstaff/AddExaminationReport";
 
-import DocHomepage from "@/views/doctor/DocHomepage.vue";
-import Examination from "@/views/doctor/Examination.vue";
-import Scheduling from "@/views/doctor/Scheduling.vue";
+import NHomepage from "@/views/medicalstaff/nurse/NurseHome";
+import Perscription from "@/views/medicalstaff/nurse/Perscription";
+
+import DocHomepage from "@/views/medicalstaff/doctor/DocHomepage.vue";
+import Examination from "@/views/medicalstaff/doctor/Examination.vue";
+import Scheduling from "@/views/medicalstaff/doctor/Scheduling.vue";
 
 Vue.use(VueRouter);
 
