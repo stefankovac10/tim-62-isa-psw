@@ -63,11 +63,6 @@ public class User implements UserDetails {
    @Column(name = "last_password_reset_date")
    private Timestamp lastPasswordResetDate;
 
-   @Autowired
-   public User() {
-   }
-
-   @Autowired
    public User(String firstName, String lastName, String jmbg,
                String password, String email, String address, String city,
                String country, String telephone) {
@@ -82,7 +77,6 @@ public class User implements UserDetails {
       this.telephone = telephone;
    }
 
-   @Autowired
    public User(UserDTO userDTO){
       this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
               userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());

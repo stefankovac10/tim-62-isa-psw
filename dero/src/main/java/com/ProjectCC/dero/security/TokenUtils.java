@@ -37,14 +37,11 @@ public class TokenUtils {
 
     @Autowired
     TimeProvider timeProvider;
-    @Autowired
-    private UserService userService;
 
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
     // Funkcija za generisanje JWT token
     public String generateToken(String email) {
-        User user = this.userService.findByEmail(email);
         return Jwts.builder()
                 .setIssuer(APP_NAME)
                 .setSubject(email)
@@ -52,8 +49,6 @@ public class TokenUtils {
                 .setIssuedAt(timeProvider.now())
                 .setExpiration(generateExpirationDate())
                 // .claim("role", role) //postavljanje proizvoljnih podataka u telo JWT tokena
-                .claim("email", email)
-                .claim("authority", user.getAuthorities().get(0).getName())
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 
