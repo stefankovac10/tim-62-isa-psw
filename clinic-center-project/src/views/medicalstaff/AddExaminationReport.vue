@@ -4,7 +4,7 @@
       <h1 class="p-2">Examination</h1>
       <br />
       <div>
-      <label class="typo__label">Select with search</label>
+      <label class="typo__label">Diagnosis</label>
       <multiselect v-model="diagnosis" :options="diagnosisis"  placeholder="Select one" label="name" track-by="name"></multiselect>
       </div>
       <div class="form-group">
