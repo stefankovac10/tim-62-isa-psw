@@ -129,7 +129,7 @@ export default {
               body: "Mail has been sent",
               title: "Success",
               type: "success",
-              canTimeout: false,
+              canTimeout: true,
               append: false
           });
 
@@ -149,7 +149,7 @@ export default {
               body: "Please, enter the reason for rejections",
               title: "Info",
               type: "info",
-              canTimeout: false,
+              canTimeout: true,
               append: false
           });
           return;
