@@ -1,10 +1,8 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.DiagnosisDTO;
-import com.ProjectCC.dero.dto.ExaminationDTO;
-import com.ProjectCC.dero.dto.MedicalRecordDTO;
-import com.ProjectCC.dero.dto.MedicationDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.Diagnosis;
+import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.repository.MedicalRecordRepository;
@@ -41,14 +39,23 @@ public class MedicalRecordService {
     }
 
     public MedicalRecordDTO findOne(Long id) {
-        MedicalRecord mr = medicalRecordRepository.findById(id).orElseGet(null);
+        MedicalRecord mr = medicalRecordRepository.getOne(id);
         List<ExaminationDTO> examinations = new ArrayList<>();
 
         for(Examination ex: mr.getExaminations()){
+            DoctorDTO doctor = DoctorDTO.builder()
+                                .firstName(ex.getDoctor().getFirstName())
+                                .lastName(ex.getDoctor().getLastName())
+                                .build();
+            TypeOfExaminationDTO toe = TypeOfExaminationDTO.builder()
+                                .name(ex.getType().getName())
+                                .build();
             ExaminationDTO examination = ExaminationDTO.builder()
                                         .report(ex.getReport())
                                         .id(ex.getId())
-                                        .diagnosis(modelMapper.map(ex.getDiagnosis(), DiagnosisDTO.class))
+                                        .diagnosis(new DiagnosisDTO(ex.getDiagnosis()))
+                                        .type(toe)
+                                        .doctor(doctor)
                                         .build();
             examinations.add(examination);
         }

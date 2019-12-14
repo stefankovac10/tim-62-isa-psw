@@ -23,7 +23,7 @@ public class MedicalRecordController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MedicalRecordDTO> getMedicalRecord(@PathVariable Long id) {
-        return new ResponseEntity<>(medicalRecordService.findOne(id), HttpStatus.FOUND);
+        return new ResponseEntity<>(medicalRecordService.findOne(id), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")
