@@ -112,14 +112,16 @@ export default {
     }
   },
   mounted() {
-    httpClient
-      .get("/types/all")
-      .then(response => {
-        this.types = response.data;
-      })
-      .catch(error => {
-        alert(error);
-      });
+    if (this.doc) {
+      httpClient
+        .get("/types/all")
+        .then(response => {
+          this.types = response.data;
+        })
+        .catch(error => {
+          error;
+        });
+    }
   },
   methods: {
     register: function() {

@@ -33,15 +33,21 @@ public class VacationRequestService {
         VacationRequest vacationRequest = modelMapper.map(vac, VacationRequest.class);
         vacationRequest.setClinic(clinic);
         vacationRequest = this.vacationRequestRepository.save(vacationRequest);
-//        vac.setId(vacationRequest.getId());
-        return modelMapper.map(vacationRequest, VacationRequestDTO.class);
+        return VacationRequestDTO.builder()
+                .id(vacationRequest.getId())
+                .startDate(vacationRequest.getStartDate())
+                .endDate(vacationRequest.getEndDate()).build();
     }
 
     public List<VacationRequestDTO> getAll() {
         ArrayList<VacationRequest> vacs = (ArrayList<VacationRequest>) this.vacationRequestRepository.findAll();
         List<VacationRequestDTO> retVal = new ArrayList<>();
         for (VacationRequest vac : vacs) {
-            retVal.add(modelMapper.map(vac, VacationRequestDTO.class));
+            retVal.add(VacationRequestDTO.builder()
+                    .id(vac.getId())
+                    .startDate(vac.getStartDate())
+                    .endDate(vac.getEndDate())
+                    .accepted(vac.isAccepted()).build());
         }
         return retVal;
     }
