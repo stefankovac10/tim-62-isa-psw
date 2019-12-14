@@ -63,6 +63,7 @@ public class User implements UserDetails {
    @Column(name = "last_password_reset_date")
    private Timestamp lastPasswordResetDate;
 
+   /*
    @Autowired
    public User() {
    }
@@ -87,6 +88,8 @@ public class User implements UserDetails {
       this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
               userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
    }
+    */
+
     @Override
     public String getUsername() {
         return email;   // kod njih je username
