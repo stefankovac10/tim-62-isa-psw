@@ -14,3 +14,17 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount("#app");
+
+router.beforeEach((to, from, next) => {
+  // alert(to.path);
+  // alert(from.path);
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.getItem("User-token"))
+      next("/login");
+    else
+      next();
+  } else {
+    next();
+  }
+
+})
