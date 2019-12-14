@@ -53,6 +53,10 @@ export default {
   methods: {
     logout: function() {
       localStorage.removeItem("User-token");
+      localStorage.removeItem("Expiary");
+      localStorage.removeItem("Email");
+      localStorage.removeItem("Authority");
+      this.$router.push("/");
     }
   }
 };
