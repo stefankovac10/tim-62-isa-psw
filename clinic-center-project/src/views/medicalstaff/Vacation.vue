@@ -52,7 +52,7 @@ export default {
           this.$router.push("/doc");
         })
         .catch(err => {
-          alert(err.response.data);
+          alert(err);
         });
     }
   }

@@ -15,12 +15,12 @@
           <p class="card-text">To: {{req.endDate}}</p>
           <p class="card=text">Accepted: {{req.accepted}}</p>
 
-          <button type="button" class="btn btn-primary" v-on:click="accept">Accept</button>
+          <button type="button" class="btn btn-primary" v-on:click="accept(req)">Accept</button>
           <button
             type="button"
             class="btn btn-danger"
             data-dismiss="modal"
-            v-on:click="refuse"
+            v-on:click="refuse(req)"
           >Refuse</button>
         </div>
       </div>
@@ -48,15 +48,17 @@ export default {
       });
   },
   methods: {
-    accept: function() {
-      httpClient.get("/mail/accept-vacation/balsa.smi15@gmail.com/1");
-      location.reload();
+    accept: function(req) {
+      httpClient.get("/mail/accept-vacation/balsa.smi15@gmail.com/" + req.id);
+      this.requests.splice(this.requests.indexOf(req), 1);
     },
-    refuse: function() {
+    refuse: function(req) {
       httpClient.get(
-        "mail/refuse-vacation/balsa.smi15@gmail.com/1/Sorry, I ain't sorry"
+        "mail/refuse-vacation/balsa.smi15@gmail.com/" +
+          req.id +
+          "/Sorry, I ain't sorry"
       );
-      location.reload();
+      this.requests.splice(this.requests.indexOf(req), 1);
     }
   }
 };
