@@ -3,59 +3,59 @@
     <form id="info" accept-charset="UTF-8" class="d-flex flex-column col-sm-2">
       <h1 class="p-2">Information</h1>
 
-      <label class="p-2">Height</label>
-      <input type="text" class="p-2" id="height" name="height" style = "weight: 200px" v-model="height" v-bind:disabled=" mode == 'VIEW'"/>
+      <label class="p-2">Height (cm)</label>
+      <input type="text" class="p-2" id="height" name="height" style = "width: 200px" v-model="height" v-bind:disabled=" mode == 'VIEW'"/>
 
-      <label class="p-2">Weight</label>
-      <input type="text" class="p-2" id="weight" name="weight" v-model="weight" style = "weight: 200px" v-bind:disabled=" mode == 'VIEW'" />
+      <label class="p-2">Weight (kg)</label>
+      <input type="text" class="p-2" id="weight" name="weight" v-model="weight" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
 
       <label class="p-2">Blood type</label>
-      <input type="text" class="p-2" id="bloodType" name="bloodType" v-model="bloodType" style = "weight: 200px" v-bind:disabled=" mode == 'VIEW'" />
+      <input type="text" class="p-2" id="bloodType" name="bloodType" v-model="bloodType" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
     
       <label class="p-2">Diopter</label>
-      <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "weight: 200px" v-bind:disabled=" mode == 'VIEW'"/>
+      <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
       
       <br>
-      <button class="btn btn-primary p-2" style = "weight: 200px; margin:2px" v-if="mode == 'VIEW'" v-on:click.prevent="edit">Edit</button>
-      <button class="btn btn-primary p-2" style = "weight: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="save">Save</button>
-      <button class="btn btn-primary p-2" style = "weight: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="cancel">Cancel</button>
+      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW'" v-on:click.prevent="edit">Edit</button>
+      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="save">Save</button>
+      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="cancel">Cancel</button>
     </form>
-    <div>
+    <div style="margin-top:10px; margin-left: 50px">
         <h1> History </h1> 
-        <div class="overflow-auto" style="weight: 350px; height: 580px; overflow-y: scroll;">       
-            <div class="card border-success mb-3" style="max-weight: 20rem;" v-for="examination in medicalRecord.examinations" v-bind:key="examination.id">
-                    <div class="card-header">Dr. {{examination.doctor.lastName}}</div>
+        <div class="overflow-auto" style="width: 400px; height: 580px; overflow-y: scroll;">       
+            <div class="card border-success mb-3" style="max-width: 20rem;" v-for="examination in this.examinations" v-bind:key="examination.id">
+                    <div class="card-header">Dr.  {{examination.doctor.firstName}}  {{examination.doctor.lastName}}</div>
                     <div class="card-body">
-                        <h4 class="card-title">{{examination.type}}</h4>
-                        <p class="card-text">{{examination.report}}.</p>
-                        <button type="button" class="btn btn-info" v-on:click="editReport">Edit</button>
-                    </div>
-            </div>
-            <div class="card border-success mb-3" style="max-weight: 20rem;">
-                    <div class="card-header">Dr. Kovac</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Ocni</h4>
-                        <p class="card-text">{{this.report}}</p>
-                        <button type="button" class="btn btn-info" v-on:click="editReport">Edit</button>
+                        <h4 class="card-title">Type: {{examination.type.name}}</h4>
+                        <p class="card-text">Report: {{examination.report}}.</p>
+                        <p class="card-text">Diagnosis: {{examination.diagnosis.name}}.</p>
+                        <button type="button" class="btn btn-info" v-on:click="editReport(examination)">Edit</button>
                     </div>
             </div>
         </div>
     </div>
-    <div v-if="reportEdit === 'EDIT'">
+    <div  style="width: 400px ; margin-top: 10px; margin-left: 50px">
         <h1>Edit Report</h1>
         <label for="exampleTextarea">Report</label>
-        <textarea class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
+        <textarea v-bind:disabled="reportEdit === 'VIEW'" class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
         <br/>
-        <button class="btn btn-primary p-2" v-on:click="saveReport()">Save</button>
-        <button class="btn btn-primary p-2" v-on:click="cancel()">Cancel</button>
+        <label class="typo__label">Diagnosis</label>
+        <multiselect v-bind:disabled="reportEdit === 'VIEW'" v-model="diagnosis" :options="diagnosisis"  placeholder="Select one" label="name" track-by="name"></multiselect>
+        <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px; margin-right: 10px" v-on:click="saveReport()">Save</button>
+        <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px;" v-on:click="cancel()">Cancel</button>
     </div>
+    <button type="button" style="position: absolute; right: 0; bottom:0; margin: 35px" class="btn btn-success" v-on:click="addExamReport()">Add Examination Report</button>
   </div>
   
 </template>
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import Multiselect from 'vue-multiselect'
 export default {
+  components:{
+       Multiselect
+  },
   data: function() {
     return {
         mode: 'VIEW',
@@ -65,40 +65,70 @@ export default {
         bloodType: undefined,
         diopter: undefined,
         report: undefined,
+        examinations: [],
         examination: {},
-        medicalRecord: {}
+        medicalRecord: undefined,
+        diagnosisis: [],
+        diagnosis: {},
     };
   },
   mounted(){
+      this.report = undefined;
+      this.diagnosis = undefined;
+      this.reportEdit = 'VIEW';
       httpClient
-        .get("/examination/1")
+        .get("/diagnosis/all")
         .then(response => {
-          this.examination = response.data;  
-          this.report = this.examination.report;   
+          this.diagnosisis = response.data;
         })
         .catch(error => {
           this.error = error;
-        });
+        })
 
       httpClient
-        .get("/medicalrecord/1")
+        .get("/medicalrecord/3")
         .then(response => {
           this.medicalRecord = response.data; 
           this.height = this.medicalRecord.height;
           this.weight = this.medicalRecord.weight;
           this.diopter = this.medicalRecord.diopter;
-          this.bloodType = this.medicalRecord.bloodType;    
+          this.bloodType = this.medicalRecord.bloodType;   
+          this.examinations = this.medicalRecord.examinations; 
+        })
+        .catch(error => {
+          this.error = error;
+        });  
+  },
+  methods: {
+    refresh: function(){
+         this.report = undefined;
+      this.diagnosis = undefined;
+      this.reportEdit = 'VIEW';
+      httpClient
+        .get("/diagnosis/all")
+        .then(response => {
+          this.diagnosisis = response.data;
+        })
+        .catch(error => {
+          this.error = error;
+        })
+
+      httpClient
+        .get("/medicalrecord/3")
+        .then(response => {
+          this.medicalRecord = response.data; 
+          this.height = this.medicalRecord.height;
+          this.weight = this.medicalRecord.weight;
+          this.diopter = this.medicalRecord.diopter;
+          this.bloodType = this.medicalRecord.bloodType;   
+          this.examinations = this.medicalRecord.examinations; 
         })
         .catch(error => {
           this.error = error;
         });
-
-        
-  },
-  methods: {
+    },
     edit: function(){
         this.mode = 'EDIT';
-        alert(this.medicalRecord.diopter);
     },
     save: function(){
         this.mode = 'VIEW';
@@ -109,8 +139,7 @@ export default {
         httpClient
         .put("/medicalrecord/",this.medicalRecord)
         .then(response => {
-          this.medicalRecord = response.data;  
-  
+          this.medicalRecord = response.data;   
         })
         .catch(error => {
           this.error = error;
@@ -119,22 +148,33 @@ export default {
     cancel: function(){
         this.mode = 'VIEW';
         this.reportEdit = 'VIEW';
+        this.report = undefined;
+        this.diagnosis = undefined;
     },
-    editReport: function(){
+    editReport: function(examination){
         this.reportEdit = 'EDIT';
+        this.report = examination.report;
+        this.diagnosis = examination.diagnosis;
+        this.examination.id = examination.id;
     },
     saveReport: function(){
-      this.reportEdit = 'VIEW';
       this.examination.report = this.report;
+      this.examination.diagnosis = this.diagnosis;
       httpClient
-        .put("/examination/",this.examination)
+        .put("/examination",this.examination)
         .then(response => {
-          this.examination = response.data;  
-  
+          this.examination = response.data;
+          this.refresh();       
         })
         .catch(error => {
           this.error = error;
         });
+        this.report = undefined;
+        this.diagnosis = undefined;
+        this.reportEdit = 'VIEW';
+    },
+    addExamReport: function(){
+      this.$router.push("/doc/addexaminationreport");
     }
   }
 };

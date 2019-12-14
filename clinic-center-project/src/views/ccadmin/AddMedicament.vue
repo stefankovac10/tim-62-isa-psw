@@ -74,13 +74,14 @@ export default {
         .catch(error => {
           this.error = error;
         }); 
-      this.$vToastify.info({
-        body: "Medication "+ this.name + " is added",
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false
-       });     
+        this.$router.push("/ccadmin/listMedicaments");
+        this.$vToastify.info({
+          body: "Medication "+ this.name + " is added",
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false
+        });     
     }
   }
 };

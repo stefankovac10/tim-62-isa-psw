@@ -136,6 +136,7 @@ export default {
         .catch(error => {
           this.error = error;
         });
+        this.$router.push("/ccadmin/addCCAdmin");
         this.$vToastify.info({
               body: "Clinical Centre Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
               title: "Info",
@@ -143,6 +144,7 @@ export default {
               canTimeout: true,
               append: false
             });
+        
     }
   }
 };

@@ -63,24 +63,25 @@ public class User implements UserDetails {
    @Column(name = "last_password_reset_date")
    private Timestamp lastPasswordResetDate;
 
-   public User(String firstName, String lastName, String jmbg,
-               String password, String email, String address, String city,
-               String country, String telephone) {
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.jmbg = jmbg;
-      this.password = password;
-      this.email = email;
-      this.address = address;
-      this.city = city;
-      this.country = country;
-      this.telephone = telephone;
-   }
+    public User(String firstName, String lastName, String jmbg,
+                String password, String email, String address, String city,
+                String country, String telephone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.jmbg = jmbg;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.telephone = telephone;
+    }
 
    public User(UserDTO userDTO){
       this(userDTO.getFirstName(),userDTO.getLastName(),userDTO.getJmbg(), userDTO.getPassword(),userDTO.getEmail(),
               userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry(), userDTO.getTelephone());
    }
+
     @Override
     public String getUsername() {
         return email;   // kod njih je username

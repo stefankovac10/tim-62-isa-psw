@@ -79,8 +79,11 @@ public class ExaminationService {
     }
 
     public ExaminationDTO edit(ExaminationDTO examinationDTO) {
-        Examination examination = examinationRepository.getOne(examinationDTO.getId());
+        Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
         examination.setReport(examinationDTO.getReport());
+
+        Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
+        examination.setDiagnosis(diagnosis);
 
         examinationRepository.save(examination);
 

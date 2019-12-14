@@ -52,7 +52,7 @@ public class Examination {
    public ExaminationRoom examinationRoom;
 
    //@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @OneToOne()
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
    public Diagnosis diagnosis;
 

@@ -74,14 +74,14 @@ export default {
         .catch(error => {
           this.error = error;
         });      
-
+      this.$router.push("/ccadmin/listDiagnosis");
       this.$vToastify.info({
-              body: "Diagnosis " + this.name + " is added",
-              title: "Success",
-              type: "success",
-              canTimeout: true,
-              append: false
-            });
+          body: "Diagnosis " + this.name + " is added",
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false
+        });
     }
   }
 };

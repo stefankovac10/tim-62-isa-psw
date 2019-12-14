@@ -32,7 +32,7 @@
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" v-on:click="add">Add</button>
+        <button type="submit" class="btn btn-primary" v-on:click.prevent="add">Add</button>
       </fieldset>
     </form>
   </div>
@@ -74,6 +74,7 @@ export default {
         .catch(error => {
           this.error = error;
         });
+        this.$router.push("/ccadmin/clinics");
         this.$vToastify.info({
               body: "Clinic "+ this.name + " has been added",
               title: "Success",
@@ -81,7 +82,7 @@ export default {
               canTimeout: true,
               append: false
         });
-
+      
         
     }
   }

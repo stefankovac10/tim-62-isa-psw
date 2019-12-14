@@ -43,7 +43,7 @@ insert into doctor (id, specialised_type_id, grade) values (13, null, 4.8);
 insert into diagnosis (code, description, name) values ('I00', 'Opis', 'Reumatska groznica bez promena na srcu');
 insert into diagnosis (code, description, name) values ('I01.2', 'Opis', 'Akutno reumatsko zapaljenje mišića srca');
 insert into diagnosis (code, description, name) values ('N00', 'Opis', 'Akutni zapaljenjski bubrežni sindrom');
-insert into diagnosis (code, description, name) values ('N00.4', 'Opis', 'Akutni zapaljenski bubrežni sindrom');
+insert into diagnosis (code, description, name) values ('N00.4', 'Opis', 'Akutni zapaljenski sindrom');
 
 insert into medication (code, description, name) values ('A02BC01', 'Opis', 'OMEPRAZOL');
 insert into medication (code, description, name) values ('A02BC04', 'Opis', 'DEMEPRAZOL');
@@ -83,9 +83,9 @@ insert into user_authority (user_id, authority_id) values (11, 4);
 insert into user_authority (user_id, authority_id) values (12, 4);
 insert into user_authority (user_id, authority_id) values (13, 4);
 
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-10T15:43:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id) VALUES ('2019-12-12T15:43:39Z', '0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null, 1);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id) VALUES ('2019-12-10T15:43:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 2);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id) VALUES ('2019-12-12T15:43:39Z', '0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 3);
 
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 2);
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 3);

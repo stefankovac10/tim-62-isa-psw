@@ -27,8 +27,8 @@ public class Diagnosis {
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   @OneToOne(mappedBy = "diagnosis")
-   public Examination examination;
+   @OneToMany(mappedBy = "diagnosis")
+   public Set<Examination> examinations;
 
    /*
    public Diagnosis() {
