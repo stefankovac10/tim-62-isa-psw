@@ -2,6 +2,7 @@ package com.ProjectCC.dero.model;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
@@ -18,23 +19,18 @@ public class VacationRequest {
    private Long id;
 
    @Column(name = "start_date") //, columnDefinition = DbColumnConstants.DATE)
-   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate", parameters = {
+   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
            @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
            @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
    })
-   private LocalDate startDate;
+   private DateTime startDate;
 //
    @Column(name = "end_date") //, columnDefinition = DbColumnConstants.DATE)
-   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate", parameters = {
+   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
            @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
            @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
    })
-   private LocalDate endDate;
-
-//   @Column(name = "start_date")
-//   private String startDate;
-//   @Column(name = "end_date")
-//   private String endDate;
+   private DateTime endDate;
 
    @Column(name = "accepted")
    private boolean accepted;
@@ -44,7 +40,5 @@ public class VacationRequest {
 
    @ManyToOne(fetch = FetchType.LAZY)
    private Clinic clinic;
-
-//   public VacationRequest() {}
 
 }

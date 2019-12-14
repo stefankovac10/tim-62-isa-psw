@@ -29,7 +29,7 @@ public class RegistrationRequestController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(value = "/new", consumes = "application/json")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
         RegistrationRequest registrationRequest = RegistrationRequest.builder()
                                                     .firstName(userDTO.getFirstName())
