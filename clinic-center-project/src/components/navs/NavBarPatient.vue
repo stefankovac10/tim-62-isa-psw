@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
