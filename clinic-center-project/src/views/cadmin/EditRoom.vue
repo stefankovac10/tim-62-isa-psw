@@ -10,11 +10,11 @@
       <label class="p-2">Room name</label>
       <input type="text" class="p-2" id="name" name="name" v-model="name" />
 
-      <label class="p-2">Room type</label>
+      <!-- <label class="p-2">Room type</label>
       <select class="p-2" id="type" name="type" v-model="type">
         <option>Examination</option>
         <option>Operation</option>
-      </select>
+      </select>-->
       <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="update">Submit</button>
     </form>
@@ -34,14 +34,16 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/rooms/" + this.room.type + "/" + this.$route.params)
-      .then(function(response) {
+      .get(
+        "/rooms/" + this.$route.params.roomType + "/" + this.$route.params.id
+      )
+      .then(response => {
         this.room = response.data;
         this.name = this.room.name;
         this.number = this.room.number;
       })
-      .catch(function(error) {
-        alert(error.response.data);
+      .catch(error => {
+        alert(error);
       });
   },
   methods: {
@@ -54,12 +56,12 @@ export default {
 
       httpClient
         .put("/rooms/" + this.room.type, room)
-        .then(function(response) {
-          alert(response.data);
+        .then(response => {
+          response;
           this.$router.push("/cadmin/rooms");
         })
-        .catch(function(error) {
-          alert(error.response.data);
+        .catch(error => {
+          alert(error);
         });
         this.$vToastify.info({
           body: "Room has been edited." ,
