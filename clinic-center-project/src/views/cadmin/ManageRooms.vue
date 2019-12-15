@@ -20,8 +20,8 @@
             <h4 class="card-title">Room name: {{room.name}}</h4>
             <p class="card-text">Number: {{room.number}}</p>
             <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
-            <button type="button" class="btn btn-primary" v-on:click="edit(id)">Edit</button>
-            <button type="button" class="btn btn-danger" v-on:click="remove">Delete</button>
+            <button type="button" class="btn btn-primary" v-on:click="edit(room)">Edit</button>
+            <button type="button" class="btn btn-danger" v-on:click="remove(room)">Delete</button>
           </div>
         </div>
       </div>
@@ -55,10 +55,21 @@ export default {
     }
   },
   methods: {
-    edit: function(id) {
-      this.$router.push("/cadmin/editRoom/" + id);
+    edit: function(room) {
+      this.$router.push(
+        "/cadmin/editRoom/" + this.type.toLowerCase() + "/" + room.id
+      );
     },
-    remove: function() {}
+    remove: function(room) {
+      httpClient
+        .delete("/rooms/" + this.type.toLowerCase() + "/" + room.id)
+        .then(() => {
+          this.rooms.splice(this.rooms.indexOf(room), 1);
+        })
+        .catch(error => {
+          alert(error);
+        });
+    }
   }
 };
 </script>

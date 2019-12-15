@@ -204,7 +204,7 @@ const routes = [
         component: EditProfile
       },
       {
-        path: "editRoom",
+        path: "editRoom/:roomType/:id",
         name: "editRoom",
         component: EditRoom
       },

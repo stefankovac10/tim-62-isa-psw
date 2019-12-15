@@ -22,7 +22,8 @@ export default {
   data: function() {
     return {
       user: {},
-      componentKey: 0
+      componentKey: 0,
+      id: 0
     };
   },
   mounted() {
@@ -31,9 +32,13 @@ export default {
       this.componentKey += 1;
     });
 
-    let email = localStorage.getItem("Email");
+    if (localStorage.getItem("Authority") === "ROLE_CADMIN") {
+      this.id = 4;
+    } else this.id = 13;
+
+    // let email = localStorage.getItem("Email");
     httpClient
-      .get("/users/mail/" + email)
+      .get("/users/profile/" + this.id)
       .then(response => {
         this.user = response.data;
       })
@@ -43,7 +48,7 @@ export default {
   },
   methods: {
     editProfile: function() {
-      this.$router.push("/cadmin/editProfile/" + this.user.id);
+      this.$router.push("/cadmin/editProfile/" + this.id);
     }
   }
 };

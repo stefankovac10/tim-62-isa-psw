@@ -65,14 +65,14 @@ export default {
   },
   methods: {
     remove: function(ms) {
-      httpClient
-        .delete("/users/15") // + ms.id)
-        .then(response => {
-          response;
-        })
-        .catch(error => {
-          alert(error);
-        });
+      // httpClient
+      //   .delete("/users/15") // + ms.id)
+      //   .then(response => {
+      //     response;
+      //   })
+      //   .catch(error => {
+      //     alert(error);
+      //   });
       this.medicalStaff.splice(this.medicalStaff.indexOf(ms), 1);
     }
   }
