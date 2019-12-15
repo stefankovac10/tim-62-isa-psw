@@ -52,4 +52,9 @@ public class UserService {
         this.userRepository.save(user);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
+
+    public ResponseEntity<Void> deleteById(Long id) {
+        this.userRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
