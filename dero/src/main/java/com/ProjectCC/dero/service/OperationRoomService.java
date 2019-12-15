@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
 import com.ProjectCC.dero.model.Clinic;
+import com.ProjectCC.dero.model.Operation;
 import com.ProjectCC.dero.model.OperationRoom;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.OperationRoomRepository;
@@ -78,5 +79,16 @@ public class OperationRoomService {
         // ako treba operacije?
         this.operationRoomRepository.save(or);
         return new ResponseEntity<>(or.getId(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<OperationRoomDTO> findById(Long id) {
+        Optional<OperationRoom> or = this.operationRoomRepository.findById(id);
+        OperationRoom operationRoom = or.get();
+        OperationRoomDTO ret = OperationRoomDTO.builder()
+                .id(operationRoom.getId())
+                .name(operationRoom.getName())
+                .number(operationRoom.getNumber())
+                .build();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }

@@ -1,7 +1,7 @@
 package com.ProjectCC.dero.controller;
 
 
-import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +28,13 @@ public class UserController {
         newUser = user;
 
         newUser = userService.save(newUser);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
 
-    @GetMapping(value = "/{email}")
+    @GetMapping(value = "/mail/{email}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String email) {
-        User user = userService.findByEmail(email);
-        UserDTO userDTO = UserDTO.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .id(user.getId())
-                .email(user.getEmail())
-                .build();
-        return new ResponseEntity<>(userDTO, HttpStatus.FOUND);
+        return this.userService.findByEmail(email);
     }
 
     @GetMapping(value = "/profile/{id}")

@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
     <div class="d-flex flex-column p-2" v-bind:key="componentKey">
-      <h1>Clinic administrator</h1>
+      <h1>Profile</h1>
       <button type="button" class="btn btn-primary" v-on:click="editProfile">Edit profile</button>
 
       <p>First name: {{ user.firstName }} {{ user.lastName }}</p>
@@ -22,7 +22,8 @@ export default {
   data: function() {
     return {
       user: {},
-      componentKey: 0
+      componentKey: 0,
+      id: 0
     };
   },
   mounted() {
@@ -31,8 +32,13 @@ export default {
       this.componentKey += 1;
     });
 
+    if (localStorage.getItem("Authority") === "ROLE_CADMIN") {
+      this.id = 4;
+    } else this.id = 13;
+
+    // let email = localStorage.getItem("Email");
     httpClient
-      .get("/users/profile/1")
+      .get("/users/profile/" + this.id)
       .then(response => {
         this.user = response.data;
       })
@@ -42,7 +48,7 @@ export default {
   },
   methods: {
     editProfile: function() {
-      this.$router.push("/cadmin/editProfile/" + this.user.id);
+      this.$router.push("/cadmin/editProfile/" + this.id);
     }
   }
 };

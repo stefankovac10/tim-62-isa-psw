@@ -52,7 +52,7 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/users/profile/1")
+      .get("/users/profile/" + this.$route.params.id)
       .then(response => {
         this.user = response.data;
         this.firstName = response.data.firstName;
