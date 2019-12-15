@@ -49,7 +49,8 @@ public class TypeOfExaminationService {
     public ResponseEntity<TypeOfExaminationDTO> add(TypeOfExaminationDTO typeDTO) {
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
         type = this.typeOfExaminationRepository.save(type);
-        return new ResponseEntity<>(modelMapper.map(type, TypeOfExaminationDTO.class), HttpStatus.CREATED);
+        typeDTO.setId(type.getId());
+        return new ResponseEntity<>(typeDTO, HttpStatus.CREATED);
     }
 
     public ResponseEntity<TypeOfExaminationDTO> delete(Long id) {

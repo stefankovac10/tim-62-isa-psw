@@ -14,11 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 import java.io.IOException;
@@ -56,5 +54,23 @@ public class AuthenticationController {
         String authority = user.getAuthorities().get(0).getName();
 
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, email, authority));
+    }
+
+    @RequestMapping(value = "/refresh", method = RequestMethod.POST)
+    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request) {
+
+        String token = tokenUtils.getToken(request);
+        String email = this.tokenUtils.getEmailFromToken(token);
+        User user = (User) this.customUserDetailsService.loadUserByUsername(email);
+
+        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = tokenUtils.refreshToken(token);
+            int expiresIn = tokenUtils.getExpiredIn();
+
+            return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
+        } else {
+            UserTokenState userTokenState = new UserTokenState();
+            return ResponseEntity.badRequest().body(userTokenState);
+        }
     }
 }

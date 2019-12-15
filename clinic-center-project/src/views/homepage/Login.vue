@@ -15,6 +15,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import moment from "moment";
 
 export default {
   name: "login",
@@ -37,9 +38,12 @@ export default {
         .post("/auth/login", user)
         .then(response => {
           localStorage.setItem("User-token", response.data.accessToken);
-          localStorage.setItem("Expiary", response.data.expiresIn);
           localStorage.setItem("Email", response.data.email);
           localStorage.setItem("Authority", response.data.authority);
+
+          let time = moment().add(response.data.expiresIn);
+          localStorage.setItem("Expiary", time);
+
           let role = response.data.authority;
           let path;
           if (role === "ROLE_CCADMIN") {
