@@ -32,12 +32,12 @@ export default {
         httpClient
           .post("/nurse", args[0])
           .then(function(response) {
-            alert(response.data.email);
+            response;
           })
           .catch(function(error) {
-            alert(error);
+            error;
           });
-        this.$router.push("/cadmin");
+        this.$router.push("/cadmin/doctors");
 
         return;
       }
@@ -48,9 +48,9 @@ export default {
           this.response = response;
         })
         .catch(function(error) {
-          alert(error);
+          error;
         });
-      this.$router.push("/cadmin");
+      this.$router.push("/cadmin/doctors");
     }
   }
 };

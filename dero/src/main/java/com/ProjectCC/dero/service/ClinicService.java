@@ -88,11 +88,8 @@ public class ClinicService {
         clinic.setName(clinicDTO.getName());
         clinic.setAddress(clinicDTO.getAddress());
         clinic.setDescription(clinicDTO.getDescription());
-
-        if (clinic != null) {
-            clinic = clinicRepository.save(clinic);
-            return modelMapper.map(clinic, ClinicDTO.class);
-        } else return null;
+        this.clinicRepository.save(clinic);
+        return clinicDTO;
     }
 
     public Clinic findByName(String name) {
@@ -104,22 +101,20 @@ public class ClinicService {
         Optional<Clinic> opt = clinicRepository.findById(id);
         Clinic clinic = opt.get();
 
-//        return cinemaStore.findAllCinemas(pageable).map(cinema -> modelMapper.map(cinema, CinemaDto.class));
-
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
-            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
-//            staff.add(MedicalStaffDTO.builder()
-//                    .firstName(s.getFirstName())
-//                    .lastName(s.getLastName())
-//                    .address(s.getAddress())
-//                    .city(s.getCity())
-//                    .country(s.getCountry())
-//                    .email(s.getEmail())
-//                    .id(s.getId())
-//                    .jmbg(s.getJmbg())
-//                    .telephone(s.getTelephone())
-//                    .build());
+//            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
+            staff.add(MedicalStaffDTO.builder()
+                    .firstName(s.getFirstName())
+                    .lastName(s.getLastName())
+                    .address(s.getAddress())
+                    .city(s.getCity())
+                    .country(s.getCountry())
+                    .email(s.getEmail())
+                    .id(s.getId())
+                    .jmbg(s.getJmbg())
+                    .telephone(s.getTelephone())
+                    .build());
         }
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : clinic.getRooms()) {
@@ -138,10 +133,6 @@ public class ClinicService {
                 .medicalStaff(staff)
                 .rooms(roomDTOS)
                 .build();
-
-        if (clinic == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
