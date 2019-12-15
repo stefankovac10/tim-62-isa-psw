@@ -46,13 +46,13 @@ public class RoomsController {
     }
 
     @DeleteMapping(value = "/examination/{id}")
-    public ResponseEntity<Void> deleteOR(@PathVariable Long id) {
-        return this.operationRoomService.delete(id);
+    public ResponseEntity<Void> deleteER(@PathVariable Long id) {
+        return this.examinationRoomService.delete(id);
     }
 
     @DeleteMapping(value = "/operation/{id}")
-    public ResponseEntity<Void> deleteER(@PathVariable Long id) {
-        return this.examinationRoomService.delete(id);
+    public ResponseEntity<Void> deleteOR(@PathVariable Long id) {
+        return this.operationRoomService.delete(id);
     }
 
     @PutMapping(value = "/operation")
@@ -63,5 +63,15 @@ public class RoomsController {
     @PutMapping(value = "/examination")
     public ResponseEntity<Long> updateER(@RequestBody ExaminationRoomDTO examinationRoomDTO) {
         return this.examinationRoomService.update(examinationRoomDTO);
+    }
+
+    @GetMapping(value = "/operation/{id}")
+    public ResponseEntity<OperationRoomDTO> getOrId(@PathVariable Long id) {
+        return this.operationRoomService.findById(id);
+    }
+
+    @GetMapping(value = "/examination/{id}")
+    public ResponseEntity<ExaminationRoomDTO> getErId(@PathVariable Long id) {
+        return this.examinationRoomService.findById(id);
     }
 }

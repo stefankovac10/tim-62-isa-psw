@@ -29,8 +29,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public ResponseEntity<UserDTO> findByEmail(String email) {
+        String newe = email + ".com";
+        Optional<User> opt = Optional.ofNullable(this.userRepository.findByEmail(newe));
+        User user = opt.get();
+        return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.OK);
     }
 
     public ResponseEntity<UserDTO> findById(Long id) {

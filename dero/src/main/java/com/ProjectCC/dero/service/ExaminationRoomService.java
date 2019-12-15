@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
+import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ExaminationRoom;
@@ -79,5 +80,16 @@ public class ExaminationRoomService {
         // ako treba preglede?
         this.examinationRoomRepository.save(er);
         return new ResponseEntity<>(er.getId(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<ExaminationRoomDTO> findById(Long id) {
+        Optional<ExaminationRoom> er = this.examinationRoomRepository.findById(id);
+        ExaminationRoom examinationRoom = er.get();
+        ExaminationRoomDTO ret = ExaminationRoomDTO.builder()
+                .id(examinationRoom.getId())
+                .name(examinationRoom.getName())
+                .number(examinationRoom.getNumber())
+                .build();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
