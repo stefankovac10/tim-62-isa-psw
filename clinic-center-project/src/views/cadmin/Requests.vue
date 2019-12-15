@@ -50,15 +50,29 @@ export default {
   methods: {
     accept: function(req) {
       httpClient.get("/mail/accept-vacation/balsa.smi15@gmail.com/" + req.id);
+      this.$vToastify.info({
+        body: "Mail is sent." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
       this.requests.splice(this.requests.indexOf(req), 1);
     },
     refuse: function(req) {
       httpClient.get(
         "mail/refuse-vacation/balsa.smi15@gmail.com/" +
           req.id +
-          "/Sorry, I ain't sorry"
+          "/Sorry, your request has been rejected"
       );
       this.requests.splice(this.requests.indexOf(req), 1);
+      this.$vToastify.info({
+        body: "Mail is sent." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };

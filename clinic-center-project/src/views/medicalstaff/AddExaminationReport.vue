@@ -71,7 +71,7 @@ export default {
               title: "Warning",
               type: "warning",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
             });
             return;
           }else{
@@ -94,7 +94,7 @@ export default {
               title: "Success",
               type: "success",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
             });
             this.$router.push("/doc/patients");
           }

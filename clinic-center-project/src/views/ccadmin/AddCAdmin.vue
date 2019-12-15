@@ -142,7 +142,7 @@ export default {
                 title: "Info",
                 type: "info",
                 canTimeout: true,
-                append: false
+                append: false, duration: 2000
               });
             
       }else{
@@ -171,7 +171,7 @@ export default {
                 title: "Info",
                 type: "info",
                 canTimeout: true,
-                append: false
+                append: false, duration: 2000
               });
       }
     }

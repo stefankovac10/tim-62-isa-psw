@@ -74,6 +74,13 @@ export default {
           alert(error);
         });
       this.medicalStaff.splice(this.medicalStaff.indexOf(ms), 1);
+      this.$vToastify.info({
+        body: "Doctor "+ this.firstName + " " + this.lastName + " has been deleted." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };

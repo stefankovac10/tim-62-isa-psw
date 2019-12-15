@@ -42,6 +42,13 @@ export default {
         });
 
       this.$router.push("/cadmin/types");
+      this.$vToastify.info({
+        body: "Type of examination "+ this.name + " has been added." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };
