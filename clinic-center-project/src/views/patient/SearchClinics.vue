@@ -17,11 +17,14 @@
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
     </form>
 
-    <div v-for="clinic in clincis" :key="clinic.id">
-        <div class="card-header">{{clinic.name}}</div>
+    <div v-for="clinic in clinics" :key="clinic.id" class="card text-white bg-primary mb-3" style = "height: 200px; width:200px">
+      <div class="card-header">{{clinic.address}}</div>
+      <div class="card-body">
+        <h4 class="card-title">{{clinic.name}}</h4>
+        <p class="card-text">{{clinic.description}}</p>
+      </div>
     </div>
-
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -45,7 +48,6 @@ export default {
             description: this.description
         })
         .then(response => {
-          this.response = response;
           this.clinics = response.data;
         })
         .catch(error => {

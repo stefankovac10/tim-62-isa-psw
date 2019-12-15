@@ -142,11 +142,17 @@ public class ClinicService {
         String address = clinicDTO.getAddress();
         String description = clinicDTO.getDescription();
 
-        List<Clinic> clinics = clinicRepository.pronadjiKlinikePoImenuAdresiOpisu(name, address, description);
+        List<Clinic> clinics = clinicRepository.pronadjiKlinikePoImenuAdresiOpisu(name,address,description);
         List<ClinicDTO> clinicsDTO = new ArrayList<>();
 
         for (Clinic c : clinics) {
-            clinicsDTO.add(modelMapper.map(c, ClinicDTO.class));
+           ClinicDTO clinic = ClinicDTO.builder()
+                       .id(c.getId())
+                       .name(c.getName())
+                       .description(c.getDescription())
+                       .address(c.getAddress())
+                       .build();
+           clinicsDTO.add(clinic);
         }
 
         return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);
