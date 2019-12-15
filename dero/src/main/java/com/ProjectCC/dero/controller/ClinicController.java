@@ -17,12 +17,10 @@ import java.util.List;
 @RequestMapping(value="/api/clinics")
 public class ClinicController {
 
-    private ModelMapper modelMapper;
     private ClinicService clinicService;
 
     @Autowired
     public ClinicController(ModelMapper modelMapper, ClinicService clinicService) {
-        this.modelMapper = modelMapper;
         this.clinicService = clinicService;
     }
 
