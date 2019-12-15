@@ -132,11 +132,12 @@ export default {
         })
         .then(response => {
           this.response = response;
+          
         })
         .catch(error => {
           this.error = error;
         });
-        this.$router.push("/ccadmin/addCCAdmin");
+        location.reload();
         this.$vToastify.info({
               body: "Clinical Centre Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
               title: "Info",
