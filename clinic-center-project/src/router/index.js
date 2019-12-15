@@ -7,6 +7,7 @@ import EditProfile from "@/components/EditProfile.vue";
 import Register from "@/views/homepage/Register.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
+import Other from "@/views/homepage/Others.vue";
 
 import CCAHome from "@/views/ccadmin/CCAdminHome.vue";
 import Clinics from "@/views/ccadmin/Clinics.vue";
@@ -67,6 +68,11 @@ const routes = [
       requiresAuth: false
     },
     children: [
+      {
+        path: "",
+        name: "f",
+        component: Other
+      },
       {
         path: "register",
         name: "register",

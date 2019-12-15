@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <h3>Grafik pregleda:</h3>
+      <h3>Examination charts:</h3>
       <div class="d-flex flex-row p-3 justify-content-center" style="background: white">
         <pure-vue-chart
           class="m-2"

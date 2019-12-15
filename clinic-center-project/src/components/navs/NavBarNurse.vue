@@ -51,7 +51,7 @@ export default {
       localStorage.removeItem("Expiary");
       localStorage.removeItem("Email");
       localStorage.removeItem("Authority");
-      this.$router.push("/");
+      this.$router.push("/login");
     }
   }
 };
