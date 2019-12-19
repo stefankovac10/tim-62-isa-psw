@@ -26,7 +26,7 @@ public class MedicalStaff extends User {
    @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @OneToOne()
+   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "vacReq_id", referencedColumnName = "id", nullable = true)
    private VacationRequest vacationRequest;
 

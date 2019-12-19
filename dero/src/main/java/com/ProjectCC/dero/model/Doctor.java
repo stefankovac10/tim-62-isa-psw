@@ -25,8 +25,11 @@ public class Doctor extends MedicalStaff {
    @Column(name = "grade")
    private Double grade;
 
-   @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "doctor")
    public Set<Examination> examinations;
+
+   @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   public Set<Prescription> prescriptions;
 
    /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "medRec_id", nullable = false)
@@ -36,7 +39,7 @@ public class Doctor extends MedicalStaff {
    public Set<Operation> operations;
 
    @ManyToOne
-   @JoinColumn(name = "specialisedType_id", nullable = true)
+   @JoinColumn(name = "specialisedType_id", nullable = false)
    private TypeOfExamination specialisedType;
 
 
