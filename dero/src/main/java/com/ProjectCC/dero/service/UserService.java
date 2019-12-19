@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.exceptions.UserNotFoundException;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ public class UserService {
 
     private UserRepository userRepository;
     private ModelMapper modelMapper;
+    private UserNotFoundException userNotFoundException;
 
 
     @Autowired
@@ -37,9 +39,18 @@ public class UserService {
     }
 
     public ResponseEntity<UserDTO> findById(Long id) {
-        Optional<User> opt = this.userRepository.findById(id);
-        User user = opt.get();
-        return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.FOUND);
+        try {
+            Optional<User> opt = this.userRepository.findById(id);
+            User user;
+            if (opt.isPresent())
+                user = opt.get();
+            else {
+                throw userNotFoundException;
+            }
+            return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.FOUND);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ResponseEntity<UserDTO> edit(UserDTO userDTO) {
