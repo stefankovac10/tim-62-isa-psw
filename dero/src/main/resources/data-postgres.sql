@@ -1,6 +1,6 @@
 SET TIME ZONE 'UTC';
 
-insert into clinic (address, description, grade, income, name, price_list) values ('Adresaq', 'opis1', 4.3, 2000.0, 'Klinika1', 'price_list');
+insert into clinic (address, description, grade, income, name, price_list) values ('Luja Braja, Novi Sad', 'opis1', 4.3, 2000.0, 'Urgentni Centar', 'price_list');
 insert into clinic (address, description, grade, income, name, price_list) values ('Adresa2', 'opis2', 2.9, 2000.0, 'Klinika2', 'price_list2');
 
 insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.2', 0.0, 0.0);
