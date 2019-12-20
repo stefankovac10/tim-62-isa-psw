@@ -35,7 +35,8 @@ public class VacationRequest {
    @Column(name = "accepted")
    private boolean accepted;
 
-   @OneToOne(mappedBy = "vacationRequest")
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "staff_id", referencedColumnName = "id", nullable = true)
    public MedicalStaff medicalStaff;
 
    @ManyToOne(fetch = FetchType.LAZY)
