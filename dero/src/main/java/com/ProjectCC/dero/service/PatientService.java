@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.PatientDTO;
+import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
@@ -8,12 +9,14 @@ import com.ProjectCC.dero.model.RegistrationRequest;
 import com.ProjectCC.dero.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -81,8 +84,26 @@ public class PatientService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public List<Patient> findAll() {
-        return patientRepository.findAll();
+    public List<PatientDTO> findAll(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Patient> patients = patientRepository.findAll(pageable);
+
+        List<PatientDTO> patientsDTOS = new ArrayList<>();
+        for(Patient p : patients.getContent()){
+            patientsDTOS.add(PatientDTO.builder()
+                    .firstName(p.getFirstName())
+                    .lastName(p.getLastName())
+                    .address(p.getAddress())
+                    .city(p.getCity())
+                    .country(p.getCountry())
+                    .email(p.getEmail())
+                    .jmbg(p.getJmbg())
+                    .telephone(p.getTelephone())
+                    .id(p.getId())
+                    .pages(patients.getTotalPages())
+                    .build());
+        }
+        return patientsDTOS;
     }
 
     public Patient findById(Long id) {
@@ -97,11 +118,21 @@ public class PatientService {
         return patientRepository.findById(id).orElseGet(null);
     }
 
-    public ResponseEntity<List<PatientDTO>> search(String firstName, String lastName, String jmbg) {
-        String fn = "%" + firstName + "%";
-        String ln = "%" + lastName + "%";
-        String j = "%" + jmbg + "%";
-        List<Patient> patients = this.patientRepository.search(fn, ln, j);
+    public ResponseEntity<List<PatientDTO>> search(String firstName, String lastName, String jmbg, int page) {
+        String fn = "";
+        String ln = "";
+        String j =  "";
+        if (!firstName.equals("%")) {
+            fn = "%" + firstName + "%";
+        } else fn = firstName;
+        if (!lastName.equals("%")) {
+            ln = "%" + lastName + "%";
+        } else ln = lastName;
+        if (!jmbg.equals("%")) {
+            j = "%" + jmbg + "%";
+        } else j = jmbg;
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Patient> patients = this.patientRepository.search(fn, ln, j, pageable);
         List<PatientDTO> patientDTOS = new ArrayList<>();
         for (Patient p : patients) {
             patientDTOS.add(PatientDTO.builder()
@@ -109,6 +140,9 @@ public class PatientService {
                 .firstName(p.getFirstName())
                 .lastName(p.getLastName())
                 .jmbg(p.getJmbg())
+                .email(p.getEmail())
+                .telephone(p.getTelephone())
+                .pages(patients.getTotalPages())
                 .build());
         }
         return new ResponseEntity<>(patientDTOS, HttpStatus.OK);

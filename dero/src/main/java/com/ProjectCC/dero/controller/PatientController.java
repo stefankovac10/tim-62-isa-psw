@@ -9,6 +9,7 @@ import com.ProjectCC.dero.service.MedicalRecordService;
 import com.ProjectCC.dero.service.PatientService;
 import com.ProjectCC.dero.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,26 +37,10 @@ public class PatientController {
         return patientService.save(id);
     }
 
-    @GetMapping(value = "/all")
-    public ResponseEntity<List<UserDTO>> findAll(){
-        List<Patient> patients = patientService.findAll();
-
-        List<UserDTO> patientsDTOS = new ArrayList<>();
-        for(Patient p : patients){
-            patientsDTOS.add(UserDTO.builder()
-                    .firstName(p.getFirstName())
-                    .lastName(p.getLastName())
-                    .address(p.getAddress())
-                    .city(p.getCity())
-                    .country(p.getCountry())
-                    .email(p.getEmail())
-                    .jmbg(p.getJmbg())
-                    .telephone(p.getTelephone())
-                    .id(p.getId())
-                    .build());
-        }
-
-        return new ResponseEntity<>(patientsDTOS, HttpStatus.OK);
+    @GetMapping(value = "/all/{page}")
+    public ResponseEntity<List<PatientDTO>> findAll(@PathVariable int page){
+        List<PatientDTO> patientDTOS = this.patientService.findAll(page);
+        return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -92,8 +77,9 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping(value = "/search/{firstName}/{lastName}/{jmbg}")
-    public ResponseEntity<List<PatientDTO>> searchPatients(@PathVariable String firstName, @PathVariable String lastName, @PathVariable String jmbg) {
-        return this.patientService.search(firstName, lastName, jmbg);
+    @GetMapping(value = "/search/{firstName}/{lastName}/{jmbg}/{page}")
+    public ResponseEntity<List<PatientDTO>> searchPatients(@PathVariable String firstName, @PathVariable String lastName,
+                                                           @PathVariable String jmbg, @PathVariable int page) {
+        return this.patientService.search(firstName, lastName, jmbg, page);
     }
 }
