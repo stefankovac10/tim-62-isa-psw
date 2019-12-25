@@ -138,9 +138,9 @@ public class ClinicService {
     }
 
     public ResponseEntity<List<ClinicDTO>> searchClinics(ClinicDTO clinicDTO){
-        String name = clinicDTO.getName();
-        String address = clinicDTO.getAddress();
-        String description = clinicDTO.getDescription();
+        String name = "%" + clinicDTO.getName() + "%";
+        String address = "%" + clinicDTO.getAddress() + "%";
+        String description = "%" + clinicDTO.getDescription() + "%";
 
         List<Clinic> clinics = clinicRepository.searchClinics(name, address, description);
         List<ClinicDTO> clinicsDTO = new ArrayList<>();
