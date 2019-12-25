@@ -17,7 +17,7 @@
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
     </form>
 
-    <div v-for="clinic in clincis" :key="clinic.id">
+    <div v-for="clinic in clinics" :key="clinic.id">
         <div class="card-header">{{clinic.name}}</div>
     </div>
 
