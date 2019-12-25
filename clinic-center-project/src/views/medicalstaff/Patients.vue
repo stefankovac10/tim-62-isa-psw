@@ -22,17 +22,39 @@
       <br />
       <hr />
 
-      <div id="results" class="d-flex flex-row flex-wrap">
-        <div
-          v-for="patient in filtered"
-          v-bind:key="patient.id"
-          class="card border-primary mb-3"
-          style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
-        >
-          <div class="card-body">
-            <h4 class="card-title">{{patient.firstName}} {{patient.lastName}}</h4>
-            <p class="card-text">Jmbg: {{patient.jmbg}}</p>
-          </div>
+      <div id="results" class="justify-content-center">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
+              <th scope="col">JMBG</th>
+              <th scope="col">E-mail</th>
+              <th scope="col">Telephone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-primary" v-for="patient in patients" v-bind:key="patient.id">
+              <th scope="row">{{patient.firstName}}</th>
+              <td>{{patient.lastName}}</td>
+              <td>{{patient.jmbg}}</td>
+              <td>{{patient.email}}</td>
+              <td>{{patient.telephone}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <ul class="pagination">
+            <!-- <li class="page-item disabled">
+              <a class="page-link" href="#">&laquo;</a>
+            </li>-->
+            <li class="page-item active" v-for="i in pages" v-bind:key="i">
+              <a class="page-link" v-on:click="nextPage(i - 1)">{{i}}</a>
+            </li>
+            <!-- <li class="page-item">
+              <a class="page-link">&raquo;</a>
+            </li>-->
+          </ul>
         </div>
       </div>
     </div>
@@ -50,16 +72,22 @@ export default {
       lastName: undefined,
       jmbg: undefined,
       patients: undefined,
-      filtered: [],
-      response: undefined
+      next: "all",
+      response: undefined,
+      pages: []
     };
   },
   mounted() {
     httpClient
-      .get("/patient/all")
+      .get("/patient/all/0")
       .then(response => {
         this.patients = _.cloneDeep(response.data);
         this.filtered = _.cloneDeep(response.data);
+        this.pages = [];
+        for (let i = 1; i <= this.patients[0].pages; i++) {
+          this.pages[i - 1] = i;
+        }
+        this.next = "all";
       })
       .catch(error => {
         alert(error);
@@ -67,49 +95,106 @@ export default {
   },
   methods: {
     search: function() {
-      // httpClient
-      //   .get(
-      //     "/patient/search/" +
-      //       this.firstName +
-      //       "/" +
-      //       this.lastName +
-      //       "/" +
-      //       this.jmbg
-      //   )
-      //   .then(response => {
-      //     this.patients = _.cloneDeep(response.data);
-      //     for (let p of this.patients) {
-      //       this.filtered.push(p);
-      //     }
-      //   })
-      //   .catch(error => {
-      //     alert(error);
-      //   });
-      let del = [];
-      for (let p of this.patients) {
-        if (!p.firstName.toLowerCase().includes(this.firstName.toLowerCase())) {
-          del.push(this.patients.indexOf(p));
-        } else if (
-          !p.lastName.toLowerCase().includes(this.lastName.toLowerCase())
-        ) {
-          del.push(this.patients.indexOf(p));
-        } else if (!p.jmbg.includes(this.jmbg)) {
-          del.push(this.patients.indexOf(p));
-        }
-
-        for (let i of del) {
-          this.filtered.splice(i, 1);
-        }
-      }
+      let fn = "";
+      let ln = "";
+      let j = "";
+      if (this.firstName === "" || this.firstName === undefined) {
+        fn = "_";
+      } else fn = this.firstName;
+      if (this.lastName === "" || this.lastName === undefined) {
+        ln = "_";
+      } else ln = this.lastName;
+      if (this.jmbg === "" || this.jmbg === undefined) {
+        j = "_";
+      } else j = this.jmbg;
+      httpClient
+        .get("/patient/search/" + fn + "/" + ln + "/" + j + "/" + 0)
+        .then(response => {
+          this.patients = _.cloneDeep(response.data);
+          this.pages = [];
+          if (this.patients[0].pages != undefined) {
+            for (let i = 1; i <= this.patients[0].pages; i++) {
+              this.pages[i - 1] = i;
+            }
+          }
+          this.next = "search";
+        })
+        .catch(error => {
+          error;
+          this.$vToastify.error({
+            body: "There are no patients with given arguments",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false
+          });
+        });
     },
     clear: function() {
       this.firstName = "";
       this.lastName = "";
       this.jmbg = "";
-      httpClient.get("/patient/all").then(response => {
+      httpClient.get("/patient/all/0").then(response => {
         this.patients = _.cloneDeep(response.data);
-        this.filtered = _.cloneDeep(response.data);
+        this.pages = [];
+        if (this.patients[0].pages != undefined) {
+          for (let i = 1; i <= this.patients[0].pages; i++) {
+            this.pages[i - 1] = i;
+          }
+        }
+        this.next = "all";
       });
+    },
+    nextPage: function(page) {
+      if (this.next === "all") {
+        httpClient
+          .get("/patient/all/" + page)
+          .then(response => {
+            this.patients = _.cloneDeep(response.data);
+            this.pages = [];
+            if (this.patients[0].pages != undefined) {
+              for (let i = 1; i <= this.patients[0].pages; i++) {
+                this.pages[i - 1] = i;
+              }
+            }
+            this.next = "all";
+          })
+          .catch(error => {
+            alert(error);
+          });
+      } else if (this.next === "search") {
+        httpClient
+          .get(
+            "/patient/search/" +
+              this.firstName +
+              "/" +
+              this.lastName +
+              "/" +
+              this.jmbg +
+              "/" +
+              page
+          )
+          .then(response => {
+            this.patients = _.cloneDeep(response.data);
+            this.pages = [];
+            if (this.patients[0].pages != undefined) {
+              for (let i = 1; i <= this.patients[0].pages; i++) {
+                this.pages[i - 1] = i;
+              }
+            }
+            this.next = "search";
+          })
+          .catch(error => {
+            error;
+            this.$vToastify.error({
+              body: "There are no patients with given arguments",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false
+            });
+          });
+      }
     }
   }
 };
