@@ -146,7 +146,12 @@ public class ClinicService {
         List<ClinicDTO> clinicsDTO = new ArrayList<>();
 
         for (Clinic c : clinics) {
-            clinicsDTO.add(modelMapper.map(c, ClinicDTO.class));
+            clinicsDTO.add(ClinicDTO.builder()
+                .name(c.getName())
+                .description(c.getDescription())
+                .id(c.getId())
+                .address(c.getAddress())
+                .build());
         }
 
         return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);
