@@ -25,6 +25,6 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long>{
     List<Clinic> searchClinics(String name, String address, String description);
     */
 
-    @Query("from Clinic c where c.name like ?1 and c.address like ?2 and c.description like ?3")
+    @Query("from Clinic c where lower(c.name) like lower(?1) and lower(c.address) like lower(?2) and lower(c.description) like lower(?3)")
     List<Clinic> searchClinics(String name, String address, String description);
 }
