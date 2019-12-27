@@ -40,6 +40,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 
 export default {
   data: function() {
@@ -49,6 +50,16 @@ export default {
       description: undefined,
       clinics: []
     };
+  },
+  mounted() {
+    httpClient
+      .get("/clinics/all")
+      .then(response => {
+        this.clinics = _.cloneDeep(response.data);
+      })
+      .catch(error => {
+        alert(error);
+      });
   },
   methods: {
     search: function() {
