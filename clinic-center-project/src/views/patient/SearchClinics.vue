@@ -45,9 +45,9 @@ import _ from "lodash";
 export default {
   data: function() {
     return {
-      name: undefined,
-      address: undefined,
-      description: undefined,
+      name: "",
+      address: "",
+      description: "",
       clinics: []
     };
   },
