@@ -15,26 +15,51 @@
 
       <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
+
+      <br />
     </form>
 
-    <div v-for="clinic in clincis" :key="clinic.id">
-        <div class="card-header">{{clinic.name}}</div>
-    </div>
-
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="clinic in clinics" :key="clinic.id" class="table-primary">
+          <td>{{clinic.name}}</td>
+          <td>{{clinic.address}}</td>
+          <td>{{clinic.description}}</td>
+        </tr>
+      </tbody>
+    </table> 
   </div>
 </template>
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 
 export default {
   data: function() {
     return {
-      name: undefined,
-      address: undefined,
-      description: undefined,
+      name: "",
+      address: "",
+      description: "",
       clinics: []
     };
+  },
+  mounted() {
+    httpClient
+      .get("/clinics/all")
+      .then(response => {
+        this.clinics = _.cloneDeep(response.data);
+      })
+      .catch(error => {
+        alert(error);
+      });
   },
   methods: {
     search: function() {

@@ -94,3 +94,9 @@ insert into prescriptions_medication (prescription_id, medication_id) values (1,
 insert into prescriptions_medication (prescription_id, medication_id) values (3, 1);
 insert into prescriptions_medication (prescription_id, medication_id) values (3, 3);
 insert into prescriptions_medication (prescription_id, medication_id) values (3, 5);
+
+insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Evrope BB', 'Privatna poliklinika', 4.1, 3500.0, 'Poliklinika Galetic', 'price_list2');
+insert into clinic (address, description, grade, income, name, price_list) values ('Dusana Vasiljeva 4', 'Privatna poliklinika', 4.1, 4000.0, 'Poliklinika Maric', 'price_list2');
+insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Evrope BB', 'Privatna poliklinika', 3.4, 1234.0, 'Poliklinika Atina', 'price_list2');
+insert into clinic (address, description, grade, income, name, price_list) values ('Kosovska 26', 'Privatna poliklinika', 4.23, 3800.0, 'Poliklinika Novakov', 'price_list2');
+insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Mihajla Pupina 25', 'Privatna poliklinika', 4.11, 1500.0, 'NK Poliklinika', 'price_list2');
