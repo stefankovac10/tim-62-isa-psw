@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
-    <div class="d-flex flex-column p-2" v-bind:key="componentKey">
+  <div class="d-flex p-2 justify-content-center" v-bind:key="componentKey">
+    <div class="d-flex flex-column p-2">
       <h1>Profile</h1>
       <button
         type="button"
@@ -68,7 +68,6 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
-// import EventBus from "@/EventBus.js";
 
 export default {
   data: function() {
@@ -86,16 +85,10 @@ export default {
     };
   },
   mounted() {
-    // EventBus.$on("refresh", function(data) {
-    //   this.user = data;
-    //   this.componentKey += 1;
-    // });
-
     if (localStorage.getItem("Authority") === "ROLE_CADMIN") {
       this.id = 4;
     } else this.id = 13;
 
-    // let email = localStorage.getItem("Email");
     httpClient
       .get("/users/profile/" + this.id)
       .then(response => {
@@ -133,10 +126,20 @@ export default {
         .put("/users/edit", newProfile)
         .then(response => {
           response;
+          this.user.firstName = this.firstName;
+          this.user.lastName = this.lastName;
+          this.user.jmbg = this.jmbg;
+          this.user.telephone = this.telephone;
+          this.user.country = this.country;
+          this.user.city = this.city;
+          this.user.address = this.address;
         })
         .catch(error => {
           alert(error);
         });
+
+      this.componentKey += 1;
+      this.$forceUpdate();
     }
   }
 };

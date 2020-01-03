@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
+  <div class="d-flex p-2 justify-content-center" v-bind:key="componentKey">
     <div class="d-flex p-2 justify-content-center col-sm-4">
       <form id="login" accept-charset="UTF-8" class="d-flex flex-column">
         <h1 class="p-2">Edit profile</h1>
@@ -47,7 +47,8 @@ export default {
       country: undefined,
       city: undefined,
       address: undefined,
-      user: undefined
+      user: undefined,
+      componentKey: 0
     };
   },
   mounted() {
@@ -62,6 +63,7 @@ export default {
         this.country = response.data.country;
         this.city = response.data.city;
         this.address = response.data.address;
+        this.componentKey += 1;
       })
       .catch(error => {
         if (error.response.status == 302) {
@@ -94,6 +96,7 @@ export default {
         .put("/users/edit", newProfile)
         .then(response => {
           response;
+          this.componentKey += 1;
         })
         .catch(error => {
           alert(error.response.data);
