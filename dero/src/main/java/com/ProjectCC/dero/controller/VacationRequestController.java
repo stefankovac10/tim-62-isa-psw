@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(path = "/api/vacs")
 public class VacationRequestController {
     private VacationRequestService vacationRequestService;

@@ -22,6 +22,7 @@ import javax.xml.ws.Response;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 
