@@ -10,28 +10,32 @@
       <div class="d-flex flex-column">
         <label for="tyepOfExamination">Type of examination</label>
         <select name="typeOfExamination" id="typeEx" v-model="typeOfExamination">
-          <option v-for="t in types" v-bind:key="t.key">{{t.name}}</option>
+          <option v-for="t in types" v-bind:value="t" v-bind:key="t.key">{{t.name}}</option>
         </select>
       </div>
 
       <div class="d-flex flex-column">
         <label for="duration">Duration</label>
         <select name="duration" id="duration" v-model="duration">
-          <option v-for="d in ds" v-bind:key="d.key">{{d}}</option>
+          <option v-for="d in ds" v-bind:value="d" v-bind:key="d.key">{{d}}</option>
         </select>
       </div>
 
       <div class="d-flex flex-column">
         <label for="examRoom">Examination room</label>
         <select name="examRoom" id="examRoom" v-model="examinationRoom">
-          <option v-for="exam in examRooms" v-bind:key="exam.key">{{exam.name}}</option>
+          <option v-for="exam in examRooms" v-bind:value="exam" v-bind:key="exam.key">{{exam.name}}</option>
         </select>
       </div>
 
       <div class="d-flex flex-column">
         <label for="doctor">Doctor</label>
         <select name="doctor" id="doctor" v-model="doctor">
-          <option v-for="doc in doctors" v-bind:key="doc.key">{{doc.firstName}} {{doc.lastName}}</option>
+          <option
+            v-for="doc in doctors"
+            v-bind:value="doc"
+            v-bind:key="doc.key"
+          >{{doc.firstName}} {{doc.lastName}}</option>
         </select>
       </div>
 
@@ -52,7 +56,7 @@ export default {
     return {
       start: undefined,
       types: undefined,
-      type: undefined,
+      typeOfExamination: undefined,
       ds: [5, 10, 15, 20, 25, 30],
       duration: undefined,
       examRooms: undefined,
@@ -117,14 +121,18 @@ export default {
     addAppointment: function() {
       let appointment = {
         date: this.start,
-        type: this.type,
+        type: this.typeOfExamination,
         price: this.price,
         examinationRoom: this.examinationRoom,
         doctor: this.doctor
+        //clinic: this.clinic
       };
+      alert(this.typeOfExamination);
+      alert(this.examinationRoom);
+      alert(this.doctor);
 
       httpClient
-        .post("/examination/addQuck", appointment)
+        .post("/examination/addQuick", appointment)
         .then(() => {
           this.$vToastify.success({
             body: "New appointment created",
@@ -145,6 +153,7 @@ export default {
             errorDuration: 2000
           });
         });
+      this.$router.push("/cadmin/clinic");
     }
   }
 };
