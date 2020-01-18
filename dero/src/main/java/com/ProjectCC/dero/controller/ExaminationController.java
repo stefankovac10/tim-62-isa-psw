@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
+import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.service.ExaminationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class ExaminationController {
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ExaminationDTO> update(@RequestBody ExaminationDTO examinationDTO){
         return new ResponseEntity<>(examinationService.edit(examinationDTO), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/addQuick", consumes = "application/json")
+    public ResponseEntity<Void> addQuickExamination(@RequestBody ExaminationDTO examinationDTO) {
+        this.examinationService.addNewQuick(examinationDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

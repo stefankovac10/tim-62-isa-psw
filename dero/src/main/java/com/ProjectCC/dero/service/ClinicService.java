@@ -137,16 +137,21 @@ public class ClinicService {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<ClinicDTO>> pronadjiPoImenuAdresiOpisu(ClinicDTO clinicDTO){
-        String name = clinicDTO.getName();
-        String address = clinicDTO.getAddress();
-        String description = clinicDTO.getDescription();
+    public ResponseEntity<List<ClinicDTO>> searchClinics(ClinicDTO clinicDTO){
+        String name = "%" + clinicDTO.getName() + "%";
+        String address = "%" + clinicDTO.getAddress() + "%";
+        String description = "%" + clinicDTO.getDescription() + "%";
 
-        List<Clinic> clinics = clinicRepository.pronadjiKlinikePoImenuAdresiOpisu(name, address, description);
+        List<Clinic> clinics = clinicRepository.searchClinics(name, address, description);
         List<ClinicDTO> clinicsDTO = new ArrayList<>();
 
         for (Clinic c : clinics) {
-            clinicsDTO.add(modelMapper.map(c, ClinicDTO.class));
+            clinicsDTO.add(ClinicDTO.builder()
+                .name(c.getName())
+                .description(c.getDescription())
+                .id(c.getId())
+                .address(c.getAddress())
+                .build());
         }
 
         return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);

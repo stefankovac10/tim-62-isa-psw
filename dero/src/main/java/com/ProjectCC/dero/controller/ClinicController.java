@@ -51,8 +51,8 @@ public class ClinicController {
     }
 
     @PostMapping(value = "/search")
-    public ResponseEntity<List<ClinicDTO>> pronadjiKlinikePoImenuAdresiOpisu(@RequestBody ClinicDTO clinicDTO) {
-        return this.clinicService.pronadjiPoImenuAdresiOpisu(clinicDTO);
+    public ResponseEntity<List<ClinicDTO>> searchClinics(@RequestBody ClinicDTO clinicDTO) {
+        return this.clinicService.searchClinics(clinicDTO);
     }
 
     @GetMapping(value = "/businessReport/{id}")

@@ -42,6 +42,11 @@ export default {
       var req = {
         startDate: startDate,
         endDate: endDate,
+        medicalStaff: {
+          id: "7",
+          firstName: "Branko",
+          lastName: "Coka"
+        },
         accepted: false
       };
 

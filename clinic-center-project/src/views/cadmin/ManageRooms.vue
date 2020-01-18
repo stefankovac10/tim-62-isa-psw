@@ -20,9 +20,46 @@
             <h4 class="card-title">Room name: {{room.name}}</h4>
             <p class="card-text">Number: {{room.number}}</p>
             <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
-            <button type="button" class="btn btn-primary" v-on:click="edit(room)">Edit</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#editModal"
+              data-whatever="@mdo"
+              v-on:click="edit(room)"
+            >Edit</button>
             <button type="button" class="btn btn-danger" v-on:click="remove(room)">Delete</button>
           </div>
+        </div>
+      </div>
+    </div>
+    <div id="editModal" class="modal">
+      <div class="modal-dialog justify-content-center" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit room</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="login" accept-charset="UTF-8" class="d-flex flex-column">
+            <div class="modal-body d-flex flex-column">
+              <label class="p-2">Room number</label>
+              <input type="text" class="p-2" id="number" name="number" v-model="number" />
+
+              <label class="p-2">Room name</label>
+              <input type="text" class="p-2" id="name" name="name" v-model="name" />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                v-on:click.prevent="update"
+              >Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -36,7 +73,9 @@ export default {
   data: function() {
     return {
       rooms: undefined,
-      type: undefined
+      type: undefined,
+      name: undefined,
+      number: undefined
     };
   },
   watch: {
@@ -56,15 +95,36 @@ export default {
   },
   methods: {
     edit: function(room) {
-      this.$router.push(
-        "/cadmin/editRoom/" + this.type.toLowerCase() + "/" + room.id
-      );
+      this.room = room;
+      this.number = room.number;
+      this.name = room.name;
     },
     remove: function(room) {
       httpClient
         .delete("/rooms/" + this.type.toLowerCase() + "/" + room.id)
         .then(() => {
           this.rooms.splice(this.rooms.indexOf(room), 1);
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    update: function() {
+      // let room = {
+      //   id: this.room.id,
+      //   name: this.name,
+      //   number: this.number
+      // };
+
+      httpClient
+        .put("/rooms/" + this.room.type, {
+          id: this.room.id,
+          name: this.name,
+          number: this.number
+        })
+        .then(response => {
+          response;
+          this.$router.push("/cadmin/rooms");
         })
         .catch(error => {
           alert(error);
