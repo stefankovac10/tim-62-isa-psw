@@ -22,9 +22,9 @@
     <table class="table table-hover" id="clinicsTable">
       <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Address</th>
-          <th scope="col">Description</th>
+          <th scope="col" v-on:click="sortTable(0)">Name</th>
+          <th scope="col" v-on:click="sortTable(1)">Address</th>
+          <th scope="col" v-on:click="sortTable(2)">Description</th>
         </tr>
       </thead>
       <tbody>
