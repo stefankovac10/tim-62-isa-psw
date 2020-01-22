@@ -49,13 +49,13 @@ export default {
           if (role === "ROLE_CCADMIN") {
             path = "/ccadmin";
           } else if (role === "ROLE_CADMIN") {
-            path = "/cadmin";
+            path = "/cadmin/profile";
           } else if (role === "ROLE_DOCTOR") {
-            path = "/doc";
+            path = "/doc/profile";
           } else if (role === "ROLE_NURSE") {
-            path = "/nurse";
+            path = "/nurse/profile";
           } else if (role === "ROLE_PATIENT") {
-            path = "/patient";
+            path = "/patient/profile";
           } else if (role === "ROLE_REQUEST") {
             path = "/login";
             this.$vToastify.info({

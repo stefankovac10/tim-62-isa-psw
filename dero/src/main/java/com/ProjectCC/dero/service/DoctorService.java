@@ -68,7 +68,15 @@ public class DoctorService {
         List<DoctorDTO> doctorsDTO = new ArrayList<>();
 
         for (Doctor d : doctors) {
-            doctorsDTO.add(modelMapper.map(d, DoctorDTO.class));
+            doctorsDTO.add(DoctorDTO.builder()
+                .id(d.getId())
+                .firstName(d.getFirstName())
+                .lastName(d.getLastName())
+                .jmbg(d.getJmbg())
+                .country(d.getCountry())
+                .city(d.getCity())
+                .address(d.getAddress())
+                .telephone(d.getTelephone()).build());
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);

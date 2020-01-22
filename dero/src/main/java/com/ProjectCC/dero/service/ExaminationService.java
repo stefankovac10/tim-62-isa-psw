@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
+import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,9 +25,13 @@ public class ExaminationService {
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
     private MedicalRecordRepository medicalRecordRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
-    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository, MedicationRepository medicationRepository, DoctorRepository doctorRepository, NurseRepository nurseRepository) {
+    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,
+                              ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
+                              MedicationRepository medicationRepository, DoctorRepository doctorRepository,
+                              NurseRepository nurseRepository, ClinicRepository clinicRepository) {
         this.examinationRepository = examinationRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.medicationRepository = medicationRepository;
@@ -33,6 +39,7 @@ public class ExaminationService {
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
         this.medicalRecordRepository = medicalRecordRepository;
+        this.clinicRepository = clinicRepository;
     }
 
     public void save(ExaminationDTO examinationDTO) {
@@ -97,5 +104,16 @@ public class ExaminationService {
                                        .report(examination.getReport())
                                        .build();
         return examinationDTO;
+    }
+//    date: this.start,
+//    type: this.type,
+//    price: this.price,
+//    examinationRoom: this.examinationRoom,
+//    doctor: this.doctor
+    public void addNewQuick(ExaminationDTO examinationDTO) {
+        Examination examination = this.modelMapper.map(examinationDTO, Examination.class);
+        Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
+        opt.ifPresent(examination::setClinic);
+        this.examinationRepository.save(examination);
     }
 }
