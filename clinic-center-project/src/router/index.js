@@ -5,6 +5,7 @@ import Profile from "@/components/Profile.vue";
 import EditProfile from "@/components/EditProfile.vue";
 
 import Register from "@/views/homepage/Register.vue";
+import RegisterPage from "@/views/homepage/RegisterPage.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
 import Other from "@/views/homepage/Others.vue";
@@ -77,6 +78,11 @@ const routes = [
         path: "register",
         name: "register",
         component: Register
+      },
+      {
+        path: "registerPage",
+        name: "registerPage",
+        component: RegisterPage
       },
       {
         path: "login",

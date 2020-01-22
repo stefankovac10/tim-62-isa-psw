@@ -73,7 +73,7 @@ public class PatientService {
         patient = patientRepository.save(patient);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("http://localhost:8081/login"));
+        headers.setLocation(new URI("http://localhost:8081/registerPage"));
 
         if(patient != null)
             return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
