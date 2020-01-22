@@ -1,13 +1,20 @@
 <template>
   <div class="d-flex p-2">
     <div class="d-flex flex-column justify-content-center">
-      <div id="slct" class="d-flex flex-column col-sm-4 justify-content-center">
-        <h1>Manage rooms</h1>
-        <label class="p-2">Room type</label>
-        <select class="p-2" id="type" name="type" v-model="type">
-          <option>Examination</option>
-          <option>Operation</option>
-        </select>
+      <h1>Manage rooms</h1>
+      <div id="slct" class="d-flex flex-row justify-content-center">
+        <div class="d-flex flex-column m-2">
+          <label class="m-2" for="search">Search patients</label>
+          <div id="search" class="d-flex flex-row m-2">
+            <label class="m-1" for="nejm">Name</label>
+            <input class="m-1" type="text" name="nejm" id="searchName" v-model="searchName" />
+            <label class="m-1" for="num">Number</label>
+            <input class="m-1" type="text" name="num" id="searchNumber" v-model="searchNumber" />
+            <label class="m-1" for="dejt">Date</label>
+            <input class="m-1" type="date" name="dejt" id="searchDate" v-model="searchDate" />
+            <button v-on:click="searchRooms">Search</button>
+          </div>
+        </div>
       </div>
       <div class="d-flex flex-row flex-wrap">
         <div
@@ -31,6 +38,19 @@
             <button type="button" class="btn btn-danger" v-on:click="remove(room)">Delete</button>
           </div>
         </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <ul class="pagination">
+          <!-- <li class="page-item disabled">
+              <a class="page-link" href="#">&laquo;</a>
+          </li>-->
+          <li class="page-item active" v-for="i in pages" v-bind:key="i">
+            <a class="page-link" v-on:click="nextPage(i - 1)">{{i}}</a>
+          </li>
+          <!-- <li class="page-item">
+              <a class="page-link">&raquo;</a>
+          </li>-->
+        </ul>
       </div>
     </div>
     <div id="editModal" class="modal">
@@ -72,26 +92,53 @@ import { httpClient } from "@/services/Api.js";
 export default {
   data: function() {
     return {
-      rooms: undefined,
+      rooms: [],
+      examination: [],
+      operation: [],
       type: undefined,
       name: undefined,
-      number: undefined
+      number: undefined,
+      searchName: undefined,
+      searchNumber: undefined,
+      searchDate: undefined,
+      page: 0,
+      pages: 7
     };
   },
-  watch: {
-    type: function() {
-      let path = "/rooms/" + this.type.toLowerCase() + "/all";
-      httpClient
-        .get(path)
-        .then(response => {
-          this.rooms = response.data;
-        })
-        .catch(error => {
-          if (error.response.status == 302) {
-            this.rooms = error.response.data;
+  mounted() {
+    httpClient
+      .get("/rooms/examination/all")
+      .then(response => {
+        this.examination = response.data;
+        for (let i = 0; i < this.examination.length; i++) {
+          this.rooms.push(this.examination[i]);
+        }
+      })
+      .catch(error => {
+        if (error.response.status == 302) {
+          this.examination = error.response.data;
+          for (let i = 0; i < this.examination.length; i++) {
+            this.rooms.push(this.examination[i]);
           }
-        });
-    }
+        }
+      });
+
+    httpClient
+      .get("/rooms/operation/all")
+      .then(response => {
+        this.operation = response.data;
+        for (let i = 0; i < this.operation.length; i++) {
+          this.rooms.push(this.operation[i]);
+        }
+      })
+      .catch(error => {
+        if (error.response.status == 302) {
+          this.operation = error.response.data;
+          for (let i = 0; i < this.operation.length; i++) {
+            this.rooms.push(this.operation[i]);
+          }
+        }
+      });
   },
   methods: {
     edit: function(room) {
@@ -125,6 +172,25 @@ export default {
         .then(response => {
           response;
           this.$router.push("/cadmin/rooms");
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    searchRooms: function() {
+      httpClient
+        .get(
+          "/rooms/search/" +
+            this.searchName +
+            "/" +
+            this.searchNumber +
+            "/" +
+            this.searchDate +
+            "/" +
+            this.page
+        )
+        .then(response => {
+          this.rooms = response.data;
         })
         .catch(error => {
           alert(error);
