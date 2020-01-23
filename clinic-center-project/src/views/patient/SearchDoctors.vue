@@ -24,7 +24,32 @@
 
       <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
+
+      <br />
     </form>
+
+    <table class="table table-hover" id="doctorsTable">
+      <thead>
+        <tr>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">e-mail</th>
+          <th scope="col">City</th>
+          <th scope="col">Country</th>
+          <th scope="col">Clinic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="doctor in doctors" :key="doctor.id" class="table-primary">
+          <td>{{doctor.firstName}}</td>
+          <td>{{doctor.lastName}}</td>
+          <td>{{doctor.email}}</td>
+          <td>{{doctor.city}}</td>
+          <td>{{doctor.country}}</td>
+          <td>DUMMY</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
