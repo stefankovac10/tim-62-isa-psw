@@ -31,7 +31,7 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @PostMapping(value = "/{type}",consumes = "application/json")
+    @PostMapping(value = "/{type}", consumes = "application/json")
     public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO, @PathVariable String type) {
         return doctorService.save(doctorDTO, type);
     }
@@ -46,8 +46,13 @@ public class DoctorController {
         return this.doctorService.findAll();
     }
 
-    @GetMapping(value = "/filter")
-    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName, String lastName, String email, String city, String country) {
-        return this.doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
+    @GetMapping(value = "/search/{firstName}/{lastName}/{email}/{city}/{country}/{clinic}")
+    public ResponseEntity<List<DoctorDTO>> searchDoctors(@PathVariable String firstName,
+                                                         @PathVariable String lastName,
+                                                         @PathVariable String email,
+                                                         @PathVariable String city,
+                                                         @PathVariable String country,
+                                                         @PathVariable String clinic) {
+        return this.doctorService.searchDoctors(firstName, lastName, email, city, country, clinic);
     }
 }

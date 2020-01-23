@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.Clinic;
@@ -82,12 +83,30 @@ public class DoctorService {
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DoctorDTO>> pronadjiPoImenuMejluGraduDrzavi(String firstName, String lastName, String email, String city, String country){
-        List<Doctor> doctors = doctorRepository.pronadjiDoktorePoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
+    public ResponseEntity<List<DoctorDTO>> searchDoctors(String firstName,
+                                                         String lastName,
+                                                         String email,
+                                                         String city,
+                                                         String country,
+                                                         String clinic){
+        firstName = "%" + firstName + "%";
+        lastName = "%" + lastName + "%";
+        email = "%" + email + "%";
+        city = "%" + city + "%";
+        country = "%" + country + "%";
+        clinic = "%" + clinic + "%";
+
+        List<Doctor> doctors = doctorRepository.searchDoctors(firstName, lastName, email, city, country, clinic);
         List<DoctorDTO> doctorsDTO = new ArrayList<>();
 
         for (Doctor d : doctors) {
-            doctorsDTO.add(modelMapper.map(d, DoctorDTO.class));
+            doctorsDTO.add(DoctorDTO.builder()
+                    .firstName(d.getFirstName())
+                    .lastName(d.getLastName())
+                    .email(d.getEmail())
+                    .city(d.getCity())
+                    .country(d.getCountry())
+                    .build());
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
