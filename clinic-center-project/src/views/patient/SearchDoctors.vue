@@ -81,17 +81,20 @@ export default {
   },
   methods: {
     search: function() {
+      let fn = "", ln = "", e = "", cty = "", cntry = "", clnc = "";
+
+      if(this.firstName === ""){ fn = "_"; } else { fn = this.firstName; }
+      if(this.lastName === ""){ ln = "_"; } else { ln = this.lastName; }
+      if(this.email === ""){ e = "_"; } else { e = this.email; }
+      if(this.city === ""){ cty = "_"; } else { cty = this.city; }
+      if(this.country === ""){ cntry = "_"; } else { cntry = this.country; }
+      if(this.clinic === ""){ clnc = "_"; } else { clnc = this.clinic; }
+
       httpClient
-        .get("/search", {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            city: this.city,
-            country: this.country,
-            clinic: this.clinic
-        })
+        .get("/users/doc/search/" + fn + "/" + ln + "/" + e + "/" + cty + "/" + cntry + "/" + clnc)
         .then(response => {
           this.response = response;
+          this.doctors = response.data;
         })
         .catch(error => {
           this.error = error;
