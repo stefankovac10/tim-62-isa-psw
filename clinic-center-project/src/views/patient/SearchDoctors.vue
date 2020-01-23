@@ -30,17 +30,29 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 
 export default {
   data: function() {
     return {
-      firstName: undefined,
-      lastName: undefined,
-      email: undefined,
-      city: undefined,
-      country: undefined,
-      clinic: undefined
+      firstName: "",
+      lastName: "",
+      email: "",
+      city: "",
+      country: "",
+      clinic: "",
+      doctors: []
     };
+  },
+  mounted() {
+    httpClient
+      .get("/users/doc/all")
+      .then(response => {
+        this.doctors = _.cloneDeep(response.data);
+      })
+      .catch(error => {
+        alert(error);
+      });
   },
   methods: {
     search: function() {
