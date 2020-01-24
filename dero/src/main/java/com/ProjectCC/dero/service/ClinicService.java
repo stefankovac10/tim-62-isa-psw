@@ -92,10 +92,6 @@ public class ClinicService {
         return clinicDTO;
     }
 
-    public Clinic findByName(String name) {
-        return clinicRepository.findByName(name);
-    }
-
     public ResponseEntity<ClinicDTO> findById(Long id) {
 
         Optional<Clinic> opt = clinicRepository.findById(id);
