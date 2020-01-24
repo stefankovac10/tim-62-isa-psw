@@ -5,10 +5,15 @@ import "bootstrap";
 import "bootswatch/dist/flatly/bootstrap.min.css";
 import VueToastify from 'vue-toastify';
 import YandexMap from "vue-yandex-map";
+import FullCalendar from 'vue-full-calendar';
+Vue.use(FullCalendar)
 
 Vue.use(YandexMap);
 Vue.use(VueToastify);
 Vue.config.productionTip = false;
+
+import 'fullcalendar/dist/fullcalendar.css'
+
 
 new Vue({
   router,
@@ -26,3 +31,4 @@ router.beforeEach((to, from, next) => {
   }
 
 })
+

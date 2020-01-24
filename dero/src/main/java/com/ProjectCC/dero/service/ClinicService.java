@@ -107,7 +107,6 @@ public class ClinicService {
 
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
-//            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
             staff.add(MedicalStaffDTO.builder()
                     .firstName(s.getFirstName())
                     .lastName(s.getLastName())
@@ -120,6 +119,7 @@ public class ClinicService {
                     .telephone(s.getTelephone())
                     .build());
         }
+
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : clinic.getRooms()) {
             roomDTOS.add(RoomDTO.builder()
