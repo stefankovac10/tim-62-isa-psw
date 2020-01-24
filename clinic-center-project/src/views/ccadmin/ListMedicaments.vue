@@ -121,7 +121,7 @@ export default {
         title: "Success",
         type: "success",
         canTimeout: true,
-        append: false
+        append: false, duration: 2000
        });
     },
     remove: function(medication) {
@@ -140,7 +140,7 @@ export default {
         title: "Success",
         type: "success",
         canTimeout: true,
-        append: false
+        append: false, duration: 2000
        });
     }
   }

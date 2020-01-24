@@ -15,7 +15,6 @@
 
       <br />
       <button class="btn btn-primary p-2" v-on:click.prevent="search">Search</button>
-
       <br />
     </form>
 
@@ -70,7 +69,6 @@ export default {
             description: this.description
         })
         .then(response => {
-          this.response = response;
           this.clinics = response.data;
         })
         .catch(error => {

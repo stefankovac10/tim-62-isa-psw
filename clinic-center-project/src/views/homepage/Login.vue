@@ -58,7 +58,13 @@ export default {
             path = "/patient/profile";
           } else if (role === "ROLE_REQUEST") {
             path = "/login";
-            alert("You hove to be accepted by admin to log in.");
+            this.$vToastify.info({
+              body: "You hove to be accepted by admin to log in." ,
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false, duration: 2000
+            });
           }
           this.$router.push(path);
         })

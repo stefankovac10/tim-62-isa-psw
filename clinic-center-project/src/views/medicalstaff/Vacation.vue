@@ -59,6 +59,13 @@ export default {
         .catch(err => {
           alert(err);
         });
+        this.$vToastify.info({
+          body: "Vacation request has been sent",
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false, duration: 2000
+        });
     }
   }
 };

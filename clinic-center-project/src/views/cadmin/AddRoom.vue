@@ -50,6 +50,13 @@ export default {
         });
 
       this.$router.push("/cadmin/rooms");
+      this.$vToastify.info({
+        body: "Room "+ this.name + " has been added." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };

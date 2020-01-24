@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.ExaminationRepository;
+import com.ProjectCC.dero.repository.PrescriptionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClinicService {
@@ -20,12 +22,14 @@ public class ClinicService {
     private ModelMapper modelMapper;
     private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
+    private PrescriptionRepository prescriptionRepository;
 
     @Autowired
-    public ClinicService(ClinicRepository clinicRepository, ExaminationRepository examinationRepository, ModelMapper modelMapper) {
-        this.clinicRepository = clinicRepository;
-        this.examinationRepository = examinationRepository;
+    public ClinicService(ModelMapper modelMapper, ExaminationRepository examinationRepository, ClinicRepository clinicRepository, PrescriptionRepository prescriptionRepository) {
         this.modelMapper = modelMapper;
+        this.examinationRepository = examinationRepository;
+        this.clinicRepository = clinicRepository;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
     public ResponseEntity<List<ClinicDTO>> findAll() {
@@ -99,7 +103,6 @@ public class ClinicService {
 
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
-//            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
             staff.add(MedicalStaffDTO.builder()
                     .firstName(s.getFirstName())
                     .lastName(s.getLastName())
@@ -112,6 +115,7 @@ public class ClinicService {
                     .telephone(s.getTelephone())
                     .build());
         }
+
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : clinic.getRooms()) {
             roomDTOS.add(RoomDTO.builder()

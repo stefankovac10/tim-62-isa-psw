@@ -138,12 +138,12 @@ export default {
           || this.country === ''  || this.country === undefined || this.city === ''  || this.city === undefined || this.address === ''  || this.address === undefined
           || this.clinic === '' || this.clinic === undefined){
               this.$vToastify.info({
-              body: "Please, fill all the information",
-              title: "Info",
-              type: "info",
-              canTimeout: true,
-              append: false
-            });
+                body: "Please, fill all the information",
+                title: "Info",
+                type: "info",
+                canTimeout: true,
+                append: false, duration: 2000
+              });
             
       }else{
         this.user.firstName = this.firstName;
@@ -160,16 +160,18 @@ export default {
           .post("/cadmin", this.user)
           .then(response => {
             this.response = response;
+            
           })
           .catch(error => {
             this.error = error;
           });
+          location.reload();
           this.$vToastify.info({
                 body: "Clinical Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
                 title: "Info",
                 type: "info",
                 canTimeout: true,
-                append: false
+                append: false, duration: 2000
               });
       }
     }

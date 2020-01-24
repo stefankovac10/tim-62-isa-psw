@@ -38,7 +38,13 @@ export default {
             error;
           });
         this.$router.push("/cadmin/doctors");
-
+        this.$vToastify.info({
+            body: "Nurse "+ args[0].firstName + " " + args[0].lastName + " has been added." ,
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+        });
         return;
       }
 
@@ -51,6 +57,13 @@ export default {
           error;
         });
       this.$router.push("/cadmin/doctors");
+      this.$vToastify.info({
+        body: "Doctor "+ args[1].firstName + " " + args[1].lastName + " has been added." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };

@@ -134,3 +134,13 @@ insert into clinic (address, description, grade, income, name, price_list) value
 insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 3.89, 1500.0, 'Klinika za ocne bolesti', 'price_list2');
 insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 10000.0, 'Klinika za psihijatriju', 'price_list2');
 insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 2300.0, 'Klinika za hematologiju', 'price_list2');
+
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Jevrejska 12', 'Novi Sad', 'Republika Srbija', 'drnele@gmail.com', true, 'Dr Nele', '159281555555', 'Karajlic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689555555');
+insert into medical_staff(id, clinic_id) values (27, 3);
+insert into doctor (id, specialised_type_id, grade) values (27, null, 4.8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Ulica srpskih junaka', 'New Jersey', 'USA', 'drhaus@gmail.com', true, 'Gregory', '1594094110025', 'House', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689172250');
+insert into medical_staff(id, clinic_id) values (28, 4);
+insert into doctor (id, specialised_type_id, grade) values (28, null, 4.8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Sava Mala', 'Beooograd', 'Republika Srbija', 'sinisam@gmail.com', true, 'Sinisa', '1592500810025', 'Mali', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0639980250');
+insert into medical_staff(id, clinic_id) values (29, 5);
+insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);

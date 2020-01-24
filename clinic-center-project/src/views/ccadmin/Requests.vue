@@ -130,7 +130,7 @@ export default {
               title: "Success",
               type: "success",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
           });
 
       httpClient
@@ -150,7 +150,7 @@ export default {
               title: "Info",
               type: "info",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
           });
           return;
         }
