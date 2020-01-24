@@ -3,6 +3,7 @@ package com.ProjectCC.dero.model;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import lombok.*;
+import org.joda.time.Duration;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,8 +31,9 @@ public class Examination {
    @JoinColumn(name = "type_id", nullable = true)
    private TypeOfExamination type;
 
-//   @Column(name = "duration", nullable = false)
-//   private Period duration; // more changes needed probably
+   @Column(name = "duration", nullable = false)
+   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
+   private Duration duration;
 
    @Column(name = "price", nullable = true)
    private String price;

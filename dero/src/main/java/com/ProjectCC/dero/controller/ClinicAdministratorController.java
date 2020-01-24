@@ -1,15 +1,27 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
+import com.ProjectCC.dero.dto.ExaminationRequestDTO;
+import com.ProjectCC.dero.dto.OperationRequestDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
+import com.ProjectCC.dero.model.Doctor;
+import com.ProjectCC.dero.model.OperationRequest;
+import com.ProjectCC.dero.repository.ClinicRepository;
+import com.ProjectCC.dero.repository.DoctorRepository;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ClinicService;
+import com.ProjectCC.dero.service.ExaminationRequestService;
+import com.ProjectCC.dero.service.OperationRequestService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -17,44 +29,34 @@ import org.springframework.web.bind.annotation.*;
 public class ClinicAdministratorController {
 
     private ClinicAdministratorService clinicAdministratorService;
-    private ClinicService clinicService;
-    private ModelMapper modelMapper;
+    private OperationRequestService operationRequestService;
+    private ExaminationRequestService examinationRequestService;
 
     @Autowired
-    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, ClinicService clinicService, ModelMapper modelMapper) {
+    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, OperationRequestService operationRequestService
+                                        , ExaminationRequestService examinationRequestService) {
         this.clinicAdministratorService = clinicAdministratorService;
-        this.clinicService = clinicService;
-        this.modelMapper = modelMapper;
+        this.operationRequestService = operationRequestService;
+        this.examinationRequestService = examinationRequestService;
     }
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<Long> updateAdmin(@PathVariable ClinicAdministratorDTO cadminDTO) {
-        ClinicAdministrator cadmin = new ClinicAdministrator();
-        cadmin.setFirstName(cadminDTO.getFirstName());
-        cadmin.setLastName(cadminDTO.getLastName());
-        cadmin.setJmbg(cadminDTO.getJmbg());
-        cadmin.setAddress(cadminDTO.getAddress());
-        cadmin.setCity(cadminDTO.getCity());
-        cadmin.setCountry(cadminDTO.getCountry());
-        cadmin.setTelephone(cadminDTO.getTelephone());
-        cadmin.setEmail(cadminDTO.getEmail());
-        cadmin.setPassword(cadminDTO.getPassword());
-
-        cadmin = clinicAdministratorService.save(cadmin);
-
-        return new ResponseEntity<>(cadmin.getId(), HttpStatus.OK);
+        return new ResponseEntity<>(this.clinicAdministratorService.update(cadminDTO), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        ClinicAdministrator cadmin = modelMapper.map(clinicAdministratorDTO, ClinicAdministrator.class);
+        return new ResponseEntity<>(this.clinicAdministratorService.save(clinicAdministratorDTO), HttpStatus.OK);
+    }
 
-        Clinic clinic = clinicService.findByName(clinicAdministratorDTO.getClinic().getName());
-        cadmin.setClinic(clinic);
+    @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
+    public ResponseEntity<Void> scheduleNewOperation(@RequestBody OperationRequestDTO operationRequestDTO) {
+        return this.operationRequestService.save(operationRequestDTO);
+    }
 
-        cadmin = clinicAdministratorService.save(cadmin);
-
-        clinicAdministratorDTO.setId(cadmin.getId());
-        return new ResponseEntity<>(clinicAdministratorDTO, HttpStatus.OK);
+    @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
+    public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
+        return this.examinationRequestService.save(examinationRequestDTO);
     }
 }
