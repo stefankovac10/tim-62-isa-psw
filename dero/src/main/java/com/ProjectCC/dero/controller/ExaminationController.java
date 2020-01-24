@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value="/api/examination")
@@ -38,6 +40,11 @@ public class ExaminationController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ExaminationDTO> getExamination(@PathVariable Long id) {
         return new ResponseEntity<>(examinationService.getOne(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/doc/{id}")
+    public ResponseEntity<List<ExaminationDTO>> getDocExamination(@PathVariable Long id) {
+        return new ResponseEntity<>(examinationService.findDocExamination(id), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")

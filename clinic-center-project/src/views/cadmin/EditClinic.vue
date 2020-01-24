@@ -63,6 +63,13 @@ export default {
         .catch(error => {
           alert(error);
         });
+        this.$vToastify.info({
+          body: "Clinic has been edited." ,
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false, duration: 2000
+        });
     }
   }
 };

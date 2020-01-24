@@ -114,6 +114,16 @@ export default {
         .catch(error => {
           alert(error);
         });
+        
+      this.componentKey += 1;
+      this.$vToastify.info({
+          body: "Type of examination has been edited." ,
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false, duration: 2000
+        });
+
     },
     remove: function(id) {
       httpClient
@@ -126,6 +136,13 @@ export default {
         });
       this.componentKey += 1;
       this.types.slice();
+      this.$vToastify.info({
+        body: "Type of examination has been deleted." ,
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+      });
     }
   }
 };

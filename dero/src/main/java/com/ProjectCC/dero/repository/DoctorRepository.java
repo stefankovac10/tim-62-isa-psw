@@ -20,4 +20,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Query("from Doctor d where lower(d.firstName) like lower(?1) and lower(d.lastName) like lower(?2) and lower(d.email) like lower(?3) and lower(d.city) like lower(?4) and lower(d.country) like lower(?5) and lower(d.clinic.name) like lower(?6)")
     List<Doctor> searchDoctors(String firstName, String lastName, String email, String city, String country, String clinic);
 
+    Doctor findByEmail(String email);
 }
