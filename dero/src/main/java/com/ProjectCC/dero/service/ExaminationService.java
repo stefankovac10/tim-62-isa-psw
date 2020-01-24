@@ -1,8 +1,6 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.ExaminationDTO;
-import com.ProjectCC.dero.dto.ExaminationRoomDTO;
-import com.ProjectCC.dero.dto.MedicationDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -10,10 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminationService {
@@ -24,6 +19,7 @@ public class ExaminationService {
     private MedicationRepository medicationRepository;
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
+    private UserRepository userRepository;
     private MedicalRecordRepository medicalRecordRepository;
     private ClinicRepository clinicRepository;
 
@@ -31,11 +27,12 @@ public class ExaminationService {
     public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,
                               ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
                               MedicationRepository medicationRepository, DoctorRepository doctorRepository,
-                              NurseRepository nurseRepository, ClinicRepository clinicRepository) {
+                              NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository) {
         this.examinationRepository = examinationRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.medicationRepository = medicationRepository;
         this.doctorRepository = doctorRepository;
+        this.userRepository = userRepository;
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
         this.medicalRecordRepository = medicalRecordRepository;
@@ -115,5 +112,25 @@ public class ExaminationService {
         Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
         opt.ifPresent(examination::setClinic);
         this.examinationRepository.save(examination);
+    }
+
+    public List<ExaminationDTO> findDocExamination(Long id) {
+        User doctor  = userRepository.findById(id).orElseGet(null);
+        List<Examination> examinations = examinationRepository.findDocExamination(doctor.getId());
+        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
+
+        for(Examination e: examinations){
+            examinationDTOS.add(ExaminationDTO.builder()
+                                                .date(e.getDate())
+                                                .type(TypeOfExaminationDTO.builder()
+                                                        .name(e.getType().getName()).build())
+                                                .patient(PatientDTO.builder()
+                                                        .firstName(e.getPatient().getFirstName())
+                                                        .lastName(e.getPatient().getLastName())
+                                                        .build())
+                                                .build());
+        }
+
+        return examinationDTOS;
     }
 }

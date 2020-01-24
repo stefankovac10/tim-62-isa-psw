@@ -39,7 +39,7 @@ public class Doctor extends MedicalStaff {
    public Set<Operation> operations;
 
    @ManyToOne
-   @JoinColumn(name = "specialisedType_id", nullable = false)
+   @JoinColumn(name = "specialisedType_id", nullable = true)
    private TypeOfExamination specialisedType;
 
 
