@@ -9,6 +9,7 @@ import RegisterPage from "@/views/homepage/RegisterPage.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
 import Other from "@/views/homepage/Others.vue";
+import ChangePassword from "@/views/homepage/ChangePassword.vue";
 
 import CCAHome from "@/views/ccadmin/CCAdminHome.vue";
 import Clinics from "@/views/ccadmin/Clinics.vue";
@@ -83,6 +84,11 @@ const routes = [
         path: "registerPage",
         name: "registerPage",
         component: RegisterPage
+      },
+      {
+        path: "changePassword",
+        name: "changePassword",
+        component: ChangePassword
       },
       {
         path: "login",

@@ -25,7 +25,8 @@ export default {
   data: function() {
     return {
       email: undefined,
-      password: undefined
+      password: undefined,
+      firstTime: undefined
     };
   },
   methods: {
@@ -46,6 +47,20 @@ export default {
 
           let role = response.data.authority;
           let path;
+
+        httpClient
+        .get("/users/"+ response.data.email)
+        .then(response => {
+          this.response = response;
+          this.firstTime = response.data
+        })
+        .catch(error => {
+          this.error = error;
+        });
+
+        if(this.firstTime == true){
+            this.$router.push("/changePassword");
+        }else{
           if (role === "ROLE_CCADMIN") {
             path = "/ccadmin";
           } else if (role === "ROLE_CADMIN") {
@@ -67,6 +82,7 @@ export default {
             });
           }
           this.$router.push(path);
+        }
         })
         .catch(error => {
           alert(error);
