@@ -30,16 +30,32 @@ public class UserService {
     }
 
     public ResponseEntity<UserDTO> findByEmail(String email) {
-        String newe = email + ".com";
-        Optional<User> opt = Optional.ofNullable(this.userRepository.findByEmail(newe));
-        User user = opt.get();
-        return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.OK);
+        Optional<User> opt = Optional.ofNullable(this.userRepository.findByEmail(email));
+        return getUserDTOResponseEntity(opt);
     }
 
     public ResponseEntity<UserDTO> findById(Long id) {
         Optional<User> opt = this.userRepository.findById(id);
-        User user = opt.get();
-        return new ResponseEntity<>(modelMapper.map(user, UserDTO.class), HttpStatus.FOUND);
+        return getUserDTOResponseEntity(opt);
+    }
+
+    private ResponseEntity<UserDTO> getUserDTOResponseEntity(Optional<User> opt) {
+        UserDTO userDTO = null;
+        if (opt.isPresent()) {
+            User user = opt.get();
+            userDTO = UserDTO.builder()
+                    .id(user.getId())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .jmbg(user.getJmbg())
+                    .telephone(user.getTelephone())
+                    .country(user.getCountry())
+                    .city(user.getCity())
+                    .address(user.getAddress())
+                    .build();
+        }
+        System.out.println(userDTO.getFirstName());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<UserDTO> edit(UserDTO userDTO) {

@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/users")
@@ -33,7 +35,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/mail/{email}")
+    @GetMapping(value = "/mail/{email:.+}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String email) {
         return this.userService.findByEmail(email);
     }

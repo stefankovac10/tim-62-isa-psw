@@ -85,12 +85,8 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem("Authority") === "ROLE_CADMIN") {
-      this.id = 4;
-    } else this.id = 13;
-
     httpClient
-      .get("/users/profile/" + this.id)
+      .get("/users/mail/" + localStorage.getItem("Email"))
       .then(response => {
         this.user = response.data;
       })
