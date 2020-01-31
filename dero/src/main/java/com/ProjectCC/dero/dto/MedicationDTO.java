@@ -13,6 +13,7 @@ public class MedicationDTO {
     private String name;
     private String description;
     private String code;
+    private int pages;
 
     /*
     public MedicationDTO() {
