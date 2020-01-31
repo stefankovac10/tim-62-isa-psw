@@ -28,7 +28,7 @@ public class Operation {
    })
    private DateTime date;
 
-   @Column(name = "duration", nullable = false)
+   @Column(name = "duration", nullable = true)
    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
    private Duration duration;
 
