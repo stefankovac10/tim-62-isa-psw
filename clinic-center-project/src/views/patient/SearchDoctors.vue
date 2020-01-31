@@ -46,7 +46,7 @@
           <td>{{doctor.email}}</td>
           <td>{{doctor.city}}</td>
           <td>{{doctor.country}}</td>
-          <td>DUMMY</td>
+          <td>{{doctor.clinic.name}}</td>
         </tr>
       </tbody>
     </table>
