@@ -77,7 +77,9 @@ public class DoctorService {
                 .country(d.getCountry())
                 .city(d.getCity())
                 .address(d.getAddress())
-                .telephone(d.getTelephone()).build());
+                .telephone(d.getTelephone())
+                .clinic(ClinicDTO.builder().name(d.getClinic().getName()).build())
+                .build());
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
@@ -106,6 +108,7 @@ public class DoctorService {
                     .email(d.getEmail())
                     .city(d.getCity())
                     .country(d.getCountry())
+                    .clinic(ClinicDTO.builder().name(d.getClinic().getName()).build())
                     .build());
         }
 
