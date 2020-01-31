@@ -25,11 +25,10 @@ export default {
   }, 
   mounted(){
       httpClient
-        .get("/prescription/all")
+        .get("/prescription/all/"+localStorage.getItem("Email"))
         .then(response => {
           this.prescriptions = response.data;  
           this.medication = this.prescription.medication;
-              
         })
         .catch(error => {
           this.error = error;
@@ -45,17 +44,18 @@ export default {
   methods:{
       refresh: function(){
           httpClient
-          .get("/prescription/all")
-          .then(response => {
-            this.prescriptions = response.data;      
-          })
-          .catch(error => {
-            this.error = error;
-          });
+            .get("/prescription/all/"+localStorage.getItem("Email"))
+            .then(response => {
+              this.prescriptions = response.data;  
+              this.medication = this.prescription.medication;
+            })
+            .catch(error => {
+              this.error = error;
+            });
       },
       certify: function(id){
           httpClient
-        .get("/prescription/certify/"+id)
+        .get("/prescription/certify/"+id+"/" +localStorage.getItem("Email"))
         .then(response => {
           this.prescription = response.data;      
           this.refresh();
