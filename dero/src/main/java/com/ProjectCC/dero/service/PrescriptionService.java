@@ -4,10 +4,10 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.dto.NurseDTO;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
-import com.ProjectCC.dero.model.Doctor;
-import com.ProjectCC.dero.model.Medication;
-import com.ProjectCC.dero.model.Prescription;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
+import com.ProjectCC.dero.repository.UserRepository;
+import com.fasterxml.jackson.databind.util.EnumResolver;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +21,21 @@ import java.util.Set;
 public class PrescriptionService {
 
     private PrescriptionRepository prescriptionRepository;
+    private UserRepository userRepository;
     private ModelMapper modelMapper;
 
     @Autowired
-    public PrescriptionService(PrescriptionRepository prescriptionRepository,ModelMapper modelMapper) {
+    public PrescriptionService(UserRepository userRepository, PrescriptionRepository prescriptionRepository,ModelMapper modelMapper) {
         this.prescriptionRepository = prescriptionRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
-    public List<PrescriptionDTO> findAll(){
-        List<Prescription> prescriptions = prescriptionRepository.findAll();
+    public List<PrescriptionDTO> findAll(String email){
+        MedicalStaff user = (MedicalStaff)userRepository.findByEmail(email);
+        Long id = user.getClinic().getId();
+
+        List<Prescription> prescriptions = prescriptionRepository.findAll(id);
 
         List<PrescriptionDTO> prescriptionDTOS = new ArrayList<>();
         for (Prescription p : prescriptions) {
@@ -73,10 +78,12 @@ public class PrescriptionService {
 
     }
 
-    public void certify(Long  id) {
+    public void certify(Long id, String email) {
         Prescription prescription = prescriptionRepository.findById(id).orElseGet(null);
 
         if(prescription !=null){
+            Nurse user = (Nurse) userRepository.findByEmail(email);
+            prescription.setNurse(user);
             prescription.setCertified(true);
             prescriptionRepository.save(prescription);
         }
