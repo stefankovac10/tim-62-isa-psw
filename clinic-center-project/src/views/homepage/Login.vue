@@ -52,41 +52,47 @@ export default {
         .get("/users/"+ response.data.email)
         .then(response => {
           this.response = response;
-          this.firstTime = response.data
+          this.firstTime = this.response.data
+          
+         // if(this.firstTime === true && role !="ROLE_PATIENT"){
+            //  this.$router.push("/changePassword");
+         // }else{
+            if (role === "ROLE_CCADMIN") {
+              path = "/ccadmin";
+            } else if (role === "ROLE_CADMIN") {
+              path = "/cadmin/profile";
+            } else if (role === "ROLE_DOCTOR") {
+              path = "/doc/profile";
+            } else if (role === "ROLE_NURSE") {
+              path = "/nurse/profile";
+            } else if (role === "ROLE_PATIENT") {
+              path = "/patient/profile";
+            } else if (role === "ROLE_REQUEST") {
+              path = "/login";
+              this.$vToastify.info({
+                body: "You hove to be accepted by admin to log in." ,
+                title: "Success",
+                type: "success",
+                canTimeout: true,
+                append: false, duration: 2000
+              });
+            }
+            this.$router.push(path);
+          //}
         })
         .catch(error => {
           this.error = error;
         });
-
-        if(this.firstTime == true){
-            this.$router.push("/changePassword");
-        }else{
-          if (role === "ROLE_CCADMIN") {
-            path = "/ccadmin";
-          } else if (role === "ROLE_CADMIN") {
-            path = "/cadmin/profile";
-          } else if (role === "ROLE_DOCTOR") {
-            path = "/doc/profile";
-          } else if (role === "ROLE_NURSE") {
-            path = "/nurse/profile";
-          } else if (role === "ROLE_PATIENT") {
-            path = "/patient/profile";
-          } else if (role === "ROLE_REQUEST") {
-            path = "/login";
-            this.$vToastify.info({
-              body: "You hove to be accepted by admin to log in." ,
-              title: "Success",
-              type: "success",
-              canTimeout: true,
-              append: false, duration: 2000
-            });
-          }
-          this.$router.push(path);
-        }
-        })
-        .catch(error => {
-          alert(error);
-        });
+      })
+      .catch(() => {
+        this.$vToastify.info({
+                body: "Your username or passwrord are not correct." ,
+                title: "Warning",
+                type: "warning",
+                canTimeout: true,
+                append: false, duration: 2000
+              });
+      });
     }
   }
 };

@@ -2,19 +2,23 @@
   <div class="d-flex p-2 justify-content-center">
     <form accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
       <h1 class="p-2">Change password</h1>
+      <label class="p-2" for="password">Old password</label>
+      <input type="password" class="p-2" id="password" v-model="oldPassword" placeholder="Password" />
+      <br />
       <label class="p-2" for="password">New password</label>
       <input type="password" class="p-2" id="password" v-model="password" placeholder="Password" />
       <br />
       <label class="p-2" for="password">Repeat password</label>
-      <input type="password" class="p-2" id="password" v-model="passwordRepeat" placeholder="Password" />
+      <input type="password" class="p-2" id="password" v-model="confirmPassword" placeholder="Password" />
+      <label class="p-2" for="matching" id="matching">{{matching}}</label>
       <br />
-      <button type="submit" class="btn btn-primary" v-on:click.prevent="login">Change</button>
+      <button type="submit" class="btn btn-primary" v-on:click.prevent="change">Change</button>
     </form>
   </div>
 </template>
 
 <script>
-//import { httpClient } from "@/services/Api.js";
+import { httpClient } from "@/services/Api.js";
 //import moment from "moment";
 
 export default {
@@ -22,14 +26,70 @@ export default {
   props: {
     // props
   },
+  watch: {
+    confirmPassword() {
+      if (this.confirmPassword != this.password)
+        this.matching = "Passwords are not matching!";
+      else this.matching = "";
+    }
+  },
   data: function() {
     return {
         password: undefined,
-        passwordRepeat: undefined
+        confirmPassword: undefined,
+        oldPassword: undefined,
+        matching: ""
     };
   },
   methods: {
+      change: function() {
+          if(this.password === undefined || this.password ==="" || this.confirmPassword === undefined || this.confirmPassword === ""){
+                this.$vToastify.info({
+                body: "Please, enter password",
+                title: "Info",
+                type: "info",
+                canTimeout: true,
+                append: false, duration: 2000
+                    });
+             return
+          }
+          httpClient
+            .post("/auth/change-password", {oldPassword : this.oldPassword, newPassword : this.password})
+            .then(() => {
+                /*localStorage.removeItem("User-token");
+                localStorage.removeItem("Expiary");
+                localStorage.removeItem("Email");
+                localStorage.removeItem("Authority");*/
+                this.$vToastify.info({
+                    body: "Password successufully changed",
+                    title: "Success",
+                    type: "success",
+                    canTimeout: true,
+                    append: false, duration: 2000
+                    });
+            })
+            .catch(() => {
+                /*localStorage.removeItem("User-token");
+                localStorage.removeItem("Expiary");
+                localStorage.removeItem("Email");
+                localStorage.removeItem("Authority");*/
+                this.$vToastify.info({
+                    body: "Incorrect old password",
+                    title: "Error",
+                    type: "error",
+                    canTimeout: true,
+                    append: false, duration: 2000
+                    });       
+            });
+            this.$router.push("/login");
+      }
   }
       
 };
 </script>
+
+<style scoped>
+#matching {
+  color: red;
+}
+</style>

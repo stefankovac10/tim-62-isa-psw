@@ -86,11 +86,6 @@ const routes = [
         component: RegisterPage
       },
       {
-        path: "changePassword",
-        name: "changePassword",
-        component: ChangePassword
-      },
-      {
         path: "login",
         name: "login",
         component: Login
@@ -361,6 +356,11 @@ const routes = [
         component: Scheduling
       }
     ]
+  },
+  {
+    path: "/changePassword",
+    name: "changePassword",
+    component: ChangePassword
   }
 ];
 
