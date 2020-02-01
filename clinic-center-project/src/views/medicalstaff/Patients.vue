@@ -34,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="table-primary" v-for="patient in patients" v-bind:key="patient.id">
+            <tr class="table-primary" v-for="patient in patients" v-bind:key="patient.id" v-on:click="patientProfile(patient)">
               <th scope="row">{{patient.firstName}}</th>
               <td>{{patient.lastName}}</td>
               <td>{{patient.jmbg}}</td>
@@ -65,6 +65,7 @@
 import { httpClient } from "@/services/Api.js";
 import _ from "lodash";
 
+
 export default {
   data: function() {
     return {
@@ -94,6 +95,9 @@ export default {
       });
   },
   methods: {
+    patientProfile: function(patient){
+        this.$router.push("/doc/patientprofile/"+patient.id);
+    },
     search: function() {
       let fn = "";
       let ln = "";
