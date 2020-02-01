@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.service;
 
+import com.ProjectCC.dero.dto.MedicalRecordDTO;
 import com.ProjectCC.dero.dto.PatientDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.Authority;
@@ -146,5 +147,34 @@ public class PatientService {
                 .build());
         }
         return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+    }
+
+    public PatientDTO findByEmail(String email) {
+        Patient patient = patientRepository.findByEmail(email);
+
+        if (patient == null) {
+            return  null;
+        }
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordDTO.builder()
+                .weight(patient.getMedicalRecord().getWeight())
+                .height(patient.getMedicalRecord().getHeight())
+                .diopter(patient.getMedicalRecord().getDiopter())
+                .bloodType(patient.getMedicalRecord().getBloodType())
+                .id(patient.getMedicalRecord().getId())
+                .build();
+        PatientDTO patientDTO=PatientDTO.builder()
+                                .firstName(patient.getFirstName())
+                                .lastName(patient.getLastName())
+                                .address(patient.getAddress())
+                                .city(patient.getCity())
+                                .country(patient.getCountry())
+                                .email(patient.getEmail())
+                                .jmbg(patient.getJmbg())
+                                .telephone(patient.getTelephone())
+                                .id(patient.getId())
+                                .medicalRecord(medicalRecordDTO)
+                                .build();
+       return patientDTO;
+
     }
 }

@@ -16,4 +16,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     Page<Patient> search(String firstName, String lastName, String jmbg, Pageable pageable);
 
 
+    Patient findByEmail(String email);
 }
