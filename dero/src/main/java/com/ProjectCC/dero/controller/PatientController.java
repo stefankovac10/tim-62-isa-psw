@@ -1,5 +1,7 @@
 package com.ProjectCC.dero.controller;
 
+import com.ProjectCC.dero.dto.MedicalRecordDTO;
+import com.ProjectCC.dero.dto.MedicationDTO;
 import com.ProjectCC.dero.dto.PatientDTO;
 import com.ProjectCC.dero.dto.UserDTO;
 import com.ProjectCC.dero.model.MedicalRecord;
@@ -44,15 +46,21 @@ public class PatientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getPatient(@PathVariable Long id) {
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable Long id) {
 
         Patient patient = patientService.findById(id);
 
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(UserDTO.builder()
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordDTO.builder()
+                .weight(patient.getMedicalRecord().getWeight())
+                .height(patient.getMedicalRecord().getHeight())
+                .diopter(patient.getMedicalRecord().getDiopter())
+                .bloodType(patient.getMedicalRecord().getBloodType())
+                .id(patient.getMedicalRecord().getId())
+                .build();
+        return new ResponseEntity<>(PatientDTO.builder()
                 .firstName(patient.getFirstName())
                 .lastName(patient.getLastName())
                 .address(patient.getAddress())
@@ -62,7 +70,18 @@ public class PatientController {
                 .jmbg(patient.getJmbg())
                 .telephone(patient.getTelephone())
                 .id(patient.getId())
+                .medicalRecord(medicalRecordDTO)
                 .build(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "get/{email:.+}")
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable String email) {
+        PatientDTO patientDTO = patientService.findByEmail(email);
+        if(patientDTO == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+        }
     }
 
     @DeleteMapping(value = "/{id}")
