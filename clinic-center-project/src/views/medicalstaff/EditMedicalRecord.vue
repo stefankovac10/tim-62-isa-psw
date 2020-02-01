@@ -16,7 +16,7 @@
       <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
       
       <br>
-      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW' && role === 'ROLE_DOCTOR'" v-on:click.prevent="edit">Edit</button>
+      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW' && (role === 'ROLE_DOCTOR')" v-on:click.prevent="edit">Edit</button>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="save">Save</button>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="cancel">Cancel</button>
     </form>
@@ -100,7 +100,7 @@ export default {
             this.error = error;
           });
 
-      if(this.role === 'ROLE_DOCTOR'){
+      if(this.role === 'ROLE_DOCTOR' || this.role === 'ROLE_NURSE'){
           this.id = this.$route.params.id;
           httpClient
             .get("/patient/" + this.id)
