@@ -80,11 +80,6 @@ const routes = [
         component: Register
       },
       {
-        path: "registerPage",
-        name: "registerPage",
-        component: RegisterPage
-      },
-      {
         path: "login",
         name: "login",
         component: Login
@@ -365,7 +360,12 @@ const routes = [
         component: PatientsProfile
       }
     ]
-  }
+  },
+  {
+    path: "/registerPage",
+    name: "registerPage",
+    component: RegisterPage
+  },
 ];
 
 const router = new VueRouter({

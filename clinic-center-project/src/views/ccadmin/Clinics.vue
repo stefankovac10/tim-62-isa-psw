@@ -1,26 +1,41 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div v-if="mode == 'VIEW'">
-      <div 
-        class="card border-primary mb-3"
-        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px" 
-        v-for="clinic in clinics" :key="clinic.id"
-      >
-        <div class="card-header">{{clinic.address}}</div>
-        <div class="card-body">
-          <h4 class="card-title">{{clinic.name}}</h4>
-          <p class="card-text">
-            {{clinic.description}}
-          </p>
-          <p class="card-text">
-           Grade: {{clinic.grade}}
-          </p>
-          <p class="card-text">
-            Income: {{clinic.income}}
-          </p>
-          <button type="button" class="btn btn-primary" v-on:click="edit(clinic)" style="margin-right:10px">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove(clinic)">Delete</button>
+    <div class=" flex-wrap p-2 justify-content-center" v-if="mode == 'VIEW'">
+      <div class="d-flex p-2 justify-content-center flex-row flex-wrap">
+        <div 
+          class="card border-primary mb-3"
+          style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px" 
+          v-for="clinic in clinics" :key="clinic.id"
+        >
+          <div class="card-header">{{clinic.address}}</div>
+          <div class="card-body">
+            <h4 class="card-title">{{clinic.name}}</h4>
+            <p class="card-text">
+              {{clinic.description}}
+            </p>
+            <p class="card-text">
+            Grade: {{clinic.grade}}
+            </p>
+            <p class="card-text">
+              Income: {{clinic.income}}
+            </p>
+            <button type="button" class="btn btn-primary" v-on:click="edit(clinic)" style="margin-right:10px">Edit</button>
+            <button type="button" class="btn btn-danger" v-on:click="remove(clinic)">Delete</button>
+          </div>
         </div>
+      </div>
+      <div class="d-flex flex-wrap p-2 justify-content-center">
+        <ul class="pagination">
+        <!-- <li class="page-item disabled">
+          <a class="page-link" href="#">&laquo;</a>
+        </li>-->
+        <li class="page-item active" v-for="i in pages" v-bind:key="i">
+          <a class="page-link" v-on:click="nextPage(i - 1)">{{i}}</a>
+        </li>
+        <!-- <li class="page-item">
+          <a class="page-link">&raquo;</a>
+        </li>-->
+        </ul>
       </div>
     </div>
     <div v-else>
@@ -61,6 +76,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 export default {
   name: "clinics",
   data: function() {
@@ -70,32 +86,59 @@ export default {
       address: undefined,
       description: undefined,
       mode: "VIEW",
-      clinics: {}
+      clinics: undefined,
+      pages: []
     };
   },
   mounted(){
       this.mode="VIEW";
 
        httpClient
-        .get("/clinics/all")
+        .get("/clinics/all/0")
         .then(response => {
-          this.clinics = response.data;      
+          this.clinics = _.cloneDeep(response.data);
+          this.pages = [];
+          for (let i = 1; i <= this.clinics[0].pages; i++) {
+            this.pages[i - 1] = i;
+          }
         })
         .catch(error => {
           this.error = error;
+          alert(error);
         });
 
   },
   methods: {
+    nextPage: function(page) {
+        httpClient
+          .get("/clinics/all/" + page)
+          .then(response => {
+            this.clinics = _.cloneDeep(response.data);
+            this.pages = [];
+            if (this.clinics[0].pages != undefined) {
+              for (let i = 1; i <= this.clinics[0].pages; i++) {
+                this.pages[i - 1] = i;
+              }
+            }
+          })
+          .catch(error => {
+            alert(error);
+          });
+    },
     refresh: function(){
         httpClient
-        .get("/clinics/all")
-        .then(response => {
-          this.clinics = response.data;      
-        })
-        .catch(error => {
-          this.error = error;
-        });
+          .get("/clinics/all/0")
+          .then(response => {
+            this.clinics = _.cloneDeep(response.data);
+            this.pages = [];
+            for (let i = 1; i <= this.clinics[0].pages; i++) {
+              this.pages[i - 1] = i;
+            }
+          })
+          .catch(error => {
+            this.error = error;
+            alert(error);
+          });
     },
     edit: function(clinic) {
       this.mode = "EDIT";
