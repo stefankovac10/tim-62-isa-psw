@@ -6,6 +6,8 @@ import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -83,15 +85,22 @@ public class ExaminationService {
     }
 
     public ExaminationDTO edit(ExaminationDTO examinationDTO) {
-        Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
-        examination.setReport(examinationDTO.getReport());
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       String name = authentication.getName();
+       User user = userRepository.findByEmail(name);
 
-        Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
-        examination.setDiagnosis(diagnosis);
+       Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
 
-        examinationRepository.save(examination);
+       if(user.getId() == examination.getDoctor().getId()){
+           examination.setReport(examinationDTO.getReport());
 
-        return examinationDTO;
+           Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
+           examination.setDiagnosis(diagnosis);
+
+           examinationRepository.save(examination);
+           return examinationDTO;
+       }
+       return null;
     }
 
     public ExaminationDTO getOne(Long id) {
