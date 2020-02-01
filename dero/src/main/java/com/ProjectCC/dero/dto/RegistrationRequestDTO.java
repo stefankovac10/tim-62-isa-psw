@@ -24,5 +24,6 @@ public class RegistrationRequestDTO {
     private String country;
     private String telephone;
     private boolean verified;
+    private int pages;
 
 }

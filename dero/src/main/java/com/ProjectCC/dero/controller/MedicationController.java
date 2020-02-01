@@ -29,14 +29,18 @@ public class MedicationController {
     @GetMapping(value = "/all")
     public ResponseEntity<List<MedicationDTO>> getAllMedication() {
 
-        List<Medication> medications = medicationService.findAll();
-
-        List<MedicationDTO> medicationDTOS = new ArrayList<>();
-        for (Medication m : medications) {
-            medicationDTOS.add(modelMapper.map(m, MedicationDTO.class));
-        }
+        List<MedicationDTO> medicationDTOS = medicationService.findAll();
 
         return new ResponseEntity<>(medicationDTOS, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/all/{page}")
+    public ResponseEntity<List<MedicationDTO>> getAllMedication(@PathVariable int page) {
+
+        List<MedicationDTO> medications = medicationService.findAll(page);
+
+        return new ResponseEntity<>(medications, HttpStatus.OK);
 
     }
 
@@ -53,15 +57,7 @@ public class MedicationController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-
-        Medication medication  = medicationService.findOne(id);
-
-        if (medication != null) {
-            medicationService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return medicationService.remove(id);
     }
 
     @GetMapping(value = "/{id}")

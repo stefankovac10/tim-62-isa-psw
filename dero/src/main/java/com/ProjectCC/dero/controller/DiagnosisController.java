@@ -29,12 +29,16 @@ public class DiagnosisController {
     @GetMapping(value = "/all")
     public ResponseEntity<List<DiagnosisDTO>> getAllDiagnosis() {
 
-        List<Diagnosis> diagnosis = diagnosisService.findAll();
+        List<DiagnosisDTO> diagnosisDTOS = diagnosisService.findAll();
 
-        List<DiagnosisDTO> diagnosisDTOS = new ArrayList<>();
-        for (Diagnosis d : diagnosis) {
-            diagnosisDTOS.add(new DiagnosisDTO(d));
-        }
+        return new ResponseEntity<>(diagnosisDTOS, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/all/{page}")
+    public ResponseEntity<List<DiagnosisDTO>> getAllDiagnosis(@PathVariable int page) {
+
+        List<DiagnosisDTO> diagnosisDTOS = diagnosisService.findAll(page);
 
         return new ResponseEntity<>(diagnosisDTOS, HttpStatus.OK);
 
@@ -53,15 +57,7 @@ public class DiagnosisController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteDiagnosis(@PathVariable Long id) {
-
-        Diagnosis diagnosis  = diagnosisService.findOne(id);
-
-        if (diagnosis != null) {
-            diagnosisService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return diagnosisService.remove(id);
     }
 
     @GetMapping(value = "/{id}")
