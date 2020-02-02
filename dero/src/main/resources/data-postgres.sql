@@ -149,8 +149,8 @@ insert into user_authority (user_id, authority_id) values (12, 4);
 insert into user_authority (user_id, authority_id) values (13, 4);
 
 insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, 1, 1, 660000);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2019-12-10T15:43:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 2, 2, 720000);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2019-12-12T15:43:39Z', '0', '600', 'nije bolestan', 3, 1, 12, 1, 3, 7, 9, 3, 3, 860000);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2020-02-02T18:30:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 2, 2, 720000);
+insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2020-02-02T18:16:39Z', '0', '600', 'nije bolestan', 3, 1, 12, 1, 3, 7, 9, 3, 3, 840000);
 
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 2);
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 3);
@@ -218,4 +218,15 @@ insert into user_authority (user_id, authority_id) values (41, 3);
 insert into user_authority (user_id, authority_id) values (42, 3);
 insert into user_authority (user_id, authority_id) values (43, 3);
 
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(1,'2020-02-10T12:00:00Z',null,1,1,2,9);
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(2,'2020-02-11T13:00:00Z',null,1,2,2,10);
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(3,'2020-02-11T15:00:00Z',null,1,2,2,14);
+
+
+--insert into operations_doctors(operation_id, doctor_id) values (1,13);
+--insert into operations_doctors(operation_id, doctor_id) values (1,12);
+--insert into operations_doctors(doctor_id, operation_id) values (13,2);
+--insert into operations_doctors(doctor_id, operation_id) values (12,2);
+--insert into operations_doctors(doctor_id, operation_id) values (13,3);
+--insert into operations_doctors(doctor_id, operation_id) values (12,3);
 ---userid:43
