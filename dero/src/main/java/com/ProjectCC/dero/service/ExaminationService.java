@@ -4,6 +4,11 @@ import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Minutes;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -141,5 +146,20 @@ public class ExaminationService {
         }
 
         return examinationDTOS;
+    }
+
+    public boolean check(Long id) {
+        Examination examination = examinationRepository.findById(id).orElseGet(null);
+        if(examination !=null){
+            DateTime dateTime = examination.getDate();
+            DateTime now = DateTime.now(DateTimeZone.UTC);
+            Minutes duration = examination.getDuration().toStandardMinutes();
+            if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 }

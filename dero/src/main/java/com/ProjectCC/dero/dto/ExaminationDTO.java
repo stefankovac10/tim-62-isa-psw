@@ -4,6 +4,7 @@ import com.ProjectCC.dero.util.JsonJodaDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Period;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ExaminationDTO {
     private DateTime date;
     private TypeOfExaminationDTO type;
     // kako se serijalizuje?
-    private Period duration; // more changes needed probably
+    private Duration duration; // more changes needed probably
     private String price;
     private String discount;
     public ExaminationRoomDTO examinationRoom;
