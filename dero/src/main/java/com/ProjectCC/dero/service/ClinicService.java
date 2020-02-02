@@ -177,7 +177,7 @@ public class ClinicService {
         for (Examination e : examinations) {
             if (e.getClinic().equals(clinic)) {
                 exams.add(ExaminationDTO.builder()
-                        .date(e.getDate())
+                        .date(e.getExaminationAppointment().getStartDate())
                         .build());
             }
         }
