@@ -56,14 +56,9 @@ public class RegistrationRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/all")
-    public ResponseEntity<List<RegistrationRequestDTO>> findAll(){
-        List<RegistrationRequest> registrationRequests = registrationRequestService.findAll();
-
-        List<RegistrationRequestDTO> registrationRequestsDTOS = new ArrayList<>();
-        for(RegistrationRequest r : registrationRequests){
-            registrationRequestsDTOS.add(modelMapper.map(r,RegistrationRequestDTO.class));
-        }
+    @GetMapping(value = "/all/{page}")
+    public ResponseEntity<List<RegistrationRequestDTO>> findAll(@PathVariable int page){
+        List<RegistrationRequestDTO> registrationRequestsDTOS = registrationRequestService.findAll(page);
 
         return new ResponseEntity<>(registrationRequestsDTOS, HttpStatus.OK);
     }

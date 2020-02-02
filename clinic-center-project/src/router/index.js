@@ -81,11 +81,6 @@ const routes = [
         component: Register
       },
       {
-        path: "registerPage",
-        name: "registerPage",
-        component: RegisterPage
-      },
-      {
         path: "login",
         name: "login",
         component: Login
@@ -268,7 +263,7 @@ const routes = [
       {
         path: "profile",
         name: "profile",
-        component: PatientsProfile
+        component: Profile
       },
       {
         path: "searchdoctors",
@@ -346,6 +341,11 @@ const routes = [
         component: Calendar
       },
       {
+        path: "editmedicalrecord/:id",
+        name: "editmedicalrecord",
+        component: EditMedicalRecord
+      },
+      {
         path: "vacation",
         name: "vacation",
         component: Vacation
@@ -359,9 +359,19 @@ const routes = [
         path: "scheduling",
         name: "scheduling",
         component: Scheduling
+      },
+      {
+        path: "patientprofile/:id",
+        name: "patientprofile",
+        component: PatientsProfile
       }
     ]
-  }
+  },
+  {
+    path: "/registerPage",
+    name: "registerPage",
+    component: RegisterPage
+  },
 ];
 
 const router = new VueRouter({

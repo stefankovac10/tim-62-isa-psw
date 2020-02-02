@@ -49,6 +49,10 @@ public class ExaminationController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ExaminationDTO> update(@RequestBody ExaminationDTO examinationDTO){
+        ExaminationDTO examination = examinationService.edit(examinationDTO);
+        if(examination == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(examinationService.edit(examinationDTO), HttpStatus.OK);
     }
 

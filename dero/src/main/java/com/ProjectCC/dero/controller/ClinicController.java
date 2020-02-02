@@ -26,7 +26,12 @@ public class ClinicController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<ClinicDTO>> getAllClinics() {
-        return clinicService.findAll();
+        return clinicService.getAll();
+    }
+
+    @GetMapping(value = "/all/{page}")
+    public ResponseEntity<List<ClinicDTO>> getAllClinics(@PathVariable int page) {
+        return clinicService.findAll(page);
     }
 
     @PostMapping(consumes = "application/json")
