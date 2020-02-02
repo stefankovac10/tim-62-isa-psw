@@ -1,9 +1,6 @@
 package com.ProjectCC.dero.controller;
 
-import com.ProjectCC.dero.dto.MedicalRecordDTO;
-import com.ProjectCC.dero.dto.MedicationDTO;
-import com.ProjectCC.dero.dto.PatientDTO;
-import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.RegistrationRequest;
@@ -37,6 +34,17 @@ public class PatientController {
     @GetMapping(value = "add/{id}")
     public ResponseEntity<Void> save(@PathVariable Long id) throws URISyntaxException {
         return patientService.save(id);
+    }
+
+    @GetMapping(value = "examination/{id}")
+    public ResponseEntity<List<ExaminationDTO>> getExamination(@PathVariable Long id){
+        List<ExaminationDTO> examinationDTOS =  patientService.getExamination(id);
+
+        if(examinationDTOS ==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(examinationDTOS,HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "/all/{page}")

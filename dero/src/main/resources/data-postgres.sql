@@ -174,7 +174,7 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into medical_staff(id, clinic_id) values (29, 5);
 insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);
 
---ZAHTIJEV ZA REGISTRACIJU
+--ZAHTJEV ZA REGISTRACIJU
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'London', 'UK', 'mikael@gmail.com', true, 'Mikael', '1234567891234', 'Arteta', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000001');
 insert into registration_request (verified, id) values (false, 30);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'New York', 'Republika Srpska', 'marijana@gmail.com', true, 'Marijana', '1234567891235', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000002');

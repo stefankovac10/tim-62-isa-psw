@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.repository;
 
+import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 
     Patient findByEmail(String email);
+
+    @Query("select p.examinations from Patient  p where p.id = ?1")
+    List<Examination> getExamination(Long id);
 }
