@@ -18,13 +18,10 @@ public class ExaminationRoom extends Room {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-//   @Column(name = "appointmentList", nullable = false)
-//   private int appointmentList;
-
    @OneToMany(mappedBy = "examinationRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Examination> examinations;
 
-//   public ExaminationRoom() {
-//   }
+   @OneToMany(mappedBy = "examinationRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<ExaminationAppointment> examinationAppointment;
 
 }

@@ -19,21 +19,24 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "date", nullable = false)
-   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
-           @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
-           @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
-   })
-   private DateTime date;
+//   @Column(name = "date", nullable = false)
+//   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
+//           @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
+//           @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
+//   })
+//   private DateTime date;
+//
+//   @Column(name = "duration", nullable = false)
+//   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
+//   private Duration duration;
 
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "appointment_id")
+   private ExaminationAppointment examinationAppointment;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "type_id", nullable = true)
    private TypeOfExamination type;
-
-   @Column(name = "duration", nullable = false)
-   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
-   private Duration duration;
 
    @Column(name = "price", nullable = true)
    private String price;
@@ -50,7 +53,7 @@ public class Examination {
 
 
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "ER_id", nullable = true)
+   @JoinColumn(name = "er_id", nullable = true)
    public ExaminationRoom examinationRoom;
 
    //@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -78,38 +81,4 @@ public class Examination {
    @JoinColumn(name = "medRec_id", nullable = true)
    public MedicalRecord medicalRecord;
 
-   /*
-   public Examination() {
-   }
-
-   public Examination(String date, String type, String duration, String price, String discount, String report, ExaminationRoom examinationRoom, Set<Diagnosis> diagnosis, Prescription prescription, Nurse nurse, Doctor doctor, Patient patient, MedicalRecord medicalRecord) {
-      this.date = date;
-      this.type = type;
-      this.duration = duration;
-      this.price = price;
-      this.discount = discount;
-      this.report = report;
-      this.examinationRoom = examinationRoom;
-      this.diagnosis = diagnosis;
-      this.prescription = prescription;
-      this.nurse = nurse;
-      this.doctor = doctor;
-      this.patient = patient;
-      this.medicalRecord = medicalRecord;
-   }
-
-   public Examination(ExaminationDTO examinationDTO){
-         this.date = examinationDTO.getDate();
-         this.type = examinationDTO.getType();
-         this.duration = examinationDTO.getDuration();
-         this.price = examinationDTO.getPrice();
-         this.discount = examinationDTO.getDiscount();
-         this.report = examinationDTO.getReport();
-         this.prescription = new Prescription(examinationDTO.getPrescription());
-         this.nurse = new Nurse(examinationDTO.getNurse());
-         this.doctor = new Doctor(examinationDTO.getDoctor());
-         this.patient = (Patient) new User(examinationDTO.getPatient());
-         this.medicalRecord =  new MedicalRecord(examinationDTO.getMedicalRecord());
-   }
-   */
 }

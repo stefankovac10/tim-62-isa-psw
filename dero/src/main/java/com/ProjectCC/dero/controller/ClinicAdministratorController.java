@@ -2,6 +2,7 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
 import com.ProjectCC.dero.dto.ExaminationRequestDTO;
+import com.ProjectCC.dero.dto.ExaminationRequestDetailsDTO;
 import com.ProjectCC.dero.dto.OperationRequestDTO;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
@@ -19,7 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,4 +62,10 @@ public class ClinicAdministratorController {
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
+
+    @GetMapping(value = "scheduledExaminations/{page}")
+    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable int page) {
+        return this.examinationRequestService.getAll(page);
+    }
+
 }

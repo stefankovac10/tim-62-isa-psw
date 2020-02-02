@@ -49,6 +49,7 @@
 <script>
 import { httpClient } from "@/services/Api.js";
 import PureVueChart from "pure-vue-chart";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -78,10 +79,10 @@ export default {
         this.clinic = response.data;
         this.loading = false;
         for (let ex of response.data.examinations) {
-          let d = new Date(ex.date);
-          this.weekly[d.getDay() - 1].value =
-            this.weekly[d.getDay() - 1].value + 1;
-          this.monthly[d.getMonth()] = this.monthly[d.getMonth()] + 1;
+          let d = moment(ex.date);
+          this.weekly[d.get("date") - 1].value =
+            this.weekly[d.get("date") - 1].value + 1;
+          this.monthly[d.get("month")] = this.monthly[d.get("month")] + 1;
         }
       })
       .catch(error => {
