@@ -56,14 +56,7 @@ public class Clinic {
    @Column(name = "grade")
    private Double grade;
 
-//   @Autowired
-//   public Clinic() {}
-//
-//   public Clinic(ClinicDTO clinicDTO){
-//      this.name = clinicDTO.getName();
-//      this.id = clinicDTO.getId();
-//      this.description = clinicDTO.getDescription();
-//      this.address = clinicDTO.getAddress();
-//      this.income  = clinicDTO.getIncome();
-//   }
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Appointment> appointments;
+
 }

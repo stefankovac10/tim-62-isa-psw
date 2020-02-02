@@ -122,8 +122,16 @@ insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 11, nul
 
 insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 1);
 insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 3', 3, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 4', 4, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 5', 5, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 6', 6, 1);
 insert into examination_room (id) values (1);
 insert into operation_room (id) values (2);
+insert into examination_room (id) values (3);
+insert into examination_room (id) values (4);
+insert into examination_room (id) values (5);
+insert into examination_room (id) values (6);
 
 insert into type_of_examination (description, name) values ('Gleda ti oci', 'oftamolog');
 
@@ -148,9 +156,17 @@ insert into user_authority (user_id, authority_id) values (11, 4);
 insert into user_authority (user_id, authority_id) values (12, 4);
 insert into user_authority (user_id, authority_id) values (13, 4);
 
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2019-12-10T15:43:39Z', '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, 1, 1, 660000);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2020-02-02T18:30:39Z', '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 2, 2, 720000);
-insert into examination (date, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, duration) VALUES ('2020-02-02T18:16:39Z', '0', '600', 'nije bolestan', 3, 1, 12, 1, 3, 7, 9, 3, 3, 840000);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:39Z', 660000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:39Z', 720000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:55:39Z', 860000, 1);
+
+insert into examination_appointment (id) values (1);
+insert into examination_appointment (id) values (2);
+insert into examination_appointment (id) values (3);
+
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null, 1, 1);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 2, 2);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 3, 3);
 
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 2);
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 3);
@@ -174,7 +190,23 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into medical_staff(id, clinic_id) values (29, 5);
 insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);
 
+
+
+
+insert into appointment (start_date, duration, clinic_id) values ('2020-10-24T15:43:39Z', 600000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11:43:39Z', 720000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:39Z', 920000, 1);
+
+insert into examination_appointment (id, examination_id, examination_room_id) values (4, 1, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (5, 2, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (6, 3, 1);
+
+insert into examination_request (doctor_id, patient_id, appointment_id) values (27, 24, 4);
+insert into examination_request (doctor_id, patient_id, appointment_id) values (29, 25, 5);
+insert into examination_request (doctor_id, patient_id, appointment_id) values (28, 22, 6);
+
 --ZAHTJEV ZA REGISTRACIJU
+
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'London', 'UK', 'mikael@gmail.com', true, 'Mikael', '1234567891234', 'Arteta', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000001');
 insert into registration_request (verified, id) values (false, 30);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'New York', 'Republika Srpska', 'marijana@gmail.com', true, 'Marijana', '1234567891235', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000002');
@@ -230,3 +262,6 @@ insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_
 --insert into operations_doctors(doctor_id, operation_id) values (13,3);
 --insert into operations_doctors(doctor_id, operation_id) values (12,3);
 ---userid:43
+
+
+

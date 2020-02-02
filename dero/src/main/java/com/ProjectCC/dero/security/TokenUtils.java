@@ -27,6 +27,9 @@ public class TokenUtils {
     @Value("600000")
     private int EXPIRES_IN;
 
+    @Value("3600000")
+    private int REFRESH_EXPIRES_IN;
+
     @Value("Authorization")
     private String AUTH_HEADER;
 
@@ -52,6 +55,16 @@ public class TokenUtils {
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 
+    public String generateRefreshToken(String email) {
+        return Jwts.builder()
+                .setIssuer(APP_NAME)
+                .setSubject(email)
+                .setAudience(generateAudience())
+                .setIssuedAt(timeProvider.now())
+                .setExpiration(generateRefreshExpirationDate())
+                .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+    }
+
     private String generateAudience() {
 //		Moze se iskoristiti org.springframework.mobile.device.Device objekat za odredjivanje tipa uredjaja sa kojeg je zahtev stigao.
 
@@ -68,6 +81,10 @@ public class TokenUtils {
 
     private Date generateExpirationDate() {
         return new Date(timeProvider.now().getTime() + EXPIRES_IN);
+    }
+
+    private Date generateRefreshExpirationDate() {
+        return new Date(timeProvider.now().getTime() + REFRESH_EXPIRES_IN);
     }
 
     // Funkcija za refresh JWT tokena
@@ -149,6 +166,8 @@ public class TokenUtils {
     public int getExpiredIn() {
         return EXPIRES_IN;
     }
+
+    public int getRefreshExpiresIn() { return REFRESH_EXPIRES_IN; }
 
     // Funkcija za preuzimanje JWT tokena iz zahteva
     public String getToken(HttpServletRequest request) {

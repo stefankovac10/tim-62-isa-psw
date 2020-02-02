@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.dto;
 
+import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.util.JsonJodaDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
@@ -11,14 +12,13 @@ import org.joda.time.Duration;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExaminationRequestDTO {
+public class ExaminationRequestDetailsDTO {
     private Long id;
-    private Long doctorId;
-    private Long patientId;
+    private DoctorDTO doctor;
+    private PatientDTO patient;
     @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
     private DateTime date;
-    private Long duration;
+    private Duration duration;
 //    private AppointmentDTO appointmentDTO;
-    private Long typeId;
-    private Long clinicId;
+    private int pages;
 }

@@ -34,5 +34,6 @@ public class ExaminationDTO {
     public PatientDTO patient;
     public MedicalRecordDTO medicalRecord;
     public ClinicDTO clinic;
+    public AppointmentDTO appointment;
 
 }

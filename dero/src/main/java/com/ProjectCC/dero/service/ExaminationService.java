@@ -167,6 +167,7 @@ public class ExaminationService {
                                                 .discount(e.getDiscount())
                                                 .examinationRoom(examRoom)
                                                 .date(e.getDate())
+                                                .date(e.getExaminationAppointment().getStartDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())
                                                 .patient(PatientDTO.builder()
