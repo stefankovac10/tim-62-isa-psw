@@ -121,7 +121,7 @@ public class ExaminationService {
 
         for(Examination e: examinations){
             examinationDTOS.add(ExaminationDTO.builder()
-                                                .date(e.getDate())
+                                                .date(e.getExaminationAppointment().getStartDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())
                                                 .patient(PatientDTO.builder()
