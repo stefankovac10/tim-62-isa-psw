@@ -4,28 +4,41 @@
       :config="config" 
       :events="events" 
       :selectable="true"
+      :weekends="true"
       :header="{
         left: 'prevYear,prev,next,nextYear today',
-        center: 'month,agendaWeek,agendaDay,list',
-        right: 'title', 
+        center: 'title',
+        right: 'dayGridMonth, timeGridWeek, timeGridDay, listWeek', 
       }"
-      @eventRender="eventRender"/>
+      @eventClick="handleClick"/>
+      <modals-container/>
   </div>
 </template>
 
 <script>
-import { FullCalendar } from 'vue-full-calendar'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction';
+require('@fullcalendar/core/main.min.css')
+require('@fullcalendar/daygrid/main.min.css')
+require('@fullcalendar/timegrid/main.min.css')
+
+import  FullCalendar  from '@fullcalendar/vue'
+import DayGridPlugin from '@fullcalendar/daygrid'
+import TimeGridPlugin from '@fullcalendar/timegrid'
+import InteractionPlugin from '@fullcalendar/interaction';
+import ListPlugin from '@fullcalendar/list'
 import { httpClient } from "@/services/Api.js";
-import { BPopover } from 'bootstrap-vue'  
+
+import EventModal from "@/services/EventModal.vue"
 export default {
   data: function() {
     return {
+      title: undefined,
       operations: [],
       examinations: [],
       examination: {},
-      calendarPlugins: [ interactionPlugin, dayGridPlugin ],
+      calendarPlugins: [ DayGridPlugin,
+                        TimeGridPlugin,
+                        InteractionPlugin, 
+                        ListPlugin ],
       events: [],
       config: {
                 defaultView: 'month',
@@ -35,26 +48,37 @@ export default {
   },
   mounted(){
       httpClient
-      .get("/operations/doc/"+ localStorage.getItem("Email"))
+      .get("/operation/doc/"+ localStorage.getItem("Email")+"/"+localStorage.getItem("Authority"))
       .then(response => {
         this.operations = response.data;
+        var i;
+        for(i=0; i<this.operations.length; i++){
+          this.events.push({  
+            title  : 'Operation' ,
+            start  : this.operations[i].date,
+            allDay : false,      
+            id : this.operations[i].id,        
+          });
+        }
       })
       .catch(error => {
         this.error = error;
       });
 
       httpClient
-      .get("/examination/doc/12")
+      .get("/examination/doc/"+localStorage.getItem("Email")+"/"+localStorage.getItem("Authority"))
       .then(response => {
         this.examinations = response.data;
         var i;
         for(i=0; i<this.examinations.length; i++){
           this.events.push({  
-            title  : '\nExamination\n'+ this.examinations[i].patient.firstName +' ' + this.examinations[i].patient.lastName + '\n Type: '+ this.examinations[i].type.name ,
+            title  : 'Examination' ,
             start  : this.examinations[i].date,
-            allDay : false,       
-        });
-      }
+            allDay : false,      
+            id : this.examinations[i].id,
+            color: '#378006'
+          });
+        }
       })
       .catch(error => {
         this.error = error;
@@ -64,31 +88,13 @@ export default {
     FullCalendar,
   },
   methods:{
-    eventRender: function (args) {
-    //console.log(args)
-    let titleStr = 'xxxx'
-    let contentStr = 'xxxx'
-
-    new BPopover({propsData: {
-      title: titleStr,
-      content: contentStr,
-      placement: 'auto',
-      boundary: 'scrollParent',
-      boundaryPadding: 5,
-      delay: 500,
-      offset: 0,
-      triggers: 'hover',
-      html: true,
-      target: args.el,
-    }}).$mount()
-    }
+    handleClick: function (arg) {
+        this.$modal.show(EventModal,{
+          event: arg.event,
+          id: arg.event.id     
+        });      
+    },
   } 
 };
 </script>
 
-<style lang='scss'>
-
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/daygrid/main.css';
-
-</style>
