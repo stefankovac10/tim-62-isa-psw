@@ -109,11 +109,26 @@ public class ExaminationService {
     }
 
     public ExaminationDTO getOne(Long id) {
-        Examination examination = examinationRepository.getOne(id);
-        ExaminationDTO examinationDTO= ExaminationDTO.builder()
-                                       .id(examination.getId())
-                                       .report(examination.getReport())
-                                       .build();
+        Examination e = examinationRepository.getOne(id);
+        ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                        .id(e.getExaminationRoom().getId())
+                                        .name(e.getExaminationRoom().getName())
+                                        .number(e.getExaminationRoom().getNumber())
+                                        .build();
+        ExaminationDTO examinationDTO =ExaminationDTO.builder()
+                                        .duration(e.getDuration())
+                                        .id(e.getId())
+                                        .report(e.getReport())
+                                        .discount(e.getDiscount())
+                                        .examinationRoom(examRoom)
+                                        .date(e.getDate())
+                                        .type(TypeOfExaminationDTO.builder()
+                                                .name(e.getType().getName()).build())
+                                        .patient(PatientDTO.builder()
+                                                .firstName(e.getPatient().getFirstName())
+                                                .lastName(e.getPatient().getLastName())
+                                                .build())
+                                        .build();
         return examinationDTO;
     }
 //    date: this.start,
@@ -128,13 +143,29 @@ public class ExaminationService {
         this.examinationRepository.save(examination);
     }
 
-    public List<ExaminationDTO> findDocExamination(Long id) {
-        User doctor  = userRepository.findById(id).orElseGet(null);
-        List<Examination> examinations = examinationRepository.findDocExamination(doctor.getId());
+    public List<ExaminationDTO> findDocExamination( String email,String role) {
+        User user  = userRepository.findByEmail(email);
+        List<Examination> examinations =  new ArrayList<>();
+        if(role.equals("ROLE_DOCTOR")){
+            examinations = examinationRepository.findDocExamination(user.getId());
+        }else if(role.equals("ROLE_NURSE")){
+            examinations = examinationRepository.findNurseExamination(user.getId());
+        }
+
         List<ExaminationDTO> examinationDTOS = new ArrayList<>();
 
         for(Examination e: examinations){
+            ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                            .id(e.getExaminationRoom().getId())
+                                            .name(e.getExaminationRoom().getName())
+                                            .number(e.getExaminationRoom().getNumber())
+                                            .build();
             examinationDTOS.add(ExaminationDTO.builder()
+                                                .duration(e.getDuration())
+                                                .id(e.getId())
+                                                .report(e.getReport())
+                                                .discount(e.getDiscount())
+                                                .examinationRoom(examRoom)
                                                 .date(e.getDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())

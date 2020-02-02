@@ -6,7 +6,6 @@ import lombok.*;
 import org.joda.time.Duration;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Builder
 @Getter

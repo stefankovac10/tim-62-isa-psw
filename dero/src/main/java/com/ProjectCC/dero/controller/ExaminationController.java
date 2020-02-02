@@ -42,9 +42,18 @@ public class ExaminationController {
         return new ResponseEntity<>(examinationService.getOne(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/doc/{id}")
-    public ResponseEntity<List<ExaminationDTO>> getDocExamination(@PathVariable Long id) {
-        return new ResponseEntity<>(examinationService.findDocExamination(id), HttpStatus.OK);
+    @GetMapping(value = "/check/{id}")
+    public ResponseEntity<Void> check(@PathVariable Long id) {
+        if(examinationService.check(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/doc/{email:.+}/{role}")
+    public ResponseEntity<List<ExaminationDTO>> getDocExamination(@PathVariable String email,@PathVariable String role) {
+        return new ResponseEntity<>(examinationService.findDocExamination(email,role), HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")
