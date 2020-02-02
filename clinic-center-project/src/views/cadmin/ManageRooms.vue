@@ -26,7 +26,7 @@
           <div class="card-body">
             <h4 class="card-title">Room name: {{room.name}}</h4>
             <p class="card-text">Number: {{room.number}}</p>
-            <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
+            <p class="card-text">Next available: {{room.dateNext}}</p>
             <button
               type="button"
               class="btn btn-primary"
@@ -88,6 +88,8 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import EventBus from "@/services/EventBus.js";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -101,44 +103,32 @@ export default {
       searchName: undefined,
       searchNumber: undefined,
       searchDate: undefined,
+      request: undefined,
       page: 0,
-      pages: 7
+      pages: 1
     };
   },
-  mounted() {
-    httpClient
-      .get("/rooms/examination/all")
-      .then(response => {
-        this.examination = response.data;
-        for (let i = 0; i < this.examination.length; i++) {
-          this.rooms.push(this.examination[i]);
-        }
-      })
-      .catch(error => {
-        if (error.response.status == 302) {
-          this.examination = error.response.data;
-          for (let i = 0; i < this.examination.length; i++) {
-            this.rooms.push(this.examination[i]);
+  created() {
+    EventBus.$on("search", request => {
+      this.request = request;
+      httpClient
+        .get(
+          "/rooms/search/_/-1/" +
+            moment(this.request.date).toISOString() +
+            "/" +
+            this.request.duration +
+            "/0"
+        )
+        .then(response => {
+          this.rooms = response.data;
+          for (const room of this.rooms) {
+            room.dateNext = moment(room.nextAvailable).toString();
           }
-        }
-      });
-
-    httpClient
-      .get("/rooms/operation/all")
-      .then(response => {
-        this.operation = response.data;
-        for (let i = 0; i < this.operation.length; i++) {
-          this.rooms.push(this.operation[i]);
-        }
-      })
-      .catch(error => {
-        if (error.response.status == 302) {
-          this.operation = error.response.data;
-          for (let i = 0; i < this.operation.length; i++) {
-            this.rooms.push(this.operation[i]);
-          }
-        }
-      });
+        })
+        .catch(error => {
+          alert(error);
+        });
+    });
   },
   methods: {
     edit: function(room) {
@@ -178,19 +168,37 @@ export default {
         });
     },
     searchRooms: function() {
+      let sName = this.searchName;
+      let sNum = this.searchNumber;
+      let sDate = this.searchDate;
+      if (this.searchName === undefined || this.searchName === "") sName = "_";
+      if (
+        this.searchNumber === undefined ||
+        this.searchNumber < 0 ||
+        this.searchNumber === ""
+      )
+        sNum = -1;
+      if (this.searchDate === undefined || this.searchDate === "") {
+        sDate = new moment().toISOString();
+      }
       httpClient
         .get(
           "/rooms/search/" +
-            this.searchName +
+            sName +
             "/" +
-            this.searchNumber +
+            sNum +
             "/" +
-            this.searchDate +
+            sDate +
+            "/" +
+            -1 +
             "/" +
             this.page
         )
         .then(response => {
           this.rooms = response.data;
+          for (const room of this.rooms) {
+            room.dateNext = moment(room.nextAvailable).toString();
+          }
         })
         .catch(error => {
           alert(error);
