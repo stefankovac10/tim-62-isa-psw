@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.PatientRepository;
+import org.joda.time.Duration;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -190,12 +191,12 @@ public class PatientService {
                                             .build();
             examinationDTOS.add(ExaminationDTO.builder()
                                             .doctor(doctorDTO)
-                                            .duration(e.getDuration())
+                                            .duration(e.getExaminationAppointment().getDuration())
                                             .id(e.getId())
                                             .report(e.getReport())
                                             .discount(e.getDiscount())
                                             .examinationRoom(examRoom)
-                                            .date(e.getDate())
+                                            .date(e.getExaminationAppointment().getStartDate())
                                             .type(TypeOfExaminationDTO.builder()
                                                     .name(e.getType().getName()).build())
                                             .patient(PatientDTO.builder()

@@ -6,6 +6,7 @@ import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
 import org.joda.time.Minutes;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -116,12 +117,12 @@ public class ExaminationService {
                                         .number(e.getExaminationRoom().getNumber())
                                         .build();
         ExaminationDTO examinationDTO =ExaminationDTO.builder()
-                                        .duration(e.getDuration())
+                                        .duration(e.getExaminationAppointment().getDuration())
                                         .id(e.getId())
                                         .report(e.getReport())
                                         .discount(e.getDiscount())
                                         .examinationRoom(examRoom)
-                                        .date(e.getDate())
+                                        .date(e.getExaminationAppointment().getStartDate())
                                         .type(TypeOfExaminationDTO.builder()
                                                 .name(e.getType().getName()).build())
                                         .patient(PatientDTO.builder()
@@ -161,12 +162,12 @@ public class ExaminationService {
                                             .number(e.getExaminationRoom().getNumber())
                                             .build();
             examinationDTOS.add(ExaminationDTO.builder()
-                                                .duration(e.getDuration())
+                                                .duration(e.getExaminationAppointment().getDuration())
                                                 .id(e.getId())
                                                 .report(e.getReport())
                                                 .discount(e.getDiscount())
                                                 .examinationRoom(examRoom)
-                                                .date(e.getDate())
+                                                .date(e.getExaminationAppointment().getStartDate())
                                                 .date(e.getExaminationAppointment().getStartDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())
@@ -183,9 +184,9 @@ public class ExaminationService {
     public boolean check(Long id) {
         Examination examination = examinationRepository.findById(id).orElseGet(null);
         if(examination !=null){
-            DateTime dateTime = examination.getDate();
+            DateTime dateTime = examination.getExaminationAppointment().getStartDate();
             DateTime now = DateTime.now(DateTimeZone.UTC);
-            Minutes duration = examination.getDuration().toStandardMinutes();
+            Minutes duration = examination.getExaminationAppointment().getDuration().toStandardMinutes();
             if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
                 return true;
             }else{
