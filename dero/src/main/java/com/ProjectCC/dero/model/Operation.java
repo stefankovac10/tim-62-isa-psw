@@ -1,11 +1,9 @@
 package com.ProjectCC.dero.model;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.joda.time.Period;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -28,7 +26,7 @@ public class Operation {
    })
    private DateTime date;
 
-   @Column(name = "duration", nullable = false)
+   @Column(name = "duration", nullable = true)
    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
    private Duration duration;
 

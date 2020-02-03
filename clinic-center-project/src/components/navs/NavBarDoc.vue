@@ -15,11 +15,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <router-link to="/doc/addexaminationreport">Examinaton report</router-link>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
               <router-link to="/doc/calendar">Calendar</router-link>
             </a>
           </li>

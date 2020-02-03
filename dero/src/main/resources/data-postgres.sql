@@ -190,6 +190,9 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into medical_staff(id, clinic_id) values (29, 5);
 insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);
 
+
+
+
 insert into appointment (start_date, duration, clinic_id) values ('2020-10-24T15:43:39Z', 600000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11:43:39Z', 720000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:39Z', 920000, 1);
@@ -202,7 +205,8 @@ insert into examination_request (doctor_id, patient_id, appointment_id) values (
 insert into examination_request (doctor_id, patient_id, appointment_id) values (29, 25, 5);
 insert into examination_request (doctor_id, patient_id, appointment_id) values (28, 22, 6);
 
---ZAHTIJEV ZA REGISTRACIJU
+--ZAHTJEV ZA REGISTRACIJU
+
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'London', 'UK', 'mikael@gmail.com', true, 'Mikael', '1234567891234', 'Arteta', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000001');
 insert into registration_request (verified, id) values (false, 30);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'New York', 'Republika Srpska', 'marijana@gmail.com', true, 'Marijana', '1234567891235', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000002');
@@ -246,5 +250,18 @@ insert into user_authority (user_id, authority_id) values (41, 3);
 insert into user_authority (user_id, authority_id) values (42, 3);
 insert into user_authority (user_id, authority_id) values (43, 3);
 
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(1,'2020-02-10T12:00:00Z',null,1,1,2,9);
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(2,'2020-02-11T13:00:00Z',null,1,2,2,10);
+insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(3,'2020-02-11T15:00:00Z',null,1,2,2,14);
+
+
+--insert into operations_doctors(operation_id, doctor_id) values (1,13);
+--insert into operations_doctors(operation_id, doctor_id) values (1,12);
+--insert into operations_doctors(doctor_id, operation_id) values (13,2);
+--insert into operations_doctors(doctor_id, operation_id) values (12,2);
+--insert into operations_doctors(doctor_id, operation_id) values (13,3);
+--insert into operations_doctors(doctor_id, operation_id) values (12,3);
 ---userid:43
+
+
 
