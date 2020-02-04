@@ -24,6 +24,7 @@ import ListDiagnosis from "@/views/ccadmin/ListDiagnosis"
 import CAdminHome from "@/views/cadmin/CAdminHome.vue";
 import AddAppointment from "@/views/cadmin/AddAppointment.vue";
 import AddMedicalStaff from "@/views/cadmin/AddMedicalStaff.vue";
+import OperationRequests from "@/views/cadmin/OperationRequests.vue";
 import AddRoom from "@/views/cadmin/AddRoom.vue";
 import AddType from "@/views/cadmin/AddType.vue";
 import BusinessReport from "@/views/cadmin/BusinessReport.vue";
@@ -189,6 +190,11 @@ const routes = [
         path: "rooms",
         name: "rooms",
         component: ManageRooms
+      },
+      {
+        path: "operationRequests",
+        name: "operationRequests",
+        component: OperationRequests
       },
       {
         path: "types",
