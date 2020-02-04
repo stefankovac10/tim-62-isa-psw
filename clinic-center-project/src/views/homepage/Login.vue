@@ -53,6 +53,7 @@ export default {
           .post("/auth/login", user)
           .then(response => {
             localStorage.setItem("User-token", response.data.accessToken);
+            localStorage.setItem("Refresh-token", response.data.refreshToken);
             localStorage.setItem("Email", response.data.email);
             localStorage.setItem("Authority", response.data.authority);
 

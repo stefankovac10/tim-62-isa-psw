@@ -2,6 +2,7 @@ package com.ProjectCC.dero.repository;
 
 import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.model.Doctor;
+import com.ProjectCC.dero.model.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,4 +22,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> searchDoctors(String firstName, String lastName, String email, String city, String country, String clinic);
 
     Doctor findByEmail(String email);
+
+    @Query("select d.operations from Doctor d where d.id = ?1")
+    List<Operation> findDocOperation(Long id);
 }

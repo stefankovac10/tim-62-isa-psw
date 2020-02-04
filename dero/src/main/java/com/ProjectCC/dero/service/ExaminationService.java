@@ -4,8 +4,16 @@ import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Minutes;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -83,23 +91,45 @@ public class ExaminationService {
     }
 
     public ExaminationDTO edit(ExaminationDTO examinationDTO) {
-        Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
-        examination.setReport(examinationDTO.getReport());
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       String name = authentication.getName();
+       User user = userRepository.findByEmail(name);
 
-        Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
-        examination.setDiagnosis(diagnosis);
+       Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
 
-        examinationRepository.save(examination);
+       if(user.getId() == examination.getDoctor().getId()){
+           examination.setReport(examinationDTO.getReport());
 
-        return examinationDTO;
+           Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
+           examination.setDiagnosis(diagnosis);
+
+           examinationRepository.save(examination);
+           return examinationDTO;
+       }
+       return null;
     }
 
     public ExaminationDTO getOne(Long id) {
-        Examination examination = examinationRepository.getOne(id);
-        ExaminationDTO examinationDTO= ExaminationDTO.builder()
-                                       .id(examination.getId())
-                                       .report(examination.getReport())
-                                       .build();
+        Examination e = examinationRepository.getOne(id);
+        ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                        .id(e.getExaminationRoom().getId())
+                                        .name(e.getExaminationRoom().getName())
+                                        .number(e.getExaminationRoom().getNumber())
+                                        .build();
+        ExaminationDTO examinationDTO =ExaminationDTO.builder()
+                                        .duration(e.getExaminationAppointment().getDuration())
+                                        .id(e.getId())
+                                        .report(e.getReport())
+                                        .discount(e.getDiscount())
+                                        .examinationRoom(examRoom)
+                                        .date(e.getExaminationAppointment().getStartDate())
+                                        .type(TypeOfExaminationDTO.builder()
+                                                .name(e.getType().getName()).build())
+                                        .patient(PatientDTO.builder()
+                                                .firstName(e.getPatient().getFirstName())
+                                                .lastName(e.getPatient().getLastName())
+                                                .build())
+                                        .build();
         return examinationDTO;
     }
 //    date: this.start,
@@ -114,14 +144,31 @@ public class ExaminationService {
         this.examinationRepository.save(examination);
     }
 
-    public List<ExaminationDTO> findDocExamination(Long id) {
-        User doctor  = userRepository.findById(id).orElseGet(null);
-        List<Examination> examinations = examinationRepository.findDocExamination(doctor.getId());
+    public List<ExaminationDTO> findDocExamination( String email,String role) {
+        User user  = userRepository.findByEmail(email);
+        List<Examination> examinations =  new ArrayList<>();
+        if(role.equals("ROLE_DOCTOR")){
+            examinations = examinationRepository.findDocExamination(user.getId());
+        }else if(role.equals("ROLE_NURSE")){
+            examinations = examinationRepository.findNurseExamination(user.getId());
+        }
+
         List<ExaminationDTO> examinationDTOS = new ArrayList<>();
 
         for(Examination e: examinations){
+            ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                            .id(e.getExaminationRoom().getId())
+                                            .name(e.getExaminationRoom().getName())
+                                            .number(e.getExaminationRoom().getNumber())
+                                            .build();
             examinationDTOS.add(ExaminationDTO.builder()
-                                                .date(e.getDate())
+                                                .duration(e.getExaminationAppointment().getDuration())
+                                                .id(e.getId())
+                                                .report(e.getReport())
+                                                .discount(e.getDiscount())
+                                                .examinationRoom(examRoom)
+                                                .date(e.getExaminationAppointment().getStartDate())
+                                                .date(e.getExaminationAppointment().getStartDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())
                                                 .patient(PatientDTO.builder()
@@ -132,5 +179,20 @@ public class ExaminationService {
         }
 
         return examinationDTOS;
+    }
+
+    public boolean check(Long id) {
+        Examination examination = examinationRepository.findById(id).orElseGet(null);
+        if(examination !=null){
+            DateTime dateTime = examination.getExaminationAppointment().getStartDate();
+            DateTime now = DateTime.now(DateTimeZone.UTC);
+            Minutes duration = examination.getExaminationAppointment().getDuration().toStandardMinutes();
+            if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 }

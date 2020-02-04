@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import net.bytebuddy.implementation.bind.annotation.Super;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Period;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class OperationDTO {
     @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
     private DateTime date;
     // kako se serijalizuje
-    private Long duration;
+    private Duration duration;
     public MedicalRecordDTO medicalRecord;
     public OperationRoomDTO operationRoom;
     public List<DoctorDTO> doctors;

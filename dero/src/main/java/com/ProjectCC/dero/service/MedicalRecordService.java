@@ -44,6 +44,7 @@ public class MedicalRecordService {
 
         for(Examination ex: mr.getExaminations()){
             DoctorDTO doctor = DoctorDTO.builder()
+                                .id(ex.getDoctor().getId())
                                 .firstName(ex.getDoctor().getFirstName())
                                 .lastName(ex.getDoctor().getLastName())
                                 .build();
