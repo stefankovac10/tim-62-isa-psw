@@ -254,7 +254,24 @@ insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_
 insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(2,'2020-02-11T13:00:00Z',null,1,2,2,10);
 insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(3,'2020-02-11T15:00:00Z',null,1,2,2,14);
 
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (7,660000,null,'2020-02-15T12:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (8,600000,null,'2020-02-15T13:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (9,660000,null,'2020-02-15T14:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,600000,null,'2020-02-15T15:00:00Z',1);
 
+insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (4,'2020-02-15T12:00:00Z', 660000,1,1,2,9);
+insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (5,'2020-02-15T13:00:00Z', 600000,1,2,2,15);
+insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (6,'2020-02-15T14:00:00Z', 660000,1,2,2,14);
+insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (7,'2020-02-15T15:00:00Z', 600000,1,2,2,10);
+
+insert into operation_appointment(id, operation_id, operation_room_id) values (1,4,2);
+insert into operation_appointment(id, operation_id, operation_room_id) values (2,5,2);
+insert into operation_appointment(id, operation_id, operation_room_id) values (3,6,2);
+insert into operation_appointment(id, operation_id, operation_room_id) values (4,7,2);
+
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z',12,600000,10,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',13,660000,14,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',13,660000,15,1);
 --insert into operations_doctors(operation_id, doctor_id) values (1,13);
 --insert into operations_doctors(operation_id, doctor_id) values (1,12);
 --insert into operations_doctors(doctor_id, operation_id) values (13,2);
