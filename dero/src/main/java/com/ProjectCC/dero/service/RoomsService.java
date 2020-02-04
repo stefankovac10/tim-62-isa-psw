@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.controller.RoomsController;
+import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
@@ -25,15 +26,17 @@ public class RoomsService {
     private OperationAppointmentRepository operationAppointmentRepository;
     private ExaminationRoomRepository examinationRoomRepository;
     private OperationRoomRepository operationRoomRepository;
+    private ExaminationRequestRepository examinationRequestRepository;
 
     @Autowired
     public RoomsService(RoomsRepository roomsRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
-                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository) {
+                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository) {
         this.roomsRepository = roomsRepository;
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.operationRoomRepository = operationRoomRepository;
+        this.examinationRequestRepository = examinationRequestRepository;
     }
 
     public ResponseEntity<List<RoomDTO>> search(String name, int number, DateTime date, Duration duration, int page) {
@@ -71,7 +74,7 @@ public class RoomsService {
     }
 
     private DateTime findFirstAvailableForOperation(OperationRoom room, DateTime date, Duration duration) {
-        DateTime now = new DateTime();
+        DateTime now = new DateTime(DateTimeZone.UTC);
         List<OperationAppointment> scheduled = this.operationAppointmentRepository.findByRoomAndDate(room, now);
         // isto za operacioneappointmente
         if (scheduled.size() == 0) {
@@ -87,7 +90,7 @@ public class RoomsService {
         DateTime dateEnd = new DateTime(date.getMillis() + duration.getMillis(), DateTimeZone.UTC);
         for (OperationAppointment oa : scheduled) {
             oa.setEndDate(new DateTime(oa.getStartDate().getMillis() + oa.getDuration().getMillis(), DateTimeZone.UTC));
-            // da li ovaj sam isti koji je jebe li me, nadje li bas njega?
+
             if (!date.isAfter(oa.getEndDate()) && !dateEnd.isBefore(oa.getStartDate())) {
                 return findNextForOperation(scheduled, date, duration, dateEnd);
             }
@@ -126,6 +129,7 @@ public class RoomsService {
         });
 
         DateTime dateEnd = new DateTime(date.getMillis() + duration.getMillis(), DateTimeZone.UTC);
+
         for (ExaminationAppointment ea : scheduled) {
             ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
             // da li ovaj sam isti koji je jebe li me, nadje li bas njega?
@@ -163,5 +167,27 @@ public class RoomsService {
                     .id(r.getId()).build());
         }
         return roomDTOS;
+    }
+
+    public ResponseEntity<List<ExaminationRoomDTO>> getRoomsForExamination(Long id, int page) {
+        Optional<ExaminationRequest> optionalExaminationRequest = this.examinationRequestRepository.findById(id);
+        if (!optionalExaminationRequest.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        ExaminationRequest examinationRequest = optionalExaminationRequest.get();
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<ExaminationRoom> examinationRooms = this.examinationRoomRepository.findAll(pageable);
+
+        List<ExaminationRoomDTO> examinationRoomDTOS = new ArrayList<>();
+        for (ExaminationRoom r : examinationRooms.getContent()) {
+            examinationRoomDTOS.add(ExaminationRoomDTO.builder()
+                    .name(r.getName())
+                    .number(r.getNumber())
+                    .nextAvailable(findFirstAvailableForExamination(r, examinationRequest.getExaminationAppointment().getStartDate(), examinationRequest.getExaminationAppointment().getDuration()))
+                    .type("examination")
+                    .id(r.getId()).build());
+        }
+        return new ResponseEntity<>(examinationRoomDTOS, HttpStatus.OK);
     }
 }
