@@ -1,10 +1,9 @@
 <template>
   <div class="d-flex p-2">
     <div class="d-flex flex-column justify-content-center">
-      <h1>Manage rooms</h1>
       <div id="slct" class="d-flex flex-row justify-content-center">
         <div class="d-flex flex-column m-2">
-          <label class="m-2" for="search">Search patients</label>
+          <h2 class="m-2" for="search">Search rooms</h2>
           <div id="search" class="d-flex flex-row m-2">
             <label class="m-1" for="nejm">Name</label>
             <input class="m-1" type="text" name="nejm" id="searchName" v-model="searchName" />
@@ -26,7 +25,10 @@
           <div class="card-body">
             <h4 class="card-title">Room name: {{room.name}}</h4>
             <p class="card-text">Number: {{room.number}}</p>
-            <p class="card-text">Next available: {{room.dateNext}}</p>
+            <p
+              class="card-text"
+              v-if="room.nextAvailable != undefined"
+            >Next available: {{room.dateNext}}</p>
             <button
               type="button"
               class="btn btn-primary"
@@ -109,26 +111,19 @@ export default {
     };
   },
   created() {
-    EventBus.$on("search", request => {
-      this.request = request;
-      httpClient
-        .get(
-          "/rooms/search/_/-1/" +
-            moment(this.request.date).toISOString() +
-            "/" +
-            this.request.duration +
-            "/0"
-        )
-        .then(response => {
-          this.rooms = response.data;
-          for (const room of this.rooms) {
-            room.dateNext = moment(room.nextAvailable).toString();
-          }
-        })
-        .catch(error => {
-          alert(error);
-        });
+    EventBus.$on("search", id => {
+      this.request = id;
     });
+  },
+  mounted() {
+    httpClient
+      .get("/rooms/all/0")
+      .then(response => {
+        this.rooms = response.data;
+      })
+      .catch(error => {
+        alert(error);
+      });
   },
   methods: {
     edit: function(room) {
@@ -147,12 +142,6 @@ export default {
         });
     },
     update: function() {
-      // let room = {
-      //   id: this.room.id,
-      //   name: this.name,
-      //   number: this.number
-      // };
-
       httpClient
         .put("/rooms/" + this.room.type, {
           id: this.room.id,
@@ -196,6 +185,7 @@ export default {
         )
         .then(response => {
           this.rooms = response.data;
+          this.pages = response.data[0].pages;
           for (const room of this.rooms) {
             room.dateNext = moment(room.nextAvailable).toString();
           }
