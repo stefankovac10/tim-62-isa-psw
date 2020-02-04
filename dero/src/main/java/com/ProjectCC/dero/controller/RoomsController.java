@@ -9,6 +9,7 @@ import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.service.ExaminationRoomService;
 import com.ProjectCC.dero.service.OperationRoomService;
 import com.ProjectCC.dero.service.RoomsService;
+import lombok.val;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,11 @@ public class RoomsController {
     @GetMapping(value = "/all/{page}")
     public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable int page) {
         return new ResponseEntity<>(this.roomsService.getAll(page), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/examinationRequest/{id}/{page}")
+    public ResponseEntity<List<ExaminationRoomDTO>> roomsForExamination(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getRoomsForExamination(id, page);
     }
 
 }
