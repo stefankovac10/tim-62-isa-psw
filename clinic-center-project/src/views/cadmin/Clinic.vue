@@ -12,16 +12,7 @@
       <label>Name: {{clinic.name}}</label>
       <label>Description: {{clinic.description}}</label>
       <label>Address: {{clinic.address}}</label>
-
-      <yandex-map
-        id="map"
-        :settings="settings"
-        :coords="coords"
-        @map-was-initialized="mapInitialized"
-      >
-        <!--Markers-->
-        <ymap-marker :coords="coords" marker-id="123" hint-content="some hint"></ymap-marker>
-      </yandex-map>
+      <yandex-map class="map" id="map" v-on:created="mapCreated"></yandex-map>
 
       <label>Available examinations: TBA: LIST</label>
       <label>Staff:</label>
@@ -100,7 +91,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
-import { yandexMap, ymapMarker } from "vue-yandex-maps";
+import ymaps from "vue-yandex-map";
 
 export default {
   data: function() {
@@ -108,22 +99,11 @@ export default {
       clinic: undefined,
       loading: true,
       map: null,
-      myMap: undefined,
+      map_data: [],
       name: undefined,
       description: undefined,
-      address: undefined,
-      coords: [45.250746, 19.827443],
-      settings: {
-        apiKey: "e5347c74-2358-4b87-9061-9e16f138fc78",
-        lang: "en_US",
-        coordorder: "latlong",
-        version: "2.1"
-      }
+      address: undefined
     };
-  },
-  components: {
-    yandexMap,
-    ymapMarker
   },
   mounted() {
     this.loading = true;
@@ -132,7 +112,6 @@ export default {
       .then(response => {
         this.clinic = response.data;
         this.loading = false;
-        this.address = this.clinic.address;
       })
       .catch(error => {
         if (error.response != undefined && error.response.status == 302) {
@@ -162,29 +141,74 @@ export default {
           alert(error);
         });
     },
-    mapInitialized: function() {
-      // let addressWithPluses = encodeURI(this.address);
+    mapCreated: function() {
+      this.map = new ymaps.Map(
+        "map",
+        {
+          center: [55.751574, 37.573856],
+          zoom: 16
+        },
+        {
+          searchControlProvider: "yandex#search"
+        }
+      );
 
-      let uri =
-        "https://geocode-maps.yandex.ru/1.x/?apikey=" +
-        this.settings.apiKey +
-        "&format=json&geocode=Bulevar+despota+Stefana";
+      this.mapObjectManager = new ymaps.ObjectManager({
+        clusterize: false,
+        gridSize: 60,
+        clusterMinClusterSize: 5,
+        clusterHasBalloon: true, // Опции кластеров задаются с префиксом cluster.
+        geoObjectOpenBalloonOnClick: false // Опции геообъектов задаются с префиксом geoObject
+      });
 
-      httpClient
-        .get(uri)
-        .then(response => {
-          alert(response.data);
-        })
-        .catch(() => {
-          this.$vToastify.error({
-            body: "Error retrieving address from Yandex maps",
-            title: "Error",
-            type: "error",
-            canTimeout: true,
-            append: false,
-            errorDuration: 2000
-          });
-        });
+      this.map.behaviors.disable("drag");
+
+      // set ObjectManager events
+      this.map.events.add(["click"], function() {
+        this.mapObjectManager.objects.balloon.close();
+      });
+
+      let myGeoObject = new ymaps.GeoObject(
+        {
+          // Описание геометрии.
+          geometry: {
+            type: "Point",
+            coordinates: [45.247834, 19.850956]
+          },
+          // Свойства.
+          properties: {
+            // Контент метки.
+            iconContent: "Я тащусь",
+            hintContent: "Ну давай уже тащи"
+          }
+        },
+        {
+          // Опции.
+          // Иконка метки будет растягиваться под размер ее содержимого.
+          preset: "islands#blackStretchyIcon",
+          // Метку можно перемещать.
+          draggable: true
+        }
+      );
+      this.map.geoObjects.add(myGeoObject);
+
+      var searchControl = new ymaps.control.SearchControl({
+        options: {
+          provider: "yandex#map"
+        }
+      });
+      searchControl.search("Дворцовая площадь, 2");
+      searchControl.search(this.clinic.address);
+      var result = searchControl.getResult(0);
+      result.then(
+        function(res) {
+          alert("Результат " + res);
+        },
+        function(err) {
+          alert("Ошибка", err);
+        }
+      );
+      alert(result);
     }
   }
 };
@@ -192,8 +216,8 @@ export default {
 
 <style scoped>
 #map {
-  height: 300px;
-  width: 500px;
+  height: 200px;
+  width: 280px;
 }
 #btn {
   width: 80px;
