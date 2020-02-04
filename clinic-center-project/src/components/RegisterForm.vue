@@ -4,28 +4,52 @@
       <h1 class="p-2">Add new</h1>
       <br />
 
-      <label class="p-2">First name</label>
-      <input type="text" class="p-2" id="firstName" name="firstName" v-model="firstName" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">First name</label>
+        <label for="text" class="p-2" id="err">{{firstNameMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="firstName" name="firstName" v-model="firstName" v-on:blur="firstNameBlank"/>
 
-      <label class="p-2">Last name</label>
-      <input type="text" class="p-2" id="lastName" name="lastName" v-model="lastName" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">Last name</label>
+        <label for="text" class="p-2" id="err">{{lastNameMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="lastName" name="lastName" v-model="lastName" v-on:blur="lastNameBlank"/>
 
-      <label class="p-2">JMBG</label>
-      <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">JMBG</label>
+        <label for="text" class="p-2" id="err">{{jmbgMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" v-on:blur="jmbgBlank"/>
 
-      <label class="p-2">Telephone</label>
-      <input type="text" class="p-2" id="telephone" name="telephone" v-model="telephone" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">Telephone</label>
+        <label for="text" class="p-2" id="err">{{telephoneMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="telephone" name="telephone" v-model="telephone" v-on:blur="telephoneBlank"/>
 
-      <label class="p-2">Country</label>
-      <input type="text" class="p-2" id="country" name="country" v-model="country" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">Country</label>
+        <label for="text" class="p-2" id="err">{{countryMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="country" name="country" v-model="country" v-on:blur="countryBlank"/>
 
-      <label class="p-2">City</label>
-      <input type="text" class="p-2" id="city" name="city" v-model="city" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">City</label>
+        <label for="text" class="p-2" id="err">{{cityMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="city" name="city" v-model="city" v-on:blur="cityBlank"/>
 
-      <label class="p-2">Address</label>
-      <input type="text" class="p-2" id="address" name="address" v-model="address" />
+      <div class="d-flex justify-content-between">
+        <label class="p-2">Address</label>
+        <label for="text" class="p-2" id="err">{{addressMessage}}</label>
+      </div>
+      <input type="text" class="p-2" id="address" name="address" v-model="address" v-on:blur="addressBlank"/>
 
-      <label for="staticEmail" class="p-2">E-mail</label>
+      <div class="d-flex justify-content-between">
+        <label for="staticEmail" class="p-2">E-mail</label>
+        <label for="text" class="p-2" id="err">{{emailMessage}}</label>
+      </div>
       <input
         type="email"
         class="p-2"
@@ -34,9 +58,13 @@
         v-model="email"
         aria-describedby="emailHelp"
         placeholder="Enter email"
+        v-on:blur="emailBlank"
       />
 
-      <label class="p-2" for="password">Password</label>
+      <div class="d-flex justify-content-between">
+        <label class="p-2" for="password">Password</label>
+        <label for="text" class="p-2" id="err">{{passwordMessage}}</label>
+      </div>
       <input
         type="password"
         class="p-2"
@@ -44,6 +72,7 @@
         name="password"
         v-model="password"
         placeholder="Password"
+        v-on:blur="passwordBlank"
       />
 
       <label class="p-2" for="confirmPassword">Confirm password</label>
@@ -58,8 +87,11 @@
       <label class="p-2" for="matching" id="matching">{{matching}}</label>
 
       <div v-if="doc" class="d-flex flex-column">
-        <label class="p-2">Type</label>
-        <select class="p-2" id="type" name="type" v-model="type">
+        <div class="d-flex justify-content-between">
+          <label class="p-2">Type</label>
+          <label for="text" class="p-2" id="err">{{typeMessage}}</label>
+        </div>
+        <select class="p-2" id="type" name="type" v-model="type" v-on:blur="typeBlank">
           <option>Doctor</option>
           <option>Nurse</option>
         </select>
@@ -93,11 +125,35 @@ export default {
       address: undefined,
       email: undefined,
       password: undefined,
+
       confirmPassword: undefined,
       matching: "",
       type: undefined,
       types: undefined,
-      typeOfExamination: undefined
+      typeOfExamination: undefined,
+
+      firstNameMessage: "",
+      lastNameMessage: "",
+      jmbgMessage: "",
+      telephoneMessage: "",
+      countryMessage: "",
+      cityMessage: "",
+      addressMessage: "",
+      emailMessage: "",
+      passwordMessage: "",
+      typeMessage: "",
+      
+      fnErr: true,
+      lnErr: true,
+      jmbgErr: true,
+      telErr: true,
+      cntryErr: true,
+      ctyErr: true,
+      addrErr: true,
+      emErr: true,
+      pwErr: true,
+      typeErr: true,
+      pwMErr: true
     };
   },
   props: {
@@ -106,9 +162,163 @@ export default {
   },
   watch: {
     confirmPassword() {
-      if (this.confirmPassword != this.password)
+      if (this.confirmPassword != this.password) {
         this.matching = "Passwords are not matching!";
-      else this.matching = "";
+        this.pwMErr = true;
+      } else {
+        this.matching = "";
+        this.pwMErr = false;
+      }
+    },
+    firstName() {
+      let firstNameInput = document.getElementsByName("firstName")[0];
+
+      if (!this.firstName) {
+        this.firstNameMessage = "Please enter your first name";
+        firstNameInput.style.border = '2px solid red';
+        this.fnErr = true;
+      } else {
+        this.firstNameMessage = "";
+        firstNameInput.style.border = null;
+        this.fnErr = false;
+      }
+    },
+    lastName() {
+      let lastNameInput = document.getElementsByName("lastName")[0];
+
+      if (!this.lastName) {
+        this.lastNameMessage = "Please enter your last name";
+        lastNameInput.style.border = '2px solid red';
+        this.lnErr = true;
+      } else {
+        this.lastNameMessage = "";
+        lastNameInput.style.border = null;
+        this.lnErr = false;
+      }
+    },
+    jmbg() {
+      let jmbgInput = document.getElementsByName("jmbg")[0];
+
+      if (!this.jmbg) {
+        this.jmbgMessage = "Please enter your JMBG";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else if (isNaN(this.jmbg)) {
+        this.jmbgMessage = "JMBG must be a number";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else if (this.jmbg.length != 13) {
+        this.jmbgMessage = "JMBG must be 13 characters long";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else {
+        this.jmbgMessage = "";
+        jmbgInput.style.border = null;
+        this.jmbgErr = false;
+      }
+    },
+    telephone() {
+      let telephoneInput = document.getElementsByName("telephone")[0];
+
+      if (!this.telephone) {
+        this.telephoneMessage = "Please enter your telephone number";
+        telephoneInput.style.border = '2px solid red';
+        this.telErr = true;
+      } else if (isNaN(this.telephone)) {
+        this.telephoneMessage = "Not a number";
+        telephoneInput.style.border = '2px solid red';
+        this.telErr = true;
+      } else {
+        this.telephoneMessage = "";
+        telephoneInput.style.border = null;
+        this.telErr = false;
+      }
+    },
+    country() {
+      let countryInput = document.getElementsByName("country")[0];
+
+      if (!this.country) {
+        this.countryMessage = "Please enter your country";
+        countryInput.style.border = '2px solid red';
+        this.cntryErr = true;
+      } else {
+        this.countryMessage = "";
+        countryInput.style.border = null;
+        this.cntryErr = false;
+      }
+    },
+    city() {
+      let cityInput = document.getElementsByName("city")[0];
+
+      if (!this.city) {
+        this.cityMessage = "Please enter your city";
+        cityInput.style.border = '2px solid red';
+        this.ctyErr = true;
+      } else {
+        this.cityMessage = "";
+        cityInput.style.border = null;
+        this.ctyErr = false;
+      }
+    },
+    address() {
+      let addressInput = document.getElementsByName("address")[0];
+
+      if (!this.address) {
+        this.addressMessage = "Please enter your address";
+        addressInput.style.border = '2px solid red';
+        this.addrErr = true;
+      } else {
+        this.addressMessage = "";
+        addressInput.style.border = null;
+        this.addrErr = false;
+      }
+    },
+    email() {
+      let emailInput = document.getElementsByName("email")[0];
+
+      if (!this.email) {
+        this.emailMessage = "Please enter your e-mail";
+        emailInput.style.border = '2px solid red';
+        this.emErr = true;
+      } else if (!this.email.includes("@")) {
+        this.emailMessage = "Invalid e-mail format";
+        emailInput.style.border = '2px solid red';
+        this.emErr = true;
+      } else {
+        this.emailMessage = "";
+        emailInput.style.border = null;
+        this.emErr = false;
+      }
+    },
+    password() {
+      let passwordInput = document.getElementsByName("password")[0];
+
+      if (!this.password) {
+        this.passwordMessage = "Enter a password";
+        passwordInput.style.border = '2px solid red';
+        this.pwMErr = true;
+      } else if (this.password.length > 0 && this.password.length < 6) {
+        this.passwordMessage = "Password must have at least 6 characters";
+        passwordInput.style.border = '2px solid red';
+        this.pwMErr = true;
+      } else {
+        this.passwordMessage = "";
+        passwordInput.style.border = null;
+        this.pwMErr = false;
+      }
+    },
+    type() {
+      let typeInput = document.getElementsByName("type")[0];
+
+      if(!this.type) {
+        this.typeMessage = "Select a type of medical staff";
+        typeInput.style.border = '2px solid red';
+        this.typeErr = true;
+      } else {
+        this.typeMessage = "";
+        typeInput.style.border = null;
+        this.typeErr = false;
+      }
     }
   },
   mounted() {
@@ -125,7 +335,9 @@ export default {
   },
   methods: {
     register: function() {
-      var user = {
+      if (!this.fnErr || !this.lnErr || !this.jmbgErr || !this.telErr || !this.cntryErr || !this.ctyErr
+          || !this.addrErr || !this.emErr || !this.pwErr || !this.typeErr || !this.pwMErr) {
+        var user = {
         firstName: this.firstName,
         lastName: this.lastName,
         jmbg: this.jmbg,
@@ -138,13 +350,163 @@ export default {
       };
 
       this.$emit("register", user, this.type, this.typeOfExamination);
+      } else {
+        alert("Please fill your informations properly");
+      }
+      
+    },
+    firstNameBlank: function() {
+      let firstNameInput = document.getElementsByName("firstName")[0];
+
+      if (!this.firstName) {
+        this.firstNameMessage = "Please enter your first name";
+        firstNameInput.style.border = '2px solid red';
+        this.fnErr = true;
+      } else {
+        this.firstNameMessage = "";
+        firstNameInput.style.border = null;
+        this.fnErr = false;
+      }
+    },
+    lastNameBlank: function() {
+      let lastNameInput = document.getElementsByName("lastName")[0];
+
+      if (!this.lastName) {
+        this.lastNameMessage = "Please enter your last name";
+        lastNameInput.style.border = '2px solid red';
+        this.lnErr = true;
+      } else {
+        this.lastNameMessage = "";
+        lastNameInput.style.border = null;
+        this.lnErr = false;
+      }
+    },
+    jmbgBlank: function() {
+      let jmbgInput = document.getElementsByName("jmbg")[0];
+
+      if (!this.jmbg) {
+        this.jmbgMessage = "Please enter your JMBG";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else if (isNaN(this.jmbg)) {
+        this.jmbgMessage = "JMBG must be a number";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else if (this.jmbg.length != 13) {
+        this.jmbgMessage = "JMBG must be 13 characters long";
+        jmbgInput.style.border = '2px solid red';
+        this.jmbgErr = true;
+      } else {
+        this.jmbgMessage = "";
+        jmbgInput.style.border = null;
+        this.jmbgErr = false;
+      }
+    },
+    telephoneBlank: function() {
+      let telephoneInput = document.getElementsByName("telephone")[0];
+      
+      if (!this.telephone) {
+        this.telephoneMessage = "Please enter your telephone number";
+        telephoneInput.style.border = '2px solid red';
+        this.telErr = true;
+      } else if (isNaN(this.telephone)) {
+        this.telephoneMessage = "Not a number";
+        telephoneInput.style.border = '2px solid red';
+        this.telErr = true;
+      } else {
+        this.telephoneMessage = "";
+        telephoneInput.style.border = null;
+        this.telErr = false;
+      }
+    },
+    countryBlank: function() {
+      let countryInput = document.getElementsByName("country")[0];
+
+      if (!this.country) {
+        this.countryMessage = "Please enter your country";
+        countryInput.style.border = '2px solid red';
+        this.cntryErr = true;
+      } else {
+        this.countryMessage = "";
+        countryInput.style.border = null;
+        this.cntryErr = false;
+      }
+    },
+    cityBlank: function() {
+      let cityInput = document.getElementsByName("city")[0];
+
+      if (!this.city) {
+        this.cityMessage = "Please enter your city";
+        cityInput.style.border = '2px solid red';
+        this.ctyErr = true;
+      } else {
+        this.cityMessage = "";
+        cityInput.style.border = null;
+        this.ctyErr = false;
+      }
+    },
+    addressBlank: function() {
+      let addressInput = document.getElementsByName("address")[0];
+      
+      if (!this.address) {
+        this.addressMessage = "Please enter your address";
+        addressInput.style.border = '2px solid red';
+        this.addrErr = true;
+      } else {
+        this.addressMessage = "";
+        addressInput.style.border = null;
+        this.addrErr = false;
+      }
+    },
+    emailBlank: function() {
+      let emailInput = document.getElementsByName("email")[0];
+
+      if (!this.email) {
+        this.emailMessage = "Please enter your e-mail";
+        emailInput.style.border = '2px solid red';
+        this.emErr = true;
+      } else if (!this.email.includes("@")) {
+        this.emailMessage = "Invalid e-mail format";
+        emailInput.style.border = '2px solid red';
+        this.emErr = true;
+      } else {
+        this.emailMessage = "";
+        emailInput.style.border = null;
+        this.emErr = false;
+      }
+    },
+    passwordBlank: function() {
+      let passwordInput = document.getElementsByName("password")[0];
+
+      if (!this.password) {
+        this.passwordMessage = "Enter a password";
+        passwordInput.style.border = '2px solid red';
+        this.pwErr = true;
+      } else {
+        this.addressMessage = "";
+        passwordInput.style.border = null;
+        this.pwErr = false;
+      }
+    },
+    typeBlank : function() {
+      let typeInput = document.getElementsByName("type")[0];
+
+      if(!this.type) {
+        this.typeMessage = "Select a type of medical staff";
+        typeInput.style.border = '2px solid red';
+        this.typeErr = true;
+      } else {
+        this.typeMessage = "";
+        typeInput.style.border = null;
+        this.typeErr = false;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-#matching {
+#matching, #err {
   color: red;
 }
 </style>
