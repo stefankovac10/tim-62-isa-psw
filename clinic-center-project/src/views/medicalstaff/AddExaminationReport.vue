@@ -110,10 +110,12 @@ export default {
       start: undefined,
       patient: undefined,
       doctor: undefined,
-      duration: undefined
+      duration: undefined,
+      id: undefined
     };
   },
   mounted() {
+    this.id = this.$route.params.id;
     httpClient
       .get("/diagnosis/all")
       .then(response => {
@@ -169,7 +171,7 @@ export default {
         this.examination.report = this.report;
         this.examination.prescription.medication = this.medicinesSelected;
         this.examination.diagnosis = this.diagnosis;
-        this.examination.id = 1;
+        this.examination.id = this.id;
 
         httpClient
           .post("/examination/addReport", this.examination)
