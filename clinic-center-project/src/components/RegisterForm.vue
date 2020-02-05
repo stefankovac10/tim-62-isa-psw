@@ -96,8 +96,11 @@
           <option>Nurse</option>
         </select>
         <div class="d-flex flex-column" v-if="type==='Doctor'">
-          <label for="tyepOfExamination">Specialised type of examination</label>
-          <select name="typeOfExamination" id="typeEx" v-model="typeOfExamination">
+          <div class="d-flex justify-content-between">
+            <label class="p-2" for="tyepOfExamination">Specialised type of examination</label>
+            <label for="text" class="p-2" id="err">{{typeOfExMessage}}</label>
+          </div>
+          <select class="p-2" name="typeOfExamination" id="typeEx" v-model="typeEx" v-on:blur="typeExBlank">
             <option v-for="t in types" v-bind:key="t.key">{{t.name}}</option>
           </select>
         </div>
@@ -130,7 +133,7 @@ export default {
       matching: "",
       type: undefined,
       types: undefined,
-      typeOfExamination: undefined,
+      typeEx: undefined,
 
       firstNameMessage: "",
       lastNameMessage: "",
@@ -142,6 +145,7 @@ export default {
       emailMessage: "",
       passwordMessage: "",
       typeMessage: "",
+      typeOfExMessage: "",
       
       fnErr: true,
       lnErr: true,
@@ -153,7 +157,8 @@ export default {
       emErr: true,
       pwErr: true,
       typeErr: true,
-      pwMErr: true
+      pwMErr: true,
+      typeExErr: true
     };
   },
   props: {
@@ -310,7 +315,7 @@ export default {
     type() {
       let typeInput = document.getElementsByName("type")[0];
 
-      if(!this.type) {
+      if (!this.type) {
         this.typeMessage = "Select a type of medical staff";
         typeInput.style.border = '2px solid red';
         this.typeErr = true;
@@ -318,6 +323,19 @@ export default {
         this.typeMessage = "";
         typeInput.style.border = null;
         this.typeErr = false;
+      }
+    },
+    typeEx() {
+      let typeExInput = document.getElementsByName("typeOfExamination")[0];
+
+      if (!this.typeEx) {
+        this.typeOfExMessage = "Select a type";
+        typeExInput.style.border = '2px solid red';
+        this.typeExErr = true;
+      } else {
+        this.typeOfExMessage = "";
+        typeExInput.style.border = null;
+        this.typeExErr = false;
       }
     }
   },
@@ -335,25 +353,25 @@ export default {
   },
   methods: {
     register: function() {
-      if (!this.fnErr || !this.lnErr || !this.jmbgErr || !this.telErr || !this.cntryErr || !this.ctyErr
-          || !this.addrErr || !this.emErr || !this.pwErr || !this.typeErr || !this.pwMErr) {
+      if (!this.fnErr && !this.lnErr && !this.jmbgErr && !this.telErr && !this.cntryErr &&
+          !this.ctyErr && !this.addrErr && !this.emErr && !this.pwErr && !this.typeErr && !this.pwMErr && 
+          !((this.type == 'Doctor') && this.typeExErr)) {
         var user = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        jmbg: this.jmbg,
-        password: this.password,
-        email: this.email,
-        address: this.address,
-        city: this.city,
-        country: this.country,
-        telephone: this.telephone
-      };
+          firstName: this.firstName,
+          lastName: this.lastName,
+          jmbg: this.jmbg,
+          password: this.password,
+          email: this.email,
+          address: this.address,
+          city: this.city,
+          country: this.country,
+          telephone: this.telephone
+        };
 
-      this.$emit("register", user, this.type, this.typeOfExamination);
+        this.$emit("register", user, this.type, this.typeOfExamination);
       } else {
         alert("Please fill your informations properly");
       }
-      
     },
     firstNameBlank: function() {
       let firstNameInput = document.getElementsByName("firstName")[0];
@@ -499,6 +517,19 @@ export default {
         this.typeMessage = "";
         typeInput.style.border = null;
         this.typeErr = false;
+      }
+    },
+    typeExBlank : function() {
+      let typeExInput = document.getElementsByName("typeOfExamination")[0];
+
+      if(!this.typeEx) {
+        this.typeOfExMessage = "Select a type";
+        typeExInput.style.border = '2px solid red';
+        this.typeExErr = true;
+      } else {
+        this.typeOfExMessage = "";
+        typeExInput.style.border = null;
+        this.typeExErr = false;
       }
     }
   }
