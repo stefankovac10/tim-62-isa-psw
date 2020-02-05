@@ -28,8 +28,11 @@ public class OperationRoomService {
     }
 
     public ResponseEntity<OperationRoomDTO> save(OperationRoomDTO operationRoom) {
-        Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
+        Optional<Clinic> opt = this.clinicRepository.findById(operationRoom.getClinic().getId());
+        if (!opt.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Clinic c = opt.get();
+
         ClinicDTO clinic = ClinicDTO.builder()
                 .id(c.getId())
                 .name(c.getName())
@@ -62,7 +65,7 @@ public class OperationRoomService {
                     .build());
         }
 
-        return new ResponseEntity<>(ret, HttpStatus.FOUND);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> delete(Long id) {

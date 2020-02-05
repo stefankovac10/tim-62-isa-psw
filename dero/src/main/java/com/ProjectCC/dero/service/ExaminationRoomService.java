@@ -48,7 +48,7 @@ public class ExaminationRoomService {
         examinationRoom.setId(er.getId());
         examinationRoom.setClinic(clinic);
 
-        return new ResponseEntity<>(examinationRoom, HttpStatus.CREATED);
+        return new ResponseEntity<>(examinationRoom, HttpStatus.OK);
     }
 
     public ResponseEntity<List<ExaminationRoomDTO>> getAll() {
@@ -63,7 +63,7 @@ public class ExaminationRoomService {
                     .build());
         }
 
-        return new ResponseEntity<>(ret, HttpStatus.FOUND);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> delete(Long id) {
@@ -90,6 +90,27 @@ public class ExaminationRoomService {
                 .name(examinationRoom.getName())
                 .number(examinationRoom.getNumber())
                 .build();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ExaminationRoomDTO>> getByClinicId(Long id) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
+        if (!optionalClinic.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = optionalClinic.get();
+
+        List<ExaminationRoom> list = this.examinationRoomRepository.findByClinic(clinic);
+        List<ExaminationRoomDTO> ret = new ArrayList<>();
+
+        for (ExaminationRoom er : list) {
+            ret.add(ExaminationRoomDTO.builder()
+                    .id(er.getId())
+                    .number(er.getNumber())
+                    .name(er.getName())
+                    .build());
+        }
+
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
