@@ -55,4 +55,7 @@ public class UserController {
         return this.userService.deleteById(id);
     }
 
+    @GetMapping(value = "/admin/mail/{email:.+}")
+    public ResponseEntity<ClinicAdministratorDTO> getAdmin(@PathVariable String email) { return this.userService.getAdmin(email); }
+
 }
