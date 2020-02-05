@@ -14,7 +14,27 @@
       <label>Address: {{clinic.address}}</label>
       <yandex-map class="map" id="map" v-on:created="mapCreated"></yandex-map>
 
-      <label>Available examinations: TBA: LIST</label>
+      <label>Available examinations:</label>
+      <label v-if="!examinations">There are no quick examinations at the moment</label>
+      <table class="table table-hover" v-if="examinations">
+        <thead>
+          <tr>
+            <th scope="col">Doctor</th>
+            <th scope="col">Date</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-primary" v-for="examination in examinations" v-bind:key="examination.id">
+            <td>{{examination.doctor.firstName}} {{examination.doctor.lastName}}</td>
+            <td>{{examination.dateMoment}}</td>
+            <td>{{examination.durationMoment}} minutes</td>
+            <td>{{examination.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+
       <label>Staff:</label>
       <div class="d-flex flex-row flex-wrap">
         <div
@@ -92,6 +112,7 @@
 <script>
 import { httpClient } from "@/services/Api.js";
 import ymaps from "vue-yandex-map";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -103,7 +124,8 @@ export default {
       name: undefined,
       description: undefined,
       address: undefined,
-      admin: undefined
+      admin: undefined,
+      examinations: undefined
     };
   },
   mounted() {
@@ -129,6 +151,17 @@ export default {
           .then(response => {
             this.clinic = response.data;
             this.loading = false;
+            if (this.clinic.examinations.length != 0) {
+              this.examinations = this.clinic.examinations;
+              for (const examination of this.examinations) {
+                examination.dateMoment = moment(examination.date).format(
+                  "dddd, MMMM Do YYYY, h:mm:ss"
+                );
+                examination.durationMoment = moment(
+                  examination.duration
+                ).minute();
+              }
+            }
           })
           .catch(error => {
             if (error.response != undefined && error.response.status == 302) {
