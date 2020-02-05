@@ -76,6 +76,24 @@ public class TypeOfExaminationService {
     }
 
     public ResponseEntity<TypeOfExaminationDTO> delete(Long id) {
+        DateTime now = new DateTime();
+        Optional<TypeOfExamination> optionalTypeOfExamination = this.typeOfExaminationRepository.findById(id);
+        if (!optionalTypeOfExamination.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        TypeOfExamination typeOfExamination = optionalTypeOfExamination.get();
+        List<Examination> examinations = this.examinationRepository.findByType(typeOfExamination);
+
+        for (Examination examination : examinations) {
+            if (examination.getExaminationAppointment().getStartDate().isAfter(now))
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else
+            {
+                examination.setType(null);
+                this.examinationRepository.save(examination);
+            }
+        }
+
         this.typeOfExaminationRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
