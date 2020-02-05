@@ -29,4 +29,8 @@ public class TypeOfExamination {
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private Set<Examination> examinations;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clinic_id", nullable = false)
+    public Clinic clinic;
+
 }

@@ -123,6 +123,9 @@ public class ClinicService {
     public ResponseEntity<ClinicDTO> findById(Long id) {
 
         Optional<Clinic> opt = clinicRepository.findById(id);
+        if (!opt.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Clinic clinic = opt.get();
 
         List<MedicalStaffDTO> staff = new ArrayList<>();

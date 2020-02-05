@@ -133,7 +133,7 @@ insert into examination_room (id) values (4);
 insert into examination_room (id) values (5);
 insert into examination_room (id) values (6);
 
-insert into type_of_examination (description, name) values ('Gleda ti oci', 'oftamolog');
+insert into type_of_examination (description, name, clinic_id) values ('Gleda ti oci', 'oftamolog', 1);
 
 insert into authorities (name) values ('ROLE_REQUEST');
 insert into authorities (name) values ('ROLE_PATIENT');
