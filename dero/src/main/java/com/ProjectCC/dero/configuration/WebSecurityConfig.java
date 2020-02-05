@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanjama /auth/**, /h2-console/** i /api/foo
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll().antMatchers("/api/regrequest/**").permitAll().antMatchers("/api/patient/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll().antMatchers("/api/regrequest/**").permitAll().antMatchers("/api/patient/**").permitAll().antMatchers("/api/users/**").permitAll()
 
                 // svaki zahtev mora biti autorizovan
                 .anyRequest().authenticated().and()

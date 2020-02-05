@@ -76,4 +76,15 @@ public class UserService {
         this.userRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    public Boolean findUserByEmail(String email) {
+        Optional<User> opt = Optional.ofNullable(this.userRepository.findByEmail(email));
+        User user = opt.get();
+
+        if(user.getLastPasswordResetDate() == null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
