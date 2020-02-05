@@ -1,11 +1,9 @@
 package com.ProjectCC.dero.model;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.joda.time.Period;
 
 import javax.persistence.*;
 import java.util.Set;

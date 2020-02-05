@@ -43,7 +43,7 @@ public class MedicalRecord {
 
    @ManyToMany()
    @JoinTable(
-           name = "medicalRecords_medicalStaffs",
+           name = "medicalRecords_medicalStaff",
            joinColumns = @JoinColumn(name = "medStaff_id", referencedColumnName = "id"),
            inverseJoinColumns = @JoinColumn(name = "medRec_id", referencedColumnName = "id")
    )

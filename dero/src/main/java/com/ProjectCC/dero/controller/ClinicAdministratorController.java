@@ -1,25 +1,24 @@
 package com.ProjectCC.dero.controller;
 
-import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
-import com.ProjectCC.dero.dto.ExaminationRequestDTO;
-import com.ProjectCC.dero.dto.OperationRequestDTO;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.ClinicAdministrator;
-import com.ProjectCC.dero.model.Doctor;
-import com.ProjectCC.dero.model.OperationRequest;
+import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
+import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,4 +58,18 @@ public class ClinicAdministratorController {
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
+
+    @GetMapping(value = "scheduledExaminations/{page}")
+    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable int page) {
+        return this.examinationRequestService.getAll(page);
+    }
+
+    @PutMapping(value = "reserve")
+    public ResponseEntity<Void> reserveRoom(@RequestBody ExaminationRoomDTO examinationRoomDTO) {
+        Long requestId = examinationRoomDTO.getRequestId();
+        Long roomId = examinationRoomDTO.getId();
+        DateTime nextAvailable = examinationRoomDTO.getNextAvailable();
+        return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+    }
+
 }

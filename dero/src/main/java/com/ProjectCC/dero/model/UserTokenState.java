@@ -10,12 +10,14 @@ public class UserTokenState {
     private Integer expiresIn;
     private String email;
     private String authority;
+    private String refreshToken;
 
-    public UserTokenState(String accessToken, Integer expiresIn, String email, String authority) {
+    public UserTokenState(String accessToken, Integer expiresIn, String email, String authority, String refreshToken) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.email = email;
         this.authority = authority;
+        this.refreshToken = refreshToken;
     }
 
     public UserTokenState(String accessToken, Integer expiresIn) {
@@ -28,5 +30,6 @@ public class UserTokenState {
         this.expiresIn = null;
         this.email = null;
         this.authority = null;
+        this.refreshToken = null;
     }
 }

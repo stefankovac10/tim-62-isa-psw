@@ -1,10 +1,9 @@
 <template>
   <div class="d-flex p-2">
     <div class="d-flex flex-column justify-content-center">
-      <h1>Manage rooms</h1>
       <div id="slct" class="d-flex flex-row justify-content-center">
         <div class="d-flex flex-column m-2">
-          <label class="m-2" for="search">Search patients</label>
+          <h2 class="m-2" for="search">Search rooms</h2>
           <div id="search" class="d-flex flex-row m-2">
             <label class="m-1" for="nejm">Name</label>
             <input class="m-1" type="text" name="nejm" id="searchName" v-model="searchName" />
@@ -26,7 +25,10 @@
           <div class="card-body">
             <h4 class="card-title">Room name: {{room.name}}</h4>
             <p class="card-text">Number: {{room.number}}</p>
-            <!-- <p class="card-text">Clinic: {{room.clinic}}</p> -->
+            <p
+              class="card-text"
+              v-if="room.nextAvailable != undefined"
+            >Next available: {{room.dateNext}}</p>
             <button
               type="button"
               class="btn btn-primary"
@@ -88,6 +90,8 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import EventBus from "@/services/EventBus.js";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -101,43 +105,24 @@ export default {
       searchName: undefined,
       searchNumber: undefined,
       searchDate: undefined,
+      request: undefined,
       page: 0,
-      pages: 7
+      pages: 1
     };
+  },
+  created() {
+    EventBus.$on("search", id => {
+      this.request = id;
+    });
   },
   mounted() {
     httpClient
-      .get("/rooms/examination/all")
+      .get("/rooms/all/0")
       .then(response => {
-        this.examination = response.data;
-        for (let i = 0; i < this.examination.length; i++) {
-          this.rooms.push(this.examination[i]);
-        }
+        this.rooms = response.data;
       })
       .catch(error => {
-        if (error.response.status == 302) {
-          this.examination = error.response.data;
-          for (let i = 0; i < this.examination.length; i++) {
-            this.rooms.push(this.examination[i]);
-          }
-        }
-      });
-
-    httpClient
-      .get("/rooms/operation/all")
-      .then(response => {
-        this.operation = response.data;
-        for (let i = 0; i < this.operation.length; i++) {
-          this.rooms.push(this.operation[i]);
-        }
-      })
-      .catch(error => {
-        if (error.response.status == 302) {
-          this.operation = error.response.data;
-          for (let i = 0; i < this.operation.length; i++) {
-            this.rooms.push(this.operation[i]);
-          }
-        }
+        alert(error);
       });
   },
   methods: {
@@ -157,12 +142,6 @@ export default {
         });
     },
     update: function() {
-      // let room = {
-      //   id: this.room.id,
-      //   name: this.name,
-      //   number: this.number
-      // };
-
       httpClient
         .put("/rooms/" + this.room.type, {
           id: this.room.id,
@@ -178,19 +157,38 @@ export default {
         });
     },
     searchRooms: function() {
+      let sName = this.searchName;
+      let sNum = this.searchNumber;
+      let sDate = this.searchDate;
+      if (this.searchName === undefined || this.searchName === "") sName = "_";
+      if (
+        this.searchNumber === undefined ||
+        this.searchNumber < 0 ||
+        this.searchNumber === ""
+      )
+        sNum = -1;
+      if (this.searchDate === undefined || this.searchDate === "") {
+        sDate = new moment().toISOString();
+      }
       httpClient
         .get(
           "/rooms/search/" +
-            this.searchName +
+            sName +
             "/" +
-            this.searchNumber +
+            sNum +
             "/" +
-            this.searchDate +
+            sDate +
+            "/" +
+            -1 +
             "/" +
             this.page
         )
         .then(response => {
           this.rooms = response.data;
+          this.pages = response.data[0].pages;
+          for (const room of this.rooms) {
+            room.dateNext = moment(room.nextAvailable).toString();
+          }
         })
         .catch(error => {
           alert(error);

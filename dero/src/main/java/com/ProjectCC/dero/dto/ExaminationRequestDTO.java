@@ -17,6 +17,8 @@ public class ExaminationRequestDTO {
     private Long patientId;
     @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
     private DateTime date;
+    private Long duration;
+//    private AppointmentDTO appointmentDTO;
     private Long typeId;
-    private Duration duration;
+    private Long clinicId;
 }

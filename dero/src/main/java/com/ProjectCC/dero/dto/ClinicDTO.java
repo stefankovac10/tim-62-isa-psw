@@ -20,6 +20,7 @@ public class ClinicDTO {
     private String description;
     private Double income;
     private Double grade;
+    private int pages;
 
     private List<MedicalStaffDTO> medicalStaff;
     private List<RoomDTO> rooms;

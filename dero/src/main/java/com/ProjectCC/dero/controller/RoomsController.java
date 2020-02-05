@@ -9,7 +9,9 @@ import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.service.ExaminationRoomService;
 import com.ProjectCC.dero.service.OperationRoomService;
 import com.ProjectCC.dero.service.RoomsService;
+import lombok.val;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,16 +86,23 @@ public class RoomsController {
         return this.examinationRoomService.findById(id);
     }
 
-    @GetMapping(value = "/search/{name}/{number}/{date}/{page}")
+    @GetMapping(value = "/search/{name}/{number}/{date}/{duration}/{page}")
     public ResponseEntity<List<RoomDTO>> searchRooms(@PathVariable String name, @PathVariable int number,
-                                                     @PathVariable String date, @PathVariable int page) {
+                                                     @PathVariable String date, @PathVariable Long duration,
+                                                     @PathVariable int page) {
         DateTime dateTime = DateTime.parse(date);
-        return this.roomsService.search(name, number, dateTime, page);
+        Duration d = new Duration(duration);
+        return this.roomsService.search(name, number, dateTime, d, page);
     }
 
     @GetMapping(value = "/all/{page}")
     public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable int page) {
         return new ResponseEntity<>(this.roomsService.getAll(page), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/examinationRequest/{id}/{page}")
+    public ResponseEntity<List<ExaminationRoomDTO>> roomsForExamination(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getRoomsForExamination(id, page);
     }
 
 }

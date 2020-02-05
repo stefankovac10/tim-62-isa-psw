@@ -34,6 +34,7 @@ import ManageRooms from "@/views/cadmin/ManageRooms.vue";
 import ManageTypes from "@/views/cadmin/ManageTypes.vue";
 import VacationRequests from "@/views/cadmin/Requests.vue";
 import EditClinic from "@/views/cadmin/EditClinic.vue";
+import ExaminationRoomRequests from "@/views/cadmin/ExaminationRoomRequests.vue";
 
 import EditRoom from "@/views/cadmin/EditRoom.vue";
 
@@ -79,11 +80,6 @@ const routes = [
         path: "register",
         name: "register",
         component: Register
-      },
-      {
-        path: "registerPage",
-        name: "registerPage",
-        component: RegisterPage
       },
       {
         path: "login",
@@ -224,6 +220,11 @@ const routes = [
         path: "editClinic/:id",
         name: "editClinic",
         component: EditClinic
+      },
+      {
+        path: "erRequests",
+        name: "examinationRoomRequests",
+        component: ExaminationRoomRequests
       }
     ]
   },
@@ -263,7 +264,7 @@ const routes = [
       {
         path: "profile",
         name: "profile",
-        component: PatientsProfile
+        component: Profile
       },
       {
         path: "searchdoctors",
@@ -331,7 +332,7 @@ const routes = [
         component: Examination
       },
       {
-        path: "addexaminationreport",
+        path: "addexaminationreport/:id",
         name: "addexaminationreport",
         component: AddExaminationReport
       },
@@ -339,6 +340,11 @@ const routes = [
         path: "calendar",
         name: "calendar",
         component: Calendar
+      },
+      {
+        path: "editmedicalrecord/:id",
+        name: "editmedicalrecord",
+        component: EditMedicalRecord
       },
       {
         path: "vacation",
@@ -354,6 +360,11 @@ const routes = [
         path: "scheduling",
         name: "scheduling",
         component: Scheduling
+      },
+      {
+        path: "patientprofile/:id",
+        name: "patientprofile",
+        component: PatientsProfile
       }
     ]
   },

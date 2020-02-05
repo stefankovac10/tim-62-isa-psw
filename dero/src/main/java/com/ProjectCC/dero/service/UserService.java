@@ -54,7 +54,7 @@ public class UserService {
                     .address(user.getAddress())
                     .build();
         }
-        System.out.println(userDTO.getFirstName());
+
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 

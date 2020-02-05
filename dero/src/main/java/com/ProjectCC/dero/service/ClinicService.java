@@ -7,6 +7,9 @@ import com.ProjectCC.dero.repository.ExaminationRepository;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,8 +35,28 @@ public class ClinicService {
         this.prescriptionRepository = prescriptionRepository;
     }
 
-    public ResponseEntity<List<ClinicDTO>> findAll() {
+    public ResponseEntity<List<ClinicDTO>> getAll() {
         List<Clinic> clinics = clinicRepository.findAll();
+        List<ClinicDTO> clinicDTOS = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            ClinicDTO clinicDTO  = ClinicDTO.builder()
+                    .id(c.getId())
+                    .name(c.getName())
+                    .address(c.getAddress())
+                    .description(c.getDescription())
+                    .grade(c.getGrade())
+                    .income(c.getIncome())
+                    .build();
+            clinicDTOS.add(clinicDTO);
+        }
+
+        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ClinicDTO>> findAll(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Clinic> clinics = clinicRepository.findAll(pageable);
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
 
         for (Clinic c : clinics) {
@@ -44,6 +67,7 @@ public class ClinicService {
                                     .description(c.getDescription())
                                     .grade(c.getGrade())
                                     .income(c.getIncome())
+                                    .pages(clinics.getTotalPages())
                                     .build();
             clinicDTOS.add(clinicDTO);
         }
@@ -177,7 +201,7 @@ public class ClinicService {
         for (Examination e : examinations) {
             if (e.getClinic().equals(clinic)) {
                 exams.add(ExaminationDTO.builder()
-                        .date(e.getDate())
+                        .date(e.getExaminationAppointment().getStartDate())
                         .build());
             }
         }

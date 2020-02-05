@@ -1,7 +1,6 @@
 package com.ProjectCC.dero.controller;
 
-import com.ProjectCC.dero.dto.PatientDTO;
-import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.RegistrationRequest;
@@ -37,6 +36,17 @@ public class PatientController {
         return patientService.save(id);
     }
 
+    @GetMapping(value = "examination/{id}")
+    public ResponseEntity<List<ExaminationDTO>> getExamination(@PathVariable Long id){
+        List<ExaminationDTO> examinationDTOS =  patientService.getExamination(id);
+
+        if(examinationDTOS ==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(examinationDTOS,HttpStatus.OK);
+        }
+    }
+
     @GetMapping(value = "/all/{page}")
     public ResponseEntity<List<PatientDTO>> findAll(@PathVariable int page){
         List<PatientDTO> patientDTOS = this.patientService.findAll(page);
@@ -44,15 +54,21 @@ public class PatientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getPatient(@PathVariable Long id) {
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable Long id) {
 
         Patient patient = patientService.findById(id);
 
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(UserDTO.builder()
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordDTO.builder()
+                .weight(patient.getMedicalRecord().getWeight())
+                .height(patient.getMedicalRecord().getHeight())
+                .diopter(patient.getMedicalRecord().getDiopter())
+                .bloodType(patient.getMedicalRecord().getBloodType())
+                .id(patient.getMedicalRecord().getId())
+                .build();
+        return new ResponseEntity<>(PatientDTO.builder()
                 .firstName(patient.getFirstName())
                 .lastName(patient.getLastName())
                 .address(patient.getAddress())
@@ -62,7 +78,18 @@ public class PatientController {
                 .jmbg(patient.getJmbg())
                 .telephone(patient.getTelephone())
                 .id(patient.getId())
+                .medicalRecord(medicalRecordDTO)
                 .build(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "get/{email:.+}")
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable String email) {
+        PatientDTO patientDTO = patientService.findByEmail(email);
+        if(patientDTO == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+        }
     }
 
     @DeleteMapping(value = "/{id}")
