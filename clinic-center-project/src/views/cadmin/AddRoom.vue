@@ -29,34 +29,60 @@ export default {
     return {
       name: undefined,
       number: undefined,
-      type: undefined
+      type: undefined,
+      clinic: undefined
     };
+  },
+  mounted() {
+    httpClient
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
+      .then(response => {
+        this.clinic = response.data.clinic;
+      })
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Error getting clinic",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      });
   },
   methods: {
     addRoom: function() {
       var room = {
         name: this.name,
-        number: this.number
+        number: this.number,
+        clinic: this.clinic
       };
 
       let path = "/rooms/" + this.type.toLowerCase();
       httpClient
         .post(path, room)
-        .then(function(response) {
-          response;
+        .then(function() {
+          this.$vToastify.success({
+            body: "Room " + this.name + " has been added.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(function(error) {
-          alert(error);
+        .catch(function() {
+          this.$vToastify.error({
+            body: "Error while adding room",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
 
       this.$router.push("/cadmin/rooms");
-      this.$vToastify.info({
-        body: "Room "+ this.name + " has been added." ,
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
     }
   }
 };
