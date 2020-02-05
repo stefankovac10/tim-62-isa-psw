@@ -152,6 +152,18 @@ public class ClinicService {
             .build());
         }
 
+        List<ExaminationDTO> examinationDTOS = new ArrayList();
+        for (Examination examination : clinic.getExaminations()) {
+            if (examination.getPatient() == null) {
+                examinationDTOS.add(ExaminationDTO.builder()
+                .id(examination.getId())
+                .date(examination.getExaminationAppointment().getStartDate())
+                .duration(examination.getExaminationAppointment().getDuration())
+                .doctor(DoctorDTO.builder().firstName(examination.getDoctor().getFirstName()).lastName(examination.getDoctor().getLastName()).build())
+                .price(examination.getPrice()).build());
+            }
+        }
+
         ClinicDTO dto = ClinicDTO.builder()
                 .name(clinic.getName())
                 .description(clinic.getDescription())
@@ -159,6 +171,7 @@ public class ClinicService {
                 .id(clinic.getId())
                 .medicalStaff(staff)
                 .rooms(roomDTOS)
+                .examinations(examinationDTOS)
                 .build();
 
         return new ResponseEntity<>(dto, HttpStatus.OK);

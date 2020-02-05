@@ -56,6 +56,11 @@ public class RoomsController {
         return this.examinationRoomService.getAll();
     }
 
+    @GetMapping(value = "/examination/clinic/{id}")
+    public ResponseEntity<List<ExaminationRoomDTO>> getAllER(@PathVariable Long id) {
+        return this.examinationRoomService.getByClinicId(id);
+    }
+
     @DeleteMapping(value = "/examination/{id}")
     public ResponseEntity<Void> deleteER(@PathVariable Long id) {
         return this.examinationRoomService.delete(id);
