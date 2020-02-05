@@ -55,4 +55,9 @@ public class DoctorController {
                                                          @PathVariable String clinic) {
         return this.doctorService.searchDoctors(firstName, lastName, email, city, country, clinic);
     }
+
+    @GetMapping(value = "clinic/{id}")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(@PathVariable Long id) {
+        return this.doctorService.getDoctorsFromClinic(id);
+    }
 }

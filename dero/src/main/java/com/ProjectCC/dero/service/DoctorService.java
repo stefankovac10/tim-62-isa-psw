@@ -6,6 +6,7 @@ import com.ProjectCC.dero.model.Authority;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.model.TypeOfExamination;
+import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.print.Doc;
 import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -28,13 +30,15 @@ public class DoctorService {
     private ModelMapper modelMapper;
     private PasswordEncoder passwordEncoder;
     private AuthorityService authorityService;
+    private ClinicRepository clinicRepository;
 
     @Autowired
-    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService,
+    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService, ClinicRepository clinicRepository,
                          TypeOfExaminationService typeOfExaminationService, ModelMapper modelMapper,
                          PasswordEncoder passwordEncoder, AuthorityService authorityService) {
         this.doctorRepository = doctorRepository;
         this.clinicService = clinicService;
+        this.clinicRepository = clinicRepository;
         this.typeOfExaminationService = typeOfExaminationService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
@@ -113,5 +117,25 @@ public class DoctorService {
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(Long id) {
+        Optional<Clinic> optional = this.clinicRepository.findById(id);
+        if (!optional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = optional.get();
+        List<Doctor> doctors = this.doctorRepository.findByClinic(clinic);
+
+        List<DoctorDTO> doctorDTOS = new ArrayList<>();
+        for (Doctor d : doctors) {
+            doctorDTOS.add(DoctorDTO.builder()
+                    .firstName(d.getFirstName())
+                    .lastName(d.getLastName())
+                    .id(d.getId())
+                    .build());
+        }
+
+        return new ResponseEntity<>(doctorDTOS, HttpStatus.OK);
     }
 }
