@@ -48,41 +48,41 @@
         </div>
       </div>
       <label>Pricelist: TBA: list</label>
-    </div>
-    <div id="editModal" class="modal">
-      <div class="modal-dialog justify-content-center" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit clinic's info</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+      <div id="editModal" class="modal">
+        <div class="modal-dialog justify-content-center" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit clinic's info</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="login" accept-charset="UTF-8" class="d-flex flex-column">
+              <div class="modal-body d-flex flex-column">
+                <label>Name:</label>
+                <input type="text" class="p-2" id="name" name="name" v-model="name" />
+                <label>Description:</label>
+                <input
+                  type="text"
+                  class="p-2"
+                  id="description"
+                  name="description"
+                  v-model="description"
+                />
+                <label>Address:</label>
+                <input type="text" class="p-2" id="address" name="address" v-model="address" />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-dismiss="modal"
+                  v-on:click.prevent="update"
+                >Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
-          <form id="login" accept-charset="UTF-8" class="d-flex flex-column">
-            <div class="modal-body d-flex flex-column">
-              <label>Name:</label>
-              <input type="text" class="p-2" id="name" name="name" v-model="name" />
-              <label>Description:</label>
-              <input
-                type="text"
-                class="p-2"
-                id="description"
-                name="description"
-                v-model="description"
-              />
-              <label>Address:</label>
-              <input type="text" class="p-2" id="address" name="address" v-model="address" />
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-dismiss="modal"
-                v-on:click.prevent="update"
-              >Save changes</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -102,21 +102,39 @@ export default {
       map_data: [],
       name: undefined,
       description: undefined,
-      address: undefined
+      address: undefined,
+      admin: undefined
     };
   },
   mounted() {
     this.loading = true;
     httpClient
-      .get("/clinics/1")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.clinic = response.data;
-        this.loading = false;
+        this.admin = response.data;
       })
-      .catch(error => {
-        if (error.response != undefined && error.response.status == 302) {
-          this.response = error.response.data;
-        }
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Could not get admin",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          successDuration: 2000
+        });
+      })
+      .then(() => {
+        httpClient
+          .get("/clinics/" + this.admin.clinic.id)
+          .then(response => {
+            this.clinic = response.data;
+            this.loading = false;
+          })
+          .catch(error => {
+            if (error.response != undefined && error.response.status == 302) {
+              this.response = error.response.data;
+            }
+          });
       });
   },
   methods: {
