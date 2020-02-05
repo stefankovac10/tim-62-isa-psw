@@ -1,7 +1,9 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.TypeOfExaminationDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.TypeOfExamination;
+import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.TypeOfExaminationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +13,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TypeOfExaminationService {
 
     private TypeOfExaminationRepository typeOfExaminationRepository;
+    private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
 
     @Autowired
-    public TypeOfExaminationService(TypeOfExaminationRepository typeOfExaminationRepository,
+    public TypeOfExaminationService(TypeOfExaminationRepository typeOfExaminationRepository, ClinicRepository clinicRepository,
                                     ModelMapper modelMapper) {
         this.typeOfExaminationRepository = typeOfExaminationRepository;
+        this.clinicRepository = clinicRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -60,5 +65,25 @@ public class TypeOfExaminationService {
 
     public TypeOfExamination findByName(String type) {
         return this.typeOfExaminationRepository.findByName(type);
+    }
+
+    public ResponseEntity<List<TypeOfExaminationDTO>> getByClinicId(Long id) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
+        if (!optionalClinic.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Clinic clinic = optionalClinic.get();
+        List<TypeOfExamination> list = this.typeOfExaminationRepository.findByClinic(clinic);
+
+        List<TypeOfExaminationDTO> listDTO = new ArrayList<>();
+        for (TypeOfExamination t : list) {
+            listDTO.add(TypeOfExaminationDTO.builder()
+                    .id(t.getId())
+                    .name(t.getName())
+                    .description(t.getDescription())
+                    .build());
+        }
+
+        return new ResponseEntity<>(listDTO, HttpStatus.OK);
     }
 }

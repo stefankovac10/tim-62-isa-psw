@@ -42,4 +42,7 @@ public class TypeOfExaminationController {
         return this.typeOfExaminationService.delete(id);
     }
 
+    @GetMapping(value = "clinic/{id}")
+    public ResponseEntity<List<TypeOfExaminationDTO>> getByClinicId(@PathVariable Long id) { return this.typeOfExaminationService.getByClinicId(id); }
+
 }
