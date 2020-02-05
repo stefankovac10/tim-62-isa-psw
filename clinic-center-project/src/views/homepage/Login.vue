@@ -90,23 +90,32 @@ export default {
       }
     },
     isEmailValid: function() {
+      let emailInput = document.getElementById("email");
+
       if(!this.email) { // email is either empty string, undefined or null
           this.emailMessage = "E-mail is required";
+          emailInput.style.border = '2px solid red';
           return false;
       } else if (!this.email.includes("@")) {
           this.emailMessage = "Invalid e-mail format";
+          emailInput.style.border = '2px solid red';
           return false;
       } else {
           this.emailMessage = "";
+          emailInput.style.border = null;
           return true;
       }
     },
     isPasswordValid: function() {
+      let passwordInput = document.getElementById("password");
+
       if(!this.password){
           this.passwordMessage = "Password is required";
+          passwordInput.style.border = '2px solid red';
           return false;
       } else {
           this.passwordMessage = "";
+          passwordInput.style.border = null;
           return true;
       }
     }
