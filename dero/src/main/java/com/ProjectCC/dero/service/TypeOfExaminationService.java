@@ -2,9 +2,12 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.TypeOfExaminationDTO;
 import com.ProjectCC.dero.model.Clinic;
+import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.model.TypeOfExamination;
 import com.ProjectCC.dero.repository.ClinicRepository;
+import com.ProjectCC.dero.repository.ExaminationRepository;
 import com.ProjectCC.dero.repository.TypeOfExaminationRepository;
+import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,19 +22,27 @@ import java.util.Optional;
 public class TypeOfExaminationService {
 
     private TypeOfExaminationRepository typeOfExaminationRepository;
+    private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
 
     @Autowired
     public TypeOfExaminationService(TypeOfExaminationRepository typeOfExaminationRepository, ClinicRepository clinicRepository,
-                                    ModelMapper modelMapper) {
+                                    ExaminationRepository examinationRepository, ModelMapper modelMapper) {
         this.typeOfExaminationRepository = typeOfExaminationRepository;
+        this.examinationRepository = examinationRepository;
         this.clinicRepository = clinicRepository;
         this.modelMapper = modelMapper;
     }
 
     public ResponseEntity<TypeOfExaminationDTO> update(TypeOfExaminationDTO typeDTO) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(typeDTO.getClinic().getId());
+        if (!optionalClinic.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = optionalClinic.get();
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
+        type.setClinic(clinic);
         this.typeOfExaminationRepository.save(type);
         return new ResponseEntity<>(typeDTO, HttpStatus.OK);
     }
@@ -52,7 +63,13 @@ public class TypeOfExaminationService {
     }
 
     public ResponseEntity<TypeOfExaminationDTO> add(TypeOfExaminationDTO typeDTO) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(typeDTO.getClinic().getId());
+        if (!optionalClinic.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = optionalClinic.get();
         TypeOfExamination type = modelMapper.map(typeDTO, TypeOfExamination.class);
+        type.setClinic(clinic);
         type = this.typeOfExaminationRepository.save(type);
         typeDTO.setId(type.getId());
         return new ResponseEntity<>(typeDTO, HttpStatus.CREATED);
