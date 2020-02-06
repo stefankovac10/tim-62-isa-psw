@@ -61,7 +61,7 @@ export default {
       let path = "/rooms/" + this.type.toLowerCase();
       httpClient
         .post(path, room)
-        .then(function() {
+        .then(() => {
           this.$vToastify.success({
             body: "Room " + this.name + " has been added.",
             title: "Success",
@@ -71,7 +71,7 @@ export default {
             duration: 2000
           });
         })
-        .catch(function() {
+        .catch(() => {
           this.$vToastify.error({
             body: "Error while adding room",
             title: "Error",
@@ -83,7 +83,6 @@ export default {
         })
         .then(() => {
           this.$router.push("/cadmin/rooms");
-          location.reload();
         });
     }
   }

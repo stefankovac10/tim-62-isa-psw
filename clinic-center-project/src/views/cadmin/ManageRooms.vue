@@ -249,8 +249,15 @@ export default {
             room.dateNext = moment(room.nextAvailable).toString();
           }
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error searching rooms",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
     }
   }
