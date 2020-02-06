@@ -118,4 +118,11 @@ public class UserService {
 
         return new ResponseEntity<>(cadminDTO, HttpStatus.OK);
     }
+
+    public Boolean findUserByEmail(String email) {
+        Optional<User> opt = Optional.ofNullable(this.userRepository.findByEmail(email));
+        User user = opt.get();
+
+        return user.getLastPasswordResetDate() == null;
+    }
 }
