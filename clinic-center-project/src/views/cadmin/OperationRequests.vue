@@ -2,7 +2,8 @@
     <div class="d-flex flex-column p-2 justify-content-center">  
         <h1 align="center">Operation requests </h1>
         <div id="results" class="justify-content-center">
-        <table class="table table-hover">
+        <label v-if="!requests" for="empty">Currently there are no new requests</label>
+        <table class="table table-hover" v-if="requests">
           <thead>
             <tr>
               <th scope="col">Date</th>
@@ -14,11 +15,11 @@
           </thead>
           <tbody>
             <tr class="table-primary" v-for="request in requests" v-bind:key="request.id">
-              <th scope="row">{{request.date}}</th>
-              <td>{{request.duration/60000}} min</td>
+              <th scope="row">{{request.dateMoment}}</th>
+              <td>{{request.durationMoment}} min</td>
               <td>{{request.patientName}}</td>
               <td>{{request.doctorName}}</td>
-              <td> <button class="btn btn-success" >Schedule</button></td>
+              <td> <button class="btn btn-success"  v-on:click="search(request.id)">Book room</button></td>
             </tr>
           </tbody>
         </table>
@@ -35,6 +36,12 @@
             </li>-->
           </ul>
         </div>
+        <SearchRoomByRequest
+          v-bind:type="operation"
+          v-if="request"
+          v-bind:id="request"
+          v-on:reserved="refresh"
+        ></SearchRoomByRequest>
       </div>
     </div>
 </template>
@@ -42,21 +49,31 @@
 <script>
 import { httpClient } from "@/services/Api.js";
 import _ from "lodash";
+import SearchRoomByRequest from "@/views/cadmin/SearchRoomByRequest.vue";
+import moment from "moment";
 export default {
   data: function() {
     return {
       pages: [],
-      requests: undefined
+      requests: undefined,
+      request: undefined,
+      operation: "operation"
     };
+  },
+  components: {
+    SearchRoomByRequest
   },
   mounted() {
     httpClient
         .get("/operationRequest/"+localStorage.getItem('Email')+'/0')
         .then(response => {
           this.requests = _.cloneDeep(response.data);
-          this.pages = [];
-          for (let i = 1; i <= this.requests[0].pages; i++) {
-            this.pages[i - 1] = i;
+          this.pages = this.requests[0].pages;
+          for (const request of this.requests) {
+            request.dateMoment = moment(request.date).format(
+              "dddd, MMMM Do YYYY"
+            );
+            request.durationMoment = moment(request.duration).minute();
           }
         })
         .catch(error => {
@@ -65,6 +82,27 @@ export default {
         });
   },
   methods: {
+    refresh: function(){
+        httpClient
+        .get("/operationRequest/"+localStorage.getItem('Email')+'/0')
+        .then(response => {
+          this.requests = _.cloneDeep(response.data);
+          this.pages = this.requests[0].pages;
+          for (const request of this.requests) {
+            request.dateMoment = moment(request.date).format(
+              "dddd, MMMM Do YYYY, h:mm:ss"
+            );
+            request.durationMoment = moment(request.duration).minute();
+          }
+        })
+        .catch(error => {
+          this.error = error;
+          alert(error);
+        });
+    },
+    search: function(id) {
+      this.request = id;
+    },
     nextPage: function(page) {
         httpClient
           .get("/operationRequest/"+localStorage.getItem('Email')+'/' + page)
@@ -72,8 +110,12 @@ export default {
             this.requests = _.cloneDeep(response.data);
             this.pages = [];
             if (this.requests[0].pages != undefined) {
-              for (let i = 1; i <= this.requests[0].pages; i++) {
-                this.pages[i - 1] = i;
+              this.pages = this.requests[0].pages;
+              for (const request of this.requests) {
+                request.dateMoment = moment(request.date).format(
+                  "dddd, MMMM Do YYYY, h:mm:ss"
+                );
+                request.durationMoment = moment(request.duration).minute();
               }
             }
           })
