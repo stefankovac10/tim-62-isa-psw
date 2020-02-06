@@ -201,13 +201,13 @@ insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11
 insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:39Z', 920000, 1);
 
 
-insert into examination_appointment (id, examination_id, examination_room_id) values (4, 1, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (4, 1, null);
 insert into examination_appointment (id, examination_id, examination_room_id) values (5, 2, 1);
 insert into examination_appointment (id, examination_id, examination_room_id) values (6, 3, 1);
 
-insert into examination_request (doctor_id, patient_id, appointment_id) values (27, 24, 4);
-insert into examination_request (doctor_id, patient_id, appointment_id) values (29, 25, 5);
-insert into examination_request (doctor_id, patient_id, appointment_id) values (28, 22, 6);
+insert into examination_request (doctor_id, patient_id, appointment_id) values (6, 24, 4);
+insert into examination_request (doctor_id, patient_id, appointment_id) values (7, 25, 5);
+insert into examination_request (doctor_id, patient_id, appointment_id) values (8, 22, 6);
 
 --ZAHTJEV ZA REGISTRACIJU
 
@@ -258,10 +258,10 @@ insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_
 insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(2,'2020-02-11T13:00:00Z',null,1,2,2,10);
 insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_id) values(3,'2020-02-11T15:00:00Z',null,1,2,2,14);
 
-insert into appointment(id, duration, end_date, start_date, clinic_id) values (7,660000,null,'2020-02-15T12:00:00Z',1);
-insert into appointment(id, duration, end_date, start_date, clinic_id) values (8,600000,null,'2020-02-15T13:00:00Z',1);
-insert into appointment(id, duration, end_date, start_date, clinic_id) values (9,660000,null,'2020-02-15T14:00:00Z',1);
-insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,600000,null,'2020-02-15T15:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (11,600000,null,'2020-02-15T13:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (12,660000,null,'2020-02-15T14:00:00Z',1);
+insert into appointment(id, duration, end_date, start_date, clinic_id) values (13,600000,null,'2020-02-15T15:00:00Z',1);
 
 insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (4,'2020-02-15T12:00:00Z', 660000,1,1,2,9);
 insert into  operation(id, date, duration, clinic_id, med_rec_id, or_id, patient_id) values (5,'2020-02-15T13:00:00Z', 600000,1,2,2,15);
