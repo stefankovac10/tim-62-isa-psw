@@ -59,20 +59,26 @@ export default {
         }
         this.pages = response.data[0].pages;
       })
-      .catch(error => {
-        alert(error);
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Error retrieving examination",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
       });
   },
   methods: {
     reserve: function(room) {
-      let del = -1;
       let roomWithRequest = room;
       roomWithRequest.requestId = this.id;
       roomWithRequest.nextAvailable = moment(
         roomWithRequest.nextAvailable
       ).toISOString();
       httpClient
-        .put("/cadmin/reserve/", roomWithRequest)
+        .put("/cadmin/reserve", roomWithRequest)
         .then(() => {
           this.$vToastify.info({
             body: "Successfully reserved room for examination",
@@ -92,15 +98,10 @@ export default {
             append: false,
             duration: 2000
           });
+        })
+        .then(() => {
+          this.$emit("reserved");
         });
-      for (let i = 0; i < this.rooms.length; i++) {
-        if (this.rooms[i] === room) {
-          del = i;
-          break;
-        }
-      }
-      this.rooms.splice(del, del);
-      this.$emit("reserved");
     }
   }
 };
