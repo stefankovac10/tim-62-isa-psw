@@ -135,9 +135,17 @@ public class RoomsService {
         for (ExaminationAppointment ea : scheduled) {
             ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
             // da li ovaj sam isti koji je jebe li me, nadje li bas njega?
-            if (!date.isAfter(ea.getEndDate()) && !dateEnd.isBefore(ea.getStartDate())) {
+            if (!date.isAfter(ea.getEndDate()) && !dateEnd.isBefore(ea.getStartDate()))
                 return findNext(scheduled, date, duration, dateEnd);
-            }
+            if (date.isBefore(ea.getStartDate()) && dateEnd.isAfter(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (dateEnd.isBefore(ea.getEndDate()) && dateEnd.isAfter(ea.getStartDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (date.isAfter(ea.getStartDate()) && date.isBefore(ea.getEndDate()))
+            if (date.isEqual(ea.getStartDate()) || dateEnd.isEqual(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (date.isBefore(ea.getStartDate()) && dateEnd.isBefore(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
         }
         return date;
     }
@@ -150,7 +158,12 @@ public class RoomsService {
                 ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
             }
             if (ea.getEndDate().isBefore(next)) continue;
-            if (ea.getEndDate().isBefore(nextEnd)) {
+            if (ea.getStartDate().isAfter(nextEnd)) break;
+            if (ea.getEndDate().isBefore(nextEnd) ||
+                    ea.getEndDate().isBefore(next) ||
+                    (ea.getStartDate().isBefore(next) && ea.getEndDate().isAfter(nextEnd)) ||
+                    ea.getStartDate().isEqual(next) || ea.getEndDate().isEqual(nextEnd) ||
+                    (ea.getStartDate().isAfter(next) && nextEnd.isBefore(ea.getEndDate()))) {
                 next = ea.getEndDate().plusMinutes(2); // prazan hod sobe
                 nextEnd = next.plus(duration);
             }

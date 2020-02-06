@@ -27,17 +27,19 @@ public class ExaminationRequestService {
     private PatientRepository patientRepository;
     private ExaminationRoomRepository examinationRoomRepository;
     private ExaminationRepository examinationRepository;
+    private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
 
     @Autowired
     public ExaminationRequestService(ExaminationRequestRepository examinationRequestRepository, DoctorRepository doctorRepository,
                                      PatientRepository patientRepository, ExaminationRoomRepository examinationRoomRepository,
-                                     ExaminationRepository examinationRepository, ModelMapper modelMapper) {
+                                     ExaminationRepository examinationRepository, ClinicRepository clinicRepository, ModelMapper modelMapper) {
         this.examinationRequestRepository = examinationRequestRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.examinationRepository = examinationRepository;
+        this.clinicRepository = clinicRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -58,9 +60,13 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getAll(int page) {
+    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getAll(Long id, int page) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
+        if (!optionalClinic.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = optionalClinic.get();
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAll(pageable);
+        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
 
         ArrayList<ExaminationRequestDetailsDTO> requestDTOS = new ArrayList<>();
         for (ExaminationRequest er : requests) {
@@ -100,7 +106,7 @@ public class ExaminationRequestService {
 
         Optional<Doctor> optionalDoctor = this.doctorRepository.findById(examinationRequest.getDoctorId());
         Optional<Patient> optionalPatient = this.patientRepository.findById(examinationRequest.getPatientId());
-//        Optional<TypeOfExamination> optionalTypeOfExamination = this.
+
         if (!optionalDoctor.isPresent() || !optionalPatient.isPresent())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
