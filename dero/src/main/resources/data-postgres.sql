@@ -284,5 +284,5 @@ insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_i
 --insert into operations_doctors(doctor_id, operation_id) values (12,3);
 ---userid:43
 
-
-
+insert into type_of_examination (description, name) values ('Slusa ti pluca', 'pulmolog');
+insert into type_of_examination (description, name) values ('Slusa ti srce', 'kardiolog');
