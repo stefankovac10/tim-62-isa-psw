@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.OperationRequestDTO;
+import com.ProjectCC.dero.dto.OperationRoomRequestDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.DoctorRepository;
 import com.ProjectCC.dero.repository.OperationRequestRepository;
@@ -73,4 +74,8 @@ public class OperationRequestService {
 
     }
 
+    public ResponseEntity<Void> reserveOperation(OperationRoomRequestDTO operationRoomRequest) {
+        
+
+    }
 }
