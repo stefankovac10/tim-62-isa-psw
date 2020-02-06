@@ -23,7 +23,7 @@
               </div>
               <br>
               <h5 align="center">Please select doctors for operation</h5>
-             <button class="btn btn-success" style="position: absolute; right: 0; bottom:0; margin: 35px" v-on:click="reserve()" >Assigne</button>
+             <button class="btn btn-success" style="position: absolute; right: 0; bottom:0; margin: 35px" v-on:click="reserve()" >Assign</button>
 
     </div>
 </template>
@@ -68,8 +68,6 @@ methods:{
       this.roomRequest.requestId = this.id;
       this.roomRequest.room = this.room;
       this.roomRequest.doctors = this.doctorsSelected;
-      // eslint-disable-next-line no-console
-      console.log(this.roomRequest)
       if(this.doctorsSelected === undefined || this.doctorsSelected === null){
         this.$vToastify.error({
             body: "Please, choose doctors",
