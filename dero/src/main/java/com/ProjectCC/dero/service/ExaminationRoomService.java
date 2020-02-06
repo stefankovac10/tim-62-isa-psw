@@ -105,6 +105,9 @@ public class ExaminationRoomService {
 
     public ResponseEntity<Long> update(ExaminationRoomDTO examinationRoomDTO) {
         Optional<ExaminationRoom> optional = this.examinationRoomRepository.findById(examinationRoomDTO.getId());
+        if (!optional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         ExaminationRoom er = optional.get();
         er.setName(examinationRoomDTO.getName());
         er.setNumber(examinationRoomDTO.getNumber());
@@ -115,6 +118,9 @@ public class ExaminationRoomService {
 
     public ResponseEntity<ExaminationRoomDTO> findById(Long id) {
         Optional<ExaminationRoom> er = this.examinationRoomRepository.findById(id);
+        if (!er.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         ExaminationRoom examinationRoom = er.get();
         ExaminationRoomDTO ret = ExaminationRoomDTO.builder()
                 .id(examinationRoom.getId())

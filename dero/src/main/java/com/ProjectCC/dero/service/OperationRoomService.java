@@ -2,11 +2,12 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.Operation;
-import com.ProjectCC.dero.model.OperationRoom;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
+import com.ProjectCC.dero.repository.OperationAppointmentRepository;
+import com.ProjectCC.dero.repository.OperationRepository;
 import com.ProjectCC.dero.repository.OperationRoomRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,16 @@ import java.util.Optional;
 @Service
 public class OperationRoomService {
     private OperationRoomRepository operationRoomRepository;
+    private OperationRepository operationRepository;
+    private OperationAppointmentRepository operationAppointmentRepository;
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public OperationRoomService(OperationRoomRepository operationRoomRepository, ClinicRepository clinicRepository) {
+    public OperationRoomService(OperationRoomRepository operationRoomRepository, OperationRepository operationRepository,
+                                OperationAppointmentRepository operationAppointmentRepository, ClinicRepository clinicRepository) {
         this.operationRoomRepository = operationRoomRepository;
+        this.operationRepository = operationRepository;
+        this.operationAppointmentRepository = operationAppointmentRepository;
         this.clinicRepository = clinicRepository;
     }
 
@@ -69,13 +75,36 @@ public class OperationRoomService {
     }
 
     public ResponseEntity<Void> delete(Long id) {
-        this.operationRoomRepository.deleteById(id);
+        Optional<OperationRoom> optionalOperationRoom = this.operationRoomRepository.findById(id);
+        if (!optionalOperationRoom.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        OperationRoom operationRoom = optionalOperationRoom.get();
+        List<Operation> operations = this.operationRepository.findByOperationRoom(operationRoom);
+        List<OperationAppointment> operationAppointments = this.operationAppointmentRepository.findByOperationRoom(operationRoom);
+        DateTime now = new DateTime();
+
+        for (OperationAppointment operationAppointment: operationAppointments) {
+            if (operationAppointment.getStartDate().isAfter(now))
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            operationAppointment.setOperationRoom(null);
+            this.operationAppointmentRepository.save(operationAppointment);
+        }
+
+        for (Operation operation : operations) {
+            operation.setOperationRoom(null);
+            this.operationRepository.save(operation);
+        }
+
+        this.operationRoomRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Long> update(OperationRoomDTO operationRoomDTO) {
         Optional<OperationRoom> optional = this.operationRoomRepository.findById(operationRoomDTO.getId());
+        if (!optional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         OperationRoom or = optional.get();
         or.setName(operationRoomDTO.getName());
         or.setNumber(operationRoomDTO.getNumber());
@@ -86,6 +115,9 @@ public class OperationRoomService {
 
     public ResponseEntity<OperationRoomDTO> findById(Long id) {
         Optional<OperationRoom> or = this.operationRoomRepository.findById(id);
+        if (!or.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         OperationRoom operationRoom = or.get();
         OperationRoomDTO ret = OperationRoomDTO.builder()
                 .id(operationRoom.getId())
