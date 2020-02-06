@@ -54,7 +54,7 @@ export default {
             .then(response => {
               this.response = response;
               this.firstTime = this.response.data;
-
+              
               if (this.firstTime === true && role != "ROLE_PATIENT") {
                 this.$router.push("/changePassword");
               } else {
