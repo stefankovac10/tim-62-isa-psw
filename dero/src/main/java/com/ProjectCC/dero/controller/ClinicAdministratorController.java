@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
         return new ResponseEntity<>(this.clinicAdministratorService.save(clinicAdministratorDTO), HttpStatus.OK);
     }
@@ -45,11 +47,13 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
+    @PreAuthorize("hasRole('CADMIN')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
 
     @GetMapping(value = "scheduledExaminations/{page}")
+    @PreAuthorize("hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable int page) {
         return this.examinationRequestService.getAll(page);
     }
