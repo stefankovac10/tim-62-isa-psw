@@ -1,6 +1,5 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.controller.RoomsController;
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
 import com.ProjectCC.dero.model.*;
@@ -27,16 +26,19 @@ public class RoomsService {
     private ExaminationRoomRepository examinationRoomRepository;
     private OperationRoomRepository operationRoomRepository;
     private ExaminationRequestRepository examinationRequestRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
     public RoomsService(RoomsRepository roomsRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
-                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository) {
+                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository,
+                        ClinicRepository clinicRepository) {
         this.roomsRepository = roomsRepository;
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.operationRoomRepository = operationRoomRepository;
         this.examinationRequestRepository = examinationRequestRepository;
+        this.clinicRepository = clinicRepository;
     }
 
     public ResponseEntity<List<RoomDTO>> search(String name, int number, DateTime date, Duration duration, int page) {
@@ -156,17 +158,28 @@ public class RoomsService {
         return next;
     }
 
-    public List<RoomDTO> getAll(int page) {
+    public ResponseEntity<List<RoomDTO>> getAll(Long id, int page) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
+        if (!optionalClinic.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Clinic clinic = optionalClinic.get();
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Room> roomPage = this.roomsRepository.findAll(pageable);
+        Page<Room> roomPage = this.roomsRepository.findByClinic(clinic, pageable);
+
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : roomPage.getContent()) {
+            String type;
+            if (r instanceof ExaminationRoom) {
+                type = "examination";
+            } else type = "operation";
             roomDTOS.add(RoomDTO.builder()
                     .name(r.getName())
                     .number(r.getNumber())
+                    .type(type)
                     .id(r.getId()).build());
         }
-        return roomDTOS;
+        return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity<List<ExaminationRoomDTO>> getRoomsForExamination(Long id, int page) {

@@ -100,9 +100,9 @@ public class RoomsController {
         return this.roomsService.search(name, number, dateTime, d, page);
     }
 
-    @GetMapping(value = "/all/{page}")
-    public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable int page) {
-        return new ResponseEntity<>(this.roomsService.getAll(page), HttpStatus.OK);
+    @GetMapping(value = "/all/{id}/{page}")
+    public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getAll(id, page);
     }
 
     @GetMapping(value = "/examinationRequest/{id}/{page}")
