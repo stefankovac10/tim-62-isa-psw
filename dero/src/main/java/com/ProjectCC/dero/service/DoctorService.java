@@ -2,15 +2,17 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.DoctorDTO;
-import com.ProjectCC.dero.model.Authority;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.Doctor;
-import com.ProjectCC.dero.model.TypeOfExamination;
-import com.ProjectCC.dero.repository.DoctorRepository;
+import com.ProjectCC.dero.model.*;
+import com.ProjectCC.dero.repository.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +25,26 @@ import java.util.List;
 public class DoctorService {
 
     private DoctorRepository doctorRepository;
+    private UserRepository userRepository;
     private ClinicService clinicService;
     private TypeOfExaminationService typeOfExaminationService;
+    private ExaminationRequestRepository examinationRequestRepository;
+    private OperationRepository operationRepository;
     private ModelMapper modelMapper;
+    private OperationRequestRepository operationRequestRepository;
     private PasswordEncoder passwordEncoder;
     private AuthorityService authorityService;
 
     @Autowired
-    public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService,
+    public DoctorService(DoctorRepository doctorRepository, OperationRepository operationRepository, ClinicService clinicService,UserRepository userRepository,
                          TypeOfExaminationService typeOfExaminationService, ModelMapper modelMapper,
-                         PasswordEncoder passwordEncoder, AuthorityService authorityService) {
+                         PasswordEncoder passwordEncoder,
+                         OperationRequestRepository operationRequestRepository,ExaminationRequestRepository examinationRequestRepository, AuthorityService authorityService) {
         this.doctorRepository = doctorRepository;
+        this.userRepository = userRepository;
+        this.operationRequestRepository = operationRequestRepository;
+        this.operationRepository = operationRepository;
+        this.examinationRequestRepository = examinationRequestRepository;
         this.clinicService = clinicService;
         this.typeOfExaminationService = typeOfExaminationService;
         this.modelMapper = modelMapper;
@@ -113,5 +124,55 @@ public class DoctorService {
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DoctorDTO>> findAvaliable(Long id, String next) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        ClinicAdministrator cadmin = (ClinicAdministrator) userRepository.findByEmail(username);
+
+        OperationRequest or = operationRequestRepository.findById(id).orElseGet(null);
+        List<Doctor> doctors = doctorRepository.findAllByClinic(cadmin.getClinic().getId());
+        List<DoctorDTO> doctorsDTO = new ArrayList<>();
+
+        for (Doctor d : doctors) {
+            if(checkIfDoctorIsFree(d, DateTime.parse(next), or.getDuration())) {
+                doctorsDTO.add(DoctorDTO.builder()
+                        .id(d.getId())
+                        .firstName(d.getFirstName())
+                        .lastName(d.getLastName())
+                        .jmbg(d.getJmbg())
+                        .country(d.getCountry())
+                        .city(d.getCity())
+                        .address(d.getAddress())
+                        .telephone(d.getTelephone())
+                        .clinic(ClinicDTO.builder().name(d.getClinic().getName()).build())
+                        .build());
+            }
+        }
+
+        return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    }
+
+    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+        List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
+        List<Operation> operations = this.operationRepository.findByDoctorsId(doc.getId());
+        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
+
+        for (ExaminationRequest er : examinationRequests) {
+            ExaminationAppointment ea = er.getExaminationAppointment();
+            ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
+            if (!nextAvailable.isAfter(ea.getEndDate()) && !nextEnd.isBefore(ea.getStartDate())) {
+                return false;
+            }
+        }
+
+        for(Operation o: operations){
+            DateTime end = (new DateTime(o.getDate().getMillis()+o.getDuration().getMillis(), DateTimeZone.UTC));
+            if (!nextAvailable.isAfter(end) && !nextEnd.isBefore(o.getDate())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

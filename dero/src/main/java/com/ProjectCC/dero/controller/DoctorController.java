@@ -6,6 +6,7 @@ import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.DoctorService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,11 @@ public class DoctorController {
     @GetMapping(value = "/all")
     public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
         return this.doctorService.findAll();
+    }
+
+    @GetMapping(value = "/avaliable/{id}/{nextAvailable}")
+    public ResponseEntity<List<DoctorDTO>> getAvaliableDoctors(@PathVariable Long id, @PathVariable String nextAvailable) {
+        return this.doctorService.findAvaliable(id, nextAvailable);
     }
 
     @GetMapping(value = "/search/{firstName}/{lastName}/{email}/{city}/{country}/{clinic}")
