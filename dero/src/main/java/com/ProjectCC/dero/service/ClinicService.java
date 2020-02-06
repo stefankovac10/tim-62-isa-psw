@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -130,6 +131,10 @@ public class ClinicService {
 
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
+            String type;
+            if (s instanceof Doctor) {
+                type = "doctor";
+            } else type = "nurse";
             staff.add(MedicalStaffDTO.builder()
                     .firstName(s.getFirstName())
                     .lastName(s.getLastName())
@@ -140,6 +145,7 @@ public class ClinicService {
                     .id(s.getId())
                     .jmbg(s.getJmbg())
                     .telephone(s.getTelephone())
+                    .type(type)
                     .build());
         }
 

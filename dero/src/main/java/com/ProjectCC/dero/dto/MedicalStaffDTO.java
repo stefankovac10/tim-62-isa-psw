@@ -20,5 +20,6 @@ public class MedicalStaffDTO extends UserDTO{
     public ClinicDTO clinic;
     private VacationRequestDTO vacationRequest;
     public List<MedicalRecord> medicalRecords;
+    private String type;
 
 }
