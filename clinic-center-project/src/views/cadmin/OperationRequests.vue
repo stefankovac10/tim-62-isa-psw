@@ -1,6 +1,7 @@
 <template>
-    <div class="d-flex flex-column p-2 justify-content-center">  
-        <h1 align="center">Operation requests </h1>
+    <div class="d-flex p-2 justify-content-center"> 
+      <div class="d-flex flex-column">
+        <h1>Operation requests </h1>
         <div id="results" class="justify-content-center">
         <label v-if="!requests" for="empty">Currently there are no new requests</label>
         <table class="table table-hover" v-if="requests">
@@ -10,20 +11,18 @@
               <th scope="col">Duration</th>
               <th scope="col">Patient</th>
               <th scope="col">Doctor</th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr class="table-primary" v-for="request in requests" v-bind:key="request.id">
+            <tr class="table-primary" v-for="request in requests" v-bind:key="request.id" v-on:click="search(request.id)">
               <th scope="row">{{request.dateMoment}}</th>
               <td>{{request.durationMoment}} min</td>
               <td>{{request.patientName}}</td>
               <td>{{request.doctorName}}</td>
-              <td> <button class="btn btn-success"  v-on:click="search(request.id)">Book room</button></td>
             </tr>
           </tbody>
         </table>
-        <div  class="d-flex p-2 justify-content-center">
+        <div>
           <ul class="pagination">
             <!-- <li class="page-item disabled">
               <a class="page-link" href="#">&laquo;</a>
@@ -35,6 +34,7 @@
               <a class="page-link">&raquo;</a>
             </li>-->
           </ul>
+          </div>
         </div>
         <SearchRoomByRequest
           v-bind:type="operation"
@@ -71,7 +71,7 @@ export default {
           this.pages = this.requests[0].pages;
           for (const request of this.requests) {
             request.dateMoment = moment(request.date).format(
-              "dddd, MMMM Do YYYY"
+              "dddd, MMMM Do YYYY, h:mm:ss"
             );
             request.durationMoment = moment(request.duration).minute();
           }
