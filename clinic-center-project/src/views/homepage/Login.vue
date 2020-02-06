@@ -16,6 +16,7 @@
 <script>
 import { httpClient } from "@/services/Api.js";
 import moment from "moment";
+
 export default {
   name: "login",
   props: {
@@ -41,15 +42,19 @@ export default {
           localStorage.setItem("Refresh-token", response.data.refreshToken);
           localStorage.setItem("Email", response.data.email);
           localStorage.setItem("Authority", response.data.authority);
+
           let time = moment().add(response.data.expiresIn);
           localStorage.setItem("Expiary", time);
+
           let role = response.data.authority;
           let path;
+
           httpClient
             .get("/users/" + response.data.email)
             .then(response => {
               this.response = response;
               this.firstTime = this.response.data;
+              
               if (this.firstTime === true && role != "ROLE_PATIENT") {
                 this.$router.push("/changePassword");
               } else {
