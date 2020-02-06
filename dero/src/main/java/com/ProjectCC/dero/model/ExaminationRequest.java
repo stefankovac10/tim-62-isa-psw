@@ -30,4 +30,7 @@ public class ExaminationRequest {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id")
     private ExaminationAppointment examinationAppointment;
+
+    @Column
+    private Long clinicId;
 }

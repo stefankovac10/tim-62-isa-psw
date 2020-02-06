@@ -39,31 +39,42 @@ export default {
           });
         this.$router.push("/cadmin/doctors");
         this.$vToastify.info({
-            body: "Nurse "+ args[0].firstName + " " + args[0].lastName + " has been added." ,
-            title: "Success",
-            type: "success",
-            canTimeout: true,
-            append: false, duration: 2000
+          body:
+            "Nurse " +
+            args[0].firstName +
+            " " +
+            args[0].lastName +
+            " has been added.",
+          title: "Success",
+          type: "success",
+          canTimeout: true,
+          append: false,
+          duration: 2000
         });
         return;
       }
 
       httpClient
         .post("/users/doc/" + args[2], args[0])
-        .then(function(response) {
-          this.response = response;
+        .then(() => {
+          this.$router.push("/cadmin/doctors");
+          this.$vToastify.info({
+            body:
+              "Doctor " +
+              args[0].firstName +
+              " " +
+              args[0].lastName +
+              " has been added.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
         .catch(function(error) {
           error;
         });
-      this.$router.push("/cadmin/doctors");
-      this.$vToastify.info({
-        body: "Doctor "+ args[1].firstName + " " + args[1].lastName + " has been added." ,
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
     }
   }
 };
