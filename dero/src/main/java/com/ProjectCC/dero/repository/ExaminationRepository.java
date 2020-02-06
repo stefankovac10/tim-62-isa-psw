@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.repository;
 
 import com.ProjectCC.dero.model.Examination;
+import com.ProjectCC.dero.model.ExaminationRoom;
 import com.ProjectCC.dero.model.TypeOfExamination;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,6 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     List<Examination> findNurseExamination(Long id);
 
     List<Examination> findByType(TypeOfExamination typeOfExamination);
+
+    List<Examination> findByExaminationRoom(ExaminationRoom examinationRoom);
 }
