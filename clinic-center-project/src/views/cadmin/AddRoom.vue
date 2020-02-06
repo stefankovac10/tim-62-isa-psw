@@ -80,9 +80,11 @@ export default {
             append: false,
             duration: 2000
           });
+        })
+        .then(() => {
+          this.$router.push("/cadmin/rooms");
+          location.reload();
         });
-
-      this.$router.push("/cadmin/rooms");
     }
   }
 };

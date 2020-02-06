@@ -180,8 +180,7 @@ export default {
           });
         })
         .then(() => {
-
-      location.reload();
+          location.reload();
         });
     },
     update: function() {
@@ -213,8 +212,7 @@ export default {
           });
         })
         .then(() => {
-
-      location.reload();
+          location.reload();
         });
     },
     searchRooms: function() {
