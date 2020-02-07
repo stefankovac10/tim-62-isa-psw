@@ -33,18 +33,18 @@ insert into medication (code, description, name) values ('A03BC04', 'Opis', 'PAR
 insert into medication (code, description, name) values ('A03BC05', 'Opis', 'ANALGIN');
 
 --KLINIKE
-insert into clinic (address, description, grade, income, name, price_list) values ('Adresaq', 'opis1', 4.3, 2000.0, 'Klinika1', 'price_list');
-insert into clinic (address, description, grade, income, name, price_list) values ('Adresa2', 'opis2', 2.9, 2000.0, 'Klinika2', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Evrope BB', 'Privatna poliklinika', 4.1, 3500.0, 'Poliklinika Galetic', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Dusana Vasiljeva 4', 'Privatna poliklinika', 4.1, 4000.0, 'Poliklinika Maric', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Evrope BB', 'Privatna poliklinika', 3.4, 1234.0, 'Poliklinika Atina', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Kosovska 26', 'Privatna poliklinika', 4.23, 3800.0, 'Poliklinika Novakov', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Bulevar Mihajla Pupina 25', 'Privatna poliklinika', 4.11, 1500.0, 'NK Poliklinika', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Futoska 121', 'Institut za javno zdravlje Vojvodine', 4.2, 1550.0, 'Higijenski zavod', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.00, 1000.0, 'Klinika za neurologiju', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 3.89, 1500.0, 'Klinika za ocne bolesti', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 10000.0, 'Klinika za psihijatriju', 'price_list2');
-insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 2300.0, 'Klinika za hematologiju', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Adresaq', 'opis1', 4.3, 2000.0, 'Klinika1', 'price_list');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Adresa2', 'opis2', 2.9, 2000.0, 'Klinika2', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Bulevar Evrope BB', 'Privatna poliklinika', 4.1, 3500.0, 'Poliklinika Galetic', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Dusana Vasiljeva 4', 'Privatna poliklinika', 4.1, 4000.0, 'Poliklinika Maric', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Bulevar Evrope BB', 'Privatna poliklinika', 3.4, 1234.0, 'Poliklinika Atina', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Kosovska 26', 'Privatna poliklinika', 4.23, 3800.0, 'Poliklinika Novakov', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Bulevar Mihajla Pupina 25', 'Privatna poliklinika', 4.11, 1500.0, 'NK Poliklinika', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Futoska 121', 'Institut za javno zdravlje Vojvodine', 4.2, 1550.0, 'Higijenski zavod', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.00, 1000.0, 'Klinika za neurologiju', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Hajduk Veljkova', 'Klinicki centar Vojvodine', 3.89, 1500.0, 'Klinika za ocne bolesti', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 10000.0, 'Klinika za psihijatriju', 'price_list2');
+insert into clinic (version, address, description, grade, income, name, price_list) values (0, 'Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 2300.0, 'Klinika za hematologiju', 'price_list2');
 
 insert into type_of_examination (description, name, clinic_id) values ('Gleda ti oci', 'oftamolog', 1);
 
@@ -191,9 +191,9 @@ insert into examination_appointment (id, examination_room_id) values (1, 1);
 insert into examination_appointment (id, examination_room_id) values (2, 1);
 insert into examination_appointment (id, examination_room_id) values (3, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null, 1, 1);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 2, 2);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 3, 3);
+insert into examination (version, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES (0, '0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, null, 1, 1);
+insert into examination (version, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES (0, '0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 2, 2);
+insert into examination (version, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES (0, '0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, null, 3, 3);
 
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
@@ -208,7 +208,7 @@ insert into examination_request (doctor_id, patient_id, appointment_id) values (
 insert into examination_request (doctor_id, patient_id, appointment_id) values (28, 22, 6);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (13, 9, 1, 7);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
+insert into examination (version, discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES (0, '0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
 
 --ZAHTJEV ZA REGISTRACIJU
 
@@ -268,5 +268,5 @@ insert into operation (id, date, duration, clinic_id,med_rec_id, or_id, patient_
 --insert into operations_doctors(doctor_id, operation_id) values (12,3);
 ---userid:43
 
-insert into type_of_examination (description, name) values ('Slusa ti pluca', 'pulmolog');
-insert into type_of_examination (description, name) values ('Slusa ti srce', 'kardiolog');
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 1);
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog', 1);
