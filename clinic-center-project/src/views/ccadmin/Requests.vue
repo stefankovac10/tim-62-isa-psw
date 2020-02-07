@@ -172,7 +172,7 @@ export default {
           .catch(error => {
             this.error = error;
           });
-          this.$vToastify.info({
+          this.$vToastify.success({
               body: "Mail has been sent",
               title: "Success",
               type: "success",

@@ -158,7 +158,7 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
+        this.$vToastify.success({
               body: "Diagnosis is edited",
               title: "Success",
               type: "success",
@@ -171,7 +171,7 @@ export default {
         .delete("/diagnosis/"+diagnosis.id)
         .then(response => {
             this.response = response; 
-            this.$vToastify.info({
+            this.$vToastify.sucess({
               body: "Diagnosis " + diagnosis.name + " is removed",
               title: "Success",
               type: "success",
@@ -182,7 +182,7 @@ export default {
         })
         .catch(error => {
           this.error = error;
-          this.$vToastify.info({
+          this.$vToastify.error({
               body: "Diagnosis " + diagnosis.name + " can't be deleted",
               title: "Error",
               type: "error",
@@ -190,7 +190,6 @@ export default {
               append: false, duration: 2000
             });
         });
-      
     }
   }
 };

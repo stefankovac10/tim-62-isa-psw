@@ -57,20 +57,28 @@ export default {
       certify: function(id){
           httpClient
         .get("/prescription/certify/"+id+"/" +localStorage.getItem("Email"))
-        .then(response => {
-          this.prescription = response.data;      
-          this.refresh();
-        })
-        .catch(error => {
-          this.error = error;
-        });
-        this.$vToastify.info({
+        .then(() => {
+          this.$vToastify.success({
               body: "Prescription is succesfully certified",
               title: "Success",
               type: "success",
               canTimeout: true,
               append: false, duration: 2000
+            });       
+          this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+          this.$vToastify.error({
+              body: "Prescription is already certified",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false, duration: 2000
             });  
+            this.refresh();
+        });
+        
       }
   }
 };
