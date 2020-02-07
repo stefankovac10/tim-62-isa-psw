@@ -5,6 +5,7 @@ import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.ExaminationRepository;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
+import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.print.Doc;
 import java.util.ArrayList;
@@ -111,14 +116,18 @@ public class ClinicService {
         return clinicRepository.findById(id).orElseGet(null);
     }
 
-    public ClinicDTO update(ClinicDTO clinicDTO) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    public ResponseEntity<ClinicDTO> update(ClinicDTO clinicDTO) {
         Optional<Clinic> clinic_find = clinicRepository.findById(clinicDTO.getId());
+        if (!clinic_find.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         Clinic clinic = clinic_find.get();
         clinic.setName(clinicDTO.getName());
         clinic.setAddress(clinicDTO.getAddress());
         clinic.setDescription(clinicDTO.getDescription());
         this.clinicRepository.save(clinic);
-        return clinicDTO;
+        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<ClinicDTO> findById(Long id) {

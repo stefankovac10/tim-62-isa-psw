@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +95,7 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(requestDTOS, HttpStatus.OK);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<Void> reserve(Long requestId, Long roomId, DateTime nextAvailable) {
         Optional<ExaminationRequest> optionalExaminationRequest = this.examinationRequestRepository.findById(requestId);
         if (!optionalExaminationRequest.isPresent())
@@ -143,7 +146,8 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
         DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
 
@@ -157,7 +161,8 @@ public class ExaminationRequestService {
         return true;
     }
 
-    private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
         List<Doctor> doctors = this.doctorRepository.findAll();
         for (Doctor doc : doctors) {
             if (checkIfDoctorIsFree(doc, nextAvailable, duration))
