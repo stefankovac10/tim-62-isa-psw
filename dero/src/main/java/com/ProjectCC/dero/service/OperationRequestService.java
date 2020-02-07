@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -52,7 +53,7 @@ public class OperationRequestService {
     }
 
     public List<OperationRequestDTO> findOperations(String email,int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"date"));
         ClinicAdministrator user = (ClinicAdministrator)userRepository.findByEmail(email);
 
         Page<OperationRequest> operations = operationRequestRepository.findByClinic(user.getClinic().getId(),pageable);
