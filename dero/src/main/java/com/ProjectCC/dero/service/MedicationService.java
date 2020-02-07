@@ -55,11 +55,10 @@ public class MedicationService {
         return medicationDTOS;
     }
 
-
-
     public Medication save(Medication medication){
         Medication medication_find = medicationRepository.findByName(medication.getName());
-        if (medication_find == null) {
+        Medication medication_find1 = medicationRepository.findByCode(medication.getCode());
+        if (medication_find == null && medication_find1 == null) {
             return medicationRepository.save(medication);
         }
         return null;

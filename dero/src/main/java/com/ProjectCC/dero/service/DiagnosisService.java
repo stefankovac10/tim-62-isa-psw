@@ -55,9 +55,9 @@ public class DiagnosisService {
     }
 
     public Diagnosis save(Diagnosis diagnosis) {
-
         Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
-        if (diagnosis_find == null) {
+        Diagnosis diagnosis_find1 = diagnosisRepository.findByCode(diagnosis.getCode());
+        if (diagnosis_find == null && diagnosis_find1 == null) {
             return diagnosisRepository.save(diagnosis);
         }
         return null;
