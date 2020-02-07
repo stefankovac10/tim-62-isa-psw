@@ -8,6 +8,7 @@ import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
+import org.hibernate.StaleObjectStateException;
 import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.HashSet;
@@ -69,7 +71,12 @@ public class ClinicAdministratorController {
         Long requestId = examinationRoomDTO.getRequestId();
         Long roomId = examinationRoomDTO.getId();
         DateTime nextAvailable = examinationRoomDTO.getNextAvailable();
-        return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+        try {
+            return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+        } catch (StaleObjectStateException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room has been booked in the meantime", e);
+        }
     }
 
 }
