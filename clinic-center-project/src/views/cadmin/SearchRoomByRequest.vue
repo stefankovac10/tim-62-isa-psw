@@ -89,10 +89,10 @@ export default {
             duration: 2000
           });
         })
-        .catch(() => {
+        .catch(error => {
           this.$vToastify.error({
             body: "Error while reserving examination",
-            title: "Error",
+            title: error.reason,
             type: "error",
             canTimeout: true,
             append: false,
