@@ -25,7 +25,8 @@ export default {
   data: function() {
     return {
       email: undefined,
-      password: undefined
+      password: undefined,
+      firstTime: undefined
     };
   },
   methods: {
@@ -38,6 +39,7 @@ export default {
         .post("/auth/login", user)
         .then(response => {
           localStorage.setItem("User-token", response.data.accessToken);
+          localStorage.setItem("Refresh-token", response.data.refreshToken);
           localStorage.setItem("Email", response.data.email);
           localStorage.setItem("Authority", response.data.authority);
 
@@ -46,24 +48,54 @@ export default {
 
           let role = response.data.authority;
           let path;
-          if (role === "ROLE_CCADMIN") {
-            path = "/ccadmin";
-          } else if (role === "ROLE_CADMIN") {
-            path = "/cadmin/profile";
-          } else if (role === "ROLE_DOCTOR") {
-            path = "/doc/profile";
-          } else if (role === "ROLE_NURSE") {
-            path = "/nurse/profile";
-          } else if (role === "ROLE_PATIENT") {
-            path = "/patient/profile";
-          } else if (role === "ROLE_REQUEST") {
-            path = "/login";
-            alert("You hove to be accepted by admin to log in.");
-          }
-          this.$router.push(path);
+
+          httpClient
+            .get("/users/" + response.data.email)
+            .then(response => {
+              this.response = response;
+              this.firstTime = this.response.data;
+              
+              if (this.firstTime === true && role != "ROLE_PATIENT") {
+                this.$router.push("/changePassword");
+              } else {
+                if (role === "ROLE_CCADMIN") {
+                  path = "/ccadmin";
+                } else if (role === "ROLE_CADMIN") {
+                  path = "/cadmin/profile";
+                } else if (role === "ROLE_DOCTOR") {
+                  path = "/doc/profile";
+                } else if (role === "ROLE_NURSE") {
+                  path = "/nurse/profile";
+                } else if (role === "ROLE_PATIENT") {
+                  path = "/patient/profile";
+                } else if (role === "ROLE_REQUEST") {
+                  path = "/login";
+                  this.$vToastify.info({
+                    body: "You hove to be accepted by admin to log in.",
+                    title: "Success",
+                    type: "success",
+                    canTimeout: true,
+                    append: false,
+                    duration: 2000
+                  });
+                }
+              }
+              this.$router.push(path);
+              //}
+            })
+            .catch(error => {
+              this.error = error;
+            });
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.info({
+            body: "Your username or passwrord are not correct.",
+            title: "Warning",
+            type: "warning",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
     }
   }

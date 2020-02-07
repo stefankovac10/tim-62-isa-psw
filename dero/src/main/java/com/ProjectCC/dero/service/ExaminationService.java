@@ -1,19 +1,22 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.ExaminationDTO;
-import com.ProjectCC.dero.dto.ExaminationRoomDTO;
-import com.ProjectCC.dero.dto.MedicationDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Minutes;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminationService {
@@ -21,23 +24,27 @@ public class ExaminationService {
     private ExaminationRepository examinationRepository;
     private DiagnosisRepository diagnosisRepository;
     private ModelMapper modelMapper;
+    private ExaminationAppointmentRepository examinationAppointmentRepository;
     private MedicationRepository medicationRepository;
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
+    private UserRepository userRepository;
     private MedicalRecordRepository medicalRecordRepository;
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,
+    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper, ExaminationAppointmentRepository examinationAppointmentRepository,
                               ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
                               MedicationRepository medicationRepository, DoctorRepository doctorRepository,
-                              NurseRepository nurseRepository, ClinicRepository clinicRepository) {
+                              NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository) {
         this.examinationRepository = examinationRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.medicationRepository = medicationRepository;
         this.doctorRepository = doctorRepository;
+        this.userRepository = userRepository;
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
+        this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.medicalRecordRepository = medicalRecordRepository;
         this.clinicRepository = clinicRepository;
     }
@@ -86,23 +93,45 @@ public class ExaminationService {
     }
 
     public ExaminationDTO edit(ExaminationDTO examinationDTO) {
-        Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
-        examination.setReport(examinationDTO.getReport());
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       String name = authentication.getName();
+       User user = userRepository.findByEmail(name);
 
-        Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
-        examination.setDiagnosis(diagnosis);
+       Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
 
-        examinationRepository.save(examination);
+       if(user.getId() == examination.getDoctor().getId()){
+           examination.setReport(examinationDTO.getReport());
 
-        return examinationDTO;
+           Diagnosis diagnosis = diagnosisRepository.findById(examinationDTO.getDiagnosis().getId()).orElseGet(null);
+           examination.setDiagnosis(diagnosis);
+
+           examinationRepository.save(examination);
+           return examinationDTO;
+       }
+       return null;
     }
 
     public ExaminationDTO getOne(Long id) {
-        Examination examination = examinationRepository.getOne(id);
-        ExaminationDTO examinationDTO= ExaminationDTO.builder()
-                                       .id(examination.getId())
-                                       .report(examination.getReport())
-                                       .build();
+        Examination e = examinationRepository.getOne(id);
+        ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                        .id(e.getExaminationRoom().getId())
+                                        .name(e.getExaminationRoom().getName())
+                                        .number(e.getExaminationRoom().getNumber())
+                                        .build();
+        ExaminationDTO examinationDTO =ExaminationDTO.builder()
+                                        .duration(e.getExaminationAppointment().getDuration())
+                                        .id(e.getId())
+                                        .report(e.getReport())
+                                        .discount(e.getDiscount())
+                                        .examinationRoom(examRoom)
+                                        .date(e.getExaminationAppointment().getStartDate())
+                                        .type(TypeOfExaminationDTO.builder()
+                                                .name(e.getType().getName()).build())
+                                        .patient(PatientDTO.builder()
+                                                .firstName(e.getPatient().getFirstName())
+                                                .lastName(e.getPatient().getLastName())
+                                                .build())
+                                        .build();
         return examinationDTO;
     }
 //    date: this.start,
@@ -112,8 +141,69 @@ public class ExaminationService {
 //    doctor: this.doctor
     public void addNewQuick(ExaminationDTO examinationDTO) {
         Examination examination = this.modelMapper.map(examinationDTO, Examination.class);
+        ExaminationAppointment examinationAppointment = ExaminationAppointment.builder()
+                .startDate(examinationDTO.getDate())
+                .duration(new Duration(examinationDTO.getDuration()))
+                .examinationRoom(examination.getExaminationRoom())
+                .clinic(examination.getClinic())
+                .build();
+        examination.setExaminationAppointment(examinationAppointment);
         Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
         opt.ifPresent(examination::setClinic);
         this.examinationRepository.save(examination);
+        examinationAppointment.setExamination(examination);
+        this.examinationAppointmentRepository.save(examinationAppointment);
+    }
+
+    public List<ExaminationDTO> findDocExamination( String email,String role) {
+        User user  = userRepository.findByEmail(email);
+        List<Examination> examinations =  new ArrayList<>();
+        if(role.equals("ROLE_DOCTOR")){
+            examinations = examinationRepository.findDocExamination(user.getId());
+        }else if(role.equals("ROLE_NURSE")){
+            examinations = examinationRepository.findNurseExamination(user.getId());
+        }
+
+        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
+
+        for(Examination e: examinations){
+            ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                            .id(e.getExaminationRoom().getId())
+                                            .name(e.getExaminationRoom().getName())
+                                            .number(e.getExaminationRoom().getNumber())
+                                            .build();
+            examinationDTOS.add(ExaminationDTO.builder()
+                                                .duration(e.getExaminationAppointment().getDuration())
+                                                .id(e.getId())
+                                                .report(e.getReport())
+                                                .discount(e.getDiscount())
+                                                .examinationRoom(examRoom)
+                                                .date(e.getExaminationAppointment().getStartDate())
+                                                .date(e.getExaminationAppointment().getStartDate())
+                                                .type(TypeOfExaminationDTO.builder()
+                                                        .name(e.getType().getName()).build())
+                                                .patient(PatientDTO.builder()
+                                                        .firstName(e.getPatient().getFirstName())
+                                                        .lastName(e.getPatient().getLastName())
+                                                        .build())
+                                                .build());
+        }
+
+        return examinationDTOS;
+    }
+
+    public boolean check(Long id) {
+        Examination examination = examinationRepository.findById(id).orElseGet(null);
+        if(examination !=null){
+            DateTime dateTime = examination.getExaminationAppointment().getStartDate();
+            DateTime now = DateTime.now(DateTimeZone.UTC);
+            Minutes duration = examination.getExaminationAppointment().getDuration().toStandardMinutes();
+            if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 }

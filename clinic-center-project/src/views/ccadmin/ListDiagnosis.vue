@@ -1,20 +1,35 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div v-if="mode == 'VIEW'">
-      <div
-        class="card border-primary mb-3"
-        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
-        v-for="diagnosis in diagnosisis" :key="diagnosis"
-      >
-        <div class="card-header">{{diagnosis.code}}</div>
-        <div class="card-body">
-          <h4 class="card-title">{{diagnosis.name}}</h4>
-          <p class="card-text">
-            {{diagnosis.description}}
-          </p>
-          <button type="button" class="btn btn-primary" v-on:click="edit(diagnosis)" style="margin-right:10px">Edit</button>
-          <button type="button" class="btn btn-danger" v-on:click="remove(diagnosis)">Delete</button>
+    <div class=" flex-wrap p-2 justify-content-center" v-if="mode == 'VIEW'">
+      <div class="d-flex p-2 justify-content-center flex-row flex-wrap">
+        <div
+          class="card border-primary mb-3"
+          style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
+          v-for="diagnosis in diagnosisis" :key="diagnosis"
+        >
+          <div class="card-header">{{diagnosis.code}}</div>
+          <div class="card-body">
+            <h4 class="card-title">{{diagnosis.name}}</h4>
+            <p class="card-text">
+              {{diagnosis.description}}
+            </p>
+            <button type="button" class="btn btn-primary" v-on:click="edit(diagnosis)" style="margin-right:10px">Edit</button>
+            <button type="button" class="btn btn-danger" v-on:click="remove(diagnosis)">Delete</button>
+          </div>
         </div>
+      </div>
+      <div class="d-flex flex-wrap p-2 justify-content-center">
+        <ul class="pagination">
+        <!-- <li class="page-item disabled">
+          <a class="page-link" href="#">&laquo;</a>
+        </li>-->
+        <li class="page-item active" v-for="i in pages" v-bind:key="i">
+          <a class="page-link" v-on:click="nextPage(i - 1)">{{i}}</a>
+        </li>
+        <!-- <li class="page-item">
+          <a class="page-link">&raquo;</a>
+        </li>-->
+        </ul>
       </div>
     </div>
     <div v-else>
@@ -55,6 +70,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 export default {
   name: "listDiagnosis",
   data: function() {
@@ -63,32 +79,59 @@ export default {
       code: undefined,
       description: undefined,
       mode: "VIEW",
-      diagnosisis: {}
+      diagnosisis: undefined,
+      pages:[]
     };
   },
   mounted(){
     this.mode="VIEW";
 
     httpClient
-    .get("/diagnosis/all")
-    .then(response => {
-      this.diagnosisis = response.data;      
-    })
-    .catch(error => {
-      this.error = error;
-    });
-
-  },
-  methods: {
-    refresh: function(){
-        httpClient
-        .get("/diagnosis/all")
+        .get("/diagnosis/all/0")
         .then(response => {
-          this.diagnosisis = response.data;      
+          this.diagnosisis = _.cloneDeep(response.data);
+          this.pages = [];
+          for (let i = 1; i <= this.diagnosisis[0].pages; i++) {
+            this.pages[i - 1] = i;
+          }
         })
         .catch(error => {
           this.error = error;
+          alert(error);
         });
+
+  },
+  methods: {
+    nextPage: function(page) {
+        httpClient
+          .get("/diagnosis/all/" + page)
+          .then(response => {
+            this.diagnosisis = _.cloneDeep(response.data);
+            this.pages = [];
+            if (this.diagnosisis[0].pages != undefined) {
+              for (let i = 1; i <= this.diagnosisis[0].pages; i++) {
+                this.pages[i - 1] = i;
+              }
+            }
+          })
+          .catch(error => {
+            alert(error);
+          });
+    },
+    refresh: function(){
+        httpClient
+          .get("/diagnosis/all/0")
+          .then(response => {
+            this.diagnosisis = _.cloneDeep(response.data);
+            this.pages = [];
+            for (let i = 1; i <= this.diagnosisis[0].pages; i++) {
+              this.pages[i - 1] = i;
+            }
+          })
+          .catch(error => {
+            this.error = error;
+            alert(error);
+          });
     },
     edit: function(diagnosis) {
       this.mode = "EDIT";
@@ -115,12 +158,12 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
+        this.$vToastify.success({
               body: "Diagnosis is edited",
               title: "Success",
               type: "success",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
             });
     },
     remove: function(diagnosis) {
@@ -128,18 +171,25 @@ export default {
         .delete("/diagnosis/"+diagnosis.id)
         .then(response => {
             this.response = response; 
-            this.refresh();
-        })
-        .catch(error => {
-          this.error = error;
-        });
-      this.$vToastify.info({
+            this.$vToastify.sucess({
               body: "Diagnosis " + diagnosis.name + " is removed",
               title: "Success",
               type: "success",
               canTimeout: true,
-              append: false
+              append: false, duration: 2000
             });
+            this.refresh();
+        })
+        .catch(error => {
+          this.error = error;
+          this.$vToastify.error({
+              body: "Diagnosis " + diagnosis.name + " can't be deleted",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false, duration: 2000
+            });
+        });
     }
   }
 };

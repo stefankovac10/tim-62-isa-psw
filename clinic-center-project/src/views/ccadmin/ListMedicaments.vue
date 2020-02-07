@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
-    <div v-if="mode == 'VIEW'">
+    <div class=" flex-wrap p-2 justify-content-center" v-if="mode == 'VIEW'">
+      <div class="d-flex p-2 justify-content-center flex-row flex-wrap">
       <div
         class="card border-primary mb-3"
         style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
@@ -15,6 +16,20 @@
           <button type="button" class="btn btn-primary" v-on:click="edit(medication)" style="margin-right:10px">Edit</button>
           <button type="button" class="btn btn-danger" v-on:click="remove(medication)">Delete</button>
         </div>
+      </div>
+      </div>
+      <div class="d-flex flex-wrap p-2 justify-content-center">
+        <ul class="pagination">
+        <!-- <li class="page-item disabled">
+          <a class="page-link" href="#">&laquo;</a>
+        </li>-->
+        <li class="page-item active" v-for="i in pages" v-bind:key="i">
+          <a class="page-link" v-on:click="nextPage(i - 1)">{{i}}</a>
+        </li>
+        <!-- <li class="page-item">
+          <a class="page-link">&raquo;</a>
+        </li>-->
+        </ul>
       </div>
     </div>
     <div v-else>
@@ -55,6 +70,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
 export default {
   name: "listMedicaments",
   data: function() {
@@ -63,32 +79,59 @@ export default {
       code: undefined,
       description: undefined,
       mode: "VIEW",
-      medications: {}
+      medications: undefined,
+      pages:[]
     };
   },
   mounted(){
     this.mode="VIEW";
 
     httpClient
-    .get("/medication/all")
-    .then(response => {
-      this.medications = response.data;      
-    })
-    .catch(error => {
-      this.error = error;
-    });
-
-  },
-  methods: {
-    refresh: function(){
-        httpClient
-        .get("/medication/all")
+        .get("/medication/all/0")
         .then(response => {
-          this.medications = response.data;      
+          this.medications = _.cloneDeep(response.data);
+          this.pages = [];
+          for (let i = 1; i <= this.medications[0].pages; i++) {
+            this.pages[i - 1] = i;
+          }
         })
         .catch(error => {
           this.error = error;
+          alert(error);
         });
+
+  },
+  methods: {
+    nextPage: function(page) {
+        httpClient
+          .get("/medication/all/" + page)
+          .then(response => {
+            this.medications = _.cloneDeep(response.data);
+            this.pages = [];
+            if (this.medications[0].pages != undefined) {
+              for (let i = 1; i <= this.medications[0].pages; i++) {
+                this.pages[i - 1] = i;
+              }
+            }
+          })
+          .catch(error => {
+            alert(error);
+          });
+    },
+    refresh: function(){
+        httpClient
+          .get("/medication/all/0")
+          .then(response => {
+            this.medications = _.cloneDeep(response.data);
+            this.pages = [];
+            for (let i = 1; i <= this.medications[0].pages; i++) {
+              this.pages[i - 1] = i;
+            }
+          })
+          .catch(error => {
+            this.error = error;
+            alert(error);
+          });
     },
     edit: function(diagnosis) {
       this.mode = "EDIT";
@@ -116,12 +159,12 @@ export default {
           this.error = error;
         });
 
-      this.$vToastify.info({
+      this.$vToastify.success({
         body: "Medication is edited",
         title: "Success",
         type: "success",
         canTimeout: true,
-        append: false
+        append: false, duration: 2000
        });
     },
     remove: function(medication) {
@@ -129,19 +172,25 @@ export default {
         .delete("/medication/"+medication.id)
         .then(response => {
             this.response = response; 
+            this.$vToastify.success({
+              body: "Medication "+ medication.name + " is removed",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false, duration: 2000
+            });
             this.refresh();
         })
         .catch(error => {
           this.error = error;
-        });
-
-        this.$vToastify.info({
-        body: "Medication "+ medication.name + " is removed",
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false
-       });
+          this.$vToastify.error({
+            body: "Medication "+ medication.name + " can't be deleted",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
+        });       
     }
   }
 };

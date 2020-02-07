@@ -4,15 +4,22 @@ import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.ExaminationRepository;
+import com.ProjectCC.dero.repository.PrescriptionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClinicService {
@@ -20,16 +27,38 @@ public class ClinicService {
     private ModelMapper modelMapper;
     private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
+    private PrescriptionRepository prescriptionRepository;
 
     @Autowired
-    public ClinicService(ClinicRepository clinicRepository, ExaminationRepository examinationRepository, ModelMapper modelMapper) {
-        this.clinicRepository = clinicRepository;
-        this.examinationRepository = examinationRepository;
+    public ClinicService(ModelMapper modelMapper, ExaminationRepository examinationRepository, ClinicRepository clinicRepository, PrescriptionRepository prescriptionRepository) {
         this.modelMapper = modelMapper;
+        this.examinationRepository = examinationRepository;
+        this.clinicRepository = clinicRepository;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
-    public ResponseEntity<List<ClinicDTO>> findAll() {
+    public ResponseEntity<List<ClinicDTO>> getAll() {
         List<Clinic> clinics = clinicRepository.findAll();
+        List<ClinicDTO> clinicDTOS = new ArrayList<>();
+
+        for (Clinic c : clinics) {
+            ClinicDTO clinicDTO  = ClinicDTO.builder()
+                    .id(c.getId())
+                    .name(c.getName())
+                    .address(c.getAddress())
+                    .description(c.getDescription())
+                    .grade(c.getGrade())
+                    .income(c.getIncome())
+                    .build();
+            clinicDTOS.add(clinicDTO);
+        }
+
+        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ClinicDTO>> findAll(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name"));
+        Page<Clinic> clinics = clinicRepository.findAll(pageable);
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
 
         for (Clinic c : clinics) {
@@ -40,6 +69,7 @@ public class ClinicService {
                                     .description(c.getDescription())
                                     .grade(c.getGrade())
                                     .income(c.getIncome())
+                                    .pages(clinics.getTotalPages())
                                     .build();
             clinicDTOS.add(clinicDTO);
         }
@@ -92,18 +122,20 @@ public class ClinicService {
         return clinicDTO;
     }
 
-    public Clinic findByName(String name) {
-        return clinicRepository.findByName(name);
-    }
-
     public ResponseEntity<ClinicDTO> findById(Long id) {
 
         Optional<Clinic> opt = clinicRepository.findById(id);
+        if (!opt.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Clinic clinic = opt.get();
 
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
-//            staff.add(modelMapper.map(s, MedicalStaffDTO.class));
+            String type;
+            if (s instanceof Doctor) {
+                type = "doctor";
+            } else type = "nurse";
             staff.add(MedicalStaffDTO.builder()
                     .firstName(s.getFirstName())
                     .lastName(s.getLastName())
@@ -114,8 +146,10 @@ public class ClinicService {
                     .id(s.getId())
                     .jmbg(s.getJmbg())
                     .telephone(s.getTelephone())
+                    .type(type)
                     .build());
         }
+
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : clinic.getRooms()) {
             roomDTOS.add(RoomDTO.builder()
@@ -125,6 +159,18 @@ public class ClinicService {
             .build());
         }
 
+        List<ExaminationDTO> examinationDTOS = new ArrayList();
+        for (Examination examination : clinic.getExaminations()) {
+            if (examination.getPatient() == null) {
+                examinationDTOS.add(ExaminationDTO.builder()
+                .id(examination.getId())
+                .date(examination.getExaminationAppointment().getStartDate())
+                .duration(examination.getExaminationAppointment().getDuration())
+                .doctor(DoctorDTO.builder().firstName(examination.getDoctor().getFirstName()).lastName(examination.getDoctor().getLastName()).build())
+                .price(examination.getPrice()).build());
+            }
+        }
+
         ClinicDTO dto = ClinicDTO.builder()
                 .name(clinic.getName())
                 .description(clinic.getDescription())
@@ -132,6 +178,7 @@ public class ClinicService {
                 .id(clinic.getId())
                 .medicalStaff(staff)
                 .rooms(roomDTOS)
+                .examinations(examinationDTOS)
                 .build();
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -177,7 +224,7 @@ public class ClinicService {
         for (Examination e : examinations) {
             if (e.getClinic().equals(clinic)) {
                 exams.add(ExaminationDTO.builder()
-                        .date(e.getDate())
+                        .date(e.getExaminationAppointment().getStartDate())
                         .build());
             }
         }

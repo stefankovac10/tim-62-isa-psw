@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value="/api/examination")
@@ -40,8 +42,26 @@ public class ExaminationController {
         return new ResponseEntity<>(examinationService.getOne(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/check/{id}")
+    public ResponseEntity<Void> check(@PathVariable Long id) {
+        if(examinationService.check(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/doc/{email:.+}/{role}")
+    public ResponseEntity<List<ExaminationDTO>> getDocExamination(@PathVariable String email,@PathVariable String role) {
+        return new ResponseEntity<>(examinationService.findDocExamination(email,role), HttpStatus.OK);
+    }
+
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ExaminationDTO> update(@RequestBody ExaminationDTO examinationDTO){
+        ExaminationDTO examination = examinationService.edit(examinationDTO);
+        if(examination == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(examinationService.edit(examinationDTO), HttpStatus.OK);
     }
 

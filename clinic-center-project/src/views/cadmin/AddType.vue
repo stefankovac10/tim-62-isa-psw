@@ -24,24 +24,58 @@ export default {
       name: undefined,
       description: undefined,
       response: undefined,
-      error: undefined
+      error: undefined,
+      clinic: undefined
     };
+  },
+  mounted() {
+    httpClient
+      .get("users/admin/mail/" + localStorage.getItem("Email"))
+      .then(response => {
+        this.clinic = response.data.clinic;
+      })
+      .error(() => {
+        this.$vToastify.error({
+          body: "Error retrieving clinic",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      });
   },
   methods: {
     addType: function() {
       httpClient
         .post("/types", {
           name: this.name,
-          description: this.description
+          description: this.description,
+          clinic: this.clinic
         })
-        .then(response => {
-          response;
+        .then(() => {
+          this.$vToastify.info({
+            body: "Type of examination " + this.name + " has been added.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(error => {
-          this.error = error;
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error while adding type of examination",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
 
       this.$router.push("/cadmin/types");
+      // location.reload();
     }
   }
 };

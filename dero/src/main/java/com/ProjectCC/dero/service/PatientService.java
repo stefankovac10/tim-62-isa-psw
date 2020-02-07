@@ -1,12 +1,9 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.PatientDTO;
-import com.ProjectCC.dero.dto.UserDTO;
-import com.ProjectCC.dero.model.Authority;
-import com.ProjectCC.dero.model.MedicalRecord;
-import com.ProjectCC.dero.model.Patient;
-import com.ProjectCC.dero.model.RegistrationRequest;
+import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.PatientRepository;
+import org.joda.time.Duration;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -69,14 +66,15 @@ public class PatientService {
                             .telephone(registrationRequest.getTelephone())
                             .medicalRecord(medicalRecord)
                             .build();
-        patient.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        patient.setPassword(registrationRequest.getPassword());
+        patient.setEnabled(true);
 
         List<Authority> authorities = authorityService.findByName("ROLE_PATIENT");
         patient.setAuthorities(authorities);
         patient = patientRepository.save(patient);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("http://localhost:8081/login"));
+        headers.setLocation(new URI("http://localhost:8081/registerPage"));
 
         if(patient != null)
             return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
@@ -146,5 +144,69 @@ public class PatientService {
                 .build());
         }
         return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+    }
+
+    public PatientDTO findByEmail(String email) {
+        Patient patient = patientRepository.findByEmail(email);
+
+        if (patient == null) {
+            return  null;
+        }
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordDTO.builder()
+                .weight(patient.getMedicalRecord().getWeight())
+                .height(patient.getMedicalRecord().getHeight())
+                .diopter(patient.getMedicalRecord().getDiopter())
+                .bloodType(patient.getMedicalRecord().getBloodType())
+                .id(patient.getMedicalRecord().getId())
+                .build();
+        PatientDTO patientDTO=PatientDTO.builder()
+                                .firstName(patient.getFirstName())
+                                .lastName(patient.getLastName())
+                                .address(patient.getAddress())
+                                .city(patient.getCity())
+                                .country(patient.getCountry())
+                                .email(patient.getEmail())
+                                .jmbg(patient.getJmbg())
+                                .telephone(patient.getTelephone())
+                                .id(patient.getId())
+                                .medicalRecord(medicalRecordDTO)
+                                .build();
+       return patientDTO;
+
+    }
+
+    public List<ExaminationDTO> getExamination(Long id) {
+        List<Examination> examinations = patientRepository.getExamination(id);
+        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
+
+        for(Examination e: examinations){
+            ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
+                                            .id(e.getExaminationRoom().getId())
+                                            .name(e.getExaminationRoom().getName())
+                                            .number(e.getExaminationRoom().getNumber())
+                                            .build();
+            DoctorDTO doctorDTO = DoctorDTO.builder()
+                                            .firstName(e.getDoctor().getFirstName())
+                                            .lastName(e.getDoctor().getLastName())
+                                            .id(e.getDoctor().getId())
+                                            .build();
+            examinationDTOS.add(ExaminationDTO.builder()
+                                            .doctor(doctorDTO)
+                                            .duration(e.getExaminationAppointment().getDuration())
+                                            .id(e.getId())
+                                            .report(e.getReport())
+                                            .discount(e.getDiscount())
+                                            .examinationRoom(examRoom)
+                                            .date(e.getExaminationAppointment().getStartDate())
+                                            .type(TypeOfExaminationDTO.builder()
+                                                    .name(e.getType().getName()).build())
+                                            .patient(PatientDTO.builder()
+                                                    .firstName(e.getPatient().getFirstName())
+                                                    .lastName(e.getPatient().getLastName())
+                                                    .build())
+                                            .build());
+        }
+
+        return examinationDTOS;
     }
 }

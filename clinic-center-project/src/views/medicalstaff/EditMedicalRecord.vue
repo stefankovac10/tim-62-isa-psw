@@ -16,7 +16,7 @@
       <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
       
       <br>
-      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW'" v-on:click.prevent="edit">Edit</button>
+      <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW' && (role === 'ROLE_DOCTOR')" v-on:click.prevent="edit">Edit</button>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="save">Save</button>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'EDIT'" v-on:click.prevent="cancel">Cancel</button>
     </form>
@@ -24,17 +24,17 @@
         <h1> History </h1> 
         <div class="overflow-auto" style="width: 400px; height: 580px; overflow-y: scroll;">       
             <div class="card border-success mb-3" style="max-width: 20rem;" v-for="examination in this.examinations" v-bind:key="examination.id">
-                    <div class="card-header">Dr.  {{examination.doctor.firstName}}  {{examination.doctor.lastName}}</div>
+                    <div class="card-header">Dr.  {{examination.doctor.firstName}}  {{examination.doctor.lastName}} </div>
                     <div class="card-body">
                         <h4 class="card-title">Type: {{examination.type.name}}</h4>
                         <p class="card-text">Report: {{examination.report}}.</p>
                         <p class="card-text">Diagnosis: {{examination.diagnosis.name}}.</p>
-                        <button type="button" class="btn btn-info" v-on:click="editReport(examination)">Edit</button>
+                        <button type="button" class="btn btn-info" v-if="role === 'ROLE_DOCTOR' && examination.doctor.id === user.id " v-on:click="editReport(examination)">Edit</button>
                     </div>
             </div>
         </div>
     </div>
-    <div  style="width: 400px ; margin-top: 10px; margin-left: 50px">
+    <div v-if="role === 'ROLE_DOCTOR'" style="width: 400px ; margin-top: 10px; margin-left: 50px">
         <h1>Edit Report</h1>
         <label for="exampleTextarea">Report</label>
         <textarea v-bind:disabled="reportEdit === 'VIEW'" class="form-control" id="exampleTextarea" rows="3" v-model="report"></textarea>
@@ -44,7 +44,7 @@
         <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px; margin-right: 10px" v-on:click="saveReport()">Save</button>
         <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px;" v-on:click="cancel()">Cancel</button>
     </div>
-    <button type="button" style="position: absolute; right: 0; bottom:0; margin: 35px" class="btn btn-success" v-on:click="addExamReport()">Add Examination Report</button>
+    <button v-if="role === 'ROLE_DOCTOR'" type="button" style="position: absolute; right: 0; bottom:0; margin: 35px" class="btn btn-success" v-on:click="addExamReport()">Add Examination Report</button>
   </div>
   
 </template>
@@ -58,6 +58,10 @@ export default {
   },
   data: function() {
     return {
+        user: undefined,
+        role: undefined,
+        patient: undefined,
+        id: undefined,
         mode: 'VIEW',
         reportEdit: 'VIEW',
         height: undefined,
@@ -73,9 +77,11 @@ export default {
     };
   },
   mounted(){
+      this.role = localStorage.getItem("Authority");
       this.report = undefined;
       this.diagnosis = undefined;
       this.reportEdit = 'VIEW';
+
       httpClient
         .get("/diagnosis/all")
         .then(response => {
@@ -86,24 +92,68 @@ export default {
         })
 
       httpClient
-        .get("/medicalrecord/3")
-        .then(response => {
-          this.medicalRecord = response.data; 
-          this.height = this.medicalRecord.height;
-          this.weight = this.medicalRecord.weight;
-          this.diopter = this.medicalRecord.diopter;
-          this.bloodType = this.medicalRecord.bloodType;   
-          this.examinations = this.medicalRecord.examinations; 
+        .get("/users/mail/"+localStorage.getItem('Email'))
+        .then(response =>{
+          this.user = response.data;
         })
         .catch(error => {
-          this.error = error;
-        });  
+            this.error = error;
+          });
+
+      if(this.role === 'ROLE_DOCTOR' || this.role === 'ROLE_NURSE'){
+          this.id = this.$route.params.id;
+          httpClient
+            .get("/patient/" + this.id)
+            .then(response => {
+              this.patient = response.data;
+              httpClient
+                .get("/medicalrecord/"+this.patient.medicalRecord.id)
+                .then(response => {
+                  this.medicalRecord = response.data; 
+                  this.height = this.medicalRecord.height;
+                  this.weight = this.medicalRecord.weight;
+                  this.diopter = this.medicalRecord.diopter;
+                  this.bloodType = this.medicalRecord.bloodType;   
+                  this.examinations = this.medicalRecord.examinations; 
+                })
+                .catch(error => {
+                  this.error = error;
+                });
+            })
+            .catch(error => {
+              alert(error);
+            });    
+      }else if(this.role === 'ROLE_PATIENT'){
+          httpClient
+            .get("/patient/get/" +localStorage.getItem('Email'))
+            .then(response => {
+              this.patient = response.data;
+              httpClient
+                .get("/medicalrecord/"+this.patient.medicalRecord.id)
+                .then(response => {
+                  this.medicalRecord = response.data; 
+                  this.height = this.medicalRecord.height;
+                  this.weight = this.medicalRecord.weight;
+                  this.diopter = this.medicalRecord.diopter;
+                  this.bloodType = this.medicalRecord.bloodType;   
+                  this.examinations = this.medicalRecord.examinations; 
+                })
+                .catch(error => {
+                  this.error = error;
+                });
+            })
+            .catch(error => {
+              alert(error);
+            });
+      }        
   },
   methods: {
     refresh: function(){
-         this.report = undefined;
+      this.role = localStorage.getItem("Authority");
+      this.report = undefined;
       this.diagnosis = undefined;
       this.reportEdit = 'VIEW';
+
       httpClient
         .get("/diagnosis/all")
         .then(response => {
@@ -114,18 +164,36 @@ export default {
         })
 
       httpClient
-        .get("/medicalrecord/3")
-        .then(response => {
-          this.medicalRecord = response.data; 
-          this.height = this.medicalRecord.height;
-          this.weight = this.medicalRecord.weight;
-          this.diopter = this.medicalRecord.diopter;
-          this.bloodType = this.medicalRecord.bloodType;   
-          this.examinations = this.medicalRecord.examinations; 
+        .get("/users/mail/"+localStorage.getItem('Email'))
+        .then(response =>{
+          this.user = response.data;
         })
         .catch(error => {
-          this.error = error;
-        });
+            this.error = error;
+          });
+
+    this.id = this.$route.params.id;
+      httpClient
+        .get("/patient/" + this.id)
+        .then(response => {
+          this.patient = response.data;
+          httpClient
+            .get("/medicalrecord/"+this.patient.medicalRecord.id)
+            .then(response => {
+              this.medicalRecord = response.data; 
+              this.height = this.medicalRecord.height;
+              this.weight = this.medicalRecord.weight;
+              this.diopter = this.medicalRecord.diopter;
+              this.bloodType = this.medicalRecord.bloodType;   
+              this.examinations = this.medicalRecord.examinations; 
+            })
+            .catch(error => {
+              this.error = error;
+            });
+        })
+        .catch(error => {
+          alert(error);
+        });   
     },
     edit: function(){
         this.mode = 'EDIT';
@@ -139,11 +207,19 @@ export default {
         httpClient
         .put("/medicalrecord/",this.medicalRecord)
         .then(response => {
-          this.medicalRecord = response.data;   
+          this.medicalRecord = response.data; 
+          this.$vToastify.success({
+            body: "Information about patient has been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });  
         })
         .catch(error => {
           this.error = error;
         });
+        
     },
     cancel: function(){
         this.mode = 'VIEW';
@@ -164,6 +240,13 @@ export default {
         .put("/examination",this.examination)
         .then(response => {
           this.examination = response.data;
+          this.$vToastify.success({
+            body: "Changes on examination report have been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
           this.refresh();       
         })
         .catch(error => {
@@ -172,6 +255,7 @@ export default {
         this.report = undefined;
         this.diagnosis = undefined;
         this.reportEdit = 'VIEW';
+      
     },
     addExamReport: function(){
       this.$router.push("/doc/addexaminationreport");

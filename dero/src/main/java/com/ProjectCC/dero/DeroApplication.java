@@ -2,6 +2,10 @@ package com.ProjectCC.dero;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -17,5 +21,14 @@ public class DeroApplication {
 	public void init(){
 		// Setting Spring Boot SetTimeZone
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	}
+
+	@Configuration
+	public static class PathMatchingConfigurationAdapter implements WebMvcConfigurer {
+
+		@Override
+		public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+			configurer.favorPathExtension(false);
+		}
 	}
 }

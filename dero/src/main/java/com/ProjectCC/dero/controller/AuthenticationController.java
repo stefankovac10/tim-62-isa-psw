@@ -8,6 +8,7 @@ import com.ProjectCC.dero.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -47,14 +50,16 @@ public class AuthenticationController {
                                 jwtAuthenticationRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(authentication.getName());
 
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getEmail());
         int expiresIn = tokenUtils.getExpiredIn();
+        String refresh = tokenUtils.generateRefreshToken(user.getEmail());
         String email = user.getEmail();
         String authority = user.getAuthorities().get(0).getName();
 
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, email, authority));
+        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, email, authority, refresh));
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
@@ -73,5 +78,19 @@ public class AuthenticationController {
             UserTokenState userTokenState = new UserTokenState();
             return ResponseEntity.badRequest().body(userTokenState);
         }
+    }
+
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+        customUserDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
+
+    static class PasswordChanger {
+        public String oldPassword;
+        public String newPassword;
     }
 }

@@ -72,10 +72,26 @@
               </a>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/cadmin/requests">Vacation requests</router-link>
-            </a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Requests</a>
+            <div class="dropdown-menu">
+              <a class="nav-link dropdown-item">
+                <router-link to="/cadmin/erRequests">Examination room requests</router-link>
+              </a>
+              <a class="nav-link">
+                <router-link to="/cadmin/operationRequests">Operation room requests</router-link>
+              </a>
+              <a class="nav-link">
+                <router-link to="/cadmin/requests">Vacation requests</router-link>
+              </a>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link">
@@ -99,6 +115,7 @@ export default {
       localStorage.removeItem("Expiary");
       localStorage.removeItem("Email");
       localStorage.removeItem("Authority");
+      localStorage.removeItem("Refresh-token");
       this.$router.push("/login");
     }
   }

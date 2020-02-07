@@ -8,7 +8,7 @@
               <router-link to="/ccadmin/requests">Requests</router-link>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               data-toggle="dropdown"
@@ -27,7 +27,7 @@
               </a>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               data-toggle="dropdown"
@@ -45,7 +45,7 @@
               </a>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               data-toggle="dropdown"
@@ -63,7 +63,7 @@
               </a>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               data-toggle="dropdown"
@@ -99,6 +99,7 @@ export default {
       localStorage.removeItem("Expiary");
       localStorage.removeItem("Email");
       localStorage.removeItem("Authority");
+      localStorage.removeItem("Refresh-token");
       this.$router.push("/login");
     }
   }

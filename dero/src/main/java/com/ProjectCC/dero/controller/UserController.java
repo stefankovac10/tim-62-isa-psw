@@ -11,6 +11,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(value = "/api/users")
@@ -33,9 +36,14 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/mail/{email}")
+    @GetMapping(value = "/mail/{email:.+}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String email) {
         return this.userService.findByEmail(email);
+    }
+
+    @GetMapping(value = "/{email:.+}")
+    public ResponseEntity<Boolean> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(this.userService.findUserByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping(value = "/profile/{id}")
@@ -52,5 +60,14 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         return this.userService.deleteById(id);
     }
+
+    @GetMapping(value = "/vacationRequest/{email:.+}")
+    public ResponseEntity<List<VacationRequestDTO>> getVacationRequest(@PathVariable String email) {
+        return this.userService.getVacations(email);
+    }
+
+    @GetMapping(value = "/admin/mail/{email:.+}")
+    public ResponseEntity<ClinicAdministratorDTO> getAdmin(@PathVariable String email) { return this.userService.getAdmin(email); }
+
 
 }

@@ -57,7 +57,7 @@ export default {
           title: "Info",
           type: "info",
           canTimeout: true,
-          append: false
+          append: false, duration: 2000
         });
         return;
       }
@@ -70,18 +70,25 @@ export default {
         })
         .then(response => {
           this.response = response;
+          this.$vToastify.success({
+            body: "Medication "+ this.name + " is added",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });   
         })
         .catch(error => {
           this.error = error;
+          this.$vToastify.error({
+            body: "Medication "+ this.name + " already exists",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false, duration: 2000
+          });   
         }); 
-        this.$router.push("/ccadmin/listMedicaments");
-        this.$vToastify.info({
-          body: "Medication "+ this.name + " is added",
-          title: "Success",
-          type: "success",
-          canTimeout: true,
-          append: false
-        });     
+        this.$router.push("/ccadmin/listMedicaments");  
     }
   }
 };

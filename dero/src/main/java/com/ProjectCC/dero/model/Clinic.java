@@ -47,20 +47,22 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Examination> examinations;
 
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Operation> operations;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<OperationRequest> operationsRequest;
+
    @Column(name = "income")
    private Double income;
 
    @Column(name = "grade")
    private Double grade;
 
-//   @Autowired
-//   public Clinic() {}
-//
-//   public Clinic(ClinicDTO clinicDTO){
-//      this.name = clinicDTO.getName();
-//      this.id = clinicDTO.getId();
-//      this.description = clinicDTO.getDescription();
-//      this.address = clinicDTO.getAddress();
-//      this.income  = clinicDTO.getIncome();
-//   }
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<Appointment> appointments;
+
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<TypeOfExamination> typeOfExaminations;
+
 }

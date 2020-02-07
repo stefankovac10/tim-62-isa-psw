@@ -138,12 +138,12 @@ export default {
           || this.country === ''  || this.country === undefined || this.city === ''  || this.city === undefined || this.address === ''  || this.address === undefined
           || this.clinic === '' || this.clinic === undefined){
               this.$vToastify.info({
-              body: "Please, fill all the information",
-              title: "Info",
-              type: "info",
-              canTimeout: true,
-              append: false
-            });
+                body: "Please, fill all the information",
+                title: "Info",
+                type: "info",
+                canTimeout: true,
+                append: false, duration: 2000
+              });
             
       }else{
         this.user.firstName = this.firstName;
@@ -160,17 +160,28 @@ export default {
           .post("/cadmin", this.user)
           .then(response => {
             this.response = response;
+            this.$vToastify.success({
+                body: "Clinical Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
+                title: "Success",
+                type: "success",
+                canTimeout: true,
+                append: false, duration: 2000
+              });
+              this.$router.push("/ccadmin/requests");
           })
           .catch(error => {
             this.error = error;
-          });
-          this.$vToastify.info({
-                body: "Clinical Administrator "+ this.firstName + " " + this.lastName + " has been added." ,
-                title: "Info",
-                type: "info",
+            this.$vToastify.error({
+                body: "Clinical Administrator with that jmbg/email/telephone has already been added." ,
+                title: "Error",
+                type: "error",
                 canTimeout: true,
-                append: false
+                append: false, duration: 2000
               });
+              this.$router.push("/ccadmin/requests");
+          });
+
+          
       }
     }
   }

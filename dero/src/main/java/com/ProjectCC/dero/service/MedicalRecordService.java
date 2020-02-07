@@ -43,21 +43,24 @@ public class MedicalRecordService {
         List<ExaminationDTO> examinations = new ArrayList<>();
 
         for(Examination ex: mr.getExaminations()){
-            DoctorDTO doctor = DoctorDTO.builder()
-                                .firstName(ex.getDoctor().getFirstName())
-                                .lastName(ex.getDoctor().getLastName())
-                                .build();
-            TypeOfExaminationDTO toe = TypeOfExaminationDTO.builder()
-                                .name(ex.getType().getName())
-                                .build();
-            ExaminationDTO examination = ExaminationDTO.builder()
-                                        .report(ex.getReport())
-                                        .id(ex.getId())
-                                        .diagnosis(new DiagnosisDTO(ex.getDiagnosis()))
-                                        .type(toe)
-                                        .doctor(doctor)
-                                        .build();
-            examinations.add(examination);
+            if(ex.getDiagnosis() != null) {
+                DoctorDTO doctor = DoctorDTO.builder()
+                        .id(ex.getDoctor().getId())
+                        .firstName(ex.getDoctor().getFirstName())
+                        .lastName(ex.getDoctor().getLastName())
+                        .build();
+                TypeOfExaminationDTO toe = TypeOfExaminationDTO.builder()
+                        .name(ex.getType().getName())
+                        .build();
+                ExaminationDTO examination = ExaminationDTO.builder()
+                        .report(ex.getReport())
+                        .id(ex.getId())
+                        .diagnosis(new DiagnosisDTO(ex.getDiagnosis()))
+                        .type(toe)
+                        .doctor(doctor)
+                        .build();
+                examinations.add(examination);
+            }
         }
 
         MedicalRecordDTO mrDTO = MedicalRecordDTO.builder()

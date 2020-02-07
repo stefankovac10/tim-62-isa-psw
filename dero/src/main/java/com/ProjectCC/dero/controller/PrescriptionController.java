@@ -28,9 +28,9 @@ public class PrescriptionController {
         this.prescriptionService = prescriptionService;
     }
 
-    @GetMapping(value = "/all")
-    public ResponseEntity<List<PrescriptionDTO>> getAllMedication() {
-        return new ResponseEntity<>(prescriptionService.findAll(), HttpStatus.OK);
+    @GetMapping(value = "/all/{email:.+}")
+    public ResponseEntity<List<PrescriptionDTO>> getAllMedication(@PathVariable String email) {
+        return new ResponseEntity<>(prescriptionService.findAll(email), HttpStatus.OK);
     }
 
     @PostMapping( consumes = "application/json")
@@ -39,10 +39,9 @@ public class PrescriptionController {
         return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/certify/{id}")
-    public ResponseEntity<Void> certify(@PathVariable Long id){
-        prescriptionService.certify(id);
-        return new ResponseEntity<>( HttpStatus.OK);
+    @GetMapping(value = "/certify/{id}/{email:.+}")
+    public ResponseEntity<Void> certify(@PathVariable Long id, @PathVariable String email){
+       return  prescriptionService.certify(id, email);
     }
 
 }

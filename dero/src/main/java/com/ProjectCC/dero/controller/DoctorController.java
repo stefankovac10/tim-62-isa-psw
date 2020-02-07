@@ -6,6 +6,7 @@ import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.DoctorService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -31,13 +32,13 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @PostMapping(value = "/{type}",consumes = "application/json")
+    @PostMapping(value = "/{type}", consumes = "application/json")
     public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO, @PathVariable String type) {
         return doctorService.save(doctorDTO, type);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) {
         return this.doctorService.delete(id);
     }
 
@@ -46,8 +47,23 @@ public class DoctorController {
         return this.doctorService.findAll();
     }
 
-    @GetMapping(value = "/filter")
-    public ResponseEntity<List<DoctorDTO>> pronadjiDoktorePoImenuMejluGraduDrzavi(@RequestParam String firstName, String lastName, String email, String city, String country) {
-        return this.doctorService.pronadjiPoImenuMejluGraduDrzavi(firstName, lastName, email, city, country);
+    @GetMapping(value = "/avaliable/{id}/{nextAvailable}")
+    public ResponseEntity<List<DoctorDTO>> getAvaliableDoctors(@PathVariable Long id, @PathVariable String nextAvailable) {
+        return this.doctorService.findAvaliable(id, nextAvailable);
+    }
+
+    @GetMapping(value = "/search/{firstName}/{lastName}/{email}/{city}/{country}/{clinic}")
+    public ResponseEntity<List<DoctorDTO>> searchDoctors(@PathVariable String firstName,
+                                                         @PathVariable String lastName,
+                                                         @PathVariable String email,
+                                                         @PathVariable String city,
+                                                         @PathVariable String country,
+                                                         @PathVariable String clinic) {
+        return this.doctorService.searchDoctors(firstName, lastName, email, city, country, clinic);
+    }
+
+    @GetMapping(value = "clinic/{id}")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(@PathVariable Long id) {
+        return this.doctorService.getDoctorsFromClinic(id);
     }
 }

@@ -25,12 +25,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <router-link to="/patient/medicalrecord">Medical record</router-link>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/patient/editmedicalrecord">Edit medical record</router-link>
+              <router-link to="/patient/editmedicalrecord">Medical record</router-link>
             </a>
           </li>
           <li class="nav-item">
@@ -74,6 +69,7 @@ export default {
       localStorage.removeItem("Expiary");
       localStorage.removeItem("Email");
       localStorage.removeItem("Authority");
+      localStorage.removeItem("Refresh-token");
       this.$router.push("/login");
     }
   }

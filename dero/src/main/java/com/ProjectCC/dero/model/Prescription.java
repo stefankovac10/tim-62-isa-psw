@@ -34,13 +34,13 @@ public class Prescription {
    )
    public Set<Medication> medication;
 
-   @OneToOne()
-   @JoinColumn(name = "doctor_id", referencedColumnName = "id")
-   public Doctor doctor;
-
-   @OneToOne()
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "nurse_id", referencedColumnName = "id")
    public Nurse nurse;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+   public Doctor doctor;
 
    /*
    @Autowired

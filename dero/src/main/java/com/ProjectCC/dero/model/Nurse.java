@@ -22,8 +22,11 @@ public class Nurse extends MedicalStaff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nurse")
     public Set<Examination> examinations;
+
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public Set<Prescription> prescriptions;
 
     /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "medRec_id", nullable = false)
