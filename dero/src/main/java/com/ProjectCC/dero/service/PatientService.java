@@ -66,7 +66,8 @@ public class PatientService {
                             .telephone(registrationRequest.getTelephone())
                             .medicalRecord(medicalRecord)
                             .build();
-        patient.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        patient.setPassword(registrationRequest.getPassword());
+        patient.setEnabled(true);
 
         List<Authority> authorities = authorityService.findByName("ROLE_PATIENT");
         patient.setAuthorities(authorities);

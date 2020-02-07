@@ -104,6 +104,7 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping(value = "/search/{firstName}/{lastName}/{jmbg}/{page}")
     public ResponseEntity<List<PatientDTO>> searchPatients(@PathVariable String firstName, @PathVariable String lastName,
                                                            @PathVariable String jmbg, @PathVariable int page) {

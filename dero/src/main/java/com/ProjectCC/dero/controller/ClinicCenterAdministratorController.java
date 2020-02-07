@@ -23,7 +23,11 @@ public class ClinicCenterAdministratorController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicCenterAdministratorDTO> save(@RequestBody ClinicCenterAdministratorDTO ccadminDTO){
-        return new ResponseEntity<>(clinicCenterAdministratorService.save(ccadminDTO), HttpStatus.CREATED);
+        ClinicCenterAdministratorDTO ccadmin = clinicCenterAdministratorService.save(ccadminDTO);
+        if(ccadmin == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(ccadmin, HttpStatus.CREATED);
     }
 
 

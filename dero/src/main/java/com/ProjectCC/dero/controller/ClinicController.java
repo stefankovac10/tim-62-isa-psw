@@ -36,7 +36,13 @@ public class ClinicController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
-        return new ResponseEntity<>(clinicService.save(clinicDTO), HttpStatus.CREATED);
+        ClinicDTO clinic = clinicService.save(clinicDTO);
+        if(clinic == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(clinic, HttpStatus.CREATED);
+        }
+
     }
 
     @DeleteMapping(value = "/{id}")

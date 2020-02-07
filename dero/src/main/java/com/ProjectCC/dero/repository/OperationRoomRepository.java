@@ -15,4 +15,7 @@ public interface OperationRoomRepository extends JpaRepository<OperationRoom, Lo
 
     @Query("select opr from OperationRoom opr where lower(opr.name) like lower(?1)")
     Page<OperationRoom> searchName(String sName, Pageable pageable);
+
+    @Query("select opr from OperationRoom opr where opr.clinic.id=(?1)")
+    Page<OperationRoom> findAll(Long id, Pageable pageable);
 }

@@ -36,6 +36,7 @@ public class ClinicCenterAdministratorService {
         ClinicCenterAdministrator ccadmin = modelMapper.map(ccadmindto, ClinicCenterAdministrator.class);
         ccadmin.setLogFirstTime(false);
         ccadmin.setPassword(passwordEncoder.encode(ccadmin.getPassword()));
+        ccadmin.setEnabled(true);
         List<Authority> authorities = authorityService.findByName("ROLE_CCADMIN");
         ccadmin.setAuthorities(authorities);
 

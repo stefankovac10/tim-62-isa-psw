@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
+import com.ProjectCC.dero.dto.OperationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
@@ -25,20 +26,24 @@ public class RoomsService {
     private OperationAppointmentRepository operationAppointmentRepository;
     private ExaminationRoomRepository examinationRoomRepository;
     private OperationRoomRepository operationRoomRepository;
+    private OperationRequestRepository operationRequestRepository;
     private ExaminationRequestRepository examinationRequestRepository;
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public RoomsService(RoomsRepository roomsRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
+    public RoomsService(RoomsRepository roomsRepository,OperationRequestRepository operationRequestRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
                         ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository,
                         ClinicRepository clinicRepository) {
+
         this.roomsRepository = roomsRepository;
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.operationRoomRepository = operationRoomRepository;
         this.examinationRequestRepository = examinationRequestRepository;
+        this.operationRequestRepository = operationRequestRepository;
         this.clinicRepository = clinicRepository;
+
     }
 
     public ResponseEntity<List<RoomDTO>> search(String name, int number, DateTime date, Duration duration, int page) {
@@ -215,5 +220,28 @@ public class RoomsService {
                     .id(r.getId()).build());
         }
         return new ResponseEntity<>(examinationRoomDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<OperationRoomDTO>> getRoomsForOperation(Long id, int page) {
+        Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(id);
+        if (!optionalOperationRequest.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        OperationRequest operationRequest = optionalOperationRequest.get();
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<OperationRoom> operationRooms = this.operationRoomRepository.findAll(operationRequest.getClinic().getId(),pageable);
+
+        List<OperationRoomDTO> operationRoomDTOS = new ArrayList<>();
+        for (OperationRoom r : operationRooms.getContent()) {
+            operationRoomDTOS.add(OperationRoomDTO.builder()
+                    .name(r.getName())
+                    .number(r.getNumber())
+                    .nextAvailable(findFirstAvailableForOperation(r, operationRequest.getDate(), operationRequest.getDuration()))
+                    .type("operation")
+                    .id(r.getId()).build());
+        }
+
+        return new ResponseEntity<>(operationRoomDTOS, HttpStatus.OK);
     }
 }

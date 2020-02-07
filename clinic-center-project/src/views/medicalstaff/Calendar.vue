@@ -36,6 +36,7 @@ export default {
       title: undefined,
       operations: [],
       examinations: [],
+      vacationsRequest: [],
       examination: {},
       calendarPlugins: [
         DayGridPlugin,
@@ -97,12 +98,37 @@ export default {
       .catch(error => {
         this.error = error;
       });
+
+    httpClient
+      .get(
+        "/users/vacationRequest/" +
+          localStorage.getItem("Email")
+      )
+      .then(response => {
+        this.vacationsRequest = response.data;
+        var i;
+        for (i = 0; i < this.vacationsRequest.length; i++) {
+          this.events.push({
+            title: "Vacation",
+            start: this.vacationsRequest[i].startDate,
+            end: this.vacationsRequest[i].endDate,
+            id: this.vacationsRequest[i].id,
+            color: "#378999"
+          });
+        }
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
   components: {
     FullCalendar
   },
   methods: {
     handleClick: function(arg) {
+      if(arg.event.title === "Vacation"){
+        return;
+      }
       this.$modal.show(EventModal, {
         event: arg.event,
         id: arg.event.id

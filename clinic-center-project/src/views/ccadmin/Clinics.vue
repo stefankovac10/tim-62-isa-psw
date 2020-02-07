@@ -165,7 +165,7 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
+        this.$vToastify.success({
               body: "Clinic has been edited",
               title: "Success",
               type: "success",
@@ -183,7 +183,7 @@ export default {
           .catch(error => {
             this.error = error;
           });
-        this.$vToastify.info({
+        this.$vToastify.success({
               body: "Clinic " + clinic.name + " has been deleted",
               title: "Success",
               type: "success",

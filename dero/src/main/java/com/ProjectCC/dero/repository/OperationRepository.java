@@ -11,5 +11,9 @@ import java.util.List;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation,Long> {
 
+
+    List<Operation> findByDoctorsId(Long id);
+
     List<Operation> findByOperationRoom(OperationRoom operationRoom);
+
 }
