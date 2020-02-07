@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ExaminationRoomRepository extends JpaRepository<ExaminationRoom, Long> {
 
@@ -19,5 +20,9 @@ public interface ExaminationRoomRepository extends JpaRepository<ExaminationRoom
     @Query("select er from ExaminationRoom er where lower(er.name) like lower(?1)")
     Page<ExaminationRoom> searchName(String sName, Pageable pageable);
 
+    @Query("select er from ExaminationRoom er where er.clinic = (?1)")
     List<ExaminationRoom> findByClinic(Clinic clinic);
+
+    @Query("select er from ExaminationRoom er join fetch er.clinic where er.id = (?1)")
+    Optional<ExaminationRoom> findByRoomId(Long roomId);
 }
