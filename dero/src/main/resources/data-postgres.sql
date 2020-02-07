@@ -206,12 +206,13 @@ insert into examination_appointment (id, examination_room_id) values (5, 3);
 insert into examination_appointment (id) values (6);
 insert into examination_appointment (id, examination_room_id) values (7, 4);
 
-insert into examination_request (doctor_id, patient_id, appointment_id) values (27, 24, 4);
-insert into examination_request (doctor_id, patient_id, appointment_id) values (29, 25, 5);
-insert into examination_request (doctor_id, patient_id, appointment_id) values (28, 22, 6);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (27, 24, 1, 4);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (29, 25, 1, 5);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (28, 22, 1, 6);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (13, 9, 1, 7);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, 4, 2, 7, 9, null, null, 7);
+
+-- insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
 
 
 --ZAHTJEV ZA REGISTRACIJU
@@ -267,5 +268,7 @@ insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_i
 insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',13,660000,14,1);
 insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',13,660000,15,1);
 
-insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog',1);
-insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog',1);
+
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 1);
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog', 1);
+
