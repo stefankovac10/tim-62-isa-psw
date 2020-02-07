@@ -150,11 +150,33 @@ public class ExaminationRequestService {
         for (ExaminationRequest er : examinationRequests) {
             ExaminationAppointment ea = er.getExaminationAppointment();
             ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
-            if (!nextAvailable.isAfter(ea.getEndDate()) && !nextEnd.isBefore(ea.getStartDate())) {
+            if (areAppointmentsOverlapping(nextAvailable, nextEnd, ea.getEndDate(), ea.getStartDate()))
                 return false;
-            }
         }
+
+        List<VacationRequest> vacationRequests = this.vacationRequestRepository.findByDoc(doc, DateTime.now());
+        if (vacationRequests.size() == 0) return true;
+
+        for (VacationRequest vacationRequest : vacationRequests){
+            if (areAppointmentsOverlapping(nextAvailable, nextEnd, vacationRequest.getEndDate(), vacationRequest.getStartDate()))
+                return false;
+        }
+
         return true;
+    }
+
+    private boolean areAppointmentsOverlapping(DateTime nextAvailable, DateTime nextEnd, DateTime endDate, DateTime startDate) {
+        if (!nextAvailable.isAfter(endDate) && !nextEnd.isBefore(startDate))
+            return true;
+        if (nextAvailable.isBefore(startDate) && nextEnd.isAfter(endDate))
+            return true;
+        if (nextEnd.isBefore(endDate) && nextEnd.isAfter(startDate))
+            return true;
+        if (nextAvailable.isAfter(startDate) && nextAvailable.isBefore(endDate))
+            return true;
+        if (nextAvailable.isEqual(startDate) || nextEnd.isEqual(endDate))
+            return true;
+        return nextAvailable.isBefore(startDate) && nextEnd.isBefore(endDate);
     }
 
     private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
