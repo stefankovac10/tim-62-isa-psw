@@ -38,7 +38,11 @@ public class ClinicAdministratorController {
     @PostMapping(consumes = "application/json")
     @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        return new ResponseEntity<>(this.clinicAdministratorService.save(clinicAdministratorDTO), HttpStatus.OK);
+        ClinicAdministratorDTO cadmin = clinicAdministratorService.save(clinicAdministratorDTO);
+        if(cadmin == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(cadmin, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
