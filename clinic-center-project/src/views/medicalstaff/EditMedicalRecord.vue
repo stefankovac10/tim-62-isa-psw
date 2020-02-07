@@ -207,18 +207,19 @@ export default {
         httpClient
         .put("/medicalrecord/",this.medicalRecord)
         .then(response => {
-          this.medicalRecord = response.data;   
+          this.medicalRecord = response.data; 
+          this.$vToastify.success({
+            body: "Information about patient has been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });  
         })
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
-          body: "Information about patient has been saved",
-          title: "Success",
-          type: "success",
-          canTimeout: true,
-          append: false, duration: 2000
-        });
+        
     },
     cancel: function(){
         this.mode = 'VIEW';
@@ -239,6 +240,13 @@ export default {
         .put("/examination",this.examination)
         .then(response => {
           this.examination = response.data;
+          this.$vToastify.success({
+            body: "Changes on examination report have been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
           this.refresh();       
         })
         .catch(error => {
@@ -247,13 +255,7 @@ export default {
         this.report = undefined;
         this.diagnosis = undefined;
         this.reportEdit = 'VIEW';
-      this.$vToastify.info({
-        body: "Changes on examination report have been saved",
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
+      
     },
     addExamReport: function(){
       this.$router.push("/doc/addexaminationreport");
