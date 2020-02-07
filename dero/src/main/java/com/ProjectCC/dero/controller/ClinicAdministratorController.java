@@ -56,10 +56,11 @@ public class ClinicAdministratorController {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
 
-    @GetMapping(value = "scheduledExaminations/{page}")
+    @GetMapping(value = "scheduledExaminations/{id}/{page}")
     @PreAuthorize("hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR')")
-    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable int page) {
-        return this.examinationRequestService.getAll(page);
+    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable Long id, @PathVariable int page) {
+        return this.examinationRequestService.getAll(id, page);
+
     }
 
     @PutMapping(value = "reserve")

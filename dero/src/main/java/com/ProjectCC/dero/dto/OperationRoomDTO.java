@@ -16,14 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class OperationRoomDTO extends RoomDTO {
     private Long id;
     private Long requestId;
+    private ClinicDTO clinic;
 
-//    @Autowired
-//    public OperationRoomDTO() {
-//    }
-//
-//    public OperationRoomDTO(Long id, int number, String name) {
-//        this.id = id;
-//        this.number = number;
-//        this.name = name;
-//    }
+
 }

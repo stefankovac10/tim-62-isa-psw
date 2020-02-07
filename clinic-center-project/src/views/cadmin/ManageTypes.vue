@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex p-2 justify-content-center">
+  <div class="d-flex p-2 justify-content-center" :key="componentKey">
     <div class="d-flex flex-column p-2 justify-content-center">
       <h1>Manage types</h1>
 
@@ -82,17 +82,36 @@ export default {
       id: undefined,
       name: undefined,
       description: undefined,
-      types: undefined
+      types: undefined,
+      clinic: undefined,
+      componentKey: 0
     };
   },
   mounted: function() {
     httpClient
-      .get("/types/all")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.types = response.data;
+        this.clinic = response.data.clinic;
       })
-      .catch(error => {
-        if (error.response.status == 302) this.types = error.response.data;
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Error retrieving clinic",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      })
+      .then(() => {
+        httpClient
+          .get("/types/clinic/" + this.clinic.id)
+          .then(response => {
+            this.types = response.data;
+          })
+          .catch(error => {
+            if (error.response.status == 302) this.types = error.response.data;
+          });
       });
   },
   methods: {
@@ -106,43 +125,57 @@ export default {
         .put("/types", {
           id: this.id,
           name: this.name,
-          description: this.description
+          description: this.description,
+          clinic: this.clinic
         })
-        .then(response => {
-          response;
+        .then(() => {
+          this.$vToastify.info({
+            body: "Type of examination has been edited.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error updating type",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
-        
+      location.reload();
       this.componentKey += 1;
-      this.$vToastify.info({
-          body: "Type of examination has been edited." ,
-          title: "Success",
-          type: "success",
-          canTimeout: true,
-          append: false, duration: 2000
-        });
-
     },
     remove: function(id) {
       httpClient
         .delete("/types/" + id)
-        .then(response => {
-          response;
+        .then(() => {
+          this.$vToastify.info({
+            body: "Type of examination has been deleted.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error deleting type",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
       this.componentKey += 1;
-      this.types.slice();
-      this.$vToastify.info({
-        body: "Type of examination has been deleted." ,
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
+      location.reload();
     }
   }
 };

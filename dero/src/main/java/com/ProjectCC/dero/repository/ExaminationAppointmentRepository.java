@@ -12,4 +12,6 @@ public interface ExaminationAppointmentRepository extends JpaRepository<Examinat
 
     @Query("select ea from ExaminationAppointment ea where ea.examinationRoom = (?1) and ea.startDate > (?2) ")
     List<ExaminationAppointment> findByRoomAndDate(ExaminationRoom examinationRoom, DateTime startDate);
+
+    List<ExaminationAppointment> findByExaminationRoom(ExaminationRoom examinationRoom);
 }

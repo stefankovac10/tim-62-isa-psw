@@ -38,7 +38,7 @@ public class DoctorController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) {
         return this.doctorService.delete(id);
     }
 
@@ -60,5 +60,10 @@ public class DoctorController {
                                                          @PathVariable String country,
                                                          @PathVariable String clinic) {
         return this.doctorService.searchDoctors(firstName, lastName, email, city, country, clinic);
+    }
+
+    @GetMapping(value = "clinic/{id}")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(@PathVariable Long id) {
+        return this.doctorService.getDoctorsFromClinic(id);
     }
 }

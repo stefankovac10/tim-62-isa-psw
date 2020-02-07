@@ -24,6 +24,7 @@ public class ExaminationService {
     private ExaminationRepository examinationRepository;
     private DiagnosisRepository diagnosisRepository;
     private ModelMapper modelMapper;
+    private ExaminationAppointmentRepository examinationAppointmentRepository;
     private MedicationRepository medicationRepository;
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
@@ -32,7 +33,7 @@ public class ExaminationService {
     private ClinicRepository clinicRepository;
 
     @Autowired
-    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,
+    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper, ExaminationAppointmentRepository examinationAppointmentRepository,
                               ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
                               MedicationRepository medicationRepository, DoctorRepository doctorRepository,
                               NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository) {
@@ -43,6 +44,7 @@ public class ExaminationService {
         this.userRepository = userRepository;
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
+        this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.medicalRecordRepository = medicalRecordRepository;
         this.clinicRepository = clinicRepository;
     }
@@ -139,9 +141,18 @@ public class ExaminationService {
 //    doctor: this.doctor
     public void addNewQuick(ExaminationDTO examinationDTO) {
         Examination examination = this.modelMapper.map(examinationDTO, Examination.class);
+        ExaminationAppointment examinationAppointment = ExaminationAppointment.builder()
+                .startDate(examinationDTO.getDate())
+                .duration(new Duration(examinationDTO.getDuration()))
+                .examinationRoom(examination.getExaminationRoom())
+                .clinic(examination.getClinic())
+                .build();
+        examination.setExaminationAppointment(examinationAppointment);
         Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
         opt.ifPresent(examination::setClinic);
         this.examinationRepository.save(examination);
+        examinationAppointment.setExamination(examination);
+        this.examinationAppointmentRepository.save(examinationAppointment);
     }
 
     public List<ExaminationDTO> findDocExamination( String email,String role) {

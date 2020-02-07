@@ -22,4 +22,9 @@ public class NurseController {
     public ResponseEntity<NurseDTO> addNurse(@RequestBody NurseDTO nurseDTO) {
         return new ResponseEntity<>(this.nurseService.add(nurseDTO), HttpStatus.CREATED);
     }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> deleteNurse(@PathVariable Long id) {
+        return this.nurseService.deleteNurse(id);
+    }
 }

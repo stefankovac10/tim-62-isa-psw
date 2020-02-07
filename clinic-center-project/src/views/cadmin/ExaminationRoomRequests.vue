@@ -46,6 +46,7 @@
         v-if="request"
         v-bind:id="request"
         v-on:reserved="remove"
+        v-bind:key="componentKey"
       ></SearchRoomByRequest>
     </div>
   </div>
@@ -62,7 +63,9 @@ export default {
       requests: undefined,
       request: undefined,
       pages: 0,
-      examination: "examination"
+      examination: "examination",
+      clinic: undefined,
+      componentKey: 0
     };
   },
   components: {
@@ -70,39 +73,58 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/cadmin/scheduledExaminations/0")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        if (response.data.length === 0) {
-          return;
-        }
-        this.requests = response.data;
-        this.pages = response.data[0].pages;
-        for (const request of this.requests) {
-          request.dateMoment = moment(request.date).format(
-            "dddd, MMMM Do YYYY, h:mm:ss"
-          );
-          request.durationMoment = moment(request.duration).minute();
-        }
+        this.clinic = response.data.clinic;
       })
       .catch(() => {
         this.$vToastify.error({
-          body: "Error getting requests",
+          body: "Error retrieving clinic",
           title: "Error",
           type: "error",
           canTimeout: true,
           append: false,
           duration: 2000
         });
+      })
+      .then(() => {
+        httpClient
+          .get("/cadmin/scheduledExaminations/" + this.clinic.id + "/0")
+          .then(response => {
+            if (response.data.length === 0) {
+              return;
+            }
+            this.requests = response.data;
+            this.pages = response.data[0].pages;
+            for (const request of this.requests) {
+              request.dateMoment = moment(request.date).format(
+                "dddd, MMMM Do YYYY, h:mm:ss"
+              );
+              request.durationMoment = moment(request.duration).minute();
+            }
+          })
+          .catch(() => {
+            this.$vToastify.error({
+              body: "Error getting requests",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false,
+              duration: 2000
+            });
+          });
       });
   },
   methods: {
     search: function(id) {
       this.request = id;
+      this.$children[0].id = id;
+      this.componentKey += 1;
     },
     remove: function() {
       this.request = undefined;
       httpClient
-        .get("/cadmin/scheduledExaminations/0")
+        .get("/cadmin/scheduledExaminations/" + this.clinic.id + "/0")
         .then(response => {
           this.requests = response.data;
           this.pages = response.data[0].pages;
@@ -115,7 +137,7 @@ export default {
         })
         .catch(() => {
           this.$vToastify.error({
-            body: "Error getting requests",
+            body: "Error removing requests",
             title: "Error",
             type: "error",
             canTimeout: true,

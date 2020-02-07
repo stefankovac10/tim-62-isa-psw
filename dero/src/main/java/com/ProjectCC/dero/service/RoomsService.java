@@ -1,6 +1,5 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.controller.RoomsController;
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
@@ -29,10 +28,13 @@ public class RoomsService {
     private OperationRoomRepository operationRoomRepository;
     private OperationRequestRepository operationRequestRepository;
     private ExaminationRequestRepository examinationRequestRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
-    public RoomsService(OperationRequestRepository operationRequestRepository,RoomsRepository roomsRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
-                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository) {
+    public RoomsService(RoomsRepository roomsRepository,OperationRequestRepository operationRequestRepository, ExaminationAppointmentRepository examinationAppointmentRepository, OperationAppointmentRepository operationAppointmentRepository,
+                        ExaminationRoomRepository examinationRoomRepository, OperationRoomRepository operationRoomRepository, ExaminationRequestRepository examinationRequestRepository,
+                        ClinicRepository clinicRepository) {
+
         this.roomsRepository = roomsRepository;
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
@@ -40,6 +42,8 @@ public class RoomsService {
         this.operationRoomRepository = operationRoomRepository;
         this.examinationRequestRepository = examinationRequestRepository;
         this.operationRequestRepository = operationRequestRepository;
+        this.clinicRepository = clinicRepository;
+
     }
 
     public ResponseEntity<List<RoomDTO>> search(String name, int number, DateTime date, Duration duration, int page) {
@@ -136,9 +140,17 @@ public class RoomsService {
         for (ExaminationAppointment ea : scheduled) {
             ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
             // da li ovaj sam isti koji je jebe li me, nadje li bas njega?
-            if (!date.isAfter(ea.getEndDate()) && !dateEnd.isBefore(ea.getStartDate())) {
+            if (!date.isAfter(ea.getEndDate()) && !dateEnd.isBefore(ea.getStartDate()))
                 return findNext(scheduled, date, duration, dateEnd);
-            }
+            if (date.isBefore(ea.getStartDate()) && dateEnd.isAfter(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (dateEnd.isBefore(ea.getEndDate()) && dateEnd.isAfter(ea.getStartDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (date.isAfter(ea.getStartDate()) && date.isBefore(ea.getEndDate()))
+            if (date.isEqual(ea.getStartDate()) || dateEnd.isEqual(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
+            if (date.isBefore(ea.getStartDate()) && dateEnd.isBefore(ea.getEndDate()))
+                return findNext(scheduled, date, duration, dateEnd);
         }
         return date;
     }
@@ -151,7 +163,12 @@ public class RoomsService {
                 ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
             }
             if (ea.getEndDate().isBefore(next)) continue;
-            if (ea.getEndDate().isBefore(nextEnd)) {
+            if (ea.getStartDate().isAfter(nextEnd)) break;
+            if (ea.getEndDate().isBefore(nextEnd) ||
+                    ea.getEndDate().isBefore(next) ||
+                    (ea.getStartDate().isBefore(next) && ea.getEndDate().isAfter(nextEnd)) ||
+                    ea.getStartDate().isEqual(next) || ea.getEndDate().isEqual(nextEnd) ||
+                    (ea.getStartDate().isAfter(next) && nextEnd.isBefore(ea.getEndDate()))) {
                 next = ea.getEndDate().plusMinutes(2); // prazan hod sobe
                 nextEnd = next.plus(duration);
             }
@@ -159,17 +176,28 @@ public class RoomsService {
         return next;
     }
 
-    public List<RoomDTO> getAll(int page) {
+    public ResponseEntity<List<RoomDTO>> getAll(Long id, int page) {
+        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
+        if (!optionalClinic.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Clinic clinic = optionalClinic.get();
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Room> roomPage = this.roomsRepository.findAll(pageable);
+        Page<Room> roomPage = this.roomsRepository.findByClinic(clinic, pageable);
+
         List<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : roomPage.getContent()) {
+            String type;
+            if (r instanceof ExaminationRoom) {
+                type = "examination";
+            } else type = "operation";
             roomDTOS.add(RoomDTO.builder()
                     .name(r.getName())
                     .number(r.getNumber())
+                    .type(type)
                     .id(r.getId()).build());
         }
-        return roomDTOS;
+        return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity<List<ExaminationRoomDTO>> getRoomsForExamination(Long id, int page) {

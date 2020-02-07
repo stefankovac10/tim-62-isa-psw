@@ -106,6 +106,7 @@ export default {
       searchNumber: undefined,
       searchDate: undefined,
       request: undefined,
+      clinic: undefined,
       page: 0,
       pages: 1
     };
@@ -117,12 +118,36 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/rooms/all/0")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.rooms = response.data;
+        this.clinic = response.data.clinic;
       })
-      .catch(error => {
-        alert(error);
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Error retrieving clinic",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      })
+      .then(() => {
+        httpClient
+          .get("/rooms/all/" + this.clinic.id + "/0")
+          .then(response => {
+            this.rooms = response.data;
+          })
+          .catch(() => {
+            this.$vToastify.error({
+              body: "Error retrieving rooms",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false,
+              duration: 2000
+            });
+          });
       });
   },
   methods: {
@@ -133,12 +158,29 @@ export default {
     },
     remove: function(room) {
       httpClient
-        .delete("/rooms/" + this.type.toLowerCase() + "/" + room.id)
+        .delete("/rooms/" + room.type + "/" + room.id)
         .then(() => {
-          this.rooms.splice(this.rooms.indexOf(room), 1);
+          this.$vToastify.success({
+            body: "Room deleted successfully.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error removing room",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
         });
     },
     update: function() {
@@ -146,14 +188,31 @@ export default {
         .put("/rooms/" + this.room.type, {
           id: this.room.id,
           name: this.name,
-          number: this.number
+          number: this.number,
+          clinic: this.clinic
         })
-        .then(response => {
-          response;
-          this.$router.push("/cadmin/rooms");
+        .then(() => {
+          this.$vToastify.info({
+            body: "Room updated successfully.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error updating room",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
         });
     },
     searchRooms: function() {
@@ -190,8 +249,15 @@ export default {
             room.dateNext = moment(room.nextAvailable).toString();
           }
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error searching rooms",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
     }
   }
