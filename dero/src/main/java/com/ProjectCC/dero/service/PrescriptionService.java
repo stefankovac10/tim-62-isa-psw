@@ -2,14 +2,14 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.MedicationDTO;
-import com.ProjectCC.dero.dto.NurseDTO;
 import com.ProjectCC.dero.dto.PrescriptionDTO;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.PrescriptionRepository;
 import com.ProjectCC.dero.repository.UserRepository;
-import com.fasterxml.jackson.databind.util.EnumResolver;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,15 +78,17 @@ public class PrescriptionService {
 
     }
 
-    public void certify(Long id, String email) {
+    public ResponseEntity<Void> certify(Long id, String email) {
         Prescription prescription = prescriptionRepository.findById(id).orElseGet(null);
 
-        if(prescription !=null){
+        if(prescription !=null && prescription.getCertified()==false){
             Nurse user = (Nurse) userRepository.findByEmail(email);
             prescription.setNurse(user);
             prescription.setCertified(true);
             prescriptionRepository.save(prescription);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

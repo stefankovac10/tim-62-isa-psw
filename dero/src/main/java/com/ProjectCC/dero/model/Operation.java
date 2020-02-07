@@ -53,4 +53,8 @@ public class Operation {
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
+
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "appointment_id")
+   private OperationAppointment operationAppointment;
 }

@@ -86,6 +86,9 @@
                 <router-link to="/cadmin/erRequests">Examination room requests</router-link>
               </a>
               <a class="nav-link">
+                <router-link to="/cadmin/operationRequests">Operation room requests</router-link>
+              </a>
+              <a class="nav-link">
                 <router-link to="/cadmin/requests">Vacation requests</router-link>
               </a>
             </div>

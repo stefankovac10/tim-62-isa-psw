@@ -5,7 +5,7 @@ import Profile from "@/components/Profile.vue";
 import EditProfile from "@/components/EditProfile.vue";
 
 import Register from "@/views/homepage/Register.vue";
-// import RegisterPage from "@/views/homepage/RegisterPage.vue";
+import RegisterPage from "@/views/homepage/RegisterPage.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
 import Other from "@/views/homepage/Others.vue";
@@ -25,6 +25,7 @@ import ListDiagnosis from "@/views/ccadmin/ListDiagnosis"
 import CAdminHome from "@/views/cadmin/CAdminHome.vue";
 import AddAppointment from "@/views/cadmin/AddAppointment.vue";
 import AddMedicalStaff from "@/views/cadmin/AddMedicalStaff.vue";
+import OperationRequests from "@/views/cadmin/OperationRequests.vue";
 import AddRoom from "@/views/cadmin/AddRoom.vue";
 import AddType from "@/views/cadmin/AddType.vue";
 import BusinessReport from "@/views/cadmin/BusinessReport.vue";
@@ -190,6 +191,11 @@ const routes = [
         path: "rooms",
         name: "rooms",
         component: ManageRooms
+      },
+      {
+        path: "operationRequests",
+        name: "operationRequests",
+        component: OperationRequests
       },
       {
         path: "types",
@@ -372,6 +378,11 @@ const routes = [
     path: "/changePassword",
     name: "changePassword",
     component: ChangePassword
+  },
+  {
+    path: "/registerPage",
+    name: "registerPage",
+    component: RegisterPage
   }
 ];
 

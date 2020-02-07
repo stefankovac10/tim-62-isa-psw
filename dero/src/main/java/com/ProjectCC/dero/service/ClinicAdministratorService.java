@@ -44,12 +44,15 @@ public class ClinicAdministratorService {
 
         clinicAdministratorDTO.setId(cadmin.getId());
         User user = userRepository.findByEmail(cadmin.getEmail());
+        User user2 = userRepository.findByJmbg(cadmin.getJmbg());
+        User user3 = userRepository.findByTelephone(cadmin.getTelephone());
 
         cadmin.setPassword(passwordEncoder.encode(cadmin.getPassword()));
         List<Authority> authorities = authorityService.findByName("ROLE_CADMIN");
         cadmin.setAuthorities(authorities);
+        cadmin.setEnabled(true);
 
-        if(user == null){
+        if(user == null && user2 == null && user3 == null){
             cadmin = clinicAdministratorRepository.save(cadmin);
             clinicAdministratorDTO.setId(cadmin.getId());
             return clinicAdministratorDTO;

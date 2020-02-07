@@ -159,7 +159,7 @@ export default {
         this.report === undefined ||
         this.report === ""
       ) {
-        this.$vToastify.info({
+        this.$vToastify.warning({
           body: "Please, fill the report and chose the diagnosis",
           title: "Warning",
           type: "warning",
@@ -181,7 +181,7 @@ export default {
           .catch(error => {
             this.error = error;
           });
-        this.$vToastify.info({
+        this.$vToastify.success({
           body: "Examination report has been saved",
           title: "Success",
           type: "success",

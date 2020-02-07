@@ -36,4 +36,8 @@ public class OperationRequest {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
     private Duration duration;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clinic_id", nullable = false)
+    public Clinic clinic;
+
 }

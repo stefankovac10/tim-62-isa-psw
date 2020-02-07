@@ -9,13 +9,14 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OperationRoomDTO extends RoomDTO {
-    @Setter
     private Long id;
-    @Setter
+    private Long requestId;
     private ClinicDTO clinic;
+
 
 }

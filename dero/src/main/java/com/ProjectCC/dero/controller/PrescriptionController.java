@@ -41,8 +41,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/certify/{id}/{email:.+}")
     public ResponseEntity<Void> certify(@PathVariable Long id, @PathVariable String email){
-        prescriptionService.certify(id, email);
-        return new ResponseEntity<>( HttpStatus.OK);
+       return  prescriptionService.certify(id, email);
     }
 
 }
