@@ -324,9 +324,9 @@ insert into examination_appointment (id, examination_room_id) values (1, 1);
 insert into examination_appointment (id, examination_room_id) values (2, 1);
 insert into examination_appointment (id, examination_room_id) values (3, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 20, 1, 1, 24, 30, 1, 1, 1);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 2, 19, 1, 2, 24, 31, 2, 2, 2);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 20, 1, 3, 25, 32, 3, 3, 3);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 20, 1, 1, null, 30, 1, 1, 1);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 2, 19, 1, 2, null, 31, 2, 2, 2);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 20, 1, 3, null, 32, 3, 3, 3);
 
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
