@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="rooms" class="justify-content-center">
-      <button type="button" class="btn btn-success" v-on:click="refresh()">Apply</button>
       <table class="table table-hover">
         <thead>
           <tr>
