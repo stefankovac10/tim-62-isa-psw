@@ -46,98 +46,150 @@ insert into clinic (address, description, grade, income, name, price_list) value
 insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 10000.0, 'Klinika za psihijatriju', 'price_list2');
 insert into clinic (address, description, grade, income, name, price_list) values ('Hajduk Veljkova', 'Klinicki centar Vojvodine', 4.11, 2300.0, 'Klinika za hematologiju', 'price_list2');
 
+
+---TIPOVI PREGLEDA
 insert into type_of_examination (description, name, clinic_id) values ('Gleda ti oci', 'oftamolog', 1);
-
-insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.2', 0.0, 0.0);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('A', '-1', 180, 80);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('0', '0.5', 170, 90);
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 1);
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog', 1);
 
 
+---CCADMIN
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name,password, telephone, last_password_reset_date) values ('Adresa1', 'Novi Sad', 'Srbija', 'pera@gmail.com', true, 'Pera', '1512998189687', 'Peric', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '066998585', '2020-02-06 12:58:51.255000');
 insert into clinic_center_administrator(log_first_time, id) values (false, 1);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name,password, telephone, last_password_reset_date) values ('Adresa2', 'Novi Sad', 'Srbija', 'mika@gmail.com', true, 'Mika', '1512998186917', 'Mikic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '066777585', '2020-02-06 12:58:51.255000');
 insert into clinic_center_administrator(log_first_time, id) values (true, 2);
+
+
+---CADMIN
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa3', 'Beograd', 'Srbija', 'jova@gmail.com', true, 'Jovan', '1507991158987', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068978563', '2020-02-06 12:58:51.255000');
 insert into clinic_administrator (clinic_id, id) values (1, 3);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa4', 'Beograd', 'Srbija', 'zika@gmail.com', true, 'Zivan', '1508971158987', 'Zivanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '062222563', '2020-02-06 12:58:51.255000');
 insert into clinic_administrator (clinic_id, id) values (1, 4);
+
+
+---REQISTRTATION REQUEST
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa5', 'Beograd', 'Srbija', 'isa2019klinicki.centar@gmail.com', true, 'Milos', '1508555558987', 'Milosevic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '062111563', '2020-02-06 12:58:51.255000');
 insert into registration_request (verified, id) values (false, 5);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'London', 'UK', 'mikael@gmail.com', true, 'Mikael', '1234567891234', 'Arteta', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000001');
+insert into registration_request (verified, id) values (false, 6);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'New York', 'Republika Srpska', 'marijana@gmail.com', true, 'Marijana', '1234567891235', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000002');
+insert into registration_request (verified, id) values (false, 7);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('11th Street', 'Boston', 'US', 'thierry@gmail.com', true, 'Thierry', '1234567891244', 'Henry', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000003');
+insert into registration_request (verified, id) values (false, 8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('12th Street', 'London', 'UK', 'henry@gmail.com', true, 'Henry', '1234567891236', 'Cavill', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000004');
+insert into registration_request (verified, id) values (false, 9);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('12th Street', 'New York', 'US', 'novak@gmail.com', true, 'Novak', '1234567891237', 'Djokovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000005');
+insert into registration_request (verified, id) values (false, 10);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('13th Street', 'London', 'UK', 'rafael@gmail.com', true, 'Rafael', '1234567891238', 'Nadal', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000006');
+insert into registration_request (verified, id) values (false, 11);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('14th Street', 'New York', 'US', 'roger@gmail.com', true, 'Roger', '1234567891239', 'Federer', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000007');
+insert into registration_request (verified, id) values (false, 12);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('14th Street', 'Boston', 'US', 'dominic@gmail.com', true, 'Dominic', '1234567891240', 'Tiem', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000008');
+insert into registration_request (verified, id) values (false, 13);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('16th Street', 'London', 'UK', 'tsitsipas@gmail.com', true, 'Stefanos', '1234567891241', 'Tsitsipas', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000009');
+insert into registration_request (verified, id) values (false, 14);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('16th Street', 'New York', 'US', 'viktor@gmail.com', true, 'Viktor', '1234567891242', 'Troicki', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '00000000010');
+insert into registration_request (verified, id) values (false, 15);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('15th Street', 'New York', 'US', 'struff@gmail.com', true, 'Jan-Lennard', '1234567891243', 'Struff', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '00000000011');
+insert into registration_request (verified, id) values (false, 16);
+
+
+--DOKTORI
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa6', 'Nevesinje', 'Republika Srpska', 'marija@gmail.com', true, 'Marija', '1592897368425', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068953685', '2020-02-06 12:58:51.255000');
-insert into medical_staff (clinic_id, id) values (1, 6);
-insert into doctor (specialised_type_id, id, grade) values (null, 6, 4.0);
-
---SESTRE
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa7', 'Nevesinje', 'Republika Srpska', 'jelena@gmail.com', true, 'Marija', '1592890000025', 'J', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068950000', '2020-02-06 12:58:51.255000');
-insert into medical_staff (clinic_id, id) values (1, 7);
-insert into nurse (id) values (7);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Bulevar despota Stefana', 'Novi Sad', 'Republika Srbija', 'mica@gmail.com', true, 'Milica', '1592812341234', 'Injac', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689504040', '2020-02-06 12:58:51.255000');
-insert into medical_staff (clinic_id, id) values (1, 8);
-insert into nurse (id) values (8);
-
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Adresa8', 'Nevesinje', 'Republika Srpska', 'jeca@gmail.com', true, 'Marija', '1592891011025', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689513110');
-insert into patient (med_rec_id, id) values (1, 9);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'marko@gmail.com', true, 'Marko', '1592811110025', 'Jovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511210');
-insert into patient (med_rec_id, id) values (2, 10);
+insert into medical_staff (clinic_id, id) values (1, 17);
+insert into doctor (specialised_type_id, id, grade) values (1, 17, 4.0);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Sekspirova', 'Novi Sad', 'Republika Srbija', 'marko123@gmail.com', true, 'Marko', '1592812110025', 'Jovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511230', '2020-02-06 12:58:51.255000');
-insert into medical_staff(id, clinic_id) values (11, 3);
-insert into doctor (id, specialised_type_id, grade) values (11, 1, 3.4);
+insert into medical_staff(id, clinic_id) values (18, 2);
+insert into doctor (id, specialised_type_id, grade) values (18, 2, 3.4);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Heroja pinkija', 'Novi Sad', 'Republika Srbija', 'mirko@gmail.com', true, 'Mirko', '1592813110025', 'Moric', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511240', '2020-02-06 12:58:51.255000');
-insert into medical_staff(id, clinic_id) values (12, 1);
-insert into doctor (id, specialised_type_id, grade) values (12, 1, 2.9);
+insert into medical_staff(id, clinic_id) values (19, 1);
+insert into doctor (id, specialised_type_id, grade) values (19, 2, 2.9);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Veselina Maslese', 'Novi Sad', 'Republika Srbija', 'vesko@gmail.com', true, 'Vesko', '1592814110025', 'Loric', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511250', '2020-02-06 12:58:51.255000');
-insert into medical_staff(id, clinic_id) values (13, 1);
-insert into doctor (id, specialised_type_id, grade) values (13, 1, 4.8);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'mjovic@gmail.com', true, 'Mirko', '1592811220025', 'Jovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689544210');
-insert into patient (med_rec_id, id) values (2, 14);
+insert into medical_staff(id, clinic_id) values (20, 1);
+insert into doctor (id, specialised_type_id, grade) values (20, 1, 4.8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Jevrejska 12', 'Novi Sad', 'Republika Srbija', 'drnele@gmail.com', true, 'Dr Nele', '159281555555', 'Karajlic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689555555');
+insert into medical_staff(id, clinic_id) values (21, 2);
+insert into doctor (id, specialised_type_id, grade) values (21, 2, 4.8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Ulica srpskih junaka', 'New Jersey', 'USA', 'drhaus@gmail.com', true, 'Gregory', '1594094110025', 'House', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689172250');
+insert into medical_staff(id, clinic_id) values (22, 3);
+insert into doctor (id, specialised_type_id, grade) values (22, 3, 4.8);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Sava Mala', 'Beooograd', 'Republika Srbija', 'sinisam@gmail.com', true, 'Sinisa', '1592500810025', 'Mali', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0639980250');
+insert into medical_staff(id, clinic_id) values (23, 1);
+insert into doctor (id, specialised_type_id, grade) values (23, 1, 4.8);
+
+
+---SESTRE
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa7', 'Nevesinje', 'Republika Srpska', 'jelena@gmail.com', true, 'Marija', '1592890000025', 'J', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068950000', '2020-02-06 12:58:51.255000');
+insert into medical_staff (clinic_id, id) values (1, 24);
+insert into nurse (id) values (24);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Bulevar despota Stefana', 'Novi Sad', 'Republika Srbija', 'mica@gmail.com', true, 'Milica', '1592812341234', 'Injac', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689504040', '2020-02-06 12:58:51.255000');
+insert into medical_staff (clinic_id, id) values (1, 25);
+insert into nurse (id) values (25);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Fruskogorska 25', 'Melburn', 'Australija', 'marija1@gmail.com', true, 'Marija', '1234567897896', 'Karan', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000012');
+insert into medical_staff (clinic_id, id) values (3, 26);
+insert into nurse (id) values (26);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Adolfa Hitlera 19/39', 'Munchen', 'Njemacka', 'ana@gmail.com', true, 'Ana', '1234567897895', 'Ivanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000013');
+insert into medical_staff (clinic_id, id) values (1, 27);
+insert into nurse (id) values (27);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Milosa Obilica 13/89', 'Ankara', 'Turska', 'tijana@gmail.com', true, 'Tijana', '1234567897893', 'Boskovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000014');
+insert into medical_staff (clinic_id, id) values (2, 28);
+insert into nurse (id) values (28);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Beogradska 13', 'Tuzla', 'BIH', 'lepa@gmail.com', true, 'Lepa', '1234567897894', 'Brena', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000015');
+insert into medical_staff (clinic_id, id) values (3, 29);
+insert into nurse (id) values (29);
+
+--MEDICALRECORD
+insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.2', 190, 95);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1', 202, 95);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '0.5', 178, 90);
+insert into medical_record (blood_type, diopter, height, weight) values ('0', '1', 191, 95);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('A', '-1.5', 181, 85);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '2.0', 179, 99);
+insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.8', 195, 100);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1', 165, 68);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('0', '0.7', 172, 85);
+insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.9', 191, 105);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1.9', 183, 80);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('A', '0.6', 178, 90);
+insert into medical_record (blood_type, diopter, height, weight) values ('AB', '0.3', 190, 91);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1.0', 180, 88);
+insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '0.6', 170, 85);
+
+
+--PACIJENTI
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Adresa8', 'Nevesinje', 'Republika Srpska', 'jeca@gmail.com', true, 'Marija', '1592891011025', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689513110');
+insert into patient (med_rec_id, id) values (1, 30);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'marko@gmail.com', true, 'Marko', '1592811110025', 'Jovicic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511210');
+insert into patient (med_rec_id, id) values (2, 31);
+insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'paja@gmail.com', true, 'Paja', '1592811220025', 'Pajic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689544210');
+insert into patient (med_rec_id, id) values (3, 32);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'jmilan@gmail.com', true, 'Milan', '1592811110033', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0686661210');
-insert into patient (med_rec_id, id) values (2, 15);
+insert into patient (med_rec_id, id) values (4, 33);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'yayatoure@gmail.com', true, 'Yaya', '1592815555025', 'Toure', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689881210');
-insert into patient (med_rec_id, id) values (2, 16);
+insert into patient (med_rec_id, id) values (5, 34);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'kolotoure@gmail.com', true, 'Kolo', '1592811110099', 'Toure', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511299');
-insert into patient (med_rec_id, id) values (2, 17);
+insert into patient (med_rec_id, id) values (6, 35);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'giggs@gmail.com', true, 'Ryan', '2292811110025', 'Giggs', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689123210');
-insert into patient (med_rec_id, id) values (2, 18);
+insert into patient (med_rec_id, id) values (7, 36);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'slippyg@gmail.com', true, 'Slippy', '2392811110025', 'Gerrard', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0655511210');
-insert into patient (med_rec_id, id) values (2, 19);
+insert into patient (med_rec_id, id) values (8, 37);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'drose@gmail.com', true, 'Derrick', '1592844440025', 'Rose', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0644441210');
-insert into patient (med_rec_id, id) values (2, 20);
+insert into patient (med_rec_id, id) values (9, 38);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'bale@gmail.com', true, 'Christian', '1592811111125', 'Bale', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689589210');
-insert into patient (med_rec_id, id) values (2, 21);
+insert into patient (med_rec_id, id) values (10, 39);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'bwayne@gmail.com', true, 'Bruce', '1234567891012', 'Wayne', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689534710');
-insert into patient (med_rec_id, id) values (2, 22);
+insert into patient (med_rec_id, id) values (11, 40);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'veinruni@gmail.com', true, 'Vein', '1592811114321', 'Runi', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511261');
-insert into patient (med_rec_id, id) values (2, 23);
+insert into patient (med_rec_id, id) values (12, 41);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'jjzmaj@gmail.com', true, 'Jovan', '1592811195225', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689592210');
-insert into patient (med_rec_id, id) values (2, 24);
+insert into patient (med_rec_id, id) values (13, 42);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'jovanka@gmail.com', true, 'Jovanka', '1597051110025', 'Broz', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689584010');
-insert into patient (med_rec_id, id) values (2, 25);
+insert into patient (med_rec_id, id) values (14, 43);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Safarikova', 'Novi Sad', 'Republika Srbija', 'maksicm@gmail.com', true, 'Milenko', '1592811684025', 'Maksic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689519510');
-insert into patient (med_rec_id, id) values (2, 26);
-
-insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z', '2019-12-30T15:43:39Z', 1, 13);
-insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z', '2019-12-31T15:43:39Z', 1, 12);
-insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z', '2019-12-30T15:43:39Z', 1, 7);
-insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z', '2019-12-31T15:43:39Z', 1, 8);
+insert into patient (med_rec_id, id) values (15, 44);
 
 
-insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 12, null);
-insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 12, null);
-insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 6, null);
-
-insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 1);
-insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 1);
-insert into rooms_table (name, number, clinic_id) values ('Soba 3', 3, 1);
-insert into rooms_table (name, number, clinic_id) values ('Soba 4', 4, 1);
-insert into rooms_table (name, number, clinic_id) values ('Soba 5', 5, 1);
-insert into rooms_table (name, number, clinic_id) values ('Soba 6', 6, 1);
-insert into examination_room (id) values (1);
-insert into operation_room (id) values (2);
-insert into examination_room (id) values (3);
-insert into examination_room (id) values (4);
-insert into examination_room (id) values (5);
-insert into examination_room (id) values (6);
-
+---AUTORITETI
 insert into authorities (name) values ('ROLE_REQUEST');
 insert into authorities (name) values ('ROLE_PATIENT');
 insert into authorities (name) values ('ROLE_NURSE');
@@ -145,19 +197,66 @@ insert into authorities (name) values ('ROLE_DOCTOR');
 insert into authorities (name) values ('ROLE_CCADMIN');
 insert into authorities (name) values ('ROLE_CADMIN');
 
+--DODJELA
 insert into user_authority (user_id, authority_id) values (1, 5);
 insert into user_authority (user_id, authority_id) values (2, 5);
 insert into user_authority (user_id, authority_id) values (3, 6);
 insert into user_authority (user_id, authority_id) values (4, 6);
+
 insert into user_authority (user_id, authority_id) values (5, 1);
-insert into user_authority (user_id, authority_id) values (6, 4);
-insert into user_authority (user_id, authority_id) values (7, 3);
-insert into user_authority (user_id, authority_id) values (8, 3);
-insert into user_authority (user_id, authority_id) values (9, 2);
-insert into user_authority (user_id, authority_id) values (10, 2);
-insert into user_authority (user_id, authority_id) values (11, 4);
-insert into user_authority (user_id, authority_id) values (12, 4);
-insert into user_authority (user_id, authority_id) values (13, 4);
+insert into user_authority (user_id, authority_id) values (6, 1);
+insert into user_authority (user_id, authority_id) values (7, 1);
+insert into user_authority (user_id, authority_id) values (8, 1);
+insert into user_authority (user_id, authority_id) values (9, 1);
+insert into user_authority (user_id, authority_id) values (10, 1);
+insert into user_authority (user_id, authority_id) values (11, 1);
+insert into user_authority (user_id, authority_id) values (12, 1);
+insert into user_authority (user_id, authority_id) values (13, 1);
+insert into user_authority (user_id, authority_id) values (14, 1);
+insert into user_authority (user_id, authority_id) values (15, 1);
+insert into user_authority (user_id, authority_id) values (16, 1);
+
+insert into user_authority (user_id, authority_id) values (17, 4);
+insert into user_authority (user_id, authority_id) values (18, 4);
+insert into user_authority (user_id, authority_id) values (19, 4);
+insert into user_authority (user_id, authority_id) values (20, 4);
+insert into user_authority (user_id, authority_id) values (21, 4);
+insert into user_authority (user_id, authority_id) values (22, 4);
+insert into user_authority (user_id, authority_id) values (23, 4);
+
+insert into user_authority (user_id, authority_id) values (24, 3);
+insert into user_authority (user_id, authority_id) values (25, 3);
+insert into user_authority (user_id, authority_id) values (26, 3);
+insert into user_authority (user_id, authority_id) values (27, 3);
+insert into user_authority (user_id, authority_id) values (28, 3);
+insert into user_authority (user_id, authority_id) values (29, 3);
+
+insert into user_authority (user_id, authority_id) values (30, 2);
+insert into user_authority (user_id, authority_id) values (31, 2);
+insert into user_authority (user_id, authority_id) values (32, 2);
+insert into user_authority (user_id, authority_id) values (33, 2);
+insert into user_authority (user_id, authority_id) values (34, 2);
+insert into user_authority (user_id, authority_id) values (35, 2);
+insert into user_authority (user_id, authority_id) values (36, 2);
+insert into user_authority (user_id, authority_id) values (37, 2);
+insert into user_authority (user_id, authority_id) values (38, 2);
+insert into user_authority (user_id, authority_id) values (39, 2);
+insert into user_authority (user_id, authority_id) values (40, 2);
+insert into user_authority (user_id, authority_id) values (41, 2);
+insert into user_authority (user_id, authority_id) values (42, 2);
+insert into user_authority (user_id, authority_id) values (43, 2);
+insert into user_authority (user_id, authority_id) values (44, 2);
+
+--VACATIONREQUEST
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z', '2019-12-30T15:43:39Z', 1, 19);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z', '2019-12-31T15:43:39Z', 1, 20);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z', '2019-12-30T15:43:39Z', 1, 24);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z', '2019-12-31T15:43:39Z', 1, 25);
+
+--PRESCRIPTION
+insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 20, null);
+insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 20, null);
+insert into prescription (certified, doctor_id, nurse_id) VALUES (false, 19, null);
 
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 2);
 insert into prescriptions_medication (prescription_id, medication_id) values (1, 3);
@@ -171,17 +270,47 @@ insert into prescriptions_medication (prescription_id, medication_id) values (3,
 insert into prescriptions_medication (prescription_id, medication_id) values (3, 3);
 insert into prescriptions_medication (prescription_id, medication_id) values (3, 5);
 
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Jevrejska 12', 'Novi Sad', 'Republika Srbija', 'drnele@gmail.com', true, 'Dr Nele', '159281555555', 'Karajlic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689555555');
-insert into medical_staff(id, clinic_id) values (27, 3);
-insert into doctor (id, specialised_type_id, grade) values (27, null, 4.8);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Ulica srpskih junaka', 'New Jersey', 'USA', 'drhaus@gmail.com', true, 'Gregory', '1594094110025', 'House', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689172250');
-insert into medical_staff(id, clinic_id) values (28, 4);
-insert into doctor (id, specialised_type_id, grade) values (28, null, 4.8);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Sava Mala', 'Beooograd', 'Republika Srbija', 'sinisam@gmail.com', true, 'Sinisa', '1592500810025', 'Mali', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0639980250');
-insert into medical_staff(id, clinic_id) values (29, 5);
-insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);
+--SOBE
+insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 3', 3, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 4', 4, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 5', 5, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 6', 6, 1);
+insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 3', 3, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 4', 4, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 5', 5, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 6', 6, 2);
+insert into rooms_table (name, number, clinic_id) values ('Soba 1', 1, 3);
+insert into rooms_table (name, number, clinic_id) values ('Soba 2', 2, 3);
+insert into rooms_table (name, number, clinic_id) values ('Soba 3', 3, 3);
+insert into rooms_table (name, number, clinic_id) values ('Soba 4', 4, 3);
+insert into rooms_table (name, number, clinic_id) values ('Soba 5', 5, 3);
+insert into rooms_table (name, number, clinic_id) values ('Soba 6', 6, 3);
+
+insert into examination_room (id) values (1);
+insert into operation_room (id) values (2);
+insert into operation_room (id) values (3);
+insert into examination_room (id) values (4);
+insert into examination_room (id) values (5);
+insert into examination_room (id) values (6);
+insert into examination_room (id) values (7);
+insert into operation_room (id) values (8);
+insert into operation_room (id) values (9);
+insert into examination_room (id) values (10);
+insert into examination_room (id) values (11);
+insert into examination_room (id) values (12);
+insert into examination_room (id) values (13);
+insert into operation_room (id) values (14);
+insert into operation_room (id) values (15);
+insert into examination_room (id) values (16);
+insert into examination_room (id) values (17);
+insert into examination_room (id) values (18);
 
 
+--APPOINTMENTI
 insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 660000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 720000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:55:00Z000', 860000, 1);
@@ -190,85 +319,37 @@ insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11
 insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
 
+--EXAMINATION APPOINTMENT
 insert into examination_appointment (id, examination_room_id) values (1, 1);
 insert into examination_appointment (id, examination_room_id) values (2, 1);
 insert into examination_appointment (id, examination_room_id) values (3, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 11, 1, 2, 7, 10, 1, 1, 1);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 2, 2, 2);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 12, 1, 3, 7, 9, 3, 3, 3);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 20, 1, 1, 24, 30, 1, 1, 1);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 2, 19, 1, 2, 24, 31, 2, 2, 2);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 20, 1, 3, 25, 32, 3, 3, 3);
 
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
 update examination_appointment set examination_id = 3 where id = 3;
 insert into examination_appointment (id, examination_room_id) values (4, 1);
-insert into examination_appointment (id, examination_room_id) values (5, 3);
+insert into examination_appointment (id, examination_room_id) values (5, 4);
 insert into examination_appointment (id) values (6);
-insert into examination_appointment (id, examination_room_id) values (7, 4);
-
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (27, 24, 1, 4);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (29, 25, 1, 5);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (28, 22, 1, 6);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (13, 9, 1, 7);
+insert into examination_appointment (id, examination_room_id) values (7, 5);
 
 
--- insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (19, 30, 2, 4);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (19, 31, 2, 5);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (20, 32, 1, 6);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (20, 30, 1, 7);
 
-
---ZAHTJEV ZA REGISTRACIJU
-
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'London', 'UK', 'mikael@gmail.com', true, 'Mikael', '1234567891234', 'Arteta', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000001');
-insert into registration_request (verified, id) values (false, 30);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('10th Street', 'New York', 'Republika Srpska', 'marijana@gmail.com', true, 'Marijana', '1234567891235', 'Marijanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000002');
-insert into registration_request (verified, id) values (false, 31);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('11th Street', 'Boston', 'US', 'thierry@gmail.com', true, 'Thierry', '1234567891244', 'Henry', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000003');
-insert into registration_request (verified, id) values (false, 32);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('12th Street', 'London', 'UK', 'henry@gmail.com', true, 'Henry', '1234567891236', 'Cavill', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000004');
-insert into registration_request (verified, id) values (false, 33);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('12th Street', 'New York', 'US', 'novak@gmail.com', true, 'Novak', '1234567891237', 'Djokovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000005');
-insert into registration_request (verified, id) values (false, 34);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('13th Street', 'London', 'UK', 'rafael@gmail.com', true, 'Rafael', '1234567891238', 'Nadal', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000006');
-insert into registration_request (verified, id) values (false, 35);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('14th Street', 'New York', 'US', 'roger@gmail.com', true, 'Roger', '1234567891239', 'Federer', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000007');
-insert into registration_request (verified, id) values (false, 36);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('14th Street', 'Boston', 'US', 'dominic@gmail.com', true, 'Dominic', '1234567891240', 'Tiem', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000008');
-insert into registration_request (verified, id) values (false, 37);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('16th Street', 'London', 'UK', 'tsitsipas@gmail.com', true, 'Stefanos', '1234567891241', 'Tsitsipas', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0000000009');
-insert into registration_request (verified, id) values (false, 38);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('16th Street', 'New York', 'US', 'viktor@gmail.com', true, 'Viktor', '1234567891242', 'Troicki', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '00000000010');
-insert into registration_request (verified, id) values (false, 39);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('15th Street', 'New York', 'US', 'struff@gmail.com', true, 'Jan-Lennard', '1234567891243', 'Struff', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '00000000011');
-insert into registration_request (verified, id) values (false, 40);
-
-
----SESTRE
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Fruskogorska 25', 'Melburn', 'Australija', 'marija1@gmail.com', true, 'Marija', '1234567897896', 'Karan', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000012');
-insert into medical_staff (clinic_id, id) values (2, 41);
-insert into nurse (id) values (41);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Adolfa Hitlera 19/39', 'Munchen', 'Njemacka', 'ana@gmail.com', true, 'Ana', '1234567897895', 'Ivanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000013');
-insert into medical_staff (clinic_id, id) values (2, 42);
-insert into nurse (id) values (42);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Milosa Obilica 13/89', 'Ankara', 'Turska', 'tijana@gmail.com', true, 'Tijana', '1234567897893', 'Boskovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000014');
-insert into medical_staff (clinic_id, id) values (3, 43);
-insert into nurse (id) values (43);
-insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Beogradska 13', 'Tuzla', 'BIH', 'lepa@gmail.com', true, 'Lepa', '1234567897894', 'Brena', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '000000015');
-insert into medical_staff (clinic_id, id) values (2, 44);
-insert into nurse (id) values (44);
-
-insert into user_authority (user_id, authority_id) values (44, 3);
-insert into user_authority (user_id, authority_id) values (41, 3);
-insert into user_authority (user_id, authority_id) values (42, 3);
-insert into user_authority (user_id, authority_id) values (43, 3);
+--insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
 
 
 --insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z',1);
 
 
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z',12,600000,10,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',13,660000,14,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',13,660000,15,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z',19,600000,30,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',20,660000,31,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',20,660000,30,1);
 
-
-insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 1);
-insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog', 1);
 
