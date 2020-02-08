@@ -338,7 +338,7 @@ const routes = [
         component: Examination
       },
       {
-        path: "addexaminationreport/:id",
+        path: "addexaminationreport/:id/:patientId",
         name: "addexaminationreport",
         component: AddExaminationReport
       },
