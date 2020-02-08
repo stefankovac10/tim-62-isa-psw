@@ -4,15 +4,12 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.OperationRequestDTO;
 import com.ProjectCC.dero.dto.OperationRoomRequestDTO;
 import com.ProjectCC.dero.model.*;
-import com.ProjectCC.dero.repository.DoctorRepository;
+import com.ProjectCC.dero.repository.*;
 import com.ProjectCC.dero.repository.OperationAppointmentRepository;
 import com.ProjectCC.dero.repository.OperationRequestRepository;
-import com.ProjectCC.dero.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
-import org.joda.time.Period;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,24 +21,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 @Service
 public class OperationRequestService {
 
     private OperationRequestRepository operationRequestRepository;
+    private ExaminationRequestRepository examinationRequestRepository;
+    private OperationRepository operationRepository;
     private OperationAppointmentRepository operationAppointmentRepository;
     private UserRepository userRepository;
+    private OperationRoomRepository operationRoomRepository;
     private ModelMapper modelMapper;
 
+
     @Autowired
-    public OperationRequestService(OperationAppointmentRepository operationAppointmentRepository,UserRepository userRepository, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
+    public OperationRequestService(ExaminationRequestRepository examinationRequestRepository,OperationRoomRepository operationRoomRepository,OperationRepository operationRepository,OperationAppointmentRepository operationAppointmentRepository,UserRepository userRepository, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
         this.operationRequestRepository = operationRequestRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
+        this.examinationRequestRepository = examinationRequestRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
+        this.operationRepository = operationRepository;
+        this.operationRoomRepository = operationRoomRepository;
     }
 
     public ResponseEntity<Void> save(OperationRequestDTO operationRequestDTO) {
@@ -87,21 +91,17 @@ public class OperationRequestService {
 
     }
 
-    public ResponseEntity<Void> reserveOperation(OperationRoomRequestDTO operationRoomRequest) {
+    public ResponseEntity<Void> reserveOperation(OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(operationRoomRequest.getRequestId());
         if(!optionalOperationRequest.isPresent())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         OperationRequest operationRequest = optionalOperationRequest.get();
 
         OperationAppointment oa = new OperationAppointment();
-        System.out.println("idAPP:"+ oa.getId());
         oa.setDuration(operationRequest.getDuration());
         oa.setStartDate(operationRequest.getDate());
         oa.setEndDate(new DateTime(oa.getStartDate().getMillis() + oa.getDuration().getMillis(), DateTimeZone.UTC));
-        OperationRoom or =  OperationRoom.builder()
-                .id(operationRoomRequest.getRoom().getId())
-                .build();
-        System.out.println("idSob:"+ or.getId());
+        OperationRoom or =  operationRoomRepository.findById(operationRoomRequest.getRoom().getId()).orElseGet(null);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         ClinicAdministrator ca = (ClinicAdministrator) userRepository.findByEmail(username);
@@ -111,29 +111,59 @@ public class OperationRequestService {
 
         Operation operation = new Operation();
         operation.setClinic(ca.getClinic());
-        System.out.println("idKl:"+ ca.getClinic().getId());
         operation.setDate(oa.getStartDate());
         operation.setDuration(oa.getDuration());
         Patient patient = (Patient) userRepository.findById(operationRequest.getPatientId()).orElseGet(null);
         operation.setPatient(patient);
-        System.out.println("idPATI:"+ patient.getId());
         operation.setMedicalRecord(patient.getMedicalRecord());
         operation.setOperationRoom(or);
-        System.out.println("idoper:"+ operation.getId());
         Set<Doctor> doctors = new HashSet<>();
         for(DoctorDTO d: operationRoomRequest.getDoctors()){
-            Doctor doctor = Doctor.builder()
-                    .id(d.getId())
-                    .build();
-            System.out.println("idDOK"+ doctor.getId());
-            doctors.add(doctor);
+            Doctor doctor = (Doctor) userRepository.findById(d.getId()).orElseGet(null);
+            if(checkIfDoctorIsFree(doctor,oa.getStartDate(),oa.getDuration()))
+                doctors.add(doctor);
         }
+
         operation.setDoctors(doctors);
+        operation.setOperationAppointment(oa);
         oa.setOperation(operation);
+
+        this.operationRepository.save(operation);
         this.operationRequestRepository.delete(operationRequest);
         this.operationAppointmentRepository.save(oa);
 
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+        List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
+        List<Operation> operations = this.operationRepository.findByDoctorsId(doc.getId());
+        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
+
+        for (ExaminationRequest er : examinationRequests) {
+            ExaminationAppointment ea = er.getExaminationAppointment();
+            ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
+            if (!nextAvailable.isAfter(ea.getEndDate()) && !nextEnd.isBefore(ea.getStartDate())) {
+                return false;
+            }
+        }
+
+        for(Operation o: operations){
+            DateTime end = (new DateTime(o.getDate().getMillis()+o.getDuration().getMillis(), DateTimeZone.UTC));
+            if (!nextAvailable.isAfter(end) && !nextEnd.isBefore(o.getDate())) {
+                return false;
+            }
+        }
+
+        Doctor doctor = (Doctor) userRepository.findById(doc.getId()).orElseGet(null);
+        for(VacationRequest v: doctor.getVacationRequest()){
+            DateTime start = (new DateTime(v.getStartDate().getMillis(),DateTimeZone.UTC));
+            DateTime end = (new DateTime(v.getEndDate().getMillis(),DateTimeZone.UTC));
+            if(!nextAvailable.isBefore(start) && !nextAvailable.isAfter(end))
+                return false;
+        }
+        return true;
+
     }
 }
