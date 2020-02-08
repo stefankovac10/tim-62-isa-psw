@@ -10,10 +10,15 @@
       <input type="text" class="p-2" id="weight" name="weight" v-model="weight" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
 
       <label class="p-2">Blood type</label>
-      <input type="text" class="p-2" id="bloodType" name="bloodType" v-model="bloodType" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
-    
+      <select style="width:200px" class="browser-default custom-select" v-model="bloodType" v-bind:disabled=" mode == 'VIEW'">
+        <option value="1">A</option>
+        <option value="2">B</option>
+        <option value="3">AB</option>
+        <option value="3">0</option>
+      </select>
+
       <label class="p-2">Diopter</label>
-      <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
+      <input type="number" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
       
       <br>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW' && (role === 'ROLE_DOCTOR')" v-on:click.prevent="edit">Edit</button>
