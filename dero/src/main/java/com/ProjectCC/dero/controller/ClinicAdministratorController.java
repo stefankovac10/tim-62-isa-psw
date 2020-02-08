@@ -46,12 +46,13 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody OperationRequestDTO operationRequestDTO) {
         return this.operationRequestService.save(operationRequestDTO);
     }
 
     @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
-    @PreAuthorize("hasRole('CADMIN')")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
