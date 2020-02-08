@@ -2,21 +2,21 @@
   <div class="d-flex flex-row flex-wrap p-2 justify-content-center">
     <div class=" flex-wrap p-2 justify-content-center" v-if="mode == 'VIEW'">
       <div class="d-flex p-2 justify-content-center flex-row flex-wrap">
-        <div
-          class="card border-primary mb-3"
-          style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
-          v-for="diagnosis in diagnosisis" :key="diagnosis"
-        >
-          <div class="card-header">{{diagnosis.code}}</div>
-          <div class="card-body">
-            <h4 class="card-title">{{diagnosis.name}}</h4>
-            <p class="card-text">
-              {{diagnosis.description}}
-            </p>
-            <button type="button" class="btn btn-primary" v-on:click="edit(diagnosis)" style="margin-right:10px">Edit</button>
-            <button type="button" class="btn btn-danger" v-on:click="remove(diagnosis)">Delete</button>
-          </div>
+      <div
+        class="card border-primary mb-3"
+        style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
+        v-for="diagnosis in diagnosisis" :key="diagnosis.id"
+      >
+        <div class="card-header">{{diagnosis.code}}</div>
+        <div class="card-body">
+          <h4 class="card-title">{{diagnosis.name}}</h4>
+          <p class="card-text">
+            {{diagnosis.description}}
+          </p>
+          <button type="button" class="btn btn-primary" v-on:click="edit(diagnosis)" style="margin-right:10px">Edit</button>
+          <button type="button" class="btn btn-danger" v-on:click="remove(diagnosis)">Delete</button>
         </div>
+      </div>
       </div>
       <div class="d-flex flex-wrap p-2 justify-content-center">
         <ul class="pagination">
@@ -72,7 +72,7 @@
 import { httpClient } from "@/services/Api.js";
 import _ from "lodash";
 export default {
-  name: "listDiagnosis",
+  name: "listDiagnosisi",
   data: function() {
     return {
       name: undefined,
@@ -158,21 +158,22 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.success({
-              body: "Diagnosis is edited",
-              title: "Success",
-              type: "success",
-              canTimeout: true,
-              append: false, duration: 2000
-            });
+
+      this.$vToastify.success({
+        body: "Diagnosisis is edited",
+        title: "Success",
+        type: "success",
+        canTimeout: true,
+        append: false, duration: 2000
+       });
     },
     remove: function(diagnosis) {
       httpClient
         .delete("/diagnosis/"+diagnosis.id)
         .then(response => {
             this.response = response; 
-            this.$vToastify.sucess({
-              body: "Diagnosis " + diagnosis.name + " is removed",
+            this.$vToastify.success({
+              body: "Diagnosis "+ diagnosis.name + " is removed",
               title: "Success",
               type: "success",
               canTimeout: true,
@@ -183,13 +184,13 @@ export default {
         .catch(error => {
           this.error = error;
           this.$vToastify.error({
-              body: "Diagnosis " + diagnosis.name + " can't be deleted",
-              title: "Error",
-              type: "error",
-              canTimeout: true,
-              append: false, duration: 2000
-            });
-        });
+            body: "Diagnosisis "+ diagnosis.name + " can't be deleted",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
+        });       
     }
   }
 };
