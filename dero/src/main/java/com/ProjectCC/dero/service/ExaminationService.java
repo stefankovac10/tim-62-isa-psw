@@ -198,7 +198,7 @@ public class ExaminationService {
             DateTime dateTime = examination.getExaminationAppointment().getStartDate();
             DateTime now = DateTime.now(DateTimeZone.UTC);
             Minutes duration = examination.getExaminationAppointment().getDuration().toStandardMinutes();
-            if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
+            if(dateTime.isBefore(now.plusMinutes(5))){
                 return true;
             }else{
                 return false;

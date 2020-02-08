@@ -111,11 +111,13 @@ export default {
       patient: undefined,
       doctor: undefined,
       duration: undefined,
-      id: undefined
+      id: undefined,
+      patientId: undefined
     };
   },
   mounted() {
     this.id = this.$route.params.id;
+    this.patientId = this.$route.params.patientId;
     httpClient
       .get("/diagnosis/all")
       .then(response => {
@@ -144,7 +146,7 @@ export default {
       });
 
     httpClient
-      .get("/users/mail/giggs@gmail.com")
+      .get("/patient/"+this.patientId)
       .then(response => {
         this.patient = response.data;
       })

@@ -41,8 +41,8 @@ public class Operation {
    @ManyToMany
    @JoinTable(
            name = "operations_doctors",
-           joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"),
-           inverseJoinColumns = @JoinColumn(name = "operation_id", referencedColumnName = "id")
+           joinColumns = @JoinColumn(name = "operation_id", referencedColumnName = "id"),
+           inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id")
    )
    public Set<Doctor> doctors;
 

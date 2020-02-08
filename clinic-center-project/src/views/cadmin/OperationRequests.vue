@@ -41,6 +41,7 @@
           v-if="request"
           v-bind:id="request"
           v-on:reserved="refresh"
+          v-bind:key="componentKey"
         ></SearchRoomByRequest>
       </div>
     </div>
@@ -57,7 +58,8 @@ export default {
       pages: [],
       requests: undefined,
       request: undefined,
-      operation: "operation"
+      operation: "operation",
+      componentKey: 0
     };
   },
   components: {
@@ -102,6 +104,8 @@ export default {
     },
     search: function(id) {
       this.request = id;
+      this.$children[0].id = id;
+      this.componentKey += 1;
     },
     nextPage: function(page) {
         httpClient

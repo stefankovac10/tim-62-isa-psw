@@ -204,6 +204,14 @@ public class DoctorService {
                 return false;
             }
         }
+
+        Doctor doctor = doctorRepository.findById(doc.getId()).orElseGet(null);
+        for(VacationRequest v: doctor.getVacationRequest()){
+            DateTime start = (new DateTime(v.getStartDate().getMillis(),DateTimeZone.UTC));
+            DateTime end = (new DateTime(v.getEndDate().getMillis(),DateTimeZone.UTC));
+            if(!nextAvailable.isBefore(start) && !nextAvailable.isAfter(end))
+                return false;
+        }
         return true;
  
     }
