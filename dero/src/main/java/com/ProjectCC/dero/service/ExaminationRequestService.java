@@ -1,6 +1,9 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.dto.DoctorDTO;
+import com.ProjectCC.dero.dto.ExaminationRequestDTO;
+import com.ProjectCC.dero.dto.ExaminationRequestDetailsDTO;
+import com.ProjectCC.dero.dto.PatientDTO;
 import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
@@ -18,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExaminationRequestService {
@@ -68,7 +70,7 @@ public class ExaminationRequestService {
         Clinic clinic = this.clinicRepository.findById(id).orElseThrow(ClinicNotFoundException::new);
 
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(id, pageable);
+        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic.getId(), pageable);
 
         ArrayList<ExaminationRequestDetailsDTO> requestDTOS = new ArrayList<>();
         for (ExaminationRequest er : requests) {
