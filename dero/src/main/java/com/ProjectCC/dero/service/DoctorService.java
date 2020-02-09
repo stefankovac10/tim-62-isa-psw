@@ -76,6 +76,7 @@ public class DoctorService {
 
         Clinic clinic = clinicService.findOne((long) 1);
         doctor.setClinic(clinic);
+        doctor.setEnabled(true);
 
         doctor = doctorRepository.save(doctor);
 
@@ -277,7 +278,7 @@ public class DoctorService {
             }
         }
 
-        Doctor doctor = (Doctor) userRepository.findById(doc.getId()).orElseGet(null);
+        Doctor doctor = doctorRepository.findById(doc.getId()).orElseGet(null);
         if(doctor.getVacationRequest().size() == 0) return  true;
         for(VacationRequest v: doctor.getVacationRequest()){
             DateTime start = (new DateTime(v.getStartDate().getMillis(),DateTimeZone.UTC));
@@ -286,6 +287,7 @@ public class DoctorService {
                 return false;
         }
         return true;
+
 
     }
 

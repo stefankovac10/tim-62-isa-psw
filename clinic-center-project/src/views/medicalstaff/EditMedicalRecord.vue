@@ -49,7 +49,6 @@
         <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px; margin-right: 10px" v-on:click="saveReport()">Save</button>
         <button v-if = "reportEdit === 'EDIT'" class="btn btn-primary p-2" style = "margin-top: 10px;" v-on:click="cancel()">Cancel</button>
     </div>
-    <button v-if="role === 'ROLE_DOCTOR'" type="button" style="position: absolute; right: 0; bottom:0; margin: 35px" class="btn btn-success" v-on:click="addExamReport()">Add Examination Report</button>
   </div>
   
 </template>
@@ -261,9 +260,6 @@ export default {
         this.diagnosis = undefined;
         this.reportEdit = 'VIEW';
       
-    },
-    addExamReport: function(){
-      this.$router.push("/doc/addexaminationreport");
     }
   }
 };

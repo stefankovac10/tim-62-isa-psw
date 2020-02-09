@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.OperationRequestDTO;
 import com.ProjectCC.dero.dto.OperationRoomRequestDTO;
 import com.ProjectCC.dero.exception.UserNotFoundException;
+import com.ProjectCC.dero.mail.SmtpMailSender;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.ProjectCC.dero.repository.OperationAppointmentRepository;
@@ -23,6 +24,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.*;
@@ -40,13 +43,15 @@ public class OperationRequestService {
     private RoomsService roomsService;
     private ClinicRepository clinicRepository;
     private DoctorRepository doctorRepository;
+    private SmtpMailSender smtpMailSender;
 
     @Autowired
     public OperationRequestService(DoctorRepository doctorRepository,ClinicRepository clinicRepository,RoomsService roomsService,ExaminationRequestRepository examinationRequestRepository,
                                    OperationRoomRepository operationRoomRepository,OperationRepository operationRepository,OperationAppointmentRepository operationAppointmentRepository,
-                                   UserRepository userRepository, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
+                                   UserRepository userRepository,SmtpMailSender smtpMailSender, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
         this.operationRequestRepository = operationRequestRepository;
         this.roomsService = roomsService;
+        this.smtpMailSender = smtpMailSender;
         this.clinicRepository = clinicRepository;
         this.doctorRepository = doctorRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
@@ -61,10 +66,11 @@ public class OperationRequestService {
         OperationRequest operationRequest = modelMapper.map(operationRequestDTO, OperationRequest.class);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        MedicalStaff med = (MedicalStaff) userRepository.findByEmail(username);
-
+        MedicalStaff med = (MedicalStaff) userRepository.findById(operationRequestDTO.getDoctorId()).orElseGet(null);
         operationRequest.setClinic(med.getClinic());
         this.operationRequestRepository.save(operationRequest);
+
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -100,6 +106,7 @@ public class OperationRequestService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<Void> reserveOperation(OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(operationRoomRequest.getRequestId());
         if(!optionalOperationRequest.isPresent())
@@ -131,11 +138,14 @@ public class OperationRequestService {
             Doctor doctor = (Doctor) userRepository.findById(d.getId()).orElseGet(null);
             if(checkIfDoctorIsFree(doctor,oa.getStartDate(),oa.getDuration()))
                 doctors.add(doctor);
+            smtpMailSender.send(doctor.getEmail(),"Operation", "Your have been scheduled:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
         }
 
         operation.setDoctors(doctors);
         operation.setOperationAppointment(oa);
         oa.setOperation(operation);
+
+        smtpMailSender.send(patient.getEmail(),"Operation", "Your operation is scheduled to:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
 
         this.operationRepository.save(operation);
         this.operationRequestRepository.delete(operationRequest);
@@ -159,7 +169,8 @@ public class OperationRequestService {
         return nextAvailable.isBefore(startDate) && nextEnd.isBefore(endDate);
     }
 
-    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
         List<Operation> operations = this.operationRepository.findByDoctorsId(doc.getId());
         DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
@@ -192,12 +203,12 @@ public class OperationRequestService {
 
     }
 
-    private void reservation(OperationRequest operationRequest, OperationRoom operationRoom, DateTime nextAvailable) throws UserNotFoundException {
+    private void reservation(OperationRequest operationRequest, OperationRoom operationRoom, DateTime nextAvailable) throws UserNotFoundException, MessagingException {
         Optional<User> optionalPatient = this.userRepository.findById(operationRequest.getPatientId());
         Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(operationRequest.getId());
 
         if (!optionalPatient.isPresent())
-            throw new UserNotFoundException("User was not found.");
+            throw new UserNotFoundException();
 
         if(!optionalOperationRequest.isPresent())
             return;
@@ -226,11 +237,15 @@ public class OperationRequestService {
         Doctor doc = findAvailableDoctor(nextAvailable, operationRequest.getDuration());
         if (doc != null) {
             doctors.add(doc);
+            smtpMailSender.send(doc.getEmail(),"Operation", "Your have been scheduled:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
         }
 
         operation.setDoctors(doctors);
         operation.setOperationAppointment(oa);
         oa.setOperation(operation);
+
+        smtpMailSender.send(patient.getEmail(),"Operation", "Your operation is scheduled to:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
+
 
         this.operationRepository.save(operation);
         this.operationRequestRepository.delete(operationRequest);
@@ -238,6 +253,7 @@ public class OperationRequestService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
         List<Doctor> doctors = this.doctorRepository.findAll();
         for (Doctor doc : doctors) {
@@ -247,7 +263,7 @@ public class OperationRequestService {
         return null;
     }
 
-    @Scheduled(cron = "59 23 * * * *")
+    @Scheduled(cron = "59 59 23 * * *")
     private void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();
 
@@ -270,7 +286,7 @@ public class OperationRequestService {
                 try {
                     assert min != null;
                     reservation(oRequest, min.getKey(), min.getValue());
-                } catch (UserNotFoundException e) {
+                } catch (UserNotFoundException | MessagingException e) {
                     e.printStackTrace();
                 }
             }
