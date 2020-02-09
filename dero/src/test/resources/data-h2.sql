@@ -180,13 +180,13 @@ insert into medical_staff(id, clinic_id) values (29, 5);
 insert into doctor (id, specialised_type_id, grade) values (29, null, 4.8);
 
 
-insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 660000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 720000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:55:00Z000', 860000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-10-24T15:43:00Z000', 600000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11:43:00Z000', 720000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z', 660000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z', 720000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:55:00Z', 860000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-10-24T15:43:00Z', 600000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11:43:00Z', 720000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z', 920000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z', 920000, 1);
 
 insert into examination_appointment (id, examination_room_id) values (1, 1);
 insert into examination_appointment (id, examination_room_id) values (2, 1);
@@ -258,12 +258,12 @@ insert into user_authority (user_id, authority_id) values (42, 3);
 insert into user_authority (user_id, authority_id) values (43, 3);
 
 
---insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z000',1);
+--insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z',1);
 
 
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z000',12,600000,10,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z000',13,660000,14,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z000',13,660000,15,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z',12,600000,10,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',13,660000,14,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',13,660000,15,1);
 
 insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog',1);
 insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog',1);
