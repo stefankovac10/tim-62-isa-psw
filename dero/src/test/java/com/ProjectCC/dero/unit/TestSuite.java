@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ClinicRepositoryUnitTest.class, PatientRepositoryUnitTest.class, DoctorRepositoryUnitTest.class,
-        ExaminationAppointmentRepositoryUnitTest.class, ExaminationRequestRepositoryUnitTest.class, ExaminationRoomRepositoryUnitTest.class,
+        ExaminationRequestRepositoryUnitTest.class, ExaminationRoomRepositoryUnitTest.class,
         ExaminationRequestServiceUnitTest.class, ClinicAdministratorControllerUnitTest.class})
 public class TestSuite {
 }
