@@ -3,11 +3,17 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.exceptions.UserNotFoundException;
+
+import com.ProjectCC.dero.dto.VacationRequestDTO;
+import com.ProjectCC.dero.model.MedicalStaff;
+import com.ProjectCC.dero.model.VacationRequest;
 import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.ClinicAdministrator;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.repository.ClinicAdministratorRepository;
 import com.ProjectCC.dero.repository.ClinicRepository;
+
 import com.ProjectCC.dero.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +32,7 @@ public class UserService {
     private ClinicAdministratorRepository clinicAdministratorRepository;
     private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
+    private UserNotFoundException userNotFoundException;
 
 
     @Autowired
@@ -124,5 +132,21 @@ public class UserService {
         User user = opt.get();
 
         return user.getLastPasswordResetDate() == null;
+    }
+
+    public ResponseEntity<List<VacationRequestDTO>> getVacations(String email) {
+        MedicalStaff medicalStaff = (MedicalStaff) userRepository.findByEmail(email);
+        List<VacationRequestDTO> vacationRequestDTOS = new ArrayList<>();
+        for(VacationRequest vacationRequest: medicalStaff.getVacationRequest()){
+            if(vacationRequest.isAccepted() == true) {
+                vacationRequestDTOS.add(VacationRequestDTO.builder()
+                        .endDate(vacationRequest.getEndDate())
+                        .startDate(vacationRequest.getStartDate())
+                        .id(vacationRequest.getId())
+                        .accepted(vacationRequest.isAccepted())
+                        .build());
+            }
+        }
+        return new ResponseEntity<>(vacationRequestDTOS, HttpStatus.OK);
     }
 }

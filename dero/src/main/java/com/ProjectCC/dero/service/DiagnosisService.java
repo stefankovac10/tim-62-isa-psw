@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class DiagnosisService {
     }
 
     public List<DiagnosisDTO> findAll(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name"));
         Page<Diagnosis> diagnoses = diagnosisRepository.findAll(pageable);
 
         List<DiagnosisDTO> diagnosisDTOS = new ArrayList<>();
@@ -54,9 +55,9 @@ public class DiagnosisService {
     }
 
     public Diagnosis save(Diagnosis diagnosis) {
-
         Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
-        if (diagnosis_find == null) {
+        Diagnosis diagnosis_find1 = diagnosisRepository.findByCode(diagnosis.getCode());
+        if (diagnosis_find == null && diagnosis_find1 == null) {
             return diagnosisRepository.save(diagnosis);
         }
         return null;

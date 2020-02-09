@@ -50,7 +50,7 @@ public class AuthenticationController {
                                 jwtAuthenticationRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(authentication.getName());
+//        System.out.println(authentication.getName());
 
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getEmail());

@@ -1,28 +1,20 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.*;
-import com.ProjectCC.dero.model.*;
-import com.ProjectCC.dero.repository.ClinicRepository;
-import com.ProjectCC.dero.repository.DoctorRepository;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
-import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
 import org.hibernate.StaleObjectStateException;
 import org.joda.time.DateTime;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.websocket.server.PathParam;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -47,8 +39,13 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        return new ResponseEntity<>(this.clinicAdministratorService.save(clinicAdministratorDTO), HttpStatus.OK);
+        ClinicAdministratorDTO cadmin = clinicAdministratorService.save(clinicAdministratorDTO);
+        if(cadmin == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(cadmin, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
@@ -57,13 +54,20 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
+    @PreAuthorize("hasRole('CADMIN')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
 
     @GetMapping(value = "scheduledExaminations/{id}/{page}")
+    @PreAuthorize("hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable Long id, @PathVariable int page) {
-        return this.examinationRequestService.getAll(id, page);
+        try {
+            return this.examinationRequestService.getAll(id, page);
+        } catch (UserNotFoundException | ClinicNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PutMapping(value = "reserve")
@@ -73,10 +77,16 @@ public class ClinicAdministratorController {
         DateTime nextAvailable = examinationRoomDTO.getNextAvailable();
         try {
             return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
-        } catch (StaleObjectStateException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room has been booked in the meantime", e);
+        } catch (ExaminationRequestNotFoundException | ExaminationRoomNotFoundException | TypeOfExaminationNotFoundException |
+                UserNotFoundException | NoAvailableDoctorsForExaminationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping(value = "reserveOperation")
+    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) {
+        return this.operationRequestService.reserveOperation(operationRoomRequest);
+
     }
 
 }

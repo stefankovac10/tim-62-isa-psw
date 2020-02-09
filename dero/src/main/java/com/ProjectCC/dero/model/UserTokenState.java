@@ -32,4 +32,8 @@ public class UserTokenState {
         this.authority = null;
         this.refreshToken = null;
     }
+
+    public String getToken() {
+        return accessToken;
+    }
 }

@@ -53,6 +53,9 @@ public class Clinic {
    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<Operation> operations;
 
+   @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private Set<OperationRequest> operationsRequest;
+
    @Column(name = "income")
    private Double income;
 

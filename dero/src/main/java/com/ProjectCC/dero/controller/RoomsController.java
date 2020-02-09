@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
 import com.ProjectCC.dero.model.ExaminationRoom;
+import com.ProjectCC.dero.model.Operation;
 import com.ProjectCC.dero.model.OperationRoom;
 import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.service.ExaminationRoomService;
@@ -108,6 +109,11 @@ public class RoomsController {
     @GetMapping(value = "/examinationRequest/{id}/{page}")
     public ResponseEntity<List<ExaminationRoomDTO>> roomsForExamination(@PathVariable Long id, @PathVariable int page) {
         return this.roomsService.getRoomsForExamination(id, page);
+    }
+
+    @GetMapping(value = "/operationRequest/{id}/{page}")
+    public ResponseEntity<List<OperationRoomDTO>> roomsForOperation(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getRoomsForOperation(id, page);
     }
 
 }
