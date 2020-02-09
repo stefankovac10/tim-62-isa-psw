@@ -279,24 +279,4 @@ public class ExaminationService {
 
         return new ResponseEntity<>(examinationDTOS, HttpStatus.OK);
     }
-
-    public ResponseEntity<List<ExaminationDTO>> getExaminationByPatientsEmail(String patientsEmail) {
-        Patient patient = patientRepository.findByEmail(patientsEmail);
-
-        List<Examination> examinationList = examinationRepository.findByPatient(patient);
-
-        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
-        for (Examination e : examinationList) {
-            examinationDTOS.add(ExaminationDTO.builder()
-                                .doctor(DoctorDTO.builder()
-                                        .firstName(e.getDoctor().getFirstName())
-                                        .lastName(e.getDoctor().getLastName())
-                                        .build())
-                                .date(e.getExaminationAppointment().getStartDate())
-                                .report(e.getReport())
-                                .build());
-        }
-
-        return new ResponseEntity<>(examinationDTOS, HttpStatus.OK);
-    }
 }

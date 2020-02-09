@@ -77,9 +77,4 @@ public class ExaminationController {
         return this.examinationService.getEximinationsByDoctorsID(doctorID, date);
     }
 
-    @GetMapping(value = "/patient/{patientsEmail:.+}")
-    public ResponseEntity<List<ExaminationDTO>> getExaminationsByPatientsEmail(@PathVariable String patientsEmail) {
-        return this.examinationService.getExaminationByPatientsEmail(patientsEmail);
-    }
-
 }
