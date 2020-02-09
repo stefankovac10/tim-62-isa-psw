@@ -350,8 +350,8 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
-    @Scheduled(cron = "59 23 * * * *")
-    private void reserveAll() {
+    @Scheduled(cron = "0 59 23 * * *")
+    public void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();
 
         for (Clinic clinic : clinics) {
