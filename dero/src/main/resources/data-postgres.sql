@@ -58,7 +58,7 @@ insert into clinic_center_administrator(log_first_time, id) values (false, 1);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name,password, telephone, last_password_reset_date) values ('Adresa2', 'Novi Sad', 'Srbija', 'mika@gmail.com', true, 'Mika', '1512998186917', 'Mikic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '066777585', '2020-02-06 12:58:51.255000');
 insert into clinic_center_administrator(log_first_time, id) values (true, 2);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa3', 'Beograd', 'Srbija', 'jova@gmail.com', true, 'Jovan', '1507991158987', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068978563', '2020-02-06 12:58:51.255000');
-insert into clinic_administrator (clinic_id, id) values (1, 3);
+insert into clinic_administrator (clinic_id, id) values (2, 3);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa4', 'Beograd', 'Srbija', 'zika@gmail.com', true, 'Zivan', '1508971158987', 'Zivanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '062222563', '2020-02-06 12:58:51.255000');
 insert into clinic_administrator (clinic_id, id) values (1, 4);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa5', 'Beograd', 'Srbija', 'isa2019klinicki.centar@gmail.com', true, 'Milos', '1508555558987', 'Milosevic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '062111563', '2020-02-06 12:58:51.255000');
@@ -201,6 +201,7 @@ insert into examination (discount, price, report, clinic_id, type_id, doctor_id,
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
 update examination_appointment set examination_id = 3 where id = 3;
+
 insert into examination_appointment (id) values (4);
 insert into examination_appointment (id) values (5);
 insert into examination_appointment (id) values (6);
@@ -211,7 +212,7 @@ insert into examination_request (doctor_id, patient_id, type_id, appointment_id,
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (28, 22, 1, 6, 1);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (13, 9, 1, 7, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, 4, 2, 7, 9, null, null, 7);
+-- insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, 4, 2, 7, 9, null, null, 7);
 
 
 --ZAHTJEV ZA REGISTRACIJU

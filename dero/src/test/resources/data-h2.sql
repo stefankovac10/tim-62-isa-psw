@@ -209,7 +209,7 @@ insert into examination_request (doctor_id, patient_id, type_id, appointment_id,
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (28, 22, 1, 6, 1);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (13, 9, 1, 7, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, 4, 2, 7, 9, null, null, 7);
+-- insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, 4, 2, 7, 9, null, null, 7);
 
 
 --ZAHTJEV ZA REGISTRACIJU
