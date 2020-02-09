@@ -358,8 +358,13 @@ insert into examination_request (doctor_id, patient_id, type_id, appointment_id,
 
 
 
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z000',19,600000,30,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z000',20,660000,32,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z000',20,660000,30,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-03-16T12:00:00Z000',19,600000,30,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-03-10T13:00:00Z000',20,660000,32,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-03-16T14:00:00Z000',20,660000,30,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (4,'2020-04-03T12:00:00Z000',19,600000,33,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (5,'2020-02-20T13:00:00Z000',20,660000,35,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (6,'2020-03-02T14:00:00Z000',20,660000,38,1);
+
+
 
 

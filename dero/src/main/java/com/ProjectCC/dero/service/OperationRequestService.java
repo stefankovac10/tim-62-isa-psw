@@ -64,10 +64,11 @@ public class OperationRequestService {
         OperationRequest operationRequest = modelMapper.map(operationRequestDTO, OperationRequest.class);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        MedicalStaff med = (MedicalStaff) userRepository.findByEmail(username);
-
+        MedicalStaff med = (MedicalStaff) userRepository.findById(operationRequestDTO.getDoctorId()).orElseGet(null);
         operationRequest.setClinic(med.getClinic());
         this.operationRequestRepository.save(operationRequest);
+
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
