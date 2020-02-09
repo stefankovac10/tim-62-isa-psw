@@ -350,6 +350,7 @@ sequence|table|107952|107954|1
     </table>
     <table id="52" parent="14" name="examination_room">
       <ObjectId>107823</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>32259</StateNumber>
     </table>
