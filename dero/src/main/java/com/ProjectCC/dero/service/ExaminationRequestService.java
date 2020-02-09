@@ -68,7 +68,7 @@ public class ExaminationRequestService {
         Clinic clinic = this.clinicRepository.findById(id).orElseThrow(ClinicNotFoundException::new);
 
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
+        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(id, pageable);
 
         ArrayList<ExaminationRequestDetailsDTO> requestDTOS = new ArrayList<>();
         for (ExaminationRequest er : requests) {
