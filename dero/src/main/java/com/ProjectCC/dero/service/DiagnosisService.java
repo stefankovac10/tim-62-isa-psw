@@ -12,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,12 +86,13 @@ public class DiagnosisService {
         return diagnosisRepository.findById(id).orElseGet(null);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public void update(Diagnosis diagnosis) {
         Diagnosis diagnosis_find = diagnosisRepository.findByName(diagnosis.getName());
         Diagnosis diagnosis_find2 = diagnosisRepository.findByCode(diagnosis.getCode());
 
         if (diagnosis_find == null || diagnosis_find2 == null || diagnosis_find.getId() == diagnosis.getId()) {
-            diagnosisRepository.update(diagnosis.getName(), diagnosis.getCode(), diagnosis.getDescription(), diagnosis.getId());
+            diagnosisRepository.save(diagnosis);
         }
     }
 }

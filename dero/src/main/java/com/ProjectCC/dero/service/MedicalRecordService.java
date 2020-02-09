@@ -10,6 +10,9 @@ import org.modelmapper.ExpressionMap;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +86,7 @@ public class MedicalRecordService {
         return  medicalRecordRepository.getOne(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public MedicalRecordDTO edit(MedicalRecordDTO medicalRecordDTO) {
         MedicalRecord medicalRecord = medicalRecordRepository.getOne(medicalRecordDTO.getId());
         medicalRecord.setBloodType(medicalRecordDTO.getBloodType());

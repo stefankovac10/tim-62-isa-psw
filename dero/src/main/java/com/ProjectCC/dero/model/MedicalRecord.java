@@ -18,6 +18,9 @@ public class MedicalRecord {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Version
+   private int version;
+
    @Column(name = "height", nullable = false)
    private int height;
 
