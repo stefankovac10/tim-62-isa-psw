@@ -32,6 +32,7 @@ public class ClinicAdministratorController {
     }
 
     @PutMapping(consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_CADMIN')")
     public ResponseEntity<Long> updateAdmin(@PathVariable ClinicAdministratorDTO cadminDTO) {
         return new ResponseEntity<>(this.clinicAdministratorService.update(cadminDTO), HttpStatus.OK);
     }
@@ -66,6 +67,7 @@ public class ClinicAdministratorController {
     }
 
     @PutMapping(value = "reserve")
+    @PreAuthorize("hasRole('ROLE_CADMIN')")
     public ResponseEntity<Void> reserveRoom(@RequestBody ExaminationRoomDTO examinationRoomDTO) {
         Long requestId = examinationRoomDTO.getRequestId();
         Long roomId = examinationRoomDTO.getId();
@@ -74,6 +76,7 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "reserveOperation")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         return this.operationRequestService.reserveOperation(operationRoomRequest);
     }

@@ -7,6 +7,7 @@ import com.ProjectCC.dero.service.ClinicCenterAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +22,10 @@ public class ClinicCenterAdministratorController {
         this.clinicCenterAdministratorService = clinicCenterAdministratorService;
     }
 
+
+
     @PostMapping(consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicCenterAdministratorDTO> save(@RequestBody ClinicCenterAdministratorDTO ccadminDTO){
         ClinicCenterAdministratorDTO ccadmin = clinicCenterAdministratorService.save(ccadminDTO);
         if(ccadmin == null){
@@ -32,6 +36,7 @@ public class ClinicCenterAdministratorController {
 
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicCenterAdministratorDTO> getCCAdmin(@PathVariable Long id) {
 
         ClinicCenterAdministrator clinicCenterAdministrator=clinicCenterAdministratorService.findOne(id);
