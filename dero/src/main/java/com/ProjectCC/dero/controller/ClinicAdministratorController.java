@@ -5,6 +5,8 @@ import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
+import org.hibernate.PessimisticLockException;
+import org.hibernate.exception.LockTimeoutException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -47,12 +50,13 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody OperationRequestDTO operationRequestDTO) {
         return this.operationRequestService.save(operationRequestDTO);
     }
 
     @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
-    @PreAuthorize("hasRole('CADMIN')")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
@@ -76,14 +80,15 @@ public class ClinicAdministratorController {
         try {
             return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
         } catch (ExaminationRequestNotFoundException | ExaminationRoomNotFoundException | TypeOfExaminationNotFoundException |
-                UserNotFoundException | NoAvailableDoctorsForExaminationException e) {
+                UserNotFoundException | NoAvailableDoctorsForExaminationException | PessimisticLockException | LockTimeoutException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping(value = "reserveOperation")
-    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) {
+    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         return this.operationRequestService.reserveOperation(operationRoomRequest);
+
     }
 
 }

@@ -15,6 +15,9 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Version
+   private int version;
+
    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "appointment_id")
    private ExaminationAppointment examinationAppointment;

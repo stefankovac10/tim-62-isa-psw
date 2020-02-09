@@ -1,17 +1,17 @@
 package com.ProjectCC.dero.controller;
 
 
-import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
+import com.ProjectCC.dero.dto.MedicalStaffDTO;
+import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.VacationRequestDTO;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @RestController
@@ -69,5 +69,7 @@ public class UserController {
     @GetMapping(value = "/admin/mail/{email:.+}")
     public ResponseEntity<ClinicAdministratorDTO> getAdmin(@PathVariable String email) { return this.userService.getAdmin(email); }
 
+    @GetMapping(value = "/medicalStaff/mail/{email:.+")
+    public ResponseEntity<MedicalStaffDTO> getMedicalStaff(@PathVariable String email) { return this.userService.getMedicalStaff(email); }
 
 }

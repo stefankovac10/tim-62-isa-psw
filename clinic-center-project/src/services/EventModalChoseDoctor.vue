@@ -83,7 +83,7 @@ methods:{
       httpClient
         .post("/cadmin/reserveOperation", this.roomRequest)
         .then(() => {
-          this.$vToastify.info({
+          this.$vToastify.success({
             body: "Successfully reserved room for operation",
             title: "Success",
             type: "success",
@@ -91,19 +91,22 @@ methods:{
             append: false,
             duration: 2000
           });
-          
+          this.$emit('close');
+          location.reload();
         })
         .catch(() => {
           this.$vToastify.error({
-            body: "Error while reserving operation",
+            body: "Some of doctor are not available!",
             title: "Error",
             type: "error",
             canTimeout: true,
             append: false,
             duration: 2000
           });
+          this.$emit('close');
+          location.reload();
         });
-       
+
   }
 }   
 }

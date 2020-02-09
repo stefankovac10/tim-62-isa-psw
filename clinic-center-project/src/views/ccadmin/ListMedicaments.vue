@@ -133,12 +133,12 @@ export default {
             alert(error);
           });
     },
-    edit: function(diagnosis) {
+    edit: function(medication) {
       this.mode = "EDIT";
-      this.id = diagnosis.id;
-      this.name = diagnosis.name;
-      this.description = diagnosis.description;
-      this.code = diagnosis.code;
+      this.id = medication.id;
+      this.name = medication.name;
+      this.description = medication.description;
+      this.code = medication.code;
     },
     cancel: function(){
       this.id = undefined;

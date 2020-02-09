@@ -1,5 +1,6 @@
 package com.ProjectCC.dero.repository;
 
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.OperationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,7 @@ public interface OperationRequestRepository extends JpaRepository<OperationReque
 
     @Query("select o from OperationRequest o where o.clinic.id =?1")
     Page<OperationRequest> findByClinic(Long id, Pageable pageable);
+
+    @Query("select o from OperationRequest o where o.clinic =?1")
+    List<OperationRequest> findByClinicAll(Clinic clinic);
 }
