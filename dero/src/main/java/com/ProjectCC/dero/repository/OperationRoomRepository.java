@@ -1,12 +1,15 @@
 package com.ProjectCC.dero.repository;
 
 import com.ProjectCC.dero.dto.OperationRoomDTO;
+import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.model.OperationRoom;
 import com.ProjectCC.dero.model.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface OperationRoomRepository extends JpaRepository<OperationRoom, Long> {
 
@@ -18,4 +21,7 @@ public interface OperationRoomRepository extends JpaRepository<OperationRoom, Lo
 
     @Query("select opr from OperationRoom opr where opr.clinic.id=(?1)")
     Page<OperationRoom> findAll(Long id, Pageable pageable);
+
+    @Query("select opr from OperationRoom opr where opr.clinic.id = (?1)")
+    List<OperationRoom> findByClinic(Long id);
 }
