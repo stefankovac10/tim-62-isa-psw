@@ -2,6 +2,7 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.DoctorDTO;
+import com.ProjectCC.dero.exception.UserNotFoundException;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import org.joda.time.DateTime;
@@ -16,11 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
-import javax.xml.ws.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DoctorService {
@@ -31,6 +28,7 @@ public class DoctorService {
     private TypeOfExaminationService typeOfExaminationService;
     private ExaminationRequestRepository examinationRequestRepository;
     private ExaminationRepository examinationRepository;
+    private OperationRoomRepository operationRoomRepository;
     private OperationRepository operationRepository;
     private ModelMapper modelMapper;
     private OperationRequestRepository operationRequestRepository;
@@ -41,11 +39,12 @@ public class DoctorService {
     @Autowired
     public DoctorService(DoctorRepository doctorRepository, OperationRepository operationRepository, ClinicService clinicService,UserRepository userRepository,
                          TypeOfExaminationService typeOfExaminationService, ModelMapper modelMapper,
-                         PasswordEncoder passwordEncoder,
+                         PasswordEncoder passwordEncoder,OperationRoomRepository operationRoomRepository,
                          OperationRequestRepository operationRequestRepository,ExaminationRequestRepository examinationRequestRepository, AuthorityService authorityService) {
 
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
+        this.operationRoomRepository = operationRoomRepository;
         this.operationRequestRepository = operationRequestRepository;
         this.operationRepository = operationRepository;
         this.examinationRequestRepository = examinationRequestRepository;
@@ -185,6 +184,20 @@ public class DoctorService {
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
     }
 
+    private boolean areAppointmentsOverlapping(DateTime nextAvailable, DateTime nextEnd, DateTime endDate, DateTime startDate) {
+        if (!nextAvailable.isAfter(endDate) && !nextEnd.isBefore(startDate))
+            return true;
+        if (nextAvailable.isBefore(startDate) && nextEnd.isAfter(endDate))
+            return true;
+        if (nextEnd.isBefore(endDate) && nextEnd.isAfter(startDate))
+            return true;
+        if (nextAvailable.isAfter(startDate) && nextAvailable.isBefore(endDate))
+            return true;
+        if (nextAvailable.isEqual(startDate) || nextEnd.isEqual(endDate))
+            return true;
+        return nextAvailable.isBefore(startDate) && nextEnd.isBefore(endDate);
+    }
+
     private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
         List<Operation> operations = this.operationRepository.findByDoctorsId(doc.getId());
@@ -193,27 +206,29 @@ public class DoctorService {
         for (ExaminationRequest er : examinationRequests) {
             ExaminationAppointment ea = er.getExaminationAppointment();
             ea.setEndDate(new DateTime(ea.getStartDate().getMillis() + ea.getDuration().getMillis(), DateTimeZone.UTC));
-            if (!nextAvailable.isAfter(ea.getEndDate()) && !nextEnd.isBefore(ea.getStartDate())) {
+            if (areAppointmentsOverlapping(nextAvailable, nextEnd, ea.getEndDate(), ea.getStartDate())) {
                 return false;
             }
         }
 
         for(Operation o: operations){
             DateTime end = (new DateTime(o.getDate().getMillis()+o.getDuration().getMillis(), DateTimeZone.UTC));
-            if (!nextAvailable.isAfter(end) && !nextEnd.isBefore(o.getDate())) {
+            DateTime endDate = (new DateTime(o.getDate().getMillis() + o.getDuration().getMillis(), DateTimeZone.UTC));
+            if (areAppointmentsOverlapping(nextAvailable, nextEnd, endDate, o.getDate())) {
                 return false;
             }
         }
 
-        Doctor doctor = doctorRepository.findById(doc.getId()).orElseGet(null);
+        Doctor doctor = (Doctor) userRepository.findById(doc.getId()).orElseGet(null);
+        if(doctor.getVacationRequest().size() == 0) return  true;
         for(VacationRequest v: doctor.getVacationRequest()){
             DateTime start = (new DateTime(v.getStartDate().getMillis(),DateTimeZone.UTC));
             DateTime end = (new DateTime(v.getEndDate().getMillis(),DateTimeZone.UTC));
-            if(!nextAvailable.isBefore(start) && !nextAvailable.isAfter(end))
+            if(areAppointmentsOverlapping(nextAvailable, nextEnd, v.getEndDate(), v.getStartDate()))
                 return false;
         }
         return true;
- 
+
     }
 
     public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(Long id) {
@@ -236,4 +251,5 @@ public class DoctorService {
         return new ResponseEntity<>(doctorDTOS, HttpStatus.OK);
 
     }
+
 }
