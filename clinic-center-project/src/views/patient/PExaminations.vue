@@ -5,9 +5,26 @@
 </template>
 
 <script>
+import { httpClient } from "@/services/Api.js";
+import _ from "lodash";
+
 export default {
   data: function() {
-    return {};
+    return {
+      examinations: []
+    };
+  },
+  mounted() {
+      var email = localStorage.getItem("Email");
+
+      httpClient
+        .get("/examination/patient/" + email)
+        .then(response => {
+        this.examinations = _.cloneDeep(response.data);
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 };
 </script>
