@@ -104,18 +104,22 @@ export default {
         prescription: {
           medication: []
         },
-        type: undefined
+        type: undefined,
+        price: 0
       },
       type: undefined,
       start: undefined,
       patient: undefined,
       doctor: undefined,
+      flag:undefined,
       duration: undefined,
-      id: undefined
+      id: undefined,
+      patientId: undefined
     };
   },
   mounted() {
     this.id = this.$route.params.id;
+    this.patientId = this.$route.params.patientId;
     httpClient
       .get("/diagnosis/all")
       .then(response => {
@@ -144,7 +148,7 @@ export default {
       });
 
     httpClient
-      .get("/users/mail/giggs@gmail.com")
+      .get("/patient/"+this.patientId)
       .then(response => {
         this.patient = response.data;
       })
@@ -159,7 +163,7 @@ export default {
         this.report === undefined ||
         this.report === ""
       ) {
-        this.$vToastify.info({
+        this.$vToastify.warning({
           body: "Please, fill the report and chose the diagnosis",
           title: "Warning",
           type: "warning",
@@ -181,7 +185,7 @@ export default {
           .catch(error => {
             this.error = error;
           });
-        this.$vToastify.info({
+        this.$vToastify.success({
           body: "Examination report has been saved",
           title: "Success",
           type: "success",

@@ -1,26 +1,18 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.*;
-import com.ProjectCC.dero.model.*;
-import com.ProjectCC.dero.repository.ClinicRepository;
-import com.ProjectCC.dero.repository.DoctorRepository;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
-import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
 import org.joda.time.DateTime;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.HashSet;
+import javax.mail.MessagingException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -45,23 +37,32 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicAdministratorDTO> save(@RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        return new ResponseEntity<>(this.clinicAdministratorService.save(clinicAdministratorDTO), HttpStatus.OK);
+        ClinicAdministratorDTO cadmin = clinicAdministratorService.save(clinicAdministratorDTO);
+        if(cadmin == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(cadmin, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "scheduleNew/operation", consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody OperationRequestDTO operationRequestDTO) {
         return this.operationRequestService.save(operationRequestDTO);
     }
 
     @PostMapping(value = "scheduleNew/examination", consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> scheduleNewOperation(@RequestBody ExaminationRequestDTO examinationRequestDTO) {
         return this.examinationRequestService.save(examinationRequestDTO);
     }
 
-    @GetMapping(value = "scheduledExaminations/{page}")
-    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable int page) {
-        return this.examinationRequestService.getAll(page);
+    @GetMapping(value = "scheduledExaminations/{id}/{page}")
+    @PreAuthorize("hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR')")
+    public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable Long id, @PathVariable int page) {
+        return this.examinationRequestService.getAll(id, page);
+
     }
 
     @PutMapping(value = "reserve")
@@ -70,6 +71,11 @@ public class ClinicAdministratorController {
         Long roomId = examinationRoomDTO.getId();
         DateTime nextAvailable = examinationRoomDTO.getNextAvailable();
         return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+    }
+
+    @PostMapping(value = "reserveOperation")
+    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
+        return this.operationRequestService.reserveOperation(operationRoomRequest);
     }
 
 }

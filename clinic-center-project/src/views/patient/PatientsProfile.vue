@@ -26,10 +26,10 @@
             <tr class="table-primary" v-for="examination in examinations" v-bind:key="examination.id">
               <th scope="row">{{examination.type.name}}</th>
               <td>{{examination.doctor.firstName}} {{examination.doctor.lastName}}</td>
-              <td>{{examination.date}}</td>
+              <td>{{examination.dateMoment}}</td>
               <td>{{examination.duration/60000}} min</td>
               <td>{{examination.examinationRoom.number}}</td>
-              <td><button v-if="role === 'ROLE_DOCTOR' && user.id === examination.doctor.id"  class="btn btn-success" v-on:click="startExamination">Start examination</button></td>
+              <td><button v-if="role === 'ROLE_DOCTOR' && user.id === examination.doctor.id  && examination.report != null"  class="btn btn-success" v-on:click="startExamination(examination.id)">Start examination</button></td>
             </tr>
           </tbody>
         </table>
@@ -39,6 +39,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import moment from "moment";
 export default {
   data: function() {
     return {
@@ -74,6 +75,11 @@ export default {
       .get("/patient/examination/" + this.id)
       .then(response => {
         this.examinations = response.data;
+        for (const exam of this.examinations) {
+              exam.dateMoment = moment(exam.date).format(
+                "dddd, MMMM Do YYYY, h:mm:ss"
+              );
+        }
       })
       .catch(() => {
         
@@ -84,11 +90,11 @@ export default {
     goMedicalRecord: function(){
       this.$router.push("/doc/editMedicalRecord/"+this.id)
     },
-    startExamination: function(){
+    startExamination: function(id){
           httpClient
-            .get("/examination/check/"+ this.id)
+            .get("/examination/check/"+ id)
                 .then(() => {
-                   this.$router.push('/doc/addexaminationreport/'+this.id);
+                   this.$router.push('/doc/addexaminationreport/'+id+'/'+this.id);
                 })
                 .catch(() => {
                     this.$vToastify.info({

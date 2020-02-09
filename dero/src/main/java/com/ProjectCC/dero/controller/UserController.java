@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -59,5 +60,14 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         return this.userService.deleteById(id);
     }
+
+    @GetMapping(value = "/vacationRequest/{email:.+}")
+    public ResponseEntity<List<VacationRequestDTO>> getVacationRequest(@PathVariable String email) {
+        return this.userService.getVacations(email);
+    }
+
+    @GetMapping(value = "/admin/mail/{email:.+}")
+    public ResponseEntity<ClinicAdministratorDTO> getAdmin(@PathVariable String email) { return this.userService.getAdmin(email); }
+
 
 }

@@ -11,12 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClinicService {
@@ -62,7 +67,7 @@ public class ClinicService {
     }
 
     public ResponseEntity<List<ClinicDTO>> findAll(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name"));
         Page<Clinic> clinics = clinicRepository.findAll(pageable);
         List<ClinicDTO> clinicDTOS = new ArrayList<>();
 
@@ -130,10 +135,17 @@ public class ClinicService {
     public ResponseEntity<ClinicDTO> findById(Long id) {
 
         Optional<Clinic> opt = clinicRepository.findById(id);
+        if (!opt.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Clinic clinic = opt.get();
 
         List<MedicalStaffDTO> staff = new ArrayList<>();
         for (MedicalStaff s : clinic.getMedicalStaff()) {
+            String type;
+            if (s instanceof Doctor) {
+                type = "doctor";
+            } else type = "nurse";
             staff.add(MedicalStaffDTO.builder()
                     .firstName(s.getFirstName())
                     .lastName(s.getLastName())
@@ -144,6 +156,7 @@ public class ClinicService {
                     .id(s.getId())
                     .jmbg(s.getJmbg())
                     .telephone(s.getTelephone())
+                    .type(type)
                     .build());
         }
 
@@ -156,6 +169,18 @@ public class ClinicService {
             .build());
         }
 
+        List<ExaminationDTO> examinationDTOS = new ArrayList();
+        for (Examination examination : clinic.getExaminations()) {
+            if (examination.getPatient() == null) {
+                examinationDTOS.add(ExaminationDTO.builder()
+                .id(examination.getId())
+                .date(examination.getExaminationAppointment().getStartDate())
+                .duration(examination.getExaminationAppointment().getDuration())
+                .doctor(DoctorDTO.builder().firstName(examination.getDoctor().getFirstName()).lastName(examination.getDoctor().getLastName()).build())
+                .price(examination.getPrice()).build());
+            }
+        }
+
         ClinicDTO dto = ClinicDTO.builder()
                 .name(clinic.getName())
                 .description(clinic.getDescription())
@@ -163,6 +188,7 @@ public class ClinicService {
                 .id(clinic.getId())
                 .medicalStaff(staff)
                 .rooms(roomDTOS)
+                .examinations(examinationDTOS)
                 .build();
 
         return new ResponseEntity<>(dto, HttpStatus.OK);

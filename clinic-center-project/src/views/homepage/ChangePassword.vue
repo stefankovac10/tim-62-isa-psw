@@ -81,7 +81,7 @@ export default {
         })
         .then(() => {
           errorHappened = false;
-          this.$vToastify.info({
+          this.$vToastify.success({
             body: "Password successufully changed",
             title: "Success",
             type: "success",
@@ -92,7 +92,7 @@ export default {
         })
         .catch(() => {
           errorHappened = true;
-          this.$vToastify.info({
+          this.$vToastify.error({
             body: "Incorrect old password",
             title: "Error",
             type: "error",
@@ -104,30 +104,12 @@ export default {
         })
         .then(() => {
           if (!errorHappened) {
-            let role = localStorage.getItem("Authority");
-            let path;
-            if (role === "ROLE_CCADMIN") {
-              path = "/ccadmin";
-            } else if (role === "ROLE_CADMIN") {
-              path = "/cadmin/profile";
-            } else if (role === "ROLE_DOCTOR") {
-              path = "/doc/profile";
-            } else if (role === "ROLE_NURSE") {
-              path = "/nurse/profile";
-            } else if (role === "ROLE_PATIENT") {
-              path = "/patient/profile";
-            } else if (role === "ROLE_REQUEST") {
-              path = "/login";
-              this.$vToastify.info({
-                body: "You hove to be accepted by admin to log in.",
-                title: "Success",
-                type: "success",
-                canTimeout: true,
-                append: false,
-                duration: 2000
-              });
-            }
-            this.$router.push(path);
+            localStorage.removeItem("User-token");
+            localStorage.removeItem("Expiary");
+            localStorage.removeItem("Email");
+            localStorage.removeItem("Authority");
+            localStorage.removeItem("Refresh-token");
+            this.$router.push("/login");
           }
         });
     }

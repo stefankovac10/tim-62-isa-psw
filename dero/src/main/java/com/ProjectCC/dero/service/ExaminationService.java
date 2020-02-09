@@ -27,6 +27,7 @@ public class ExaminationService {
     private ExaminationRepository examinationRepository;
     private DiagnosisRepository diagnosisRepository;
     private ModelMapper modelMapper;
+    private ExaminationAppointmentRepository examinationAppointmentRepository;
     private MedicationRepository medicationRepository;
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
@@ -36,7 +37,7 @@ public class ExaminationService {
     private PatientRepository patientRepository;
 
     @Autowired
-    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper,
+    public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper, ExaminationAppointmentRepository examinationAppointmentRepository,
                               ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
                               MedicationRepository medicationRepository, DoctorRepository doctorRepository,
                               NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository,
@@ -48,6 +49,7 @@ public class ExaminationService {
         this.userRepository = userRepository;
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
+        this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.medicalRecordRepository = medicalRecordRepository;
         this.clinicRepository = clinicRepository;
         this.patientRepository = patientRepository;
@@ -83,13 +85,24 @@ public class ExaminationService {
             medications.add(modelMapper.map(med, Medication.class));
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Doctor doctor = doctorRepository.findByEmail(username);
         Prescription prescription = Prescription.builder()
                                 .medication(medications)
+                                .doctor(doctor)
                                 .certified(false)
                                 .build();
 
         Examination examination = examinationRepository.findById(examinationDTO.getId()).orElseGet(null);
         examination.setPrescription(prescription);
+        Clinic clinic = clinicRepository.findById(doctor.getClinic().getId()).orElseGet(null);
+        if(examination.getPrice() == null){
+            clinic.setIncome(clinic.getIncome() + Integer.parseInt(examinationDTO.getPrice()));
+        }else{
+            clinic.setIncome(clinic.getIncome() + Integer.parseInt(examination.getPrice()));
+        }
+
         examination.setDiagnosis(modelMapper.map(examinationDTO.getDiagnosis(), Diagnosis.class));
         examination.setReport(examinationDTO.getReport());
 
@@ -117,21 +130,30 @@ public class ExaminationService {
 
     public ExaminationDTO getOne(Long id) {
         Examination e = examinationRepository.getOne(id);
-        ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
-                                        .id(e.getExaminationRoom().getId())
-                                        .name(e.getExaminationRoom().getName())
-                                        .number(e.getExaminationRoom().getNumber())
-                                        .build();
+        ExaminationRoomDTO examRoom;
+        if(e.getExaminationRoom() ==  null){
+            examRoom =  new ExaminationRoomDTO();
+            examRoom.setName("");
+            examRoom.setNumber(0);
+        }else {
+            examRoom = ExaminationRoomDTO.builder()
+                    .id(e.getExaminationRoom().getId())
+                    .name(e.getExaminationRoom().getName())
+                    .number(e.getExaminationRoom().getNumber())
+                    .build();
+        }
         ExaminationDTO examinationDTO =ExaminationDTO.builder()
                                         .duration(e.getExaminationAppointment().getDuration())
                                         .id(e.getId())
                                         .report(e.getReport())
+                                        .price(e.getPrice())
                                         .discount(e.getDiscount())
                                         .examinationRoom(examRoom)
                                         .date(e.getExaminationAppointment().getStartDate())
                                         .type(TypeOfExaminationDTO.builder()
                                                 .name(e.getType().getName()).build())
                                         .patient(PatientDTO.builder()
+                                                .id(e.getPatient().getId())
                                                 .firstName(e.getPatient().getFirstName())
                                                 .lastName(e.getPatient().getLastName())
                                                 .build())
@@ -145,9 +167,18 @@ public class ExaminationService {
 //    doctor: this.doctor
     public void addNewQuick(ExaminationDTO examinationDTO) {
         Examination examination = this.modelMapper.map(examinationDTO, Examination.class);
+        ExaminationAppointment examinationAppointment = ExaminationAppointment.builder()
+                .startDate(examinationDTO.getDate())
+                .duration(new Duration(examinationDTO.getDuration()))
+                .examinationRoom(examination.getExaminationRoom())
+                .clinic(examination.getClinic())
+                .build();
+        examination.setExaminationAppointment(examinationAppointment);
         Optional<Clinic> opt = this.clinicRepository.findById((long) 1);
         opt.ifPresent(examination::setClinic);
         this.examinationRepository.save(examination);
+        examinationAppointment.setExamination(examination);
+        this.examinationAppointmentRepository.save(examinationAppointment);
     }
 
     public List<ExaminationDTO> findDocExamination( String email,String role) {
@@ -162,22 +193,31 @@ public class ExaminationService {
         List<ExaminationDTO> examinationDTOS = new ArrayList<>();
 
         for(Examination e: examinations){
-            ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
-                                            .id(e.getExaminationRoom().getId())
-                                            .name(e.getExaminationRoom().getName())
-                                            .number(e.getExaminationRoom().getNumber())
-                                            .build();
+            ExaminationRoomDTO examRoom;
+            if(e.getExaminationRoom() == null){
+                examRoom =  new ExaminationRoomDTO();
+                examRoom.setName("");
+                examRoom.setNumber(0);
+            }else {
+                examRoom = ExaminationRoomDTO.builder()
+                        .id(e.getExaminationRoom().getId())
+                        .name(e.getExaminationRoom().getName())
+                        .number(e.getExaminationRoom().getNumber())
+                        .build();
+            }
             examinationDTOS.add(ExaminationDTO.builder()
                                                 .duration(e.getExaminationAppointment().getDuration())
                                                 .id(e.getId())
                                                 .report(e.getReport())
                                                 .discount(e.getDiscount())
+                                                .price(e.getPrice())
                                                 .examinationRoom(examRoom)
                                                 .date(e.getExaminationAppointment().getStartDate())
                                                 .date(e.getExaminationAppointment().getStartDate())
                                                 .type(TypeOfExaminationDTO.builder()
                                                         .name(e.getType().getName()).build())
                                                 .patient(PatientDTO.builder()
+                                                        .id(e.getPatient().getId())
                                                         .firstName(e.getPatient().getFirstName())
                                                         .lastName(e.getPatient().getLastName())
                                                         .build())
@@ -193,7 +233,7 @@ public class ExaminationService {
             DateTime dateTime = examination.getExaminationAppointment().getStartDate();
             DateTime now = DateTime.now(DateTimeZone.UTC);
             Minutes duration = examination.getExaminationAppointment().getDuration().toStandardMinutes();
-            if(now.isAfter(dateTime.minusMinutes(5)) && now.isBefore(dateTime.plus(duration))){
+            if(dateTime.isBefore(now.plusMinutes(5))){
                 return true;
             }else{
                 return false;

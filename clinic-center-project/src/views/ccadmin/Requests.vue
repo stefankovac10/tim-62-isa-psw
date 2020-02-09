@@ -172,23 +172,13 @@ export default {
           .catch(error => {
             this.error = error;
           });
-          this.$vToastify.info({
+          this.$vToastify.success({
               body: "Mail has been sent",
               title: "Success",
               type: "success",
               canTimeout: true,
               append: false, duration: 2000
           });
-
-      httpClient
-        .put("/regrequest/accept/" + request.id)
-        .then(response => {
-          this.response = response.data;
-          this.refresh();
-        })
-        .catch(error => {
-          this.error = error;
-        });
     },
     decline: function() {
         if(this.message == undefined || this.message == ""){
@@ -220,6 +210,16 @@ export default {
             this.error = error;
           });
           this.message = undefined;
+
+          this.$vToastify.success({
+              body: "Mail has been sent",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false, duration: 2000
+          });
+
+          
     },
     declineModal: function(request) {
       this.request = request;

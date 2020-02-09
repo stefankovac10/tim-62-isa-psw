@@ -32,6 +32,22 @@ public class MailController {
                 "<a href='http://localhost:8080/api/patient/add/"+id+"'> Activate </a>");
     }
 
+    @GetMapping(value = "/doctor/{email}/{date}/{room}")
+    public void doctor(@PathVariable String email, @PathVariable String date,@PathVariable String room) throws MessagingException {
+        smtpMailSender.send(email, "Operation", "You have been assign to operation.<br/>" +
+                "Room: "+room+"<br/> " +
+                "Date: "+date+"");
+    }
+
+    @GetMapping(value = "/patient/{email}/{date}/{room}")
+    public void patient(@PathVariable String email, @PathVariable String date,@PathVariable String room) throws MessagingException {
+        smtpMailSender.send(email, "Operation", "You operation have been scheduled<br/>" +
+                "Room: "+room+"<br/> " +
+                "Date: "+date+"");
+    }
+
+
+
     @GetMapping(value = "/refuse/{email}/{description}")
     public void decline(@PathVariable String email, @PathVariable String description) throws MessagingException {
         smtpMailSender.send(email, "Registration", "You registration request has rejected<br/><br/>" +

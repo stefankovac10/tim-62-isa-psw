@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.dto.OperationRoomDTO;
 import com.ProjectCC.dero.dto.RoomDTO;
 import com.ProjectCC.dero.model.ExaminationRoom;
+import com.ProjectCC.dero.model.Operation;
 import com.ProjectCC.dero.model.OperationRoom;
 import com.ProjectCC.dero.model.Room;
 import com.ProjectCC.dero.service.ExaminationRoomService;
@@ -56,6 +57,11 @@ public class RoomsController {
         return this.examinationRoomService.getAll();
     }
 
+    @GetMapping(value = "/examination/clinic/{id}")
+    public ResponseEntity<List<ExaminationRoomDTO>> getAllER(@PathVariable Long id) {
+        return this.examinationRoomService.getByClinicId(id);
+    }
+
     @DeleteMapping(value = "/examination/{id}")
     public ResponseEntity<Void> deleteER(@PathVariable Long id) {
         return this.examinationRoomService.delete(id);
@@ -95,14 +101,19 @@ public class RoomsController {
         return this.roomsService.search(name, number, dateTime, d, page);
     }
 
-    @GetMapping(value = "/all/{page}")
-    public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable int page) {
-        return new ResponseEntity<>(this.roomsService.getAll(page), HttpStatus.OK);
+    @GetMapping(value = "/all/{id}/{page}")
+    public ResponseEntity<List<RoomDTO>> allRooms(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getAll(id, page);
     }
 
     @GetMapping(value = "/examinationRequest/{id}/{page}")
     public ResponseEntity<List<ExaminationRoomDTO>> roomsForExamination(@PathVariable Long id, @PathVariable int page) {
         return this.roomsService.getRoomsForExamination(id, page);
+    }
+
+    @GetMapping(value = "/operationRequest/{id}/{page}")
+    public ResponseEntity<List<OperationRoomDTO>> roomsForOperation(@PathVariable Long id, @PathVariable int page) {
+        return this.roomsService.getRoomsForOperation(id, page);
     }
 
 }

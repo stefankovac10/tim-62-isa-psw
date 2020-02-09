@@ -14,4 +14,6 @@ public interface OperationAppointmentRepository extends JpaRepository<OperationA
 
     @Query("select oa from OperationAppointment oa where oa.operationRoom = (?1) and oa.startDate > (?2) ")
     List<OperationAppointment> findByRoomAndDate(OperationRoom operationRoom, DateTime startDate);
+
+    List<OperationAppointment> findByOperationRoom(OperationRoom operationRoom);
 }

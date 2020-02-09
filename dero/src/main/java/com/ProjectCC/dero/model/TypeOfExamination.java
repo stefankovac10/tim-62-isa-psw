@@ -29,7 +29,11 @@ public class TypeOfExamination {
     @OneToMany(mappedBy = "specialisedType")
     private Set<Doctor> specialisedDoctors;
 
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "type")
     private Set<Examination> examinations;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clinic_id", nullable = false)
+    public Clinic clinic;
 
 }

@@ -18,18 +18,7 @@ public class Examination {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-//   @Column(name = "date", nullable = false)
-//   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime", parameters = {
-//           @org.hibernate.annotations.Parameter(name = "databaseZone", value = "UTC"),
-//           @org.hibernate.annotations.Parameter(name = "javaZone", value = "UTC")
-//   })
-//   private DateTime date;
-//
-//   @Column(name = "duration", nullable = false)
-//   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
-//   private Duration duration;
-
-   @OneToOne(cascade = CascadeType.ALL)
+   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "appointment_id")
    private ExaminationAppointment examinationAppointment;
 
