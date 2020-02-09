@@ -86,7 +86,7 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "reserveOperation")
-    @PreAuthorize("hasRole('ROLE_CCADMIN')")
+    @PreAuthorize("hasRole('ROLE_CADMIN')")
     public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         return this.operationRequestService.reserveOperation(operationRoomRequest);
     }
