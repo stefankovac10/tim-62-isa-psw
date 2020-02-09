@@ -63,7 +63,7 @@ insert into clinic_center_administrator(log_first_time, id) values (true, 2);
 
 ---CADMIN
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa3', 'Beograd', 'Srbija', 'jova@gmail.com', true, 'Jovan', '1507991158987', 'Jovanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '068978563', '2020-02-06 12:58:51.255000');
-insert into clinic_administrator (clinic_id, id) values (1, 3);
+insert into clinic_administrator (clinic_id, id) values (2, 3);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Adresa4', 'Beograd', 'Srbija', 'zika@gmail.com', true, 'Zivan', '1508971158987', 'Zivanovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '062222563', '2020-02-06 12:58:51.255000');
 insert into clinic_administrator (clinic_id, id) values (1, 4);
 
@@ -345,6 +345,7 @@ insert into examination_request (doctor_id, patient_id, type_id, appointment_id,
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (19, 31, 2, 5, 1);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (20, 32, 1, 6, 1);
 insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (20, 30, 1, 7, 1);
+
 
 --insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z000',1);
 
