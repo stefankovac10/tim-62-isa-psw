@@ -92,6 +92,7 @@ methods:{
             duration: 2000
           });
           this.$emit('close');
+          location.reload();
         })
         .catch(() => {
           this.$vToastify.error({
@@ -103,6 +104,7 @@ methods:{
             duration: 2000
           });
           this.$emit('close');
+          location.reload();
         });
 
   }

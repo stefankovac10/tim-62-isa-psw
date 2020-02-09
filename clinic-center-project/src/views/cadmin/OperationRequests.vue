@@ -80,7 +80,6 @@ export default {
         })
         .catch(error => {
           this.error = error;
-          alert(error);
         });
   },
   methods: {
@@ -99,7 +98,6 @@ export default {
         })
         .catch(error => {
           this.error = error;
-          alert(error);
         });
     },
     search: function(id) {

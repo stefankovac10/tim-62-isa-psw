@@ -153,19 +153,27 @@ export default {
         .put("/diagnosis", {"id":this.id, "name":this.name, "description":this.description, "code":this.code})
         .then(response => {
             this.response = response; 
+            this.$vToastify.success({
+              body: "Diagnosisis is edited",
+              title: "Success",
+              type: "success",
+              canTimeout: true,
+              append: false, duration: 2000
+            });
             this.refresh();
         })
         .catch(error => {
           this.error = error;
+          this.$vToastify.error({
+            body: "Try again",
+            title: "error",
+            type: "error",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
         });
 
-      this.$vToastify.success({
-        body: "Diagnosisis is edited",
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-       });
+      
     },
     remove: function(diagnosis) {
       httpClient
