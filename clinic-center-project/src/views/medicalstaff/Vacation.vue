@@ -26,6 +26,23 @@ export default {
       finish: undefined
     };
   },
+  mounted() {
+    httpClient
+      .get("/medicalStaff/mail/" + localStorage.getItem("Email"))
+      .then(response => {
+        this.medicalStaff = response.data;
+      })
+      .catch(error => {
+        this.$vToastify.error({
+          body: "Error getting medical staff",
+          title: error,
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      });
+  },
   methods: {
     add: function() {
       var startDate = new Date(this.start);
@@ -42,11 +59,7 @@ export default {
       var req = {
         startDate: startDate,
         endDate: endDate,
-        medicalStaff: {
-          id: "7",
-          firstName: "Branko",
-          lastName: "Coka"
-        },
+        medicalStaff: this.medicalStaff,
         accepted: false
       };
 
@@ -54,17 +67,24 @@ export default {
         .post("/vacs", req)
         .then(result => {
           this.start = result.data.startDate;
-          this.$router.push("/doc");
+          this.$vToastify.success({
+            body: "Requested vacation",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         })
-        .catch(err => {
-          alert(err);
-        });
-        this.$vToastify.info({
-          body: "Vacation request has been sent",
-          title: "Success",
-          type: "success",
-          canTimeout: true,
-          append: false, duration: 2000
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error adding request for medical staff",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
         });
     }
   }
