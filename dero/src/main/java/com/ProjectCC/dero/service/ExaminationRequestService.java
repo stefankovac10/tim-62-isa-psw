@@ -1,12 +1,9 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.DoctorDTO;
-import com.ProjectCC.dero.dto.ExaminationRequestDTO;
-import com.ProjectCC.dero.dto.ExaminationRequestDetailsDTO;
-import com.ProjectCC.dero.dto.PatientDTO;
-import com.ProjectCC.dero.exceptions.*;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.exception.BadExaminationRequest;
 import com.ProjectCC.dero.exception.UserNotFoundException;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import org.joda.time.DateTime;
@@ -26,8 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
 
 @Service
@@ -134,7 +129,8 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void reservation(ExaminationRequest examinationRequest, ExaminationRoom examinationRoom, DateTime nextAvailable) throws UserNotFoundException {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void reservation(ExaminationRequest examinationRequest, ExaminationRoom examinationRoom, DateTime nextAvailable) throws UserNotFoundException {
         Optional<Doctor> optionalDoctor = this.doctorRepository.findById(examinationRequest.getDoctorId());
         Optional<Patient> optionalPatient = this.patientRepository.findById(examinationRequest.getPatientId());
         Optional<ExaminationAppointment> optionalExaminationAppointment = this.examinationAppointmentRepository.findById(examinationRequest.getExaminationAppointment().getId());
@@ -216,6 +212,7 @@ public class ExaminationRequestService {
         return true;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     private boolean areAppointmentsOverlapping(DateTime nextAvailable, DateTime nextEnd, DateTime endDate, DateTime startDate) {
         if (!nextAvailable.isAfter(endDate) && !nextEnd.isBefore(startDate))
             return true;

@@ -2,11 +2,15 @@ package com.ProjectCC.dero.integration.service;
 
 import com.ProjectCC.dero.dto.ExaminationRequestDetailsDTO;
 import com.ProjectCC.dero.exceptions.ClinicNotFoundException;
+import com.ProjectCC.dero.exceptions.ExaminationRequestNotFoundException;
+import com.ProjectCC.dero.exceptions.ExaminationRoomNotFoundException;
 import com.ProjectCC.dero.service.ExaminationRequestService;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,5 +55,24 @@ public class ExaminationRequestServiceIntegrationTest {
         this.examinationRequestService.getAll(CLINIC_ID__DOES_NOT_EXIST, PAGE);
     }
 
-    
+    @Test
+    public void testReservingRoom() {
+        DateTime date = DateTime.parse("2020-02-02T15:43:00Z");
+        ResponseEntity<Void> responseEntity = this.examinationRequestService.reserve(1L, 1L, date);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test(expected = ExaminationRequestNotFoundException.class)
+    public void testReservingRoomFromNonExistingRequest() {
+        DateTime date = DateTime.parse("2020-02-02T15:43:00Z");
+        this.examinationRequestService.reserve(101L, 1L, date);
+    }
+
+    @Test(expected = ExaminationRoomNotFoundException.class)
+    public void testReservingRoomFromNonExistingExaminationRoom() {
+        DateTime date = DateTime.parse("2020-02-02T15:43:00Z");
+        this.examinationRequestService.reserve(1L, 101L, date);
+    }
+
 }

@@ -1,9 +1,10 @@
 package com.ProjectCC.dero.integration.controller;
 
 import com.ProjectCC.dero.dto.ExaminationRequestDetailsDTO;
-import com.ProjectCC.dero.exceptions.ClinicNotFoundException;
+import com.ProjectCC.dero.dto.ExaminationRoomDTO;
 import com.ProjectCC.dero.model.UserTokenState;
 import com.ProjectCC.dero.security.auth.JwtAuthenticationRequest;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,20 +14,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.annotation.PostConstruct;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -69,5 +61,53 @@ public class ClinicAdministratorControllerIntegrationTest {
 
         assertEquals("Http status is bad request", HttpStatus.BAD_REQUEST, examRequests.getStatusCode());
         assertNull("Response does not contain body.", examRequests.getBody());
+    }
+
+    @Test
+    public void testGetExaminationsReturnsListOfExaminationRequests() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+
+        HttpEntity<Object> request = new HttpEntity<>(null, headers);
+        ResponseEntity<ExaminationRequestDetailsDTO[]> examRequests = this.testRestTemplate.exchange("/api/cadmin/scheduledExaminations/1/0", HttpMethod.GET,  request, ExaminationRequestDetailsDTO[].class);
+
+        assertEquals("Http status is OK", HttpStatus.OK, examRequests.getStatusCode());
+        assertNotNull("Response contains body.", examRequests.getBody());
+    }
+
+    @Test
+    public void testReserveRoomReturnsStatusOk() {
+        DateTime date = DateTime.parse("2020-02-02T15:43:00Z");
+        ExaminationRoomDTO examinationRoomDTO = ExaminationRoomDTO.builder()
+                .nextAvailable(date)
+                .number(1)
+                .name("Soba1")
+                .requestId(1L).build();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+
+        HttpEntity<Object> request = new HttpEntity<>(null, headers);
+        ResponseEntity<Void> examRequests = this.testRestTemplate.exchange("/api/cadmin/reserve", HttpMethod.PUT, request, Void.class, examinationRoomDTO);
+
+        assertEquals("Http status is Bad request", HttpStatus.BAD_REQUEST, examRequests.getStatusCode());
+    }
+
+    @Test
+    public void testReserveRoomWithBadRequestIdReturnsBadRequest() {
+        DateTime date = DateTime.parse("2020-02-02T15:43:00Z");
+        ExaminationRoomDTO examinationRoomDTO = ExaminationRoomDTO.builder()
+                .nextAvailable(date)
+                .number(1)
+                .name("Soba1")
+                .requestId(101L).build();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+
+        HttpEntity<Object> request = new HttpEntity<>(null, headers);
+        ResponseEntity<Void> examRequests = this.testRestTemplate.exchange("/api/cadmin/reserve", HttpMethod.PUT, request, Void.class, examinationRoomDTO);
+
+        assertEquals("Http status is not OK", HttpStatus.OK, examRequests.getStatusCode());
     }
 }
