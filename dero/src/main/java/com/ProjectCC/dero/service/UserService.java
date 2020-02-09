@@ -3,6 +3,7 @@ package com.ProjectCC.dero.service;
 import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.exceptions.UserNotFoundException;
 
 import com.ProjectCC.dero.dto.VacationRequestDTO;
 import com.ProjectCC.dero.model.MedicalStaff;
@@ -31,6 +32,7 @@ public class UserService {
     private ClinicAdministratorRepository clinicAdministratorRepository;
     private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
+    private UserNotFoundException userNotFoundException;
 
 
     @Autowired

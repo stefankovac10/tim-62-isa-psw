@@ -14,9 +14,7 @@ public interface ExaminationRequestRepository extends JpaRepository<ExaminationR
 
     List<ExaminationRequest> findByDoctorId(Long id);
 
-    @Query("select er from ExaminationRequest er where er.examinationAppointment.clinic = (?1)")
-    Page<ExaminationRequest> findAllByClinic(Clinic clinic, Pageable pageable);
+    @Query("select er from ExaminationRequest er join er.examinationAppointment.examinationRoom where er.clinicId = (?1)")
+    Page<ExaminationRequest> findAllByClinic(Long clinicId, Pageable pageable);
 
-    @Query("select er from ExaminationRequest er join fetch er.examinationAppointment where er.examinationAppointment.clinic = (?1)")
-    List<ExaminationRequest> findByClinic(Clinic clinic);
 }

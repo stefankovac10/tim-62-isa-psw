@@ -189,6 +189,13 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into patient (med_rec_id, id) values (15, 44);
 
 
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z000', '2019-12-30T15:43:39Z000', 1, 13);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z000', '2019-12-31T15:43:39Z000', 1, 12);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (false, '2019-12-25T15:43:39Z000', '2019-12-30T15:43:39Z000', 1, 7);
+insert into vacation_request (accepted, start_date, end_date, clinic_id, staff_id) values (true, '2019-12-23T15:43:39Z000', '2019-12-31T15:43:39Z000', 1, 8);
+
+
+
 ---AUTORITETI
 insert into authorities (name) values ('ROLE_REQUEST');
 insert into authorities (name) values ('ROLE_PATIENT');
@@ -331,25 +338,28 @@ insert into examination (discount, price, report, clinic_id, type_id, doctor_id,
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
 update examination_appointment set examination_id = 3 where id = 3;
-insert into examination_appointment (id, examination_room_id) values (4, 1);
-insert into examination_appointment (id, examination_room_id) values (5, 4);
+
+insert into examination_appointment (id) values (4);
+insert into examination_appointment (id) values (5);
 insert into examination_appointment (id) values (6);
-insert into examination_appointment (id, examination_room_id) values (7, 5);
+insert into examination_appointment (id) values (7);
+
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (19, 30, 2, 4, 1);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (19, 31, 2, 5, 1);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (20, 32, 1, 6, 1);
+insert into examination_request (doctor_id, patient_id, type_id, appointment_id, clinic_id) values (20, 30, 1, 7, 1);
 
 
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (19, 30, 2, 4);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (19, 31, 2, 5);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (20, 32, 1, 6);
-insert into examination_request (doctor_id, patient_id, type_id, appointment_id) values (20, 30, 1, 7);
 
 --insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '400', null, 1, 1, 13, null, 2, 7, 9, null, null, 7);
 
 
---insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z',1);
+--insert into appointment(id, duration, end_date, start_date, clinic_id) values (10,660000,null,'2020-02-15T12:00:00Z000',1);
 
 
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z',19,600000,30,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z',20,660000,31,1);
-insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',20,660000,30,1);
+
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (1,'2020-02-16T12:00:00Z000',12,600000,10,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (2,'2020-02-16T13:00:00Z000',13,660000,14,1);
+insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z000',13,660000,15,1);
 
 
