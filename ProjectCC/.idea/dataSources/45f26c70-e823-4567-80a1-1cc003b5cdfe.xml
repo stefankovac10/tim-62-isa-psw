@@ -416,6 +416,7 @@ sequence|table|107952|107954|1
     </table>
     <table id="65" parent="14" name="patient">
       <ObjectId>107896</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>32262</StateNumber>
     </table>
@@ -456,6 +457,7 @@ sequence|table|107952|107954|1
     </table>
     <table id="73" parent="14" name="user_table">
       <ObjectId>107943</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>32251</StateNumber>
     </table>
