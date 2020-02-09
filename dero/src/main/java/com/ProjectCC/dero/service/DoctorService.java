@@ -2,11 +2,11 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.DoctorDTO;
-import com.ProjectCC.dero.model.Authority;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.Doctor;
-import com.ProjectCC.dero.model.TypeOfExamination;
+import com.ProjectCC.dero.model.*;
+import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.repository.DoctorRepository;
+import com.ProjectCC.dero.repository.ExaminationRepository;
+import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
 import javax.xml.ws.Response;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DoctorService {
@@ -28,17 +27,22 @@ public class DoctorService {
     private ModelMapper modelMapper;
     private PasswordEncoder passwordEncoder;
     private AuthorityService authorityService;
+    private ClinicRepository clinicRepository;
+    private ExaminationRepository examinationRepository;
 
     @Autowired
     public DoctorService(DoctorRepository doctorRepository, ClinicService clinicService,
                          TypeOfExaminationService typeOfExaminationService, ModelMapper modelMapper,
-                         PasswordEncoder passwordEncoder, AuthorityService authorityService) {
+                         PasswordEncoder passwordEncoder, AuthorityService authorityService,
+                         ClinicRepository clinicRepository, ExaminationRepository examinationRepository) {
         this.doctorRepository = doctorRepository;
         this.clinicService = clinicService;
         this.typeOfExaminationService = typeOfExaminationService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
+        this.clinicRepository = clinicRepository;
+        this.examinationRepository = examinationRepository;
     }
 
     public ResponseEntity<DoctorDTO> save(DoctorDTO doctorDTO, String type) {
@@ -113,5 +117,57 @@ public class DoctorService {
         }
 
         return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DoctorDTO>> getDoctorsByClinicAndTypeAndDate(Long clinicID, Long typeID, String date) {
+        Optional<Clinic> clinicOptional = clinicRepository.findById(clinicID);
+        if (!clinicOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Clinic clinic = clinicOptional.get();
+        List<Doctor> doctors = doctorRepository.findByClinic(clinic);
+        List<DoctorDTO> doctorDTOS = new ArrayList<>();
+
+        DateTime startDate = DateTime.parse(date).plusHours(7);
+        DateTime endDate = DateTime.parse(date).plusHours(19);
+        List<Examination> examinations = examinationRepository.findByClinicAndDate(clinic, startDate, endDate);
+
+        HashMap<Doctor, List<ExaminationAppointment>> doctorsAppointments = new HashMap<>();
+
+        for (Examination e : examinations) {
+            if (doctorsAppointments.containsKey(e.getDoctor())) {
+                doctorsAppointments.get(e.getDoctor()).add(e.getExaminationAppointment());
+            }
+            else {
+                doctorsAppointments.put(e.getDoctor(), new ArrayList<>());
+                doctorsAppointments.get(e.getDoctor()).add(e.getExaminationAppointment());
+            }
+        }
+
+        Set<Doctor> keys = doctorsAppointments.keySet();
+        for (Doctor key : keys) {
+            doctorsAppointments.get(key).sort((ea1, ea2) -> {
+                if (ea1.getStartDate() == null || ea2.getStartDate() == null)
+                    return 0;
+                return ea1.getStartDate().compareTo(ea2.getStartDate());
+            });
+        }
+
+        for (Doctor d : doctors) {
+            if (d.getSpecialisedType().getId().equals(typeID) && clinicService.isDoctorAbleToPerformAnExamination(doctorsAppointments.get(d), startDate, endDate)) {
+                doctorDTOS.add(DoctorDTO.builder()
+                          .id(d.getId())
+                          .firstName(d.getFirstName())
+                          .lastName(d.getLastName())
+                          .email(d.getEmail())
+                          .city(d.getCity())
+                          .country(d.getCountry())
+                          .clinic(ClinicDTO.builder().name(d.getClinic().getName()).build())
+                          .build());
+            }
+        }
+
+        return new ResponseEntity<>(doctorDTOS, HttpStatus.OK);
     }
 }

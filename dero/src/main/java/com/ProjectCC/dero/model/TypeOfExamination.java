@@ -23,6 +23,9 @@ public class TypeOfExamination {
     @Column
     private String description;
 
+    @Column
+    private Long price;
+
     @OneToMany(mappedBy = "specialisedType")
     private Set<Doctor> specialisedDoctors;
 
