@@ -39,6 +39,7 @@ public class ExaminationRequestService {
     private ExaminationAppointmentRepository examinationAppointmentRepository;
     private RoomsService roomsService;
     private VacationRequestRepository vacationRequestRepository;
+    private TypeOfExaminationRepository typeOfExaminationRepository;
 
     @Autowired
     public ExaminationRequestService(ExaminationRequestRepository examinationRequestRepository, DoctorRepository doctorRepository,
@@ -56,6 +57,7 @@ public class ExaminationRequestService {
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.roomsService = roomsService;
         this.vacationRequestRepository = vacationRequestRepository;
+        this.typeOfExaminationRepository = typeOfExaminationRepository;
     }
 
     public ResponseEntity<Void> save(ExaminationRequestDTO examinationRequestDTO) {
@@ -357,7 +359,7 @@ public class ExaminationRequestService {
         List<Clinic> clinics = this.clinicRepository.findAll();
 
         for (Clinic clinic : clinics) {
-            List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByClinicId(clinic.getId());
+            List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByClinic(clinic);
             List<ExaminationRoom> examinationRooms = this.examinationRoomRepository.findByClinic(clinic);
 
             for (ExaminationRequest eRequest : examinationRequests) {

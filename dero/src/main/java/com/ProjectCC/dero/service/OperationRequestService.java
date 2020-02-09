@@ -24,6 +24,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.*;
@@ -104,6 +106,7 @@ public class OperationRequestService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<Void> reserveOperation(OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
         Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(operationRoomRequest.getRequestId());
         if(!optionalOperationRequest.isPresent())
@@ -166,7 +169,8 @@ public class OperationRequestService {
         return nextAvailable.isBefore(startDate) && nextEnd.isBefore(endDate);
     }
 
-    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
         List<Operation> operations = this.operationRepository.findByDoctorsId(doc.getId());
         DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
@@ -249,6 +253,7 @@ public class OperationRequestService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
         List<Doctor> doctors = this.doctorRepository.findAll();
         for (Doctor doc : doctors) {
