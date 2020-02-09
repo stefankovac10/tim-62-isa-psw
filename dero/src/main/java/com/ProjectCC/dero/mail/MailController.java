@@ -64,7 +64,9 @@ public class MailController {
     }
 
     @GetMapping(value = "/refuse-vacation/{email}/{id}/{description}")
-    public void refuseVacationRequest(@PathVariable String email, @PathVariable Long id, @PathVariable String description) throws MessagingException {
+    public void decline(@PathVariable String email, @PathVariable Long id, @PathVariable String description) throws MessagingException {
+        Optional<VacationRequest> opt = this.vacationRequestRepository.findById(id);
+        VacationRequest vac = opt.get();
         this.vacationRequestRepository.deleteById(id);
         smtpMailSender.send(email, "Vacation Request", description);
     }

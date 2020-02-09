@@ -70,7 +70,7 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/vacs/all")
+      .get("/vacs/all/")
       .then(response => {
         this.requests = response.data;
       })
@@ -93,12 +93,14 @@ export default {
     },
     giveMeReason: function(req) {
       this.id = req.id;
-      this.refuse();
     },
     refuse: function() {
       httpClient
         .get(
-          "mail/refuse-vacation/balsa.smi15@gmail.com/" + this.id + this.reason
+          "mail/refuse-vacation/balsa.smi15@gmail.com/" +
+            this.id +
+            "/" +
+            this.reason
         )
         .then(() => {
           this.$vToastify.info({
@@ -109,6 +111,19 @@ export default {
             append: false,
             duration: 2000
           });
+        })
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error while sending mail.",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
         });
     }
   }

@@ -160,11 +160,7 @@ public class ExaminationService {
                                         .build();
         return examinationDTO;
     }
-//    date: this.start,
-//    type: this.type,
-//    price: this.price,
-//    examinationRoom: this.examinationRoom,
-//    doctor: this.doctor
+
     public void addNewQuick(ExaminationDTO examinationDTO) {
         Examination examination = this.modelMapper.map(examinationDTO, Examination.class);
         ExaminationAppointment examinationAppointment = ExaminationAppointment.builder()

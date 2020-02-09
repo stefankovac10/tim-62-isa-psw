@@ -22,7 +22,7 @@ public class ExaminationAppointment extends Appointment {
     @OneToOne(fetch = FetchType.LAZY)
     private Examination examination;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "examination_room_id")
     private ExaminationRoom examinationRoom;
 
