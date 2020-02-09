@@ -104,12 +104,14 @@ export default {
         prescription: {
           medication: []
         },
-        type: undefined
+        type: undefined,
+        price: 0
       },
       type: undefined,
       start: undefined,
       patient: undefined,
       doctor: undefined,
+      flag:undefined,
       duration: undefined,
       id: undefined,
       patientId: undefined

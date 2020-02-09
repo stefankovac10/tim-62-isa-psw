@@ -18,6 +18,9 @@ public class Diagnosis {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Version
+   private int version;
+
    @Column(name = "name", nullable = false)
    private String name;
 

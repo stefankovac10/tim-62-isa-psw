@@ -1,20 +1,20 @@
 SET TIME ZONE 'UTC';
 
 --DIJAGNOZA
-insert into diagnosis (code, description, name) values ('I00', 'Opis', 'Reumatska groznica bez promena na srcu');
-insert into diagnosis (code, description, name) values ('I01.2', 'Opis', 'Akutno reumatsko zapaljenje mišića srca');
-insert into diagnosis (code, description, name) values ('N00', 'Opis', 'Akutni zapaljenjski bubrežni sindrom');
-insert into diagnosis (code, description, name) values ('N00.4', 'Opis', 'Upala pluca');
-insert into diagnosis (code, description, name) values ('N00.5', 'Opis', 'Korona virus');
-insert into diagnosis (code, description, name) values ('N00.6', 'Opis', 'Hroncni bronhitis');
-insert into diagnosis (code, description, name) values ('N00.7', 'Opis', 'AIDS');
-insert into diagnosis (code, description, name) values ('N00.8', 'Opis', 'Upala sinusa');
-insert into diagnosis (code, description, name) values ('N00.9', 'Opis', 'Prelom kljucne kosti');
-insert into diagnosis (code, description, name) values ('N00.10', 'Opis', 'Iscasenje skocnog zgloba');
-insert into diagnosis (code, description, name) values ('N00.11', 'Opis', 'Sizofrenija');
-insert into diagnosis (code, description, name) values ('N00.12', 'Opis', 'Bipolarni poremecaj');
-insert into diagnosis (code, description, name) values ('N00.13', 'Opis', 'Lupus');
-insert into diagnosis (code, description, name) values ('N00.14', 'Opis', 'Rabies');
+insert into diagnosis (version,code, description, name) values (0,'I00', 'Opis', 'Reumatska groznica bez promena na srcu');
+insert into diagnosis (version,code, description, name) values (0,'I01.2', 'Opis', 'Akutno reumatsko zapaljenje mišića srca');
+insert into diagnosis (version,code, description, name) values (0,'N00', 'Opis', 'Akutni zapaljenjski bubrežni sindrom');
+insert into diagnosis (version,code, description, name) values (0,'N00.4', 'Opis', 'Upala pluca');
+insert into diagnosis (version,code, description, name) values (0,'N00.5', 'Opis', 'Korona virus');
+insert into diagnosis (version,code, description, name) values (0,'N00.6', 'Opis', 'Hroncni bronhitis');
+insert into diagnosis (version,code, description, name) values (0,'N00.7', 'Opis', 'AIDS');
+insert into diagnosis (version,code, description, name) values (0,'N00.8', 'Opis', 'Upala sinusa');
+insert into diagnosis (version,code, description, name) values (0,'N00.9', 'Opis', 'Prelom kljucne kosti');
+insert into diagnosis (version,code, description, name) values (0,'N00.10', 'Opis', 'Iscasenje skocnog zgloba');
+insert into diagnosis (version,code, description, name) values (0,'N00.11', 'Opis', 'Sizofrenija');
+insert into diagnosis (version,code, description, name) values (0,'N00.12', 'Opis', 'Bipolarni poremecaj');
+insert into diagnosis (version,code, description, name) values (0,'N00.13', 'Opis', 'Lupus');
+insert into diagnosis (version,code, description, name) values (0,'N00.14', 'Opis', 'Rabies');
 
 --LIJEKOVI
 insert into medication (code, description, name) values ('A02BC01', 'Opis', 'OMEPRAZOL');
@@ -139,21 +139,21 @@ insert into medical_staff (clinic_id, id) values (3, 29);
 insert into nurse (id) values (29);
 
 --MEDICALRECORD
-insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.2', 190, 95);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1', 202, 95);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '0.5', 178, 90);
-insert into medical_record (blood_type, diopter, height, weight) values ('0', '1', 191, 95);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('A', '-1.5', 181, 85);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '2.0', 179, 99);
-insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.8', 195, 100);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1', 165, 68);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('0', '0.7', 172, 85);
-insert into medical_record (blood_type, diopter, height, weight) values ('A', '0.9', 191, 105);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1.9', 183, 80);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('A', '0.6', 178, 90);
-insert into medical_record (blood_type, diopter, height, weight) values ('AB', '0.3', 190, 91);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('B', '-1.0', 180, 88);
-insert into medical_record (blood_type, diopter, height, weight) VALUES ('AB', '0.6', 170, 85);
+insert into medical_record (blood_type, diopter, height, weight,version) values ('A', '0.2', 190, 95,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('B', '-1', 202, 95,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('AB', '0.5', 178, 90,0);
+insert into medical_record (blood_type, diopter, height, weight,version) values ('0', '1', 191, 95,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('A', '-1.5', 181, 85,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('AB', '2.0', 179, 99,0);
+insert into medical_record (blood_type, diopter, height, weight,version) values ('A', '0.8', 195, 100,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('B', '-1', 165, 68,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('0', '0.7', 172, 85,0);
+insert into medical_record (blood_type, diopter, height, weight,version) values ('A', '0.9', 191, 105,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('B', '-1.9', 183, 80,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('A', '0.6', 178, 90,0);
+insert into medical_record (blood_type, diopter, height, weight,version) values ('AB', '0.3', 190, 91,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('B', '-1.0', 180, 88,0);
+insert into medical_record (blood_type, diopter, height, weight,version) VALUES ('AB', '0.6', 170, 85,0);
 
 
 --PACIJENTI

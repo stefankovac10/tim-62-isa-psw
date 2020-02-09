@@ -81,7 +81,7 @@ export default {
         })
         .then(() => {
           errorHappened = false;
-          this.$vToastify.info({
+          this.$vToastify.success({
             body: "Password successufully changed",
             title: "Success",
             type: "success",
@@ -92,7 +92,7 @@ export default {
         })
         .catch(() => {
           errorHappened = true;
-          this.$vToastify.info({
+          this.$vToastify.error({
             body: "Incorrect old password",
             title: "Error",
             type: "error",
