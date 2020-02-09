@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="rooms" class="justify-content-center">
-      <table class="table table-hover">
+      <table id="tableRoomsDates" class="table table-hover">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -11,12 +11,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="table-primary" v-for="room in rooms" v-bind:key="room.id">
+          <tr
+            class="table-primary"
+            v-for="room in rooms"
+            v-bind:key="room.id"
+            v-bind:id="room.id+'roomRow'"
+          >
             <td>{{room.name}}</td>
             <td>{{room.number}}</td>
             <td>{{room.next}}</td>
             <td>
-              <button type="button" class="btn btn-success" v-on:click="reserve(room)">Reserve</button>
+              <button
+                v-bind:id="room.id+'button'"
+                type="button"
+                class="btn btn-success"
+                v-on:click="reserve(room)"
+              >Reserve</button>
             </td>
           </tr>
         </tbody>
