@@ -46,7 +46,7 @@ public class ExaminationRequestRepositoryUnitTest {
                 .grade(CLINIC_GRADE)
                 .income(CLINIC_INCOME).build();
         Pageable pageable = PageRequest.of(0, 10);
-        Page<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
+        Page<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findAllByClinic(clinic.getId(), pageable);
 
         assertEquals("There are no requests from this clinic.", 0, examinationRequests.getNumberOfElements());
     }
@@ -60,7 +60,7 @@ public class ExaminationRequestRepositoryUnitTest {
                 .grade(CLINIC_GRADE)
                 .income(CLINIC_INCOME).build();
         Pageable pageable = PageRequest.of(0, 10);
-        Page<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
+        Page<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findAllByClinic(clinic.getId(), pageable);
 
         assertTrue("There are examination requests in this clinic.",examinationRequests.getNumberOfElements() > 0);
     }

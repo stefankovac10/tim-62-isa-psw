@@ -89,11 +89,11 @@ public class ExaminationRequestServiceUnitTest {
                 .grade(CLINIC_GRADE_NR).build();
         Pageable pageable = PageRequest.of(PAGE, 10);
         when(clinicRepositoryMock.findById(CLINIC_ID_WITH_NO_REQUESTS)).thenReturn(Optional.of(clinic));
-        when(examinationRequestRepositoryMock.findAllByClinic(clinic, pageable)).thenReturn(Page.empty());
+        when(examinationRequestRepositoryMock.findAllByClinic(clinic.getId(), pageable)).thenReturn(Page.empty());
         ResponseEntity<List<ExaminationRequestDetailsDTO>> responseEntity = examinationRequestService.getAll(CLINIC_ID_WITH_NO_REQUESTS, PAGE);
 
         verify(clinicRepositoryMock).findById(CLINIC_ID_WITH_NO_REQUESTS);
-        verify(examinationRequestRepositoryMock).findAllByClinic(clinic, pageable);
+        verify(examinationRequestRepositoryMock).findAllByClinic(clinic.getId(), pageable);
         assertEquals("There are no Examination requests in this clinic.", 0, responseEntity.getBody().size());
     }
 
@@ -121,7 +121,7 @@ public class ExaminationRequestServiceUnitTest {
         Page<ExaminationRequest> page = new PageImpl<>(examinationRequests);
 
         when(clinicRepositoryMock.findById(CLINIC_ID_EXISTS)).thenReturn(Optional.of(clinic));
-        when(examinationRequestRepositoryMock.findAllByClinic(clinic, pageable)).thenReturn(page);
+        when(examinationRequestRepositoryMock.findAllByClinic(clinic.getId(), pageable)).thenReturn(page);
         when(doctorRepositoryMock.findById(DOCTOR_ID_DOES_NOT_EXIST)).thenReturn(Optional.empty());
 
         examinationRequestService.getAll(CLINIC_ID_EXISTS, PAGE);
@@ -152,7 +152,7 @@ public class ExaminationRequestServiceUnitTest {
         Doctor doctor = Doctor.builder().id(DOCTOR_ID).build();
 
         when(clinicRepositoryMock.findById(CLINIC_ID_EXISTS)).thenReturn(Optional.of(clinic));
-        when(examinationRequestRepositoryMock.findAllByClinic(clinic, pageable)).thenReturn(page);
+        when(examinationRequestRepositoryMock.findAllByClinic(clinic.getId(), pageable)).thenReturn(page);
         when(doctorRepositoryMock.findById(DOCTOR_ID)).thenReturn(Optional.of(doctor));
 
         examinationRequestService.getAll(CLINIC_ID_EXISTS, PAGE);
@@ -184,14 +184,14 @@ public class ExaminationRequestServiceUnitTest {
         Patient patient = Patient.builder().id(PATIENT_ID).build();
 
         when(clinicRepositoryMock.findById(CLINIC_ID_EXISTS)).thenReturn(Optional.of(clinic));
-        when(examinationRequestRepositoryMock.findAllByClinic(clinic, pageable)).thenReturn(page);
+        when(examinationRequestRepositoryMock.findAllByClinic(clinic.getId(), pageable)).thenReturn(page);
         when(doctorRepositoryMock.findById(DOCTOR_ID)).thenReturn(Optional.of(doctor));
         when(patientRepositoryMock.findById(PATIENT_ID)).thenReturn(Optional.of(patient));
 
         ResponseEntity<List<ExaminationRequestDetailsDTO>> eRooms = examinationRequestService.getAll(CLINIC_ID_EXISTS, PAGE);
 
         verify(clinicRepositoryMock).findById(CLINIC_ID_EXISTS);
-        verify(examinationRequestRepositoryMock).findAllByClinic(clinic, pageable);
+        verify(examinationRequestRepositoryMock).findAllByClinic(clinic.getId(), pageable);
         verify(doctorRepositoryMock).findById(DOCTOR_ID);
         verify(patientRepositoryMock).findById(PATIENT_ID);
 
