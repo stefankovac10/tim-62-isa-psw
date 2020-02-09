@@ -1,0 +1,31 @@
+sudo: required
+language: java
+jdk: oraclejdk8
+
+services:
+  - postgresql
+
+before_install:
+  - chmod +x mvnw
+
+script:
+  - ./mvnw clean install -DskipTests=false -B
+
+dist: trusty
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: project-cc-team62
+
+
+  addons:
+    sonarcloud:
+      organization: "stefankovac10"
+      token: $SONAR_TOKEN
+
+
+  script:
+    # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+    - ./mvnw clean install -DskipTests=false -B
+    - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=stojkovm-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
