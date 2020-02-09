@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.exceptions.UserNotFoundException;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -12,6 +13,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,12 +34,14 @@ public class ExaminationService {
     private UserRepository userRepository;
     private MedicalRecordRepository medicalRecordRepository;
     private ClinicRepository clinicRepository;
+    private PatientRepository patientRepository;
 
     @Autowired
     public ExaminationService(MedicalRecordRepository medicalRecordRepository, ModelMapper modelMapper, ExaminationAppointmentRepository examinationAppointmentRepository,
                               ExaminationRepository examinationRepository, DiagnosisRepository diagnosisRepository,
                               MedicationRepository medicationRepository, DoctorRepository doctorRepository,
-                              NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository) {
+                              NurseRepository nurseRepository, UserRepository userRepository, ClinicRepository clinicRepository,
+                              PatientRepository patientRepository) {
         this.examinationRepository = examinationRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.medicationRepository = medicationRepository;
@@ -47,6 +52,7 @@ public class ExaminationService {
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.medicalRecordRepository = medicalRecordRepository;
         this.clinicRepository = clinicRepository;
+        this.patientRepository = patientRepository;
     }
 
     public void save(ExaminationDTO examinationDTO) {
@@ -234,5 +240,43 @@ public class ExaminationService {
             }
         }
         return false;
+    }
+
+    public ResponseEntity<List<ExaminationDTO>> getEximinationsByDoctorsID(Long doctorID, String date) {
+        Doctor doctor = this.doctorRepository.findById(doctorID).orElseThrow(UserNotFoundException::new);
+
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        DateTime startDate = DateTime.parse(date).plusHours(7);
+        DateTime endDate = DateTime.parse(date).plusHours(19);
+
+        List<Examination> examinations = this.examinationRepository.findByDoctorAndDate(doctor, startDate, endDate);
+        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
+        for (Examination e : examinations) {
+            examinationDTOS.add(ExaminationDTO.builder()
+                    .duration(e.getExaminationAppointment().getDuration())
+                    .id(e.getId())
+                    .report(e.getReport())
+                    .discount(e.getDiscount())
+                    .date(e.getExaminationAppointment().getStartDate())
+                    .doctor(DoctorDTO.builder()
+                            .id(e.getDoctor().getId())
+                            .firstName(e.getDoctor().getFirstName())
+                            .lastName(e.getDoctor().getLastName())
+                            .build())
+                    .clinic(ClinicDTO.builder()
+                            .id(e.getClinic().getId())
+                            .name(e.getClinic().getName())
+                            .build())
+                    .appointment(AppointmentDTO.builder()
+                            .startDate(e.getExaminationAppointment().getStartDate())
+                            .duration(e.getExaminationAppointment().getDuration().getStandardMinutes()) // note that this is in minutes
+                            .build())
+                    .build());
+        }
+
+        return new ResponseEntity<>(examinationDTOS, HttpStatus.OK);
     }
 }

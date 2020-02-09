@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.MedicalRecord;
 import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.RegistrationRequest;
+import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.MedicalRecordService;
 import com.ProjectCC.dero.service.PatientService;
 import com.ProjectCC.dero.service.RegistrationRequestService;
@@ -25,6 +26,7 @@ import java.util.List;
 public class PatientController {
 
     private PatientService patientService;
+    private ExaminationRequestService examinationRequestService;
 
     @Autowired
     public PatientController(PatientService patientService) {
@@ -109,5 +111,21 @@ public class PatientController {
     public ResponseEntity<List<PatientDTO>> searchPatients(@PathVariable String firstName, @PathVariable String lastName,
                                                            @PathVariable String jmbg, @PathVariable int page) {
         return this.patientService.search(firstName, lastName, jmbg, page);
+    }
+
+    /*
+    @PostMapping(value = "/{doctorID}/{email}/{time}/{duration}/{date}", consumes = "application/json")
+    public ResponseEntity<ExaminationRequestDTO> saveExaminationRequest(@PathVariable Long doctorID,
+                                                                        @PathVariable String email,
+                                                                        @PathVariable String time,
+                                                                        @PathVariable int duration,
+                                                                        @PathVariable String date) {
+        return this.examinationRequestService.saveExaminationRequest(doctorID, email, time, duration, date);
+    }
+     */
+
+    @PostMapping(value = "/saveExaminationRequest", consumes = "application/json")
+    public ResponseEntity<CustomExaminationRequestDTO> saveExaminationRequest(@RequestBody CustomExaminationRequestDTO customExaminationRequestDTO) {
+        return this.examinationRequestService.saveExaminationRequest(customExaminationRequestDTO);
     }
 }

@@ -1,20 +1,20 @@
 SET TIME ZONE 'UTC';
 
 --DIJAGNOZA
-insert into diagnosis (version,code, description, name) values (0,'I00', 'Opis', 'Reumatska groznica bez promena na srcu');
-insert into diagnosis (version,code, description, name) values (0,'I01.2', 'Opis', 'Akutno reumatsko zapaljenje mišića srca');
-insert into diagnosis (version,code, description, name) values (0,'N00', 'Opis', 'Akutni zapaljenjski bubrežni sindrom');
-insert into diagnosis (version,code, description, name) values (0,'N00.4', 'Opis', 'Upala pluca');
-insert into diagnosis (version,code, description, name) values (0,'N00.5', 'Opis', 'Korona virus');
-insert into diagnosis (version,code, description, name) values (0,'N00.6', 'Opis', 'Hroncni bronhitis');
-insert into diagnosis (version,code, description, name) values (0,'N00.7', 'Opis', 'AIDS');
-insert into diagnosis (version,code, description, name) values (0,'N00.8', 'Opis', 'Upala sinusa');
-insert into diagnosis (version,code, description, name) values (0,'N00.9', 'Opis', 'Prelom kljucne kosti');
-insert into diagnosis (version,code, description, name) values (0,'N00.10', 'Opis', 'Iscasenje skocnog zgloba');
-insert into diagnosis (version,code, description, name) values (0,'N00.11', 'Opis', 'Sizofrenija');
-insert into diagnosis (version,code, description, name) values (0,'N00.12', 'Opis', 'Bipolarni poremecaj');
-insert into diagnosis (version,code, description, name) values (0,'N00.13', 'Opis', 'Lupus');
-insert into diagnosis (version,code, description, name) values (0,'N00.14', 'Opis', 'Rabies');
+insert into diagnosis (version, code, description, name) values (0,'I00', 'Opis', 'Reumatska groznica bez promena na srcu');
+insert into diagnosis (version, code, description, name) values (0,'I01.2', 'Opis', 'Akutno reumatsko zapaljenje mišića srca');
+insert into diagnosis (version, code, description, name) values (0,'N00', 'Opis', 'Akutni zapaljenjski bubrežni sindrom');
+insert into diagnosis (version, code, description, name) values (0,'N00.4', 'Opis', 'Upala pluca');
+insert into diagnosis (version, code, description, name) values (0,'N00.5', 'Opis', 'Korona virus');
+insert into diagnosis (version, code, description, name) values (0,'N00.6', 'Opis', 'Hroncni bronhitis');
+insert into diagnosis (version, code, description, name) values (0,'N00.7', 'Opis', 'AIDS');
+insert into diagnosis (version, code, description, name) values (0,'N00.8', 'Opis', 'Upala sinusa');
+insert into diagnosis (version, code, description, name) values (0,'N00.9', 'Opis', 'Prelom kljucne kosti');
+insert into diagnosis (version, code, description, name) values (0,'N00.10', 'Opis', 'Iscasenje skocnog zgloba');
+insert into diagnosis (version, code, description, name) values (0,'N00.11', 'Opis', 'Sizofrenija');
+insert into diagnosis (version, code, description, name) values (0,'N00.12', 'Opis', 'Bipolarni poremecaj');
+insert into diagnosis (version, code, description, name) values (0,'N00.13', 'Opis', 'Lupus');
+insert into diagnosis (version, code, description, name) values (0,'N00.14', 'Opis', 'Rabies');
 
 --LIJEKOVI
 insert into medication (code, description, name) values ('A02BC01', 'Opis', 'OMEPRAZOL');
@@ -51,6 +51,7 @@ insert into clinic (address, description, grade, income, name, price_list) value
 insert into type_of_examination (description, name, clinic_id) values ('Gleda ti oci', 'oftamolog', 1);
 insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 1);
 insert into type_of_examination (description, name, clinic_id) values ('Slusa ti srce', 'kardiolog', 1);
+insert into type_of_examination (description, name, clinic_id) values ('Slusa ti pluca', 'pulmolog', 3);
 
 
 ---CCADMIN
@@ -99,8 +100,8 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into medical_staff (clinic_id, id) values (1, 17);
 insert into doctor (specialised_type_id, id, grade) values (1, 17, 4.0);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Sekspirova', 'Novi Sad', 'Republika Srbija', 'marko123@gmail.com', true, 'Marko', '1592812110025', 'Jovic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511230', '2020-02-06 12:58:51.255000');
-insert into medical_staff(id, clinic_id) values (18, 2);
-insert into doctor (id, specialised_type_id, grade) values (18, 2, 3.4);
+insert into medical_staff(id, clinic_id) values (18, 3);
+insert into doctor (id, specialised_type_id, grade) values (18, 4, 3.4);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone, last_password_reset_date) values ('Heroja pinkija', 'Novi Sad', 'Republika Srbija', 'mirko@gmail.com', true, 'Mirko', '1592813110025', 'Moric', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689511240', '2020-02-06 12:58:51.255000');
 insert into medical_staff(id, clinic_id) values (19, 1);
 insert into doctor (id, specialised_type_id, grade) values (19, 2, 2.9);
@@ -108,8 +109,8 @@ insert into user_table (address, city, country, email, enabled, first_name, jmbg
 insert into medical_staff(id, clinic_id) values (20, 1);
 insert into doctor (id, specialised_type_id, grade) values (20, 1, 4.8);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Jevrejska 12', 'Novi Sad', 'Republika Srbija', 'drnele@gmail.com', true, 'Dr Nele', '159281555555', 'Karajlic', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689555555');
-insert into medical_staff(id, clinic_id) values (21, 2);
-insert into doctor (id, specialised_type_id, grade) values (21, 2, 4.8);
+insert into medical_staff(id, clinic_id) values (21, 3);
+insert into doctor (id, specialised_type_id, grade) values (21, 4, 4.8);
 insert into user_table (address, city, country, email, enabled, first_name, jmbg, last_name, password, telephone) values ('Ulica srpskih junaka', 'New Jersey', 'USA', 'drhaus@gmail.com', true, 'Gregory', '1594094110025', 'House', '$2a$10$U9jvaVCEV.48aHuR2vck/emgRLXJ3d5jleYyCTwdO/X9fmDtZ0bgG', '0689172250');
 insert into medical_staff(id, clinic_id) values (22, 3);
 insert into doctor (id, specialised_type_id, grade) values (22, 3, 4.8);
@@ -311,22 +312,22 @@ insert into examination_room (id) values (18);
 
 
 --APPOINTMENTI
-insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 660000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 660000, 1);    -- id 1
 insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:43:00Z000', 720000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-02-02T15:55:00Z000', 860000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-10-24T15:43:00Z000', 600000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-12-01T11:43:00Z000', 720000, 1);
 insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
-insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);
+insert into appointment (start_date, duration, clinic_id) values ('2020-09-18T07:43:00Z000', 920000, 1);    -- id 7
 
 --EXAMINATION APPOINTMENT
 insert into examination_appointment (id, examination_room_id) values (1, 1);
 insert into examination_appointment (id, examination_room_id) values (2, 1);
 insert into examination_appointment (id, examination_room_id) values (3, 1);
 
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 20, 1, 1, null, 30, 1, 1, 1);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '900', 'bolestan', 1, 1, 20, 1, 1, null, 30, 1, 1, 1);        -- id 1
 insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '500', 'nije bolestan', 1, 2, 19, 1, 2, null, 31, 2, 2, 2);
-insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 20, 1, 3, null, 32, 3, 3, 3);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '600', 'nije bolestan', 1, 1, 20, 1, 3, null, 32, 3, 3, 3);   -- id 3
 
 update examination_appointment set examination_id = 1 where id = 1;
 update examination_appointment set examination_id = 2 where id = 2;
@@ -353,3 +354,60 @@ insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_i
 insert into operation_request(id,date, doctor_id, duration, patient_id, clinic_id) values (3,'2020-02-16T14:00:00Z',20,660000,30,1);
 
 
+-- insert into examination_appointment (id, examination_id, examination_room_id) values (7, 1, 1); -- id 7
+-- insert into examination_appointment (id, examination_id, examination_room_id) values (8, 2, 1);
+-- insert into examination_appointment (id, examination_id, examination_room_id) values (9, 3, 1); -- id 9
+
+--insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '1500', 'bolestan', 1, 2, 11, 1, 2, 7, 10, null, 1, 7);   -- id 4
+--insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2000', 'bolestan', 1, 2, 12, 1, 2, 7, 10, null, 2, 8);
+--insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 1, 3, 12, 1, 2, 7, 10, null, 3, 9);   -- id 6
+
+-- Dr Nele (id == 21, spec_type_id == 4(pulmolog)), Klinika Galetic (id == 3), dana 14. februara 2020-e imao 6 pregleda u trajanju od 2h, tako da je popunio kvotu za ceo dan (radno vreme od 7h do 19h)
+-- Zakljucak: Poliklinika Galetic i ako iskoci pacijentu koji hoce da zakaze pulmoloski pregled 14. februara, Dr Nele ne bi trebao biti dostupan
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T07:00:00Z000', '2020-02-14T09:00:00Z000', 7200000, 3);    -- id 8
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T09:00:00Z000', '2020-02-14T11:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T11:00:00Z000', '2020-02-14T13:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T13:00:00Z000', '2020-02-14T15:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T15:00:00Z000', '2020-02-14T17:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T17:00:00Z000', '2020-02-14T19:00:00Z000', 7200000, 3);    -- id 13
+insert into examination_appointment (id, examination_id, examination_room_id) values (8, null, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (9, null, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (10, null, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (11, null, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (12, null, 1);
+insert into examination_appointment (id, examination_id, examination_room_id) values (13, null, 1);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 44, null, 3, 8);   -- id 4
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 43, null, 3, 9);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 42, null, 3, 10);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 41, null, 3, 11);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 40, null, 3, 12);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 21, 1, 2, 24, 39, null, 3, 13);   -- id 9
+update examination_appointment set examination_id = 4 where id = 8;
+update examination_appointment set examination_id = 5 where id = 9;
+update examination_appointment set examination_id = 6 where id = 10;
+update examination_appointment set examination_id = 7 where id = 11;
+update examination_appointment set examination_id = 8 where id = 12;
+update examination_appointment set examination_id = 9 where id = 13;
+
+-- Dr Mirko Moric (id == 18, spec_type_id == 4(pulmolog)), Klinika Galetic (id == 3), dana 14. februara 2020-e imao 5 pregleda u trajanju od 2h (od 7h do 17h), tako da je slobodan od 17h do 19h
+-- Zakljucak: Poliklinika Galetic ce iskociti pacijentu koji hoce da zakaze pulmoloski pregled 14. februara, dr Mirko Loric treba da je dostupan, Dr Nele ne bi trebao biti dostupan
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T07:00:00Z000', '2020-02-14T09:00:00Z000', 7200000, 3);  -- id 14
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T09:00:00Z000', '2020-02-14T11:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T11:00:00Z000', '2020-02-14T13:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T13:00:00Z000', '2020-02-14T15:00:00Z000', 7200000, 3);
+insert into appointment (start_date, end_date, duration, clinic_id) values ('2020-02-14T15:00:00Z000', '2020-02-14T17:00:00Z000', 7200000, 3);  -- id 18
+insert into examination_appointment (id, examination_id, examination_room_id) values (14, null, 4);
+insert into examination_appointment (id, examination_id, examination_room_id) values (15, null, 4);
+insert into examination_appointment (id, examination_id, examination_room_id) values (16, null, 4);
+insert into examination_appointment (id, examination_id, examination_room_id) values (17, null, 4);
+insert into examination_appointment (id, examination_id, examination_room_id) values (18, null, 4);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 18, 1, 2, 25, 30, null, 3, 14);   -- id 10
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 18, 1, 2, 25, 31, null, 3, 15);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 18, 1, 2, 25, 32, null, 3, 16);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 18, 1, 2, 25, 33, null, 3, 17);
+insert into examination (discount, price, report, clinic_id, type_id, doctor_id, er_id, med_rec_id, nurse_id, patient_id, prescription_id, diagnosis_id, appointment_id) VALUES ('0', '2500', 'bolestan', 3, 4, 18, 1, 2, 25, 34, null, 3, 18);  -- id 14
+update examination_appointment set examination_id = 10 where id = 14;
+update examination_appointment set examination_id = 11 where id = 15;
+update examination_appointment set examination_id = 12 where id = 16;
+update examination_appointment set examination_id = 13 where id = 17;
+update examination_appointment set examination_id = 14 where id = 18;

@@ -353,7 +353,8 @@ export default {
   },
   methods: {
     register: function() {
-      if (!this.fnErr && !this.lnErr && !this.jmbgErr && !this.telErr && !this.cntryErr &&
+      if (this.doc) {
+        if (!this.fnErr && !this.lnErr && !this.jmbgErr && !this.telErr && !this.cntryErr &&
           !this.ctyErr && !this.addrErr && !this.emErr && !this.pwErr && !this.typeErr && !this.pwMErr && 
           !((this.type == 'Doctor') && this.typeExErr)) {
         var user = {
@@ -369,9 +370,30 @@ export default {
         };
 
         this.$emit("register", user, this.type, this.typeOfExamination);
+        } else {
+          alert("Please fill your informations properly");
+        }
       } else {
-        alert("Please fill your informations properly");
+        if (!this.fnErr && !this.lnErr && !this.jmbgErr && !this.telErr && !this.cntryErr &&
+          !this.ctyErr && !this.addrErr && !this.emErr && !this.pwErr &&  !this.pwMErr) {
+          var user2 = {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            jmbg: this.jmbg,
+            password: this.password,
+            email: this.email,
+            address: this.address,
+            city: this.city,
+            country: this.country,
+            telephone: this.telephone
+          };
+
+          this.$emit("register", user2);
+        } else {
+          alert("Please fill your informations properly");
+        }
       }
+      
     },
     firstNameBlank: function() {
       let firstNameInput = document.getElementsByName("firstName")[0];

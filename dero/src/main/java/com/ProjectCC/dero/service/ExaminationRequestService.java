@@ -8,6 +8,7 @@ import com.ProjectCC.dero.repository.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
+import org.joda.time.LocalTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ public class ExaminationRequestService {
     @Autowired
     public ExaminationRequestService(ExaminationRequestRepository examinationRequestRepository, DoctorRepository doctorRepository,
                                      PatientRepository patientRepository, ExaminationRoomRepository examinationRoomRepository,
-                                     ExaminationRepository examinationRepository, ClinicRepository clinicRepository, ModelMapper modelMapper,
+                                     ExaminationRepository examinationRepository, ModelMapper modelMapper, ClinicRepository clinicRepository,
                                      ExaminationAppointmentRepository examinationAppointmentRepository, RoomsService roomsService,
                                      TypeOfExaminationRepository typeOfExaminationRepository, VacationRequestRepository vacationRequestRepository) {
         this.examinationRequestRepository = examinationRequestRepository;
@@ -228,6 +229,120 @@ public class ExaminationRequestService {
         return null;
     }
 
+    /*
+    // duration mi je u minutama ...
+    public ResponseEntity<ExaminationRequestDTO> saveExaminationRequest(Long doctorID, String email, String timeString, int duration, String date) {
+        Optional<Doctor> doctorOptional = doctorRepository.findById(doctorID);
+        if(!doctorOptional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Doctor doctor = doctorOptional.get();
+
+        Patient patient = patientRepository.findByEmail(email);
+        Long patientID = patient.getId();
+
+        LocalTime time = LocalTime.parse(timeString);
+        int hours = time.getHourOfDay();
+        int minutes = time.getMinuteOfHour();
+
+        DateTime startDate = DateTime.parse(date).plusHours(hours).plusMinutes(minutes);
+        DateTime endDate = DateTime.parse(date).plusHours(hours).plusMinutes(minutes).plusMinutes(duration);
+
+        Optional<Clinic> clinicOptional = clinicRepository.findById(doctor.getClinic().getId());
+        if(!clinicOptional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = clinicOptional.get();
+
+        Examination examination = new Examination();
+        examination.setType(doctor.getSpecialisedType());
+        examination.setClinic(clinic);
+        examination.setDoctor(doctor);
+        examination.setPatient(patient);
+
+        ExaminationAppointment examinationAppointment = new ExaminationAppointment();
+        examinationAppointment.setStartDate(startDate);
+        examinationAppointment.setEndDate(endDate);
+        Duration duration1 = new Duration(duration * 60000);
+        examinationAppointment.setDuration(duration1);
+        examinationAppointment.setExamination(examination);
+
+        ExaminationRequest examinationRequest = new ExaminationRequest();
+        examinationRequest.setDoctorId(doctorID);
+        examinationRequest.setPatientId(patientID);
+        examinationRequest.setTypeId(doctor.getSpecialisedType().getId());
+        examinationRequest.setExaminationAppointment(examinationAppointment);
+
+        examinationRequest = this.examinationRequestRepository.save(examinationRequest);
+
+        if(examinationRequest != null) {
+            //ExaminationRequestDTO examinationRequestDTO = modelMapper()
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+     */
+
+    // duration mi je u minutama ...
+    public ResponseEntity<CustomExaminationRequestDTO> saveExaminationRequest(CustomExaminationRequestDTO customExaminationRequestDTO) {
+        Long doctorID = customExaminationRequestDTO.getDoctorID();
+        String email = customExaminationRequestDTO.getEmail();
+        String timeString = customExaminationRequestDTO.getTime();
+        String date = customExaminationRequestDTO.getDate();
+        int duration = customExaminationRequestDTO.getDuration();
+
+        Optional<Doctor> doctorOptional = doctorRepository.findById(doctorID);
+        if(!doctorOptional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Doctor doctor = doctorOptional.get();
+
+        Patient patient = patientRepository.findByEmail(email);
+        Long patientID = patient.getId();
+
+        LocalTime time = LocalTime.parse(timeString);
+        int hours = time.getHourOfDay();
+        int minutes = time.getMinuteOfHour();
+
+        DateTime startDate = DateTime.parse(date).plusHours(hours).plusMinutes(minutes);
+        DateTime endDate = DateTime.parse(date).plusHours(hours).plusMinutes(minutes).plusMinutes(duration);
+
+        Optional<Clinic> clinicOptional = clinicRepository.findById(doctor.getClinic().getId());
+        if(!clinicOptional.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Clinic clinic = clinicOptional.get();
+
+        Examination examination = new Examination();
+        examination.setType(doctor.getSpecialisedType());
+        examination.setClinic(clinic);
+        examination.setDoctor(doctor);
+        examination.setPatient(patient);
+
+        ExaminationAppointment examinationAppointment = new ExaminationAppointment();
+        examinationAppointment.setStartDate(startDate);
+        examinationAppointment.setEndDate(endDate);
+        Duration duration1 = new Duration(duration * 60000);
+        examinationAppointment.setDuration(duration1);
+        examinationAppointment.setExamination(examination);
+
+        ExaminationRequest examinationRequest = new ExaminationRequest();
+        examinationRequest.setDoctorId(doctorID);
+        examinationRequest.setPatientId(patientID);
+        examinationRequest.setTypeId(doctor.getSpecialisedType().getId());
+        examinationRequest.setExaminationAppointment(examinationAppointment);
+
+        examinationRequest = this.examinationRequestRepository.save(examinationRequest);
+
+        if(examinationRequest != null) {
+            //ExaminationRequestDTO examinationRequestDTO = modelMapper()
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
     @Scheduled(cron = "59 23 * * * *")
     private void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();

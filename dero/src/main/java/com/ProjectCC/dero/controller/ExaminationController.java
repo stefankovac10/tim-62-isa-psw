@@ -2,6 +2,7 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ExaminationDTO;
 import com.ProjectCC.dero.dto.ExaminationRoomDTO;
+import com.ProjectCC.dero.model.Examination;
 import com.ProjectCC.dero.service.ExaminationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,11 @@ public class ExaminationController {
     public ResponseEntity<Void> addQuickExamination(@RequestBody ExaminationDTO examinationDTO) {
         this.examinationService.addNewQuick(examinationDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/doctor/{doctorID}/{date}")
+    public ResponseEntity<List<ExaminationDTO>> getExaminationsByDoctorsID(@PathVariable Long doctorID, @PathVariable String date) {
+        return this.examinationService.getEximinationsByDoctorsID(doctorID, date);
     }
 
 }
