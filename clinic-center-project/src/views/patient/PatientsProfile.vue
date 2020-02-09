@@ -29,7 +29,7 @@
               <td>{{examination.dateMoment}}</td>
               <td>{{examination.duration/60000}} min</td>
               <td>{{examination.examinationRoom.number}}</td>
-              <td><button v-if="role === 'ROLE_DOCTOR' && user.id === examination.doctor.id  && examination.report != null"  class="btn btn-success" v-on:click="startExamination(examination.id)">Start examination</button></td>
+              <td><button v-if="role === 'ROLE_DOCTOR' && user.id === examination.doctor.id  && examination.report == null"  class="btn btn-success" v-on:click="startExamination(examination.id)">Start examination</button></td>
             </tr>
           </tbody>
         </table>
