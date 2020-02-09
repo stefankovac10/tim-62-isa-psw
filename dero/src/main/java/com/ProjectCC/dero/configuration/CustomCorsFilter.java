@@ -11,6 +11,6 @@ public class CustomCorsFilter implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:8081", "http://mail.google.com");
+        registry.addMapping("/**").allowedOrigins("http://localhost:8081", "http://mail.google.com", "http://192.168.1.8:8081", "http://127.0.0.1:8081");
     }
 }
