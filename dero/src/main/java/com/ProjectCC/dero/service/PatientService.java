@@ -190,11 +190,18 @@ public class PatientService {
 
         for(Examination e: examinations){
             if(e.getClinic().getId() == med.getClinic().getId()) {
-                ExaminationRoomDTO examRoom = ExaminationRoomDTO.builder()
-                        .id(e.getExaminationRoom().getId())
-                        .name(e.getExaminationRoom().getName())
-                        .number(e.getExaminationRoom().getNumber())
-                        .build();
+                ExaminationRoomDTO examRoom;
+                if(e.getExaminationRoom() == null){
+                    examRoom =  new ExaminationRoomDTO();
+                    examRoom.setName("");
+                    examRoom.setNumber(0);
+                }else {
+                    examRoom = ExaminationRoomDTO.builder()
+                            .id(e.getExaminationRoom().getId())
+                            .name(e.getExaminationRoom().getName())
+                            .number(e.getExaminationRoom().getNumber())
+                            .build();
+                }
                 DoctorDTO doctorDTO = DoctorDTO.builder()
                         .firstName(e.getDoctor().getFirstName())
                         .lastName(e.getDoctor().getLastName())
@@ -205,12 +212,14 @@ public class PatientService {
                         .duration(e.getExaminationAppointment().getDuration())
                         .id(e.getId())
                         .report(e.getReport())
+                        .price(e.getPrice())
                         .discount(e.getDiscount())
                         .examinationRoom(examRoom)
                         .date(e.getExaminationAppointment().getStartDate())
                         .type(TypeOfExaminationDTO.builder()
                                 .name(e.getType().getName()).build())
                         .patient(PatientDTO.builder()
+                                .id(e.getPatient().getId())
                                 .firstName(e.getPatient().getFirstName())
                                 .lastName(e.getPatient().getLastName())
                                 .build())
