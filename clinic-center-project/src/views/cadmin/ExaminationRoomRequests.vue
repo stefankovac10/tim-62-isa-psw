@@ -1,10 +1,10 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
     <div class="d-flex flex-column">
-      <h1>Requests</h1>
+      <h1 id="requestsMF">Requests</h1>
       <div id="results" class="justify-content-center">
-        <label v-if="!requests" for="empty">Currently there are no new requests</label>
-        <table class="table table-hover" v-if="requests">
+        <label id="noRequests" v-if="!requests" for="empty">Currently there are no new requests</label>
+        <table id="requestsTable" class="table table-hover" v-if="requests">
           <thead>
             <tr>
               <th scope="col">Patient</th>
@@ -19,6 +19,7 @@
               v-for="request in requests"
               v-bind:key="request.id"
               v-on:click="search(request.id)"
+              v-bind:id="request.id + 'row'"
             >
               <td>{{request.patient.firstName}} {{request.patient.lastName}}</td>
               <td>{{request.doctor.firstName}} {{request.doctor.lastName}}</td>

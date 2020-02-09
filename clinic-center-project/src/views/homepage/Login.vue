@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex p-2 justify-content-center">
-    <form accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
+    <form id="loginForm" accept-charset="UTF-8" class="d-flex flex-column col-sm-4">
       <h1 class="p-2">Log in</h1>
 
       <label class="p-2">E-mail</label>
@@ -8,7 +8,12 @@
       <label class="p-2" for="password">Password</label>
       <input type="password" class="p-2" id="password" v-model="password" placeholder="Password" />
       <br />
-      <button type="submit" class="btn btn-primary" v-on:click.prevent="login">Submit</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        id="loginButton"
+        v-on:click.prevent="login"
+      >Submit</button>
     </form>
   </div>
 </template>
@@ -54,7 +59,7 @@ export default {
             .then(response => {
               this.response = response;
               this.firstTime = this.response.data;
-              
+
               if (this.firstTime === true && role != "ROLE_PATIENT") {
                 this.$router.push("/changePassword");
               } else {

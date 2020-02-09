@@ -1,9 +1,9 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.*;
-import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.exception.BadExaminationRequest;
 import com.ProjectCC.dero.exception.UserNotFoundException;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import org.joda.time.DateTime;
@@ -82,7 +82,7 @@ public class ExaminationRequestService {
         Clinic clinic = this.clinicRepository.findById(id).orElseThrow(ClinicNotFoundException::new);
 
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(id, pageable);
+        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic.getId(), pageable);
 
         ArrayList<ExaminationRequestDetailsDTO> requestDTOS = new ArrayList<>();
         for (ExaminationRequest er : requests) {
@@ -129,7 +129,8 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void reservation(ExaminationRequest examinationRequest, ExaminationRoom examinationRoom, DateTime nextAvailable) throws UserNotFoundException {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void reservation(ExaminationRequest examinationRequest, ExaminationRoom examinationRoom, DateTime nextAvailable) throws UserNotFoundException {
         Optional<Doctor> optionalDoctor = this.doctorRepository.findById(examinationRequest.getDoctorId());
         Optional<Patient> optionalPatient = this.patientRepository.findById(examinationRequest.getPatientId());
         Optional<ExaminationAppointment> optionalExaminationAppointment = this.examinationAppointmentRepository.findById(examinationRequest.getExaminationAppointment().getId());
@@ -211,6 +212,7 @@ public class ExaminationRequestService {
         return true;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     private boolean areAppointmentsOverlapping(DateTime nextAvailable, DateTime nextEnd, DateTime endDate, DateTime startDate) {
         if (!nextAvailable.isAfter(endDate) && !nextEnd.isBefore(startDate))
             return true;

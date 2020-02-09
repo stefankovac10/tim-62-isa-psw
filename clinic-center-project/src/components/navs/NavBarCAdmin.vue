@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav id="navBarCadmin" class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -80,10 +80,14 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
+              id="requestsNavButton"
             >Requests</a>
             <div class="dropdown-menu">
               <a class="nav-link dropdown-item">
-                <router-link to="/cadmin/erRequests">Examination room requests</router-link>
+                <router-link
+                  id="examinationRoomRequests"
+                  to="/cadmin/erRequests"
+                >Examination room requests</router-link>
               </a>
               <a class="nav-link">
                 <router-link to="/cadmin/operationRequests">Operation room requests</router-link>
