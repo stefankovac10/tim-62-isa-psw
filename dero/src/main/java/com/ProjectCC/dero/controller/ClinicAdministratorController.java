@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -74,7 +73,7 @@ public class ClinicAdministratorController {
     }
 
     @PostMapping(value = "reserveOperation")
-    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) throws MessagingException {
+    public ResponseEntity<Void> reserveRoomOperation(@RequestBody OperationRoomRequestDTO operationRoomRequest) {
         return this.operationRequestService.reserveOperation(operationRoomRequest);
     }
 
