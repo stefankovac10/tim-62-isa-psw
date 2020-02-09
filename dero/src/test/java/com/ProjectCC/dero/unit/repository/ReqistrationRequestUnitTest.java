@@ -27,7 +27,7 @@ public class ReqistrationRequestUnitTest {
     @Autowired
     private RegistrationRequestRepository registrationRequestRepository;
 
-    private static final Long REQ_ID_EXISTS = 6L;
+    private static final Long REQ_ID_EXISTS = 5L;
     private static final Long REQ_ID_NON_EXISTS = 55L;
 
 
