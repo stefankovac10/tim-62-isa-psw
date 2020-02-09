@@ -411,3 +411,6 @@ update examination_appointment set examination_id = 11 where id = 15;
 update examination_appointment set examination_id = 12 where id = 16;
 update examination_appointment set examination_id = 13 where id = 17;
 update examination_appointment set examination_id = 14 where id = 18;
+
+insert into operation (date, duration, clinic_id, med_rec_id, or_id, patient_id) values ('2020-02-01T07:00:00Z000', 600000, 1, 1, 2, 30);
+insert into operation (date, duration, clinic_id, med_rec_id, or_id, patient_id) values ('2020-01-31T07:00:00Z000', 600000, 2, 1, 3, 30);
