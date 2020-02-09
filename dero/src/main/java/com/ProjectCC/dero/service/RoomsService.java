@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -80,7 +81,7 @@ public class RoomsService {
         return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
     }
 
-    private DateTime findFirstAvailableForOperation(OperationRoom room, DateTime date, Duration duration) {
+    public DateTime findFirstAvailableForOperation(OperationRoom room, DateTime date, Duration duration) {
         DateTime now = new DateTime(DateTimeZone.UTC);
         List<OperationAppointment> scheduled = this.operationAppointmentRepository.findByRoomAndDate(room, now);
         // isto za operacioneappointmente
@@ -101,6 +102,15 @@ public class RoomsService {
             if (!date.isAfter(oa.getEndDate()) && !dateEnd.isBefore(oa.getStartDate())) {
                 return findNextForOperation(scheduled, date, duration, dateEnd);
             }
+            if (date.isBefore(oa.getStartDate()) && dateEnd.isAfter(oa.getEndDate()))
+                return findNextForOperation(scheduled, date, duration, dateEnd);
+            if (dateEnd.isBefore(oa.getEndDate()) && dateEnd.isAfter(oa.getStartDate()))
+                return findNextForOperation(scheduled, date, duration, dateEnd);
+            if (date.isAfter(oa.getStartDate()) && date.isBefore(oa.getEndDate()))
+                if (date.isEqual(oa.getStartDate()) || dateEnd.isEqual(oa.getEndDate()))
+                    return findNextForOperation(scheduled, date, duration, dateEnd);
+            if (date.isBefore(oa.getStartDate()) && dateEnd.isBefore(oa.getEndDate()))
+                return findNextForOperation(scheduled, date, duration, dateEnd);
         }
         return date;
     }
@@ -113,7 +123,12 @@ public class RoomsService {
                 oa.setEndDate(new DateTime(oa.getStartDate().getMillis() + oa.getDuration().getMillis(), DateTimeZone.UTC));
             }
             if (oa.getEndDate().isBefore(next)) continue;
-            if (oa.getEndDate().isBefore(nextEnd)) {
+            if (oa.getStartDate().isAfter(nextEnd)) break;
+            if (oa.getEndDate().isBefore(nextEnd)||
+                    oa.getEndDate().isBefore(next) ||
+                    (oa.getStartDate().isBefore(next) && oa.getEndDate().isAfter(nextEnd)) ||
+                    oa.getStartDate().isEqual(next) || oa.getEndDate().isEqual(nextEnd) ||
+                    (oa.getStartDate().isAfter(next) && nextEnd.isBefore(oa.getEndDate()))) {
                 next = oa.getEndDate().plusMinutes(2); // prazan hod sobe
                 nextEnd = next.plus(duration);
             }

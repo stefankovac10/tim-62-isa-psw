@@ -1,7 +1,6 @@
 package com.ProjectCC.dero.repository;
 
 import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.model.ExaminationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +24,8 @@ public interface ExaminationRequestRepository extends JpaRepository<ExaminationR
 
     @Query("select er from ExaminationRequest er join er.examinationAppointment.examinationRoom where er.clinicId = (?1)")
     Page<ExaminationRequest> findAllByClinic(Long clinicId, Pageable pageable);
+
+    @Query("select er from ExaminationRequest er join fetch er.examinationAppointment where er.examinationAppointment.clinic = (?1)")
+    List<ExaminationRequest> findByClinic(Clinic clinic);
+
 }

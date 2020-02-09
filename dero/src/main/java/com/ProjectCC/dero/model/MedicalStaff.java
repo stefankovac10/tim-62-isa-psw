@@ -26,7 +26,7 @@ public class MedicalStaff extends User {
    @JoinColumn(name = "clinic_id", nullable = false)
    public Clinic clinic;
 
-   @OneToMany(mappedBy = "medicalStaff", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "medicalStaff", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    private Set<VacationRequest> vacationRequest;
 
    @ManyToMany(mappedBy = "medicalStaffs")
