@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
@@ -59,7 +60,11 @@ public class ClinicAdministratorController {
     @GetMapping(value = "scheduledExaminations/{id}/{page}")
     @PreAuthorize("hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<List<ExaminationRequestDetailsDTO>> getExaminations(@PathVariable Long id, @PathVariable int page) {
-        return this.examinationRequestService.getAll(id, page);
+        try {
+            return this.examinationRequestService.getAll(id, page);
+        } catch (UserNotFoundException | ClinicNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
     }
 
@@ -68,7 +73,12 @@ public class ClinicAdministratorController {
         Long requestId = examinationRoomDTO.getRequestId();
         Long roomId = examinationRoomDTO.getId();
         DateTime nextAvailable = examinationRoomDTO.getNextAvailable();
-        return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+        try {
+            return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
+        } catch (ExaminationRequestNotFoundException | ExaminationRoomNotFoundException | TypeOfExaminationNotFoundException |
+                UserNotFoundException | NoAvailableDoctorsForExaminationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(value = "reserveOperation")

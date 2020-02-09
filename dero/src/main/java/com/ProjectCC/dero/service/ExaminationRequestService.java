@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import org.joda.time.DateTime;
@@ -28,18 +29,21 @@ public class ExaminationRequestService {
     private ExaminationRoomRepository examinationRoomRepository;
     private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
+    private TypeOfExaminationRepository typeOfExaminationRepository;
     private ModelMapper modelMapper;
 
     @Autowired
     public ExaminationRequestService(ExaminationRequestRepository examinationRequestRepository, DoctorRepository doctorRepository,
                                      PatientRepository patientRepository, ExaminationRoomRepository examinationRoomRepository,
-                                     ExaminationRepository examinationRepository, ClinicRepository clinicRepository, ModelMapper modelMapper) {
+                                     ExaminationRepository examinationRepository, ClinicRepository clinicRepository,
+                                     TypeOfExaminationRepository typeOfExaminationRepository, ModelMapper modelMapper) {
         this.examinationRequestRepository = examinationRequestRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.examinationRepository = examinationRepository;
         this.clinicRepository = clinicRepository;
+        this.typeOfExaminationRepository = typeOfExaminationRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -61,10 +65,8 @@ public class ExaminationRequestService {
     }
 
     public ResponseEntity<List<ExaminationRequestDetailsDTO>> getAll(Long id, int page) {
-        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
-        if (!optionalClinic.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Clinic clinic = this.clinicRepository.findById(id).orElseThrow(ClinicNotFoundException::new);
 
-        Clinic clinic = optionalClinic.get();
         Pageable pageable = PageRequest.of(page, 10);
         Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
 
@@ -72,16 +74,13 @@ public class ExaminationRequestService {
         for (ExaminationRequest er : requests) {
             if (er.getExaminationAppointment().getExaminationRoom() != null) continue;
 
-            Optional<Doctor> doc = this.doctorRepository.findById(er.getDoctorId());
-            Optional<Patient> pat = this.patientRepository.findById(er.getPatientId());
-            DoctorDTO doctorDTO = null;
-            PatientDTO patientDTO = null;
-            if (doc.isPresent() && pat.isPresent()) {
-                doctorDTO = DoctorDTO.builder().id(doc.get().getId())
-                        .firstName(doc.get().getFirstName()).lastName(doc.get().getLastName()).build();
-                patientDTO = PatientDTO.builder().id(pat.get().getId()).firstName(pat.get().getFirstName())
-                        .lastName(pat.get().getLastName()).build();
-            }
+            Doctor doc = this.doctorRepository.findById(er.getDoctorId()).orElseThrow(UserNotFoundException::new);
+            Patient pat = this.patientRepository.findById(er.getPatientId()).orElseThrow(UserNotFoundException::new);
+            DoctorDTO doctorDTO = DoctorDTO.builder().id(doc.getId())
+                    .firstName(doc.getFirstName()).lastName(doc.getLastName()).build();;
+            PatientDTO patientDTO = PatientDTO.builder().id(pat.getId()).firstName(pat.getFirstName())
+                    .lastName(pat.getLastName()).build();
+
             requestDTOS.add(ExaminationRequestDetailsDTO.builder()
                 .doctor(doctorDTO)
                 .patient(patientDTO)
@@ -94,47 +93,41 @@ public class ExaminationRequestService {
     }
 
     public ResponseEntity<Void> reserve(Long requestId, Long roomId, DateTime nextAvailable) {
-        Optional<ExaminationRequest> optionalExaminationRequest = this.examinationRequestRepository.findById(requestId);
-        if (!optionalExaminationRequest.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        ExaminationRequest examinationRequest = optionalExaminationRequest.get();
+        ExaminationRequest examinationRequest = this.examinationRequestRepository.findById(requestId).orElseThrow(ExaminationRequestNotFoundException::new);
 
-        Optional<ExaminationRoom> optionalExaminationRoom = this.examinationRoomRepository.findById(roomId);
-        if (!optionalExaminationRoom.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        ExaminationRoom examinationRoom = optionalExaminationRoom.get();
+        ExaminationAppointment examinationAppointment = examinationRequest.getExaminationAppointment();
 
-        Optional<Doctor> optionalDoctor = this.doctorRepository.findById(examinationRequest.getDoctorId());
-        Optional<Patient> optionalPatient = this.patientRepository.findById(examinationRequest.getPatientId());
+        ExaminationRoom examinationRoom = this.examinationRoomRepository.findById(roomId).orElseThrow(ExaminationRoomNotFoundException::new);
+        TypeOfExamination typeOfExamination = this.typeOfExaminationRepository.findById(examinationRequest.getTypeId()).orElseThrow(TypeOfExaminationNotFoundException::new);
 
-        if (!optionalDoctor.isPresent() || !optionalPatient.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Doctor doctor = this.doctorRepository.findById(examinationRequest.getDoctorId()).orElseThrow(UserNotFoundException::new);
+        Patient patient = this.patientRepository.findById(examinationRequest.getPatientId()).orElseThrow(UserNotFoundException::new);
 
         Examination examination = new Examination();
         examination.setClinic(examinationRoom.getClinic());
         examination.setExaminationRoom(examinationRoom);
-        examination.setPatient(optionalPatient.get());
-        examination.setMedicalRecord(optionalPatient.get().getMedicalRecord());
+        examination.setPatient(patient);
+        examination.setMedicalRecord(patient.getMedicalRecord());
         examination.setExaminationAppointment(examinationRequest.getExaminationAppointment());
         examinationRequest.getExaminationAppointment().setExaminationRoom(examinationRoom);
-
-//        examination.setType();
+        examination.setType(typeOfExamination);
 
         if (examinationRequest.getExaminationAppointment().getStartDate().equals(nextAvailable)) {
-            examination.setDoctor(optionalDoctor.get());
-            examination.setExaminationAppointment(examinationRequest.getExaminationAppointment());
+            examination.setDoctor(doctor);
         } else {
-            boolean doctorIsFree = checkIfDoctorIsFree(optionalDoctor.get(), nextAvailable, examinationRequest.getExaminationAppointment().getDuration());
+            boolean doctorIsFree = checkIfDoctorIsFree(doctor, nextAvailable, examinationRequest.getExaminationAppointment().getDuration());
             if (doctorIsFree)
-                examination.setDoctor(optionalDoctor.get());
+                examination.setDoctor(doctor);
             else {
                 Doctor doc = findAvailableDoctor(nextAvailable, examinationRequest.getExaminationAppointment().getDuration());
                 if (doc != null)
                     examination.setDoctor(doc);
                 else {
-//                  doc = docWithFirstNextApp()
+                    throw new NoAvailableDoctorsForExaminationException("Please select another time for appointment");
                 }
             }
+            examinationAppointment.setStartDate(nextAvailable);
+            examinationAppointment.setEndDate(new DateTime(nextAvailable.getMillis() + examinationAppointment.getDuration().getMillis(), DateTimeZone.UTC));
         }
         examination.getExaminationAppointment().setExaminationRequest(null);
         this.examinationRepository.save(examination);
@@ -145,7 +138,7 @@ public class ExaminationRequestService {
 
     private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
-        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
+        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis(), DateTimeZone.UTC);
 
         for (ExaminationRequest er : examinationRequests) {
             ExaminationAppointment ea = er.getExaminationAppointment();
