@@ -5,7 +5,9 @@ import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.service.ClinicAdministratorService;
 import com.ProjectCC.dero.service.ExaminationRequestService;
 import com.ProjectCC.dero.service.OperationRequestService;
+import org.hibernate.PessimisticLockException;
 import org.hibernate.StaleObjectStateException;
+import org.hibernate.exception.LockTimeoutException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,7 +80,7 @@ public class ClinicAdministratorController {
         try {
             return this.examinationRequestService.reserve(requestId, roomId, nextAvailable);
         } catch (ExaminationRequestNotFoundException | ExaminationRoomNotFoundException | TypeOfExaminationNotFoundException |
-                UserNotFoundException | NoAvailableDoctorsForExaminationException e) {
+                UserNotFoundException | NoAvailableDoctorsForExaminationException | PessimisticLockException | LockTimeoutException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

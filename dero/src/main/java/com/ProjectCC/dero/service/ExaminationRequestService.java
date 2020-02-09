@@ -96,7 +96,8 @@ public class ExaminationRequestService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<Void> reserve(Long requestId, Long roomId, DateTime nextAvailable) {
-        ExaminationRequest examinationRequest = this.examinationRequestRepository.findById(requestId).orElseThrow(ExaminationRequestNotFoundException::new);
+        ExaminationRequest examinationRequest = this.examinationRequestRepository.findByRequestId(requestId);
+        if (examinationRequest == null) throw new ExaminationRequestNotFoundException();
 
         ExaminationAppointment examinationAppointment = examinationRequest.getExaminationAppointment();
 
