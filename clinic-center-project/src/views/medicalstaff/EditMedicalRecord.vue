@@ -10,10 +10,15 @@
       <input type="text" class="p-2" id="weight" name="weight" v-model="weight" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
 
       <label class="p-2">Blood type</label>
-      <input type="text" class="p-2" id="bloodType" name="bloodType" v-model="bloodType" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'" />
-    
+      <select style="width:200px" class="browser-default custom-select" v-model="bloodType" v-bind:disabled=" mode == 'VIEW'">
+        <option value="1">A</option>
+        <option value="2">B</option>
+        <option value="3">AB</option>
+        <option value="3">0</option>
+      </select>
+
       <label class="p-2">Diopter</label>
-      <input type="text" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
+      <input type="number" class="p-2" id="diopter" name="diopter" v-model="diopter" style = "width: 200px" v-bind:disabled=" mode == 'VIEW'"/>
       
       <br>
       <button class="btn btn-primary p-2" style = "width: 200px; margin:2px" v-if="mode == 'VIEW' && (role === 'ROLE_DOCTOR')" v-on:click.prevent="edit">Edit</button>
@@ -207,18 +212,19 @@ export default {
         httpClient
         .put("/medicalrecord/",this.medicalRecord)
         .then(response => {
-          this.medicalRecord = response.data;   
+          this.medicalRecord = response.data; 
+          this.$vToastify.success({
+            body: "Information about patient has been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });  
         })
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
-          body: "Information about patient has been saved",
-          title: "Success",
-          type: "success",
-          canTimeout: true,
-          append: false, duration: 2000
-        });
+        
     },
     cancel: function(){
         this.mode = 'VIEW';
@@ -239,6 +245,13 @@ export default {
         .put("/examination",this.examination)
         .then(response => {
           this.examination = response.data;
+          this.$vToastify.success({
+            body: "Changes on examination report have been saved",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false, duration: 2000
+          });
           this.refresh();       
         })
         .catch(error => {
@@ -247,13 +260,7 @@ export default {
         this.report = undefined;
         this.diagnosis = undefined;
         this.reportEdit = 'VIEW';
-      this.$vToastify.info({
-        body: "Changes on examination report have been saved",
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
+      
     },
     addExamReport: function(){
       this.$router.push("/doc/addexaminationreport");

@@ -36,7 +36,7 @@
               <input type="text" class="p-2" id="lastName" name="lastName" v-model="lastName" />
 
               <label class="p-2">JMBG</label>
-              <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" />
+              <input type="text" class="p-2" id="jmbg" name="jmbg" v-model="jmbg" disabled />
 
               <label class="p-2">Telephone</label>
               <input type="text" class="p-2" id="telephone" name="telephone" v-model="telephone" />

@@ -133,12 +133,12 @@ export default {
             alert(error);
           });
     },
-    edit: function(diagnosis) {
+    edit: function(medication) {
       this.mode = "EDIT";
-      this.id = diagnosis.id;
-      this.name = diagnosis.name;
-      this.description = diagnosis.description;
-      this.code = diagnosis.code;
+      this.id = medication.id;
+      this.name = medication.name;
+      this.description = medication.description;
+      this.code = medication.code;
     },
     cancel: function(){
       this.id = undefined;
@@ -159,7 +159,7 @@ export default {
           this.error = error;
         });
 
-      this.$vToastify.info({
+      this.$vToastify.success({
         body: "Medication is edited",
         title: "Success",
         type: "success",
@@ -172,7 +172,7 @@ export default {
         .delete("/medication/"+medication.id)
         .then(response => {
             this.response = response; 
-            this.$vToastify.info({
+            this.$vToastify.success({
               body: "Medication "+ medication.name + " is removed",
               title: "Success",
               type: "success",
@@ -183,16 +183,14 @@ export default {
         })
         .catch(error => {
           this.error = error;
-          this.$vToastify.info({
-            body: "Medication "+ medication.name + " can't be removed",
+          this.$vToastify.error({
+            body: "Medication "+ medication.name + " can't be deleted",
             title: "Error",
             type: "error",
             canTimeout: true,
             append: false, duration: 2000
           });
-        });
-
-        
+        });       
     }
   }
 };

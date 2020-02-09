@@ -9,7 +9,7 @@
           style="max-width: 20rem; max-height: 18rem; float: left; margin: 10px"
         >
           <div class="card-body">
-            <h4 class="card-title">Name: {{ms.firstName}} {{ms.lastName}}{{ms.id}}</h4>
+            <h4 class="card-title">{{ms.type}}: {{ms.firstName}} {{ms.lastName}}</h4>
             <p class="card-text">Address: {{ms.address}}</p>
             <p class="card-text">Jmbg: {{ms.jmbg}}</p>
             <p class="card-text">Telephone: {{ms.telephone}}</p>
@@ -55,32 +55,67 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/clinics/1")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.medicalStaff = _.cloneDeep(response.data.medicalStaff);
+        this.clinic = response.data.clinic;
       })
-      .catch(error => {
-        alert(error);
+      .catch(() => {
+        this.$vToastify.error({
+          body: "Error retrieving admin",
+          title: "Error",
+          type: "error",
+          canTimeout: true,
+          append: false,
+          duration: 2000
+        });
+      })
+      .then(() => {
+        httpClient
+          .get("/clinics/" + this.clinic.id)
+          .then(response => {
+            this.medicalStaff = _.cloneDeep(response.data.medicalStaff);
+          })
+          .catch(() => {
+            this.$vToastify.error({
+              body: "Error retrieving clinic",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false,
+              duration: 2000
+            });
+          });
       });
   },
   methods: {
     remove: function(ms) {
-      // httpClient
-      //   .delete("/users/15") // + ms.id)
-      //   .then(response => {
-      //     response;
-      //   })
-      //   .catch(error => {
-      //     alert(error);
-      //   });
-      this.medicalStaff.splice(this.medicalStaff.indexOf(ms), 1);
-      this.$vToastify.info({
-        body: "Doctor "+ this.firstName + " " + this.lastName + " has been deleted." ,
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
+      let tajp = ms.type === "doctor" ? "/users/doc/" : "/nurse/";
+
+      httpClient
+        .delete(tajp + ms.id)
+        .then(() => {
+          this.$vToastify.info({
+            body: "Successfully deleted " + ms.type,
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Doctor has scheduladed examinations",
+            title: "Error deleting doctor",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
+        });
     }
   }
 };

@@ -10,6 +10,9 @@ import org.modelmapper.ExpressionMap;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,22 +46,24 @@ public class MedicalRecordService {
         List<ExaminationDTO> examinations = new ArrayList<>();
 
         for(Examination ex: mr.getExaminations()){
-            DoctorDTO doctor = DoctorDTO.builder()
-                                .id(ex.getDoctor().getId())
-                                .firstName(ex.getDoctor().getFirstName())
-                                .lastName(ex.getDoctor().getLastName())
-                                .build();
-            TypeOfExaminationDTO toe = TypeOfExaminationDTO.builder()
-                                .name(ex.getType().getName())
-                                .build();
-            ExaminationDTO examination = ExaminationDTO.builder()
-                                        .report(ex.getReport())
-                                        .id(ex.getId())
-                                        .diagnosis(new DiagnosisDTO(ex.getDiagnosis()))
-                                        .type(toe)
-                                        .doctor(doctor)
-                                        .build();
-            examinations.add(examination);
+            if(ex.getDiagnosis() != null) {
+                DoctorDTO doctor = DoctorDTO.builder()
+                        .id(ex.getDoctor().getId())
+                        .firstName(ex.getDoctor().getFirstName())
+                        .lastName(ex.getDoctor().getLastName())
+                        .build();
+                TypeOfExaminationDTO toe = TypeOfExaminationDTO.builder()
+                        .name(ex.getType().getName())
+                        .build();
+                ExaminationDTO examination = ExaminationDTO.builder()
+                        .report(ex.getReport())
+                        .id(ex.getId())
+                        .diagnosis(new DiagnosisDTO(ex.getDiagnosis()))
+                        .type(toe)
+                        .doctor(doctor)
+                        .build();
+                examinations.add(examination);
+            }
         }
 
         MedicalRecordDTO mrDTO = MedicalRecordDTO.builder()
@@ -81,6 +86,7 @@ public class MedicalRecordService {
         return  medicalRecordRepository.getOne(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public MedicalRecordDTO edit(MedicalRecordDTO medicalRecordDTO) {
         MedicalRecord medicalRecord = medicalRecordRepository.getOne(medicalRecordDTO.getId());
         medicalRecord.setBloodType(medicalRecordDTO.getBloodType());

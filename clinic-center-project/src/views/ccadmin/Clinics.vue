@@ -165,7 +165,7 @@ export default {
         .catch(error => {
           this.error = error;
         });
-        this.$vToastify.info({
+        this.$vToastify.success({
               body: "Clinic has been edited",
               title: "Success",
               type: "success",
@@ -178,18 +178,26 @@ export default {
           .delete("/clinics/"+clinic.id)
           .then(response => {
               this.response = response; 
+              this.$vToastify.success({
+                body: "Clinic " + clinic.name + " has been deleted",
+                title: "Success",
+                type: "success",
+                canTimeout: true,
+                append: false, duration: 2000
+          });
               this.refresh();
           })
           .catch(error => {
             this.error = error;
-          });
-        this.$vToastify.info({
-              body: "Clinic " + clinic.name + " has been deleted",
-              title: "Success",
-              type: "success",
+            this.$vToastify.error({
+              body: "Clinic " + clinic.name + " can't be deleted",
+              title: "Error",
+              type: "error",
               canTimeout: true,
               append: false, duration: 2000
         });
+          });
+        
     }
   }
 };

@@ -1,12 +1,10 @@
 package com.ProjectCC.dero.model;
 
-import com.ProjectCC.dero.dto.DoctorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -25,7 +23,7 @@ public class Doctor extends MedicalStaff {
    @Column(name = "grade")
    private Double grade;
 
-   @OneToMany(mappedBy = "doctor")
+   @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Examination> examinations;
 
    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -35,7 +33,7 @@ public class Doctor extends MedicalStaff {
    @JoinColumn(name = "medRec_id", nullable = false)
    private MedicalRecord medicalRecord;*/
 
-   @ManyToMany(mappedBy = "doctors")
+   @ManyToMany(mappedBy = "doctors" , fetch = FetchType.LAZY, cascade = CascadeType.ALL )
    public Set<Operation> operations;
 
    @ManyToOne

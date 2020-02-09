@@ -1,17 +1,18 @@
 package com.ProjectCC.dero.controller;
 
 
-import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
+import com.ProjectCC.dero.dto.MedicalStaffDTO;
+import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.VacationRequestDTO;
 import com.ProjectCC.dero.model.User;
 import com.ProjectCC.dero.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Email;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -40,6 +41,11 @@ public class UserController {
         return this.userService.findByEmail(email);
     }
 
+    @GetMapping(value = "/{email:.+}")
+    public ResponseEntity<Boolean> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(this.userService.findUserByEmail(email), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/profile/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         return this.userService.findById(id);
@@ -54,5 +60,16 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         return this.userService.deleteById(id);
     }
+
+    @GetMapping(value = "/vacationRequest/{email:.+}")
+    public ResponseEntity<List<VacationRequestDTO>> getVacationRequest(@PathVariable String email) {
+        return this.userService.getVacations(email);
+    }
+
+    @GetMapping(value = "/admin/mail/{email:.+}")
+    public ResponseEntity<ClinicAdministratorDTO> getAdmin(@PathVariable String email) { return this.userService.getAdmin(email); }
+
+    @GetMapping(value = "/medicalStaff/mail/{email:.+")
+    public ResponseEntity<MedicalStaffDTO> getMedicalStaff(@PathVariable String email) { return this.userService.getMedicalStaff(email); }
 
 }

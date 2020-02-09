@@ -29,8 +29,8 @@
       </div>
 
       <div class="d-flex flex-column">
-        <label for="doctor">Doctor</label>
-        <select name="doctor" id="doctor" v-model="doctor">
+        <label>Doctor</label>
+        <select id="doctor" v-model="doctor">
           <option
             v-for="doc in doctors"
             v-bind:value="doc"
@@ -63,73 +63,90 @@ export default {
       examinationRoom: undefined,
       doctors: undefined,
       doc: undefined,
-      price: undefined
+      price: undefined,
+      admin: undefined,
+      doctor: undefined
     };
   },
   mounted() {
     httpClient
-      .get("/types/all")
+      .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.types = response.data;
+        this.admin = response.data;
       })
       .catch(() => {
         this.$vToastify.error({
-          body: "Could not retrieve types of examination",
+          body: "Could not get admin",
           title: "Error",
           type: "error",
           canTimeout: true,
           append: false,
-          errorDuration: 2000
+          successDuration: 2000
         });
-      });
-    httpClient
-      .get("/rooms/examination/all")
-      .then(response => {
-        this.examRooms = response.data;
       })
-      .catch(error => {
-        if (error.response.status == 302) {
-          this.examRooms = error.response.data;
-        } else {
-          this.$vToastify.error({
-            body: "Could not retrieve available rooms",
-            title: "Error",
-            type: "error",
-            canTimeout: true,
-            append: false,
-            errorDuration: 2000
+      .then(() => {
+        httpClient
+          .get("/types/clinic/" + this.admin.clinic.id)
+          .then(response => {
+            this.types = response.data;
+          })
+          .catch(() => {
+            this.$vToastify.error({
+              body: "Could not retrieve types of examination",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false,
+              errorDuration: 2000
+            });
           });
-        }
-      });
-    httpClient
-      .get("/users/doc/all") // by clinic
-      .then(response => {
-        this.doctors = response.data;
-      })
-      .catch(() => {
-        this.$vToastify.error({
-          body: "Could not retrieve available doctors",
-          title: "Error",
-          type: "error",
-          canTimeout: true,
-          append: false,
-          errorDuration: 2000
-        });
+        httpClient
+          .get("/rooms/examination/clinic/" + this.admin.clinic.id)
+          .then(response => {
+            this.examRooms = response.data;
+          })
+          .catch(error => {
+            if (error.response.status == 302) {
+              this.examRooms = error.response.data;
+            } else {
+              this.$vToastify.error({
+                body: "Could not retrieve available rooms",
+                title: "Error",
+                type: "error",
+                canTimeout: true,
+                append: false,
+                errorDuration: 2000
+              });
+            }
+          });
+        httpClient
+          .get("/users/doc/clinic/" + this.admin.clinic.id) // by clinic
+          .then(response => {
+            this.doctors = response.data;
+          })
+          .catch(() => {
+            this.$vToastify.error({
+              body: "Could not retrieve available doctors",
+              title: "Error",
+              type: "error",
+              canTimeout: true,
+              append: false,
+              errorDuration: 2000
+            });
+          });
       });
   },
   methods: {
     addAppointment: function() {
       let appointment = {
         date: this.start,
+        duration: this.duration * 60 * 1000,
         type: this.typeOfExamination,
         price: this.price,
         examinationRoom: this.examinationRoom,
-        doctor: this.doctor
-        //clinic: this.clinic
+        doctor: this.doctor,
+        clinic: this.admin.clinic
       };
-      alert(this.typeOfExamination);
-      alert(this.examinationRoom);
-      alert(this.doctor);
 
       httpClient
         .post("/examination/addQuick", appointment)
@@ -153,7 +170,7 @@ export default {
             errorDuration: 2000
           });
         });
-      this.$router.push("/cadmin/clinic");
+      location.reload();
     }
   }
 };

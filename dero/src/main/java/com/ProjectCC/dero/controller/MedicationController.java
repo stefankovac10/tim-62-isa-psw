@@ -50,7 +50,7 @@ public class MedicationController {
 
         medication = medicationService.save(medication);
         if(medication == null){
-            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(medication, MedicationDTO.class), HttpStatus.CREATED);
     }

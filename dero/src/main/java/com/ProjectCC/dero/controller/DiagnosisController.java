@@ -50,7 +50,7 @@ public class DiagnosisController {
 
         diagnosis = diagnosisService.save(diagnosis);
         if(diagnosis == null){
-            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new DiagnosisDTO(diagnosis), HttpStatus.CREATED);
     }

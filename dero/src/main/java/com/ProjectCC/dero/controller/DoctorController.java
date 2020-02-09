@@ -6,6 +6,7 @@ import com.ProjectCC.dero.model.Doctor;
 import com.ProjectCC.dero.repository.ClinicRepository;
 import com.ProjectCC.dero.service.ClinicService;
 import com.ProjectCC.dero.service.DoctorService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -37,13 +38,18 @@ public class DoctorController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) {
         return this.doctorService.delete(id);
     }
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
         return this.doctorService.findAll();
+    }
+
+    @GetMapping(value = "/avaliable/{id}/{nextAvailable}")
+    public ResponseEntity<List<DoctorDTO>> getAvaliableDoctors(@PathVariable Long id, @PathVariable String nextAvailable) {
+        return this.doctorService.findAvaliable(id, nextAvailable);
     }
 
     @GetMapping(value = "/search/{firstName}/{lastName}/{email}/{city}/{country}/{clinic}")
@@ -54,5 +60,17 @@ public class DoctorController {
                                                          @PathVariable String country,
                                                          @PathVariable String clinic) {
         return this.doctorService.searchDoctors(firstName, lastName, email, city, country, clinic);
+    }
+
+    @GetMapping(value = "/{clinicID}/{typeID}/{date}")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsByClinicAndTypeAndDate(@PathVariable Long clinicID,
+                                                                         @PathVariable Long typeID,
+                                                                         @PathVariable String date) {
+        return doctorService.getDoctorsByClinicAndTypeAndDate(clinicID, typeID, date);
+    }
+
+    @GetMapping(value = "clinic/{id}")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsFromClinic(@PathVariable Long id) {
+        return this.doctorService.getDoctorsFromClinic(id);
     }
 }

@@ -7,6 +7,8 @@ import lombok.experimental.SuperBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -19,4 +21,10 @@ public class OperationRequestDTO {
     @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
     private DateTime date;
     private Duration duration;
+    private ClinicDTO clinic;
+    private int pages;
+    private String patientName;
+    private String doctorName;
+
+
 }

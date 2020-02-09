@@ -9,6 +9,7 @@ import RegisterPage from "@/views/homepage/RegisterPage.vue";
 import Login from "@/views/homepage/Login.vue";
 import Home from "@/views/homepage/Home.vue";
 import Other from "@/views/homepage/Others.vue";
+import ChangePassword from "@/views/homepage/ChangePassword.vue";
 
 import CCAHome from "@/views/ccadmin/CCAdminHome.vue";
 import Clinics from "@/views/ccadmin/Clinics.vue";
@@ -24,6 +25,7 @@ import ListDiagnosis from "@/views/ccadmin/ListDiagnosis"
 import CAdminHome from "@/views/cadmin/CAdminHome.vue";
 import AddAppointment from "@/views/cadmin/AddAppointment.vue";
 import AddMedicalStaff from "@/views/cadmin/AddMedicalStaff.vue";
+import OperationRequests from "@/views/cadmin/OperationRequests.vue";
 import AddRoom from "@/views/cadmin/AddRoom.vue";
 import AddType from "@/views/cadmin/AddType.vue";
 import BusinessReport from "@/views/cadmin/BusinessReport.vue";
@@ -45,6 +47,9 @@ import MedicalRecord from "@/views/patient/MedicalRecord";
 import PatientsProfile from "@/views/patient/PatientsProfile";
 import SearchDoctors from "@/views/patient/SearchDoctors";
 import SearchClinics from "@/views/patient/SearchClinics";
+import ExAppointment from "@/views/patient/ExAppointment";
+import ListOfDoctors from "@/views/patient/ListOfDoctors";
+import DoctorsAppointments from "@/views/patient/DoctorsAppointments";
 
 import Patients from "@/views/medicalstaff/Patients";
 import Vacation from "@/views/medicalstaff/Vacation";
@@ -191,6 +196,11 @@ const routes = [
         component: ManageRooms
       },
       {
+        path: "operationRequests",
+        name: "operationRequests",
+        component: OperationRequests
+      },
+      {
         path: "types",
         name: "types",
         component: ManageTypes
@@ -241,6 +251,11 @@ const routes = [
         component: PClinics
       },
       {
+        path: "exappointment",
+        name: "Examination appointment",
+        component: ExAppointment
+      },
+      {
         path: "examinations",
         name: "examinations",
         component: PExaminations
@@ -275,6 +290,16 @@ const routes = [
         name: "searchclinics",
         component: SearchClinics
       },
+      {
+        path: "doctors/:clinicID/:typeID/:date",
+        name: "List of Clinic's doctors",
+        component: ListOfDoctors
+      },
+      {
+        path: "appointments/:doctorID/:date",
+        name: "Doctor's appointments",
+        component: DoctorsAppointments
+      }
     ]
   },
   {
@@ -331,7 +356,7 @@ const routes = [
         component: Examination
       },
       {
-        path: "addexaminationreport/:id",
+        path: "addexaminationreport/:id/:patientId",
         name: "addexaminationreport",
         component: AddExaminationReport
       },
@@ -368,10 +393,15 @@ const routes = [
     ]
   },
   {
+    path: "/changePassword",
+    name: "changePassword",
+    component: ChangePassword
+  },
+  {
     path: "/registerPage",
     name: "registerPage",
     component: RegisterPage
-  },
+  }
 ];
 
 const router = new VueRouter({

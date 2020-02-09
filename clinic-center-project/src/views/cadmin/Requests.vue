@@ -70,7 +70,7 @@ export default {
   },
   mounted() {
     httpClient
-      .get("/vacs/all")
+      .get("/vacs/all/")
       .then(response => {
         this.requests = response.data;
       })
@@ -82,32 +82,49 @@ export default {
     accept: function(req) {
       httpClient.get("/mail/accept-vacation/balsa.smi15@gmail.com/" + req.id);
       this.$vToastify.info({
-        body: "Mail is sent." ,
+        body: "Mail is sent.",
         title: "Success",
         type: "success",
         canTimeout: true,
-        append: false, duration: 2000
+        append: false,
+        duration: 2000
       });
       this.requests.splice(this.requests.indexOf(req), 1);
     },
     giveMeReason: function(req) {
       this.id = req.id;
-      this.refuse();
     },
     refuse: function() {
-      httpClient.get(
-         "mail/refuse-vacation/balsa.smi15@gmail.com/" + this.id + this.reason
-      );
-      this.$vToastify.info({
-        body: "Mail is sent." ,
-        title: "Success",
-        type: "success",
-        canTimeout: true,
-        append: false, duration: 2000
-      });
-
-       
-
+      httpClient
+        .get(
+          "mail/refuse-vacation/balsa.smi15@gmail.com/" +
+            this.id +
+            "/" +
+            this.reason
+        )
+        .then(() => {
+          this.$vToastify.info({
+            body: "Mail is sent.",
+            title: "Success",
+            type: "success",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error while sending mail.",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            duration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
+        });
     }
   }
 };
