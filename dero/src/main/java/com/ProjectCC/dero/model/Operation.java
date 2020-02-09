@@ -30,11 +30,11 @@ public class Operation {
    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong")
    private Duration duration;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "medRec_id", nullable = false)
    public MedicalRecord medicalRecord;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "OR_id", nullable = false)
    public OperationRoom operationRoom;
 
