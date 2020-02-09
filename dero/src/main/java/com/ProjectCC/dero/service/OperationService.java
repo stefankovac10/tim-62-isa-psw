@@ -1,19 +1,16 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.OperationDTO;
-import com.ProjectCC.dero.dto.OperationRoomDTO;
-import com.ProjectCC.dero.dto.PatientDTO;
-import com.ProjectCC.dero.dto.UserDTO;
+import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.Operation;
 import com.ProjectCC.dero.model.OperationRoom;
+import com.ProjectCC.dero.model.Patient;
 import com.ProjectCC.dero.model.User;
-import com.ProjectCC.dero.repository.DoctorRepository;
-import com.ProjectCC.dero.repository.NurseRepository;
-import com.ProjectCC.dero.repository.OperationRepository;
-import com.ProjectCC.dero.repository.UserRepository;
+import com.ProjectCC.dero.repository.*;
 import org.joda.time.Duration;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,14 +24,21 @@ public class OperationService {
     private DoctorRepository doctorRepository;
     private NurseRepository nurseRepository;
     private UserRepository userRepository;
+    private PatientRepository patientRepository;
 
     @Autowired
-    public OperationService(OperationRepository operationRepository, ModelMapper modelMapper, DoctorRepository doctorRepository, NurseRepository nurseRepository, UserRepository userRepository) {
+    public OperationService(OperationRepository operationRepository,
+                            ModelMapper modelMapper,
+                            DoctorRepository doctorRepository,
+                            NurseRepository nurseRepository,
+                            UserRepository userRepository,
+                            PatientRepository patientRepository) {
         this.operationRepository = operationRepository;
         this.modelMapper = modelMapper;
         this.doctorRepository = doctorRepository;
         this.nurseRepository = nurseRepository;
         this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
     }
 
 
@@ -90,5 +94,27 @@ public class OperationService {
         }
 
         return operationDTOS;
+    }
+
+    public ResponseEntity<List<OperationDTO>> getOperationsByPatientsEmail(String patientsEmail) {
+        Patient patient = patientRepository.findByEmail(patientsEmail);
+
+        List<Operation> operationList = operationRepository.findByPatient(patient);
+        //List<Operation> operationList = operationRepository.findByPatientsID(patient.getId());
+
+        List<OperationDTO> operationDTOS = new ArrayList<>();
+        for (Operation o : operationList) {
+            operationDTOS.add(OperationDTO.builder()
+                                .date(o.getDate())
+                                .operationRoom(OperationRoomDTO.builder()
+                                                .clinic(ClinicDTO.builder()
+                                                        .name(o.clinic.getName())
+                                                        .build())
+                                                .name(o.getOperationRoom().getName())
+                                                .build())
+                                .build());
+        }
+
+        return new ResponseEntity<>(operationDTOS, HttpStatus.OK);
     }
 }
