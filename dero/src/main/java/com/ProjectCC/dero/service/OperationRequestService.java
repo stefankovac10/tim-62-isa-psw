@@ -247,7 +247,7 @@ public class OperationRequestService {
         return null;
     }
 
-    @Scheduled(cron = "59 23 * * * *")
+    @Scheduled(cron = "59 59 23 * * *")
     private void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();
 

@@ -69,6 +69,7 @@ public class DoctorService {
 
         Clinic clinic = clinicService.findOne((long) 1);
         doctor.setClinic(clinic);
+        doctor.setEnabled(true);
 
         doctor = doctorRepository.save(doctor);
 
