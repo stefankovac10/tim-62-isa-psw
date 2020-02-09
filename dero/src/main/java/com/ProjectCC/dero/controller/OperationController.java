@@ -36,5 +36,9 @@ public class OperationController {
         return new ResponseEntity<>(operationService.findDocOperation(email, role), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/patient/{patientsEmail:.+}")
+    public ResponseEntity<List<OperationDTO>> getOperationsByPatientsEmail(@PathVariable String patientsEmail) {
+        return this.operationService.getOperationsByPatientsEmail(patientsEmail);
+    }
 
 }
