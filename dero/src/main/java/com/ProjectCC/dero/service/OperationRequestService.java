@@ -4,6 +4,7 @@ import com.ProjectCC.dero.dto.DoctorDTO;
 import com.ProjectCC.dero.dto.OperationRequestDTO;
 import com.ProjectCC.dero.dto.OperationRoomRequestDTO;
 import com.ProjectCC.dero.exception.UserNotFoundException;
+import com.ProjectCC.dero.mail.SmtpMailSender;
 import com.ProjectCC.dero.model.*;
 import com.ProjectCC.dero.repository.*;
 import com.ProjectCC.dero.repository.OperationAppointmentRepository;
@@ -40,13 +41,15 @@ public class OperationRequestService {
     private RoomsService roomsService;
     private ClinicRepository clinicRepository;
     private DoctorRepository doctorRepository;
+    private SmtpMailSender smtpMailSender;
 
     @Autowired
     public OperationRequestService(DoctorRepository doctorRepository,ClinicRepository clinicRepository,RoomsService roomsService,ExaminationRequestRepository examinationRequestRepository,
                                    OperationRoomRepository operationRoomRepository,OperationRepository operationRepository,OperationAppointmentRepository operationAppointmentRepository,
-                                   UserRepository userRepository, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
+                                   UserRepository userRepository,SmtpMailSender smtpMailSender, OperationRequestRepository operationRequestRepository, ModelMapper modelMapper) {
         this.operationRequestRepository = operationRequestRepository;
         this.roomsService = roomsService;
+        this.smtpMailSender = smtpMailSender;
         this.clinicRepository = clinicRepository;
         this.doctorRepository = doctorRepository;
         this.operationAppointmentRepository = operationAppointmentRepository;
@@ -131,11 +134,14 @@ public class OperationRequestService {
             Doctor doctor = (Doctor) userRepository.findById(d.getId()).orElseGet(null);
             if(checkIfDoctorIsFree(doctor,oa.getStartDate(),oa.getDuration()))
                 doctors.add(doctor);
+            smtpMailSender.send(doctor.getEmail(),"Operation", "Your have been scheduled:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
         }
 
         operation.setDoctors(doctors);
         operation.setOperationAppointment(oa);
         oa.setOperation(operation);
+
+        smtpMailSender.send(patient.getEmail(),"Operation", "Your operation is scheduled to:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
 
         this.operationRepository.save(operation);
         this.operationRequestRepository.delete(operationRequest);
@@ -192,12 +198,12 @@ public class OperationRequestService {
 
     }
 
-    private void reservation(OperationRequest operationRequest, OperationRoom operationRoom, DateTime nextAvailable) throws UserNotFoundException {
+    private void reservation(OperationRequest operationRequest, OperationRoom operationRoom, DateTime nextAvailable) throws UserNotFoundException, MessagingException {
         Optional<User> optionalPatient = this.userRepository.findById(operationRequest.getPatientId());
         Optional<OperationRequest> optionalOperationRequest = this.operationRequestRepository.findById(operationRequest.getId());
 
         if (!optionalPatient.isPresent())
-            throw new UserNotFoundException("User was not found.");
+            throw new UserNotFoundException();
 
         if(!optionalOperationRequest.isPresent())
             return;
@@ -226,11 +232,15 @@ public class OperationRequestService {
         Doctor doc = findAvailableDoctor(nextAvailable, operationRequest.getDuration());
         if (doc != null) {
             doctors.add(doc);
+            smtpMailSender.send(doc.getEmail(),"Operation", "Your have been scheduled:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
         }
 
         operation.setDoctors(doctors);
         operation.setOperationAppointment(oa);
         oa.setOperation(operation);
+
+        smtpMailSender.send(patient.getEmail(),"Operation", "Your operation is scheduled to:<br> Date:"+operation.getDate()+"<br> Room:"+operation.getDuration());
+
 
         this.operationRepository.save(operation);
         this.operationRequestRepository.delete(operationRequest);
@@ -270,7 +280,7 @@ public class OperationRequestService {
                 try {
                     assert min != null;
                     reservation(oRequest, min.getKey(), min.getValue());
-                } catch (UserNotFoundException e) {
+                } catch (UserNotFoundException | MessagingException e) {
                     e.printStackTrace();
                 }
             }
