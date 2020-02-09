@@ -48,6 +48,8 @@ public class ExaminationRequestServiceIntegrationTest {
 
     @Test(expected = ClinicNotFoundException.class)
     public void testGetAllNonExistingClinicId() {
-        ResponseEntity<List<ExaminationRequestDetailsDTO>> responseEntity = this.examinationRequestService.getAll(CLINIC_ID__DOES_NOT_EXIST, PAGE);
+        this.examinationRequestService.getAll(CLINIC_ID__DOES_NOT_EXIST, PAGE);
     }
+
+    
 }
