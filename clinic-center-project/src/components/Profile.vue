@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex p-2 justify-content-center" v-bind:key="componentKey">
-    <div class="d-flex flex-column p-2">
+    <div id="profile" class="d-flex flex-column p-2">
       <h1>Profile</h1>
       <button
         type="button"
