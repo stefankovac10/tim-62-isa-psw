@@ -254,7 +254,7 @@ public class OperationRequestService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
+    public Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
         List<Doctor> doctors = this.doctorRepository.findAll();
         for (Doctor doc : doctors) {
             if (checkIfDoctorIsFree(doc, nextAvailable, duration))
@@ -264,7 +264,7 @@ public class OperationRequestService {
     }
 
     @Scheduled(cron = "59 59 23 * * *")
-    private void reserveAll() {
+    public void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();
 
         for (Clinic clinic : clinics) {

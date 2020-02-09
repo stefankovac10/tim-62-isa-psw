@@ -27,8 +27,8 @@ public class ClinicAdministratorController {
     private ExaminationRequestService examinationRequestService;
 
     @Autowired
-    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, OperationRequestService operationRequestService
-                                        , ExaminationRequestService examinationRequestService) {
+    public ClinicAdministratorController(ClinicAdministratorService clinicAdministratorService, OperationRequestService operationRequestService,
+                                         ExaminationRequestService examinationRequestService) {
         this.clinicAdministratorService = clinicAdministratorService;
         this.operationRequestService = operationRequestService;
         this.examinationRequestService = examinationRequestService;

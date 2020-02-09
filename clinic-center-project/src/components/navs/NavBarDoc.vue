@@ -8,11 +8,13 @@
               <router-link to="/doc/patients">Patients</router-link>
             </a>
           </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link">
               <router-link to="/doc/examination">New examination</router-link>
             </a>
           </li>
+          -->
           <li class="nav-item">
             <a class="nav-link">
               <router-link to="/doc/calendar">Calendar</router-link>
