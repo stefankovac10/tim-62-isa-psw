@@ -12,7 +12,16 @@
       <label>Name: {{clinic.name}}</label>
       <label>Description: {{clinic.description}}</label>
       <label>Address: {{clinic.address}}</label>
-      <yandex-map class="map" id="map" v-on:created="mapCreated"></yandex-map>
+
+      <yandex-map
+        id="map"
+        :settings="settings"
+        :coords="coords"
+        @map-was-initialized="mapInitialized"
+      >
+        <!--Markers-->
+        <ymap-marker :coords="coords" marker-id="123" hint-content="some hint"></ymap-marker>
+      </yandex-map>
 
       <label>Available examinations:</label>
       <label v-if="!examinations">There are no quick examinations at the moment</label>
@@ -111,6 +120,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
+import { yandexMap, ymapMarker } from "vue-yandex-maps";
 import moment from "moment";
 
 export default {
@@ -119,20 +129,33 @@ export default {
       clinic: undefined,
       loading: true,
       map: null,
-      map_data: [],
+      myMap: undefined,
       name: undefined,
       description: undefined,
       address: undefined,
+      coords: [45.250746, 19.827443],
+      settings: {
+        apiKey: "409f6d4e-994a-41ab-a63e-68777cfa5b7d",
+        lang: "en_US",
+        coordorder: "latlong",
+        version: "2.1"
+      },
       admin: undefined,
       examinations: undefined
     };
+  },
+  components: {
+    yandexMap,
+    ymapMarker
   },
   mounted() {
     this.loading = true;
     httpClient
       .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.admin = response.data;
+        this.clinic = response.data;
+        this.loading = false;
+        this.address = this.clinic.address;
       })
       .catch(() => {
         this.$vToastify.error({
@@ -201,6 +224,30 @@ export default {
         .then(() => {
           location.reload();
         });
+    },
+    mapInitialized: function() {
+      // let addressWithPluses = encodeURI(this.address);
+
+      let uri =
+        "https://geocode-maps.yandex.ru/1.x/?apikey=" +
+        this.settings.apiKey +
+        "&format=json&geocode=Bulevar+despota+Stefana";
+
+      httpClient
+        .get(uri)
+        .then(response => {
+          alert(response.data);
+        })
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error retrieving address from Yandex maps",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            errorDuration: 2000
+          });
+        });
     }
   }
 };
@@ -208,8 +255,8 @@ export default {
 
 <style scoped>
 #map {
-  height: 200px;
-  width: 280px;
+  height: 300px;
+  width: 500px;
 }
 #btn {
   width: 80px;
