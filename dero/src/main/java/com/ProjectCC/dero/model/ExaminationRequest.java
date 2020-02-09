@@ -1,9 +1,6 @@
 package com.ProjectCC.dero.model;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import javax.persistence.*;
 
@@ -27,7 +24,7 @@ public class ExaminationRequest {
     @Column
     private Long typeId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id")
     private ExaminationAppointment examinationAppointment;
 

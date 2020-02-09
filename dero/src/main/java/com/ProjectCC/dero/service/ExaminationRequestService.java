@@ -1,6 +1,7 @@
 package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.exceptions.*;
 import com.ProjectCC.dero.exception.BadExaminationRequest;
 import com.ProjectCC.dero.exception.UserNotFoundException;
 import com.ProjectCC.dero.model.*;
@@ -19,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -32,9 +35,9 @@ public class ExaminationRequestService {
     private ExaminationRoomRepository examinationRoomRepository;
     private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
+    private TypeOfExaminationRepository typeOfExaminationRepository;
     private ModelMapper modelMapper;
     private ExaminationAppointmentRepository examinationAppointmentRepository;
-    private TypeOfExaminationRepository typeOfExaminationRepository;
     private RoomsService roomsService;
     private VacationRequestRepository vacationRequestRepository;
 
@@ -44,16 +47,17 @@ public class ExaminationRequestService {
                                      ExaminationRepository examinationRepository, ModelMapper modelMapper, ClinicRepository clinicRepository,
                                      ExaminationAppointmentRepository examinationAppointmentRepository, RoomsService roomsService,
                                      TypeOfExaminationRepository typeOfExaminationRepository, VacationRequestRepository vacationRequestRepository) {
+
         this.examinationRequestRepository = examinationRequestRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.examinationRoomRepository = examinationRoomRepository;
         this.examinationRepository = examinationRepository;
         this.clinicRepository = clinicRepository;
+        this.typeOfExaminationRepository = typeOfExaminationRepository;
         this.modelMapper = modelMapper;
         this.examinationAppointmentRepository = examinationAppointmentRepository;
         this.roomsService = roomsService;
-        this.typeOfExaminationRepository = typeOfExaminationRepository;
         this.vacationRequestRepository = vacationRequestRepository;
     }
 
@@ -75,27 +79,22 @@ public class ExaminationRequestService {
     }
 
     public ResponseEntity<List<ExaminationRequestDetailsDTO>> getAll(Long id, int page) {
-        Optional<Clinic> optionalClinic = this.clinicRepository.findById(id);
-        if (!optionalClinic.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Clinic clinic = this.clinicRepository.findById(id).orElseThrow(ClinicNotFoundException::new);
 
-        Clinic clinic = optionalClinic.get();
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(clinic, pageable);
+        Page<ExaminationRequest> requests = this.examinationRequestRepository.findAllByClinic(id, pageable);
 
         ArrayList<ExaminationRequestDetailsDTO> requestDTOS = new ArrayList<>();
         for (ExaminationRequest er : requests) {
             if (er.getExaminationAppointment().getExaminationRoom() != null) continue;
 
-            Optional<Doctor> doc = this.doctorRepository.findById(er.getDoctorId());
-            Optional<Patient> pat = this.patientRepository.findById(er.getPatientId());
-            DoctorDTO doctorDTO = null;
-            PatientDTO patientDTO = null;
-            if (doc.isPresent() && pat.isPresent()) {
-                doctorDTO = DoctorDTO.builder().id(doc.get().getId())
-                        .firstName(doc.get().getFirstName()).lastName(doc.get().getLastName()).build();
-                patientDTO = PatientDTO.builder().id(pat.get().getId()).firstName(pat.get().getFirstName())
-                        .lastName(pat.get().getLastName()).build();
-            }
+            Doctor doc = this.doctorRepository.findById(er.getDoctorId()).orElseThrow(UserNotFoundException::new);
+            Patient pat = this.patientRepository.findById(er.getPatientId()).orElseThrow(UserNotFoundException::new);
+            DoctorDTO doctorDTO = DoctorDTO.builder().id(doc.getId())
+                    .firstName(doc.getFirstName()).lastName(doc.getLastName()).build();;
+            PatientDTO patientDTO = PatientDTO.builder().id(pat.getId()).firstName(pat.getFirstName())
+                    .lastName(pat.getLastName()).build();
+
             requestDTOS.add(ExaminationRequestDetailsDTO.builder()
                 .doctor(doctorDTO)
                 .patient(patientDTO)
@@ -107,16 +106,18 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(requestDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> reserve(Long requestId, Long roomId, DateTime nextAvailable) throws UserNotFoundException {
-        Optional<ExaminationRequest> optionalExaminationRequest = this.examinationRequestRepository.findById(requestId);
-        if (!optionalExaminationRequest.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        ExaminationRequest examinationRequest = optionalExaminationRequest.get();
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ResponseEntity<Void> reserve(Long requestId, Long roomId, DateTime nextAvailable) {
+        ExaminationRequest examinationRequest = this.examinationRequestRepository.findByRequestId(requestId);
+        if (examinationRequest == null) throw new ExaminationRequestNotFoundException();
 
-        Optional<ExaminationRoom> optionalExaminationRoom = this.examinationRoomRepository.findByRoomId(roomId);
-        if (!optionalExaminationRoom.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        ExaminationRoom examinationRoom = optionalExaminationRoom.get();
+        ExaminationAppointment examinationAppointment = examinationRequest.getExaminationAppointment();
+
+        ExaminationRoom examinationRoom = this.examinationRoomRepository.findById(roomId).orElseThrow(ExaminationRoomNotFoundException::new);
+        TypeOfExamination typeOfExamination = this.typeOfExaminationRepository.findById(examinationRequest.getTypeId()).orElseThrow(TypeOfExaminationNotFoundException::new);
+
+        Doctor doctor = this.doctorRepository.findById(examinationRequest.getDoctorId()).orElseThrow(UserNotFoundException::new);
+        Patient patient = this.patientRepository.findById(examinationRequest.getPatientId()).orElseThrow(UserNotFoundException::new);
 
         try {
             reservation(examinationRequest, examinationRoom, nextAvailable);
@@ -169,9 +170,12 @@ public class ExaminationRequestService {
                     examination.setExaminationAppointment(examinationAppointment);
                 }
                 else {
-//                  doc = docWithFirstNextApp();
+                    throw new NoAvailableDoctorsForExaminationException("Please select another time for appointment");
+
                 }
             }
+            examinationAppointment.setStartDate(nextAvailable);
+            examinationAppointment.setEndDate(new DateTime(nextAvailable.getMillis() + examinationAppointment.getDuration().getMillis(), DateTimeZone.UTC));
         }
         examination.setExaminationAppointment(null);
         this.examinationRepository.save(examination);
@@ -184,9 +188,10 @@ public class ExaminationRequestService {
         this.examinationRepository.save(examination);
     }
 
-    private boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean checkIfDoctorIsFree(Doctor doc, DateTime nextAvailable, Duration duration) {
         List<ExaminationRequest> examinationRequests = this.examinationRequestRepository.findByDoctorId(doc.getId());
-        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis());
+        DateTime nextEnd = new DateTime(nextAvailable.getMillis() + duration.getMillis(), DateTimeZone.UTC);
 
         for (ExaminationRequest er : examinationRequests) {
             ExaminationAppointment ea = er.getExaminationAppointment();
@@ -220,7 +225,9 @@ public class ExaminationRequestService {
         return nextAvailable.isBefore(startDate) && nextEnd.isBefore(endDate);
     }
 
-    private Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Doctor findAvailableDoctor(DateTime nextAvailable, Duration duration) {
+
         List<Doctor> doctors = this.doctorRepository.findAll();
         for (Doctor doc : doctors) {
             if (checkIfDoctorIsFree(doc, nextAvailable, duration))
@@ -343,8 +350,8 @@ public class ExaminationRequestService {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
-    @Scheduled(cron = "59 23 * * * *")
-    private void reserveAll() {
+    @Scheduled(cron = "0 59 23 * * *")
+    public void reserveAll() {
         List<Clinic> clinics = this.clinicRepository.findAll();
 
         for (Clinic clinic : clinics) {

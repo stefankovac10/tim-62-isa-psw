@@ -12,6 +12,10 @@ const httpClient = axios.create(config);
 // httpClient.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 httpClient.interceptors.request.use(function (config) {
+	if (config.url.includes("maps")) {
+		config.headers['Access-Control-Allow-Origin'] = "https://geocode-maps.yandex.ru";
+		return config;
+	}
 	// Do something before request is sent
 	if (!config.url.includes('login') && !config.url.includes('refresh') && !config.url.includes('reqrequest') && !config.url.includes('reset_password') && !config.url.includes('activate')) {
 		config.headers['Authorization'] = 'Bearer ' + localStorage.getItem("User-token");

@@ -1,19 +1,9 @@
 package com.ProjectCC.dero.service;
 
-import com.ProjectCC.dero.dto.ClinicAdministratorDTO;
-import com.ProjectCC.dero.dto.ClinicDTO;
-import com.ProjectCC.dero.dto.UserDTO;
-
-import com.ProjectCC.dero.dto.VacationRequestDTO;
-import com.ProjectCC.dero.model.MedicalStaff;
-import com.ProjectCC.dero.model.VacationRequest;
-import com.ProjectCC.dero.model.Clinic;
-import com.ProjectCC.dero.model.ClinicAdministrator;
-import com.ProjectCC.dero.model.User;
-import com.ProjectCC.dero.repository.ClinicAdministratorRepository;
-import com.ProjectCC.dero.repository.ClinicRepository;
-
-import com.ProjectCC.dero.repository.UserRepository;
+import com.ProjectCC.dero.dto.*;
+import com.ProjectCC.dero.exceptions.ClinicNotFoundException;
+import com.ProjectCC.dero.model.*;
+import com.ProjectCC.dero.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,13 +21,15 @@ public class UserService {
     private ClinicAdministratorRepository clinicAdministratorRepository;
     private ClinicRepository clinicRepository;
     private ModelMapper modelMapper;
+    private MedicalStaffRepository medicalStaffRepository;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, ClinicAdministratorRepository clinicAdministratorRepository, ClinicRepository clinicRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ClinicAdministratorRepository clinicAdministratorRepository, ClinicRepository clinicRepository, ModelMapper modelMapper, MedicalStaffRepository medicalStaffRepository) {
         this.userRepository = userRepository;
         this.clinicAdministratorRepository = clinicAdministratorRepository;
         this.clinicRepository = clinicRepository;
+        this.medicalStaffRepository = medicalStaffRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -146,5 +138,34 @@ public class UserService {
             }
         }
         return new ResponseEntity<>(vacationRequestDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity<MedicalStaffDTO> getMedicalStaff(String email) {
+        MedicalStaff medicalStaff = this.medicalStaffRepository.findByEmail(email);
+        Clinic clinic = this.clinicRepository.findById(medicalStaff.getClinic().getId()).orElseThrow(ClinicNotFoundException::new);
+
+        ClinicDTO clinicDTO = ClinicDTO.builder()
+                .name(clinic.getName())
+                .address(clinic.getAddress())
+                .description(clinic.getDescription())
+                .grade(clinic.getGrade())
+                .income(clinic.getIncome())
+                .id(clinic.getId())
+                .build();
+
+        MedicalStaffDTO medicalStaffDTO = MedicalStaffDTO.builder()
+                .firstName(medicalStaff.getFirstName())
+                .lastName(medicalStaff.getLastName())
+                .jmbg(medicalStaff.getJmbg())
+                .city(medicalStaff.getCity())
+                .country(medicalStaff.getCountry())
+                .address(medicalStaff.getAddress())
+                .telephone(medicalStaff.getTelephone())
+                .email(medicalStaff.getEmail())
+                .clinic(clinicDTO)
+                .type(medicalStaff instanceof Doctor ? "doctor" : "nurse")
+                .id(medicalStaff.getId()).build();
+
+        return new ResponseEntity<>(medicalStaffDTO, HttpStatus.OK);
     }
 }

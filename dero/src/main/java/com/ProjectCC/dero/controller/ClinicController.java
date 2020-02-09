@@ -2,17 +2,15 @@ package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
 import com.ProjectCC.dero.dto.ClinicWithSpecilizedTypeDTO;
-import com.ProjectCC.dero.model.Clinic;
 import com.ProjectCC.dero.service.ClinicService;
-import org.joda.time.DateTime;
+import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -60,8 +58,12 @@ public class ClinicController {
 
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
-
+        try {
+            return this.clinicService.update(clinicDTO);
+        } catch (StaleObjectStateException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Someone is already editing this clinic.", e);
+        }
     }
 
     @PostMapping(value = "/search")
