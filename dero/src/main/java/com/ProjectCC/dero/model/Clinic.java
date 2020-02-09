@@ -20,6 +20,9 @@ public class Clinic {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Version
+   private int version;
+
    @Column(name = "name", unique = true, nullable = false)
    private String name;
 

@@ -12,7 +12,16 @@
       <label>Name: {{clinic.name}}</label>
       <label>Description: {{clinic.description}}</label>
       <label>Address: {{clinic.address}}</label>
-      <yandex-map class="map" id="map" v-on:created="mapCreated"></yandex-map>
+
+      <yandex-map
+        id="map"
+        :settings="settings"
+        :coords="coords"
+        @map-was-initialized="mapInitialized"
+      >
+        <!--Markers-->
+        <ymap-marker :coords="coords" marker-id="123" hint-content="some hint"></ymap-marker>
+      </yandex-map>
 
       <label>Available examinations:</label>
       <label v-if="!examinations">There are no quick examinations at the moment</label>
@@ -111,7 +120,7 @@
 
 <script>
 import { httpClient } from "@/services/Api.js";
-import ymaps from "vue-yandex-map";
+import { yandexMap, ymapMarker } from "vue-yandex-maps";
 import moment from "moment";
 
 export default {
@@ -120,20 +129,33 @@ export default {
       clinic: undefined,
       loading: true,
       map: null,
-      map_data: [],
+      myMap: undefined,
       name: undefined,
       description: undefined,
       address: undefined,
+      coords: [45.250746, 19.827443],
+      settings: {
+        apiKey: "409f6d4e-994a-41ab-a63e-68777cfa5b7d",
+        lang: "en_US",
+        coordorder: "latlong",
+        version: "2.1"
+      },
       admin: undefined,
       examinations: undefined
     };
+  },
+  components: {
+    yandexMap,
+    ymapMarker
   },
   mounted() {
     this.loading = true;
     httpClient
       .get("/users/admin/mail/" + localStorage.getItem("Email"))
       .then(response => {
-        this.admin = response.data;
+        this.clinic = response.data;
+        this.loading = false;
+        this.address = this.clinic.address;
       })
       .catch(() => {
         this.$vToastify.error({
@@ -185,81 +207,47 @@ export default {
           address: this.address
         })
         .then(response => {
-          response;
-          this.$router.push("/cadmin/clinic"); // " + this.id);
+          this.name = response.data.name;
+          this.description = response.data.description;
+          this.address = response.data.address;
         })
-        .catch(error => {
-          alert(error);
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error editing clinic",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            successDuration: 2000
+          });
+        })
+        .then(() => {
+          location.reload();
         });
     },
-    mapCreated: function() {
-      this.map = new ymaps.Map(
-        "map",
-        {
-          center: [55.751574, 37.573856],
-          zoom: 16
-        },
-        {
-          searchControlProvider: "yandex#search"
-        }
-      );
+    mapInitialized: function() {
+      // let addressWithPluses = encodeURI(this.address);
 
-      this.mapObjectManager = new ymaps.ObjectManager({
-        clusterize: false,
-        gridSize: 60,
-        clusterMinClusterSize: 5,
-        clusterHasBalloon: true, // Опции кластеров задаются с префиксом cluster.
-        geoObjectOpenBalloonOnClick: false // Опции геообъектов задаются с префиксом geoObject
-      });
+      let uri =
+        "https://geocode-maps.yandex.ru/1.x/?apikey=" +
+        this.settings.apiKey +
+        "&format=json&geocode=Bulevar+despota+Stefana";
 
-      this.map.behaviors.disable("drag");
-
-      // set ObjectManager events
-      this.map.events.add(["click"], function() {
-        this.mapObjectManager.objects.balloon.close();
-      });
-
-      let myGeoObject = new ymaps.GeoObject(
-        {
-          // Описание геометрии.
-          geometry: {
-            type: "Point",
-            coordinates: [45.247834, 19.850956]
-          },
-          // Свойства.
-          properties: {
-            // Контент метки.
-            iconContent: "Я тащусь",
-            hintContent: "Ну давай уже тащи"
-          }
-        },
-        {
-          // Опции.
-          // Иконка метки будет растягиваться под размер ее содержимого.
-          preset: "islands#blackStretchyIcon",
-          // Метку можно перемещать.
-          draggable: true
-        }
-      );
-      this.map.geoObjects.add(myGeoObject);
-
-      var searchControl = new ymaps.control.SearchControl({
-        options: {
-          provider: "yandex#map"
-        }
-      });
-      searchControl.search("Дворцовая площадь, 2");
-      searchControl.search(this.clinic.address);
-      var result = searchControl.getResult(0);
-      result.then(
-        function(res) {
-          alert("Результат " + res);
-        },
-        function(err) {
-          alert("Ошибка", err);
-        }
-      );
-      alert(result);
+      httpClient
+        .get(uri)
+        .then(response => {
+          alert(response.data);
+        })
+        .catch(() => {
+          this.$vToastify.error({
+            body: "Error retrieving address from Yandex maps",
+            title: "Error",
+            type: "error",
+            canTimeout: true,
+            append: false,
+            errorDuration: 2000
+          });
+        });
     }
   }
 };
@@ -267,8 +255,8 @@ export default {
 
 <style scoped>
 #map {
-  height: 200px;
-  width: 280px;
+  height: 300px;
+  width: 500px;
 }
 #btn {
   width: 80px;
