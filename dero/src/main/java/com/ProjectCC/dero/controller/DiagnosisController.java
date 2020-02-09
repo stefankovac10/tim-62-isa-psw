@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class DiagnosisController {
     }
 
     @PostMapping( consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<DiagnosisDTO> save(@RequestBody DiagnosisDTO diagnosisDTO){
         Diagnosis diagnosis = modelMapper.map(diagnosisDTO, Diagnosis.class);
 
@@ -56,6 +58,7 @@ public class DiagnosisController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<Void> deleteDiagnosis(@PathVariable Long id) {
         return diagnosisService.remove(id);
     }
@@ -73,6 +76,7 @@ public class DiagnosisController {
     }
 
     @PutMapping(consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<DiagnosisDTO> update(@RequestBody DiagnosisDTO diagnosisDTO){
         Diagnosis diagnosis = modelMapper.map(diagnosisDTO, Diagnosis.class);
         diagnosisService.update(diagnosis);

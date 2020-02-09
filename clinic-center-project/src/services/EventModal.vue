@@ -8,7 +8,7 @@
             <b>Patient: </b>{{examination.patient.firstName}} {{examination.patient.lastName}}<br>
             <b>Room: </b>No. {{examination.examinationRoom.number}}<br>
         </fieldset>
-        <button v-if="role === 'ROLE_DOCTOR' && examination.report != null" class="btn btn-success" style="position: absolute; right: 0; bottom:0; margin: 35px" v-on:click="startExamination">Start examination</button>
+        <button v-if="role === 'ROLE_DOCTOR' && examination.report == null" class="btn btn-success" style="position: absolute; right: 0; bottom:0; margin: 35px" v-on:click="startExamination">Start examination</button>
     </div>
     <div v-else>
         <fieldset>

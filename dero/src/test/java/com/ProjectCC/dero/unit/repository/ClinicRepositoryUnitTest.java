@@ -28,8 +28,8 @@ public class ClinicRepositoryUnitTest {
     private static final String CLINIC_ADDRESS = "Adresaq";
     private static final String CLINIC_DESCRIPTION = "opis1";
     private static final Double CLINIC_GRADE = 4.3;
-    private static final Double CLINIC_INCOME = 20000D;
-    private static final String CLINIC_NAME = "Sveti vid";
+    private static final Double CLINIC_INCOME = 2000D;
+    private static final String CLINIC_NAME = "Klinika1";
 
     @Test
     public void shouldReturnEmptyOptionalWhenFindingNonExistingClinicByClinicId() {

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class ExaminationController {
     }
     
     @PostMapping( consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CADMIN')  || hasRole('ROLE_PATIENT') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> save(@RequestBody ExaminationDTO examinationDTO){
         examinationService.save(examinationDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping( consumes = "application/json", value = "/addReport")
+    @PreAuthorize(" hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Void> addReport(@RequestBody ExaminationDTO examinationDTO){
         examinationService.addExaminationReport(examinationDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -44,6 +47,7 @@ public class ExaminationController {
     }
 
     @GetMapping(value = "/check/{id}")
+    @PreAuthorize(" hasRole('ROLE_DOCTOR') || hasRole('ROLE_NURSE')")
     public ResponseEntity<Void> check(@PathVariable Long id) {
         if(examinationService.check(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -67,6 +71,7 @@ public class ExaminationController {
     }
 
     @PostMapping(value = "/addQuick", consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CADMIN')")
     public ResponseEntity<Void> addQuickExamination(@RequestBody ExaminationDTO examinationDTO) {
         this.examinationService.addNewQuick(examinationDTO);
         return new ResponseEntity<>(HttpStatus.OK);

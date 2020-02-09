@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,16 +27,19 @@ public class ClinicController {
     }
 
     @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('ROLE_CCADMIN') || hasRole('ROLE_PATIENT')  || hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR') || hasRole('ROLE_NURSE')")
     public ResponseEntity<List<ClinicDTO>> getAllClinics() {
         return clinicService.getAll();
     }
 
     @GetMapping(value = "/all/{page}")
+    @PreAuthorize("hasRole('ROLE_CCADMIN') || hasRole('ROLE_PATIENT')  || hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR') || hasRole('ROLE_NURSE')")
     public ResponseEntity<List<ClinicDTO>> getAllClinics(@PathVariable int page) {
         return clinicService.findAll(page);
     }
 
     @PostMapping(consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicDTO> save(@RequestBody ClinicDTO clinicDTO){
         ClinicDTO clinic = clinicService.save(clinicDTO);
         if(clinic == null){
@@ -47,16 +51,19 @@ public class ClinicController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
         return clinicService.remove(id);
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ROLE_CCADMIN') || hasRole('ROLE_CADMIN') || hasRole('ROLE_DOCTOR') || hasRole('ROLE_NURSE')")
     public ResponseEntity<ClinicDTO> getCourse(@PathVariable Long id) {
         return this.clinicService.findById(id);
     }
 
     @PutMapping(consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
         try {
             return this.clinicService.update(clinicDTO);
@@ -67,11 +74,13 @@ public class ClinicController {
     }
 
     @PostMapping(value = "/search")
+    @PreAuthorize("!hasRole('ROLE_REQUEST')")
     public ResponseEntity<List<ClinicDTO>> searchClinics(@RequestBody ClinicDTO clinicDTO) {
         return this.clinicService.searchClinics(clinicDTO);
     }
 
     @GetMapping(value = "/businessReport/{id}")
+    @PreAuthorize(" hasRole('ROLE_CADMIN')")
     public ResponseEntity<ClinicDTO> getReport(@PathVariable Long id) {
         return this.clinicService.businessReport(id);
     }

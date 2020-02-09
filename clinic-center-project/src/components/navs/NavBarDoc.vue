@@ -29,11 +29,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <router-link to="/doc/scheduling">Schedule an examination or operation</router-link>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" v-on:click="logout">Logout</a>
           </li>
         </ul>

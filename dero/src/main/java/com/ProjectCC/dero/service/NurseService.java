@@ -50,6 +50,7 @@ public class NurseService {
         Optional<Clinic> clinicOpt = this.clinicRepository.findById((long) 1);
         Clinic clinic = clinicOpt.get();
         nurse.setClinic(clinic);
+        nurse.setEnabled(true);
         nurse = this.nurseRepository.save(nurse);
         
         nurseDTO.setId(nurse.getId());

@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MedicationController {
     }
 
     @PostMapping( consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<MedicationDTO> save(@RequestBody MedicationDTO medicationDTO){
         Medication medication = new Medication(medicationDTO);
 
@@ -56,6 +58,7 @@ public class MedicationController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
         return medicationService.remove(id);
     }
@@ -73,6 +76,7 @@ public class MedicationController {
     }
 
     @PutMapping(consumes = "application/json")
+    @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<MedicationDTO> update(@RequestBody MedicationDTO medicationDTO){
         Medication medication = new Medication(medicationDTO);
         medicationService.update(medication);
