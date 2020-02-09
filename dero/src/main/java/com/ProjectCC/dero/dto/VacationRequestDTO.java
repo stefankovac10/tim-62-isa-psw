@@ -20,5 +20,6 @@ public class VacationRequestDTO {
     private boolean accepted;
     public MedicalStaffDTO medicalStaff;
     private ClinicDTO clinic;
+    private String type;
 
 }
