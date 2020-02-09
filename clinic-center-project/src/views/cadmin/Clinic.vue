@@ -114,7 +114,7 @@ export default {
       address: undefined,
       coords: [45.250746, 19.827443],
       settings: {
-        apiKey: "e5347c74-2358-4b87-9061-9e16f138fc78",
+        apiKey: "409f6d4e-994a-41ab-a63e-68777cfa5b7d",
         lang: "en_US",
         coordorder: "latlong",
         version: "2.1"
