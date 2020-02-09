@@ -47,6 +47,9 @@ import MedicalRecord from "@/views/patient/MedicalRecord";
 import PatientsProfile from "@/views/patient/PatientsProfile";
 import SearchDoctors from "@/views/patient/SearchDoctors";
 import SearchClinics from "@/views/patient/SearchClinics";
+import ExAppointment from "@/views/patient/ExAppointment";
+import ListOfDoctors from "@/views/patient/ListOfDoctors";
+import DoctorsAppointments from "@/views/patient/DoctorsAppointments";
 
 import Patients from "@/views/medicalstaff/Patients";
 import Vacation from "@/views/medicalstaff/Vacation";
@@ -248,6 +251,11 @@ const routes = [
         component: PClinics
       },
       {
+        path: "exappointment",
+        name: "Examination appointment",
+        component: ExAppointment
+      },
+      {
         path: "examinations",
         name: "examinations",
         component: PExaminations
@@ -282,6 +290,16 @@ const routes = [
         name: "searchclinics",
         component: SearchClinics
       },
+      {
+        path: "doctors/:clinicID/:typeID/:date",
+        name: "List of Clinic's doctors",
+        component: ListOfDoctors
+      },
+      {
+        path: "appointments/:doctorID/:date",
+        name: "Doctor's appointments",
+        component: DoctorsAppointments
+      }
     ]
   },
   {

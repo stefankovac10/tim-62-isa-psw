@@ -1,12 +1,10 @@
 package com.ProjectCC.dero.model;
 
-import com.ProjectCC.dero.dto.DoctorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;

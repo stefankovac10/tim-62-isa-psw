@@ -1,16 +1,17 @@
 package com.ProjectCC.dero.controller;
 
 import com.ProjectCC.dero.dto.ClinicDTO;
-import com.ProjectCC.dero.model.Clinic;
+import com.ProjectCC.dero.dto.ClinicWithSpecilizedTypeDTO;
 import com.ProjectCC.dero.service.ClinicService;
+import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -64,8 +65,12 @@ public class ClinicController {
     @PutMapping(consumes = "application/json")
     @PreAuthorize(" hasRole('ROLE_CCADMIN')")
     public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO){
-        return new ResponseEntity<>(this.clinicService.update(clinicDTO), HttpStatus.OK);
-
+        try {
+            return this.clinicService.update(clinicDTO);
+        } catch (StaleObjectStateException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Someone is already editing this clinic.", e);
+        }
     }
 
     @PostMapping(value = "/search")
@@ -78,5 +83,10 @@ public class ClinicController {
     @PreAuthorize(" hasRole('ROLE_CADMIN')")
     public ResponseEntity<ClinicDTO> getReport(@PathVariable Long id) {
         return this.clinicService.businessReport(id);
+    }
+
+    @GetMapping(value = "/search2/{date}/{type}")
+    public ResponseEntity<List<ClinicWithSpecilizedTypeDTO>> searchDoctors2(@PathVariable String date, @PathVariable String type) {
+        return this.clinicService.searchClinics2(date, type);
     }
 }

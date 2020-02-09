@@ -10,9 +10,16 @@
           </li>
           <li class="nav-item">
             <a class="nav-link">
+              <router-link to="/patient/exappointment">Examination appointment</router-link>
+            </a>
+          </li>
+          <!--
+          <li class="nav-item">
+            <a class="nav-link">
               <router-link to="/patient/clinics">Clinics</router-link>
             </a>
           </li>
+          -->
           <li class="nav-item">
             <a class="nav-link">
               <router-link to="/patient/examinations">Examinations</router-link>

@@ -2,9 +2,8 @@ package com.ProjectCC.dero.service;
 
 import com.ProjectCC.dero.dto.*;
 import com.ProjectCC.dero.model.*;
-import com.ProjectCC.dero.repository.ClinicRepository;
-import com.ProjectCC.dero.repository.ExaminationRepository;
-import com.ProjectCC.dero.repository.PrescriptionRepository;
+import com.ProjectCC.dero.repository.*;
+import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,12 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.Doc;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ClinicService {
@@ -28,13 +26,21 @@ public class ClinicService {
     private ExaminationRepository examinationRepository;
     private ClinicRepository clinicRepository;
     private PrescriptionRepository prescriptionRepository;
+    private DoctorRepository doctorRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
-    public ClinicService(ModelMapper modelMapper, ExaminationRepository examinationRepository, ClinicRepository clinicRepository, PrescriptionRepository prescriptionRepository) {
+    public ClinicService(ModelMapper modelMapper, ExaminationRepository examinationRepository,
+                         ClinicRepository clinicRepository,
+                         PrescriptionRepository prescriptionRepository,
+                         DoctorRepository doctorRepository,
+                         AppointmentRepository appointmentRepository) {
         this.modelMapper = modelMapper;
         this.examinationRepository = examinationRepository;
         this.clinicRepository = clinicRepository;
         this.prescriptionRepository = prescriptionRepository;
+        this.doctorRepository = doctorRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public ResponseEntity<List<ClinicDTO>> getAll() {
@@ -112,14 +118,18 @@ public class ClinicService {
         return clinicRepository.findById(id).orElseGet(null);
     }
 
-    public ClinicDTO update(ClinicDTO clinicDTO) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    public ResponseEntity<ClinicDTO> update(ClinicDTO clinicDTO) {
         Optional<Clinic> clinic_find = clinicRepository.findById(clinicDTO.getId());
+        if (!clinic_find.isPresent())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         Clinic clinic = clinic_find.get();
         clinic.setName(clinicDTO.getName());
         clinic.setAddress(clinicDTO.getAddress());
         clinic.setDescription(clinicDTO.getDescription());
         this.clinicRepository.save(clinic);
-        return clinicDTO;
+        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<ClinicDTO> findById(Long id) {
@@ -236,5 +246,104 @@ public class ClinicService {
                 .examinations(exams)
                 .build();
         return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ClinicWithSpecilizedTypeDTO>> searchClinics2(String date, String type){
+        List<Clinic> clinics = clinicRepository.findAll();
+        List<ClinicWithSpecilizedTypeDTO> clinicDTOS = new ArrayList<>();
+
+        DateTime startDate = DateTime.parse(date).plusHours(7);
+        DateTime endDate = DateTime.parse(date).plusHours(19);
+
+        HashMap<Doctor, List<ExaminationAppointment>> doctorsAppointments = new HashMap<>();
+
+        for (Clinic c : clinics) {
+            List<Examination> examinations = examinationRepository.findByClinicAndDate(c, startDate, endDate);
+            List<Doctor> doctors = doctorRepository.findByClinic(c);
+
+            for (Examination e : examinations) {
+                if (doctorsAppointments.containsKey(e.getDoctor())) {
+                    doctorsAppointments.get(e.getDoctor()).add(e.getExaminationAppointment());
+                }
+                else {
+                    doctorsAppointments.put(e.getDoctor(), new ArrayList<>());
+                    doctorsAppointments.get(e.getDoctor()).add(e.getExaminationAppointment());
+                }
+            }
+
+            // sortirati liste appointmenta za svakog doktora
+            /* dodati mozda hashmapu<Clinic, HashMap> koja sadrzi
+            ove hashmape da ne bi neke hashmape sortirali vise puta */
+            Set<Doctor> keys = doctorsAppointments.keySet();
+            for (Doctor key : keys) {
+                doctorsAppointments.get(key).sort((ea1, ea2) -> {
+                    if (ea1.getStartDate() == null || ea2.getStartDate() == null)
+                        return 0;
+                    return ea1.getStartDate().compareTo(ea2.getStartDate());
+                });
+            }
+
+            for (Doctor d : doctors) {
+                if (d.getSpecialisedType().getName().equals(type) && isDoctorAbleToPerformAnExamination(doctorsAppointments.get(d), startDate, endDate)) {
+                    clinicDTOS.add(ClinicWithSpecilizedTypeDTO.builder()
+                            .name(c.getName())
+                            .description(c.getDescription())
+                            .id(c.getId())
+                            .address(c.getAddress())
+                            .specializedTypeID(d.getSpecialisedType().getId())
+                            .build());
+                    break;  // Bitno je da klinika ima bar jednog doktora koji može da obavi pregled
+                }
+            }
+        }
+
+        return new ResponseEntity<>(clinicDTOS, HttpStatus.OK);
+    }
+
+    /* - parametar examinationAppointmentList je lista sortiranih ExaminationAppointmenta
+         u jednom danu
+       - parametar startDate je pocetak radnog vremena tog dana
+       - parametar endDate je kraj radnog vremena tog dana */
+    public boolean isDoctorAbleToPerformAnExamination(List<ExaminationAppointment> examinationAppointmentList, DateTime startDate, DateTime endDate) {
+        if (examinationAppointmentList == null) {
+            return true;
+        }
+
+        if (examinationAppointmentList.isEmpty())
+            return true;
+
+        DateTime start = startDate;
+        DateTime startEnd = start.plusMinutes(15);
+
+        // proveravamo da li mozemo da uguramo 15 minuta negde
+        DateTime tmp;
+        for (int i = 0; i < examinationAppointmentList.size(); i++) {
+            tmp = start;
+
+            if (examinationAppointmentList.size() == 1) {   // i je i prvi i poslednji
+                /* ako doktor ima samo jedan examinationAppointment,
+                   uvek možemo da uguramo 15min između 7:00 i 19:00 */
+                return true;
+            } else if (i == 0) {    // dalje vazi n != 1
+                if (tmp.plusMinutes(15).isBefore(examinationAppointmentList.get(i).getStartDate())) {
+                    return true;
+                }
+                // start = ea[i].endDate + ea[i].duration
+                start = examinationAppointmentList.get(i).getStartDate().plusMinutes((int) examinationAppointmentList.get(i).getDuration().getStandardMinutes());
+            } else if (i == examinationAppointmentList.size() - 1) {    // i == size - 1
+                if (tmp.plusMinutes(15).isBefore(examinationAppointmentList.get(i).getStartDate())
+                    || examinationAppointmentList.get(i).getStartDate().plusMinutes((int) examinationAppointmentList.get(i).getDuration().getStandardMinutes()).isBefore(endDate)) {
+                    return true;
+                }
+                return false;
+            } else { // za sve i koji nisu 0 ili n
+                if (tmp.plusMinutes(15).isBefore(examinationAppointmentList.get(i).getStartDate())){
+                    return true;
+                }
+                start = examinationAppointmentList.get(i).getStartDate().plusMinutes((int) examinationAppointmentList.get(i).getDuration().getStandardMinutes());
+            }
+        }
+
+        return false;   // ne bi, svakako, nikad trebalo da dodje do ove linije
     }
 }
