@@ -5,14 +5,14 @@ Spring boot 2.0
 Vue JS
 PostgreSQL
 
-This is a clinical center application  that is designed for employees and patients.
+This is a clinical center application that is designed for employees and patients.
 Application has many features for admins, doctors and patients like:
 	- requesting examinations
-	- reserving examinations adn operations
+	- reserving examinations and operations
 	- managing staff, etc.
 	
 To install this application you will need to open project back-end and start it on a port.
-Then you will have to start front-end application  in a environment like Visual Studio Code or similar.
+Then you will have to start front-end application in a environment like Visual Studio Code or similar.
 You can start front-end with command: 'npm run serve'.
 Then you can go on localhost:/8081 and application will be started.
 It is important to start back-end first.
